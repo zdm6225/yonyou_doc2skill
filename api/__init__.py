@@ -1,5 +1,5 @@
 """
-Skill Seekers Config API
+Yonyou Doc2Skill Config API
 FastAPI backend for discovering and downloading config files
 """
 

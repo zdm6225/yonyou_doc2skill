@@ -19,7 +19,7 @@ class TestProgrammaticAPI:
 
     def test_import_shared_scrape_arguments(self):
         """Test that shared scrape arguments can be imported."""
-        from skill_seekers.cli.arguments.scrape import add_scrape_arguments
+        from yonyou_doc2skill.cli.arguments.scrape import add_scrape_arguments
 
         parser = argparse.ArgumentParser()
         add_scrape_arguments(parser)
@@ -30,7 +30,7 @@ class TestProgrammaticAPI:
 
     def test_import_shared_github_arguments(self):
         """Test that shared github arguments can be imported."""
-        from skill_seekers.cli.arguments.github import add_github_arguments
+        from yonyou_doc2skill.cli.arguments.github import add_github_arguments
 
         parser = argparse.ArgumentParser()
         add_github_arguments(parser)
@@ -41,7 +41,7 @@ class TestProgrammaticAPI:
 
     def test_import_analyze_presets(self):
         """Test that analyze presets can be imported."""
-        from skill_seekers.cli.presets.analyze_presets import ANALYZE_PRESETS, AnalysisPreset
+        from yonyou_doc2skill.cli.presets.analyze_presets import ANALYZE_PRESETS, AnalysisPreset
 
         assert "quick" in ANALYZE_PRESETS
         assert "standard" in ANALYZE_PRESETS
@@ -61,7 +61,7 @@ class TestIntegration:
 
     def test_unified_cli_subcommands_registered(self):
         """Test that all subcommands are properly registered."""
-        result = subprocess.run(["skill-seekers", "--help"], capture_output=True, text=True)
+        result = subprocess.run(["yonyou-doc2skill", "--help"], capture_output=True, text=True)
 
         # All major commands should be listed
         expected_commands = [
@@ -81,7 +81,7 @@ class TestVarFlagRouting:
     def test_var_flag_accepted_by_create(self):
         """Test that --var flag is accepted (not 'unrecognized') by create command."""
         result = subprocess.run(
-            ["skill-seekers", "create", "--help"],
+            ["yonyou-doc2skill", "create", "--help"],
             capture_output=True,
             text=True,
         )
@@ -96,7 +96,7 @@ class TestVarFlagRouting:
 
         result = subprocess.run(
             [
-                "skill-seekers",
+                "yonyou-doc2skill",
                 "create",
                 str(test_dir),
                 "--var",
@@ -118,7 +118,7 @@ class TestBackwardCompatibleFlags:
     def test_no_preserve_code_alias_accepted_by_package(self):
         """Test --no-preserve-code (old name) is still accepted by package command."""
         result = subprocess.run(
-            ["skill-seekers", "package", "--help"],
+            ["yonyou-doc2skill", "package", "--help"],
             capture_output=True,
             text=True,
         )
@@ -129,7 +129,7 @@ class TestBackwardCompatibleFlags:
     def test_no_preserve_code_alias_accepted_by_create(self):
         """Test --no-preserve-code (old name) is still accepted by create command."""
         result = subprocess.run(
-            ["skill-seekers", "create", "--help-all"],
+            ["yonyou-doc2skill", "create", "--help-all"],
             capture_output=True,
             text=True,
         )

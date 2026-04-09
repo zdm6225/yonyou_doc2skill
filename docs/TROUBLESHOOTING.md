@@ -1,6 +1,6 @@
 # Troubleshooting Guide
 
-Comprehensive guide for diagnosing and resolving common issues with Skill Seekers.
+Comprehensive guide for diagnosing and resolving common issues with Yonyou Doc2Skill.
 
 ## Table of Contents
 
@@ -39,31 +39,31 @@ sudo apt install python3-dev build-essential libssl-dev
 sudo yum install python3-devel gcc gcc-c++ openssl-devel
 
 # Retry installation
-pip install skill-seekers
+pip install yonyou-doc2skill
 ```
 
 ### Issue: Command Not Found After Installation
 
 **Symptoms:**
 ```bash
-$ skill-seekers --version
-bash: skill-seekers: command not found
+$ yonyou-doc2skill --version
+bash: yonyou-doc2skill: command not found
 ```
 
 **Solutions:**
 
 ```bash
 # Check if installed
-pip show skill-seekers
+pip show yonyou-doc2skill
 
 # Add to PATH
 export PATH="$HOME/.local/bin:$PATH"
 
 # Or reinstall with --user flag
-pip install --user skill-seekers
+pip install --user yonyou-doc2skill
 
 # Verify
-which skill-seekers
+which yonyou-doc2skill
 ```
 
 ### Issue: Python Version Mismatch
@@ -81,7 +81,7 @@ python --version
 python3 --version
 
 # Use specific Python version
-python3.12 -m pip install skill-seekers
+python3.12 -m pip install yonyou-doc2skill
 
 # Create alias
 alias python=python3.12
@@ -103,7 +103,7 @@ RuntimeError: Required video visual dependencies not installed
 
 ```bash
 # Run the GPU-aware setup command
-skill-seekers video --setup
+yonyou-doc2skill video --setup
 
 # This auto-detects your GPU and installs:
 # - PyTorch (correct CUDA/ROCm/CPU variant)
@@ -154,7 +154,7 @@ source .env
 set +a
 
 # Verify
-skill-seekers config --test
+yonyou-doc2skill config --test
 ```
 
 ### Issue: Configuration File Not Found
@@ -172,16 +172,16 @@ FileNotFoundError: [Errno 2] No such file or directory
 ls -la configs/react.json
 
 # Use absolute path
-skill-seekers scrape --config /full/path/to/configs/react.json
+yonyou-doc2skill scrape --config /full/path/to/configs/react.json
 
 # Create config directory
-mkdir -p ~/.config/skill-seekers/configs
+mkdir -p ~/.config/yonyou-doc2skill/configs
 
 # Copy config
-cp configs/react.json ~/.config/skill-seekers/configs/
+cp configs/react.json ~/.config/yonyou-doc2skill/configs/
 
 # List available configs
-skill-seekers-config list
+yonyou-doc2skill-config list
 ```
 
 ### Issue: Invalid Configuration Format
@@ -199,7 +199,7 @@ ValidationError: 1 validation error for Config
 python -m json.tool configs/myconfig.json
 
 # Check required fields
-skill-seekers-validate configs/myconfig.json
+yonyou-doc2skill-validate configs/myconfig.json
 
 # Example valid config
 cat > configs/test.json <<EOF
@@ -229,7 +229,7 @@ Empty SKILL.md generated
 ```bash
 # Enable debug mode
 export LOG_LEVEL=DEBUG
-skill-seekers scrape --config config.json --verbose
+yonyou-doc2skill scrape --config config.json --verbose
 
 # Test selectors manually
 python -c "
@@ -268,10 +268,10 @@ Progress: 50/500 pages (10%)
 
 ```bash
 # Enable async scraping (2-3x faster)
-skill-seekers scrape --config config.json --async
+yonyou-doc2skill scrape --config config.json --async
 
 # Reduce max pages
-skill-seekers scrape --config config.json --max-pages 100
+yonyou-doc2skill scrape --config config.json --max-pages 100
 
 # Increase concurrency
 # Edit config.json:
@@ -281,7 +281,7 @@ skill-seekers scrape --config config.json --max-pages 100
 }
 
 # Use caching for re-runs
-skill-seekers scrape --config config.json --use-cache
+yonyou-doc2skill scrape --config config.json --use-cache
 ```
 
 ### Issue: Pages Not Being Discovered
@@ -310,7 +310,7 @@ Expected 100+ pages
 }
 
 # Debug URL discovery
-skill-seekers scrape --config config.json --dry-run --verbose
+yonyou-doc2skill scrape --config config.json --dry-run --verbose
 ```
 
 ## GitHub API Issues
@@ -332,17 +332,17 @@ curl -H "Authorization: token $GITHUB_TOKEN" \
   https://api.github.com/rate_limit
 
 # Use multiple tokens
-skill-seekers config --github
+yonyou-doc2skill config --github
 # Follow wizard to add multiple profiles
 
 # Wait for reset
 # Check X-RateLimit-Reset header for timestamp
 
 # Use non-interactive mode in CI/CD
-skill-seekers github --repo owner/repo --non-interactive
+yonyou-doc2skill github --repo owner/repo --non-interactive
 
 # Configure rate limit strategy
-skill-seekers config --github
+yonyou-doc2skill config --github
 # Choose: prompt / wait / switch / fail
 ```
 
@@ -366,10 +366,10 @@ curl -H "Authorization: token $GITHUB_TOKEN" \
 # Scopes needed: repo, read:org
 
 # Update token
-skill-seekers config --github
+yonyou-doc2skill config --github
 
 # Test token
-skill-seekers config --test
+yonyou-doc2skill config --test
 ```
 
 ### Issue: Repository Not Found
@@ -384,12 +384,12 @@ Repository not found: owner/repo
 
 ```bash
 # Check repository name (case-sensitive)
-skill-seekers github --repo facebook/react  # Correct
-skill-seekers github --repo Facebook/React  # Wrong
+yonyou-doc2skill github --repo facebook/react  # Correct
+yonyou-doc2skill github --repo Facebook/React  # Wrong
 
 # Check if repo is private (requires token)
 export GITHUB_TOKEN=ghp_...
-skill-seekers github --repo private/repo
+yonyou-doc2skill github --repo private/repo
 
 # Verify repo exists
 curl https://api.github.com/repos/owner/repo
@@ -409,10 +409,10 @@ AuthenticationError: Invalid API key
 
 ```bash
 # Verify API key
-skill-seekers config --test
+yonyou-doc2skill config --test
 
 # Try LOCAL mode (free, uses Claude Code Max)
-skill-seekers enhance output/react/ --mode LOCAL
+yonyou-doc2skill enhance output/react/ --mode LOCAL
 
 # Check API key format
 # Claude: sk-ant-...
@@ -439,13 +439,13 @@ Timeout after 300 seconds
 
 ```bash
 # Increase timeout
-skill-seekers enhance output/react/ --timeout 600
+yonyou-doc2skill enhance output/react/ --timeout 600
 
 # Run in background
-skill-seekers enhance output/react/ --background
+yonyou-doc2skill enhance output/react/ --background
 
 # Monitor status
-skill-seekers enhance-status output/react/ --watch
+yonyou-doc2skill enhance-status output/react/ --watch
 
 # Kill hung process
 ps aux | grep enhance
@@ -468,10 +468,10 @@ Need free alternative
 
 ```bash
 # Use LOCAL mode (free!)
-skill-seekers enhance output/react/ --mode LOCAL
+yonyou-doc2skill enhance output/react/ --mode LOCAL
 
 # Skip enhancement entirely
-skill-seekers scrape --config config.json --skip-enhance
+yonyou-doc2skill scrape --config config.json --skip-enhance
 
 # Estimate cost before enhancing
 # Claude API: ~$0.15-$0.30 per skill
@@ -479,7 +479,7 @@ skill-seekers scrape --config config.json --skip-enhance
 
 # Use batch processing
 for dir in output/*/; do
-  skill-seekers enhance "$dir" --mode LOCAL --background
+  yonyou-doc2skill enhance "$dir" --mode LOCAL --background
 done
 ```
 
@@ -497,7 +497,7 @@ Container exits immediately
 
 ```bash
 # Check logs
-docker logs skillseekers-mcp
+docker logs yonyoudoc2skill-mcp
 
 # Common issues:
 # 1. Missing environment variables
@@ -511,7 +511,7 @@ docker run -p 8766:8765 ...
 docker run --user $(id -u):$(id -g) ...
 
 # Run interactively to debug
-docker run -it --entrypoint /bin/bash skillseekers:latest
+docker run -it --entrypoint /bin/bash yonyoudoc2skill:latest
 ```
 
 ### Issue: Kubernetes Pod CrashLoopBackOff
@@ -519,28 +519,28 @@ docker run -it --entrypoint /bin/bash skillseekers:latest
 **Symptoms:**
 ```
 NAME                    READY   STATUS             RESTARTS
-skillseekers-mcp-xxx    0/1     CrashLoopBackOff   5
+yonyoudoc2skill-mcp-xxx    0/1     CrashLoopBackOff   5
 ```
 
 **Solutions:**
 
 ```bash
 # Check pod logs
-kubectl logs -n skillseekers skillseekers-mcp-xxx
+kubectl logs -n yonyoudoc2skill yonyoudoc2skill-mcp-xxx
 
 # Describe pod
-kubectl describe pod -n skillseekers skillseekers-mcp-xxx
+kubectl describe pod -n yonyoudoc2skill yonyoudoc2skill-mcp-xxx
 
 # Check events
-kubectl get events -n skillseekers --sort-by='.lastTimestamp'
+kubectl get events -n yonyoudoc2skill --sort-by='.lastTimestamp'
 
 # Common issues:
 # 1. Missing secrets
-kubectl get secrets -n skillseekers
+kubectl get secrets -n yonyoudoc2skill
 
 # 2. Resource constraints
 kubectl top nodes
-kubectl edit deployment skillseekers-mcp -n skillseekers
+kubectl edit deployment yonyoudoc2skill-mcp -n yonyoudoc2skill
 
 # 3. Liveness probe failing
 # Increase initialDelaySeconds in deployment
@@ -559,14 +559,14 @@ Failed to pull image
 
 ```bash
 # Check image exists
-docker pull skillseekers:latest
+docker pull yonyoudoc2skill:latest
 
 # Create image pull secret
 kubectl create secret docker-registry regcred \
   --docker-server=registry.example.com \
   --docker-username=user \
   --docker-password=pass \
-  -n skillseekers
+  -n yonyoudoc2skill
 
 # Add to deployment
 spec:
@@ -574,7 +574,7 @@ spec:
   - name: regcred
 
 # Use public image (if available)
-image: docker.io/skillseekers/skillseekers:latest
+image: docker.io/yonyoudoc2skill/yonyoudoc2skill:latest
 ```
 
 ## Performance Issues
@@ -596,11 +596,11 @@ ps aux --sort=-%mem | head -10
 htop
 
 # Reduce batch size
-skill-seekers scrape --config config.json --batch-size 10
+yonyou-doc2skill scrape --config config.json --batch-size 10
 
 # Enable memory limits
 # Docker:
-docker run --memory=4g skillseekers:latest
+docker run --memory=4g yonyoudoc2skill:latest
 
 # Kubernetes:
 resources:
@@ -608,7 +608,7 @@ resources:
     memory: 4Gi
 
 # Clear cache
-rm -rf ~/.cache/skill-seekers/
+rm -rf ~/.cache/yonyou-doc2skill/
 
 # Use streaming for large files
 # (automatically handled by library)
@@ -627,7 +627,7 @@ Disk I/O bottleneck
 
 ```bash
 # Enable async operations
-skill-seekers scrape --config config.json --async
+yonyou-doc2skill scrape --config config.json --async
 
 # Increase concurrency
 {
@@ -648,7 +648,7 @@ iftop
 
 # Profile code
 python -m cProfile -o profile.stats \
-  -m skill_seekers.cli.doc_scraper --config config.json
+  -m yonyou_doc2skill.cli.doc_scraper --config config.json
 ```
 
 ### Issue: Disk Space Issues
@@ -675,12 +675,12 @@ tar czf benchmarks-archive.tar.gz benchmarks/
 rm -rf benchmarks/*.json
 
 # Use cloud storage
-skill-seekers scrape --config config.json \
+yonyou-doc2skill scrape --config config.json \
   --storage s3 \
   --bucket my-skills-bucket
 
 # Clear cache
-skill-seekers cache --clear
+yonyou-doc2skill cache --clear
 ```
 
 ## Storage Issues
@@ -796,7 +796,7 @@ sudo yum reinstall ca-certificates
 # As last resort (not recommended for production):
 export PYTHONHTTPSVERIFY=0
 # Or in code:
-skill-seekers scrape --config config.json --no-verify-ssl
+yonyou-doc2skill scrape --config config.json --no-verify-ssl
 ```
 
 ## General Debug Techniques
@@ -808,10 +808,10 @@ skill-seekers scrape --config config.json --no-verify-ssl
 export LOG_LEVEL=DEBUG
 
 # Run with verbose output
-skill-seekers scrape --config config.json --verbose
+yonyou-doc2skill scrape --config config.json --verbose
 
 # Save logs to file
-skill-seekers scrape --config config.json 2>&1 | tee debug.log
+yonyou-doc2skill scrape --config config.json 2>&1 | tee debug.log
 ```
 
 ### Collect Diagnostic Information
@@ -823,20 +823,20 @@ python --version
 pip --version
 
 # Package info
-pip show skill-seekers
+pip show yonyou-doc2skill
 pip list | grep skill
 
 # Environment
 env | grep -E '(API_KEY|TOKEN|PATH)'
 
 # Recent errors
-grep -i error /var/log/skillseekers/*.log | tail -20
+grep -i error /var/log/yonyoudoc2skill/*.log | tail -20
 
 # Package all diagnostics
 tar czf diagnostics.tar.gz \
   debug.log \
-  ~/.config/skill-seekers/ \
-  /var/log/skillseekers/
+  ~/.config/yonyou-doc2skill/ \
+  /var/log/yonyoudoc2skill/
 ```
 
 ### Test Individual Components
@@ -844,14 +844,14 @@ tar czf diagnostics.tar.gz \
 ```bash
 # Test scraper
 python -c "
-from skill_seekers.cli.doc_scraper import scrape_all
+from yonyou_doc2skill.cli.doc_scraper import scrape_all
 pages = scrape_all('configs/test.json')
 print(f'Scraped {len(pages)} pages')
 "
 
 # Test GitHub API
 python -c "
-from skill_seekers.cli.github_fetcher import GitHubFetcher
+from yonyou_doc2skill.cli.github_fetcher import GitHubFetcher
 fetcher = GitHubFetcher()
 repo = fetcher.fetch('facebook/react')
 print(repo['full_name'])
@@ -859,7 +859,7 @@ print(repo['full_name'])
 
 # Test embeddings
 python -c "
-from skill_seekers.embedding.generator import EmbeddingGenerator
+from yonyou_doc2skill.embedding.generator import EmbeddingGenerator
 gen = EmbeddingGenerator()
 emb = gen.generate('test', model='text-embedding-3-small')
 print(f'Embedding dimension: {len(emb)}')
@@ -883,11 +883,11 @@ ipython -i script.py
 
 If you're still experiencing issues:
 
-1. **Search existing issues:** https://github.com/yusufkaraaslan/Skill_Seekers/issues
-2. **Check documentation:** https://skillseekersweb.com/
-3. **Ask on GitHub Discussions:** https://github.com/yusufkaraaslan/Skill_Seekers/discussions
+1. **Search existing issues:** https://github.com/yonyou/yonyou-doc2skill/issues
+2. **Check documentation:** https://docs.yonyou.example/yonyou-doc2skill/
+3. **Ask on GitHub Discussions:** https://github.com/yonyou/yonyou-doc2skill/discussions
 4. **Open a new issue:** Include:
-   - Skill Seekers version (`skill-seekers --version`)
+   - Yonyou Doc2Skill version (`yonyou-doc2skill --version`)
    - Python version (`python --version`)
    - Operating system
    - Complete error message
@@ -910,7 +910,7 @@ ImportError: Missing dependency for jupyter extraction
 
 ```bash
 # Install all optional dependencies at once
-pip install skill-seekers[all]
+pip install yonyou-doc2skill[all]
 
 # Or install per source type
 pip install python-docx          # Word (.docx) support
@@ -923,7 +923,7 @@ pip install feedparser            # RSS/Atom feed support
 pip install groff                 # Man page support (system package)
 
 # Video support (GPU-aware)
-skill-seekers video --setup
+yonyou-doc2skill video --setup
 ```
 
 ### Issue: Confluence API Authentication Fails
@@ -946,7 +946,7 @@ export CONFLUENCE_TOKEN=your-api-token
 # https://id.atlassian.com/manage-profile/security/api-tokens
 
 # Test connection
-skill-seekers confluence --space MYSPACE --dry-run
+yonyou-doc2skill confluence --space MYSPACE --dry-run
 
 # For Confluence Server/Data Center, use personal access token:
 export CONFLUENCE_TOKEN=your-pat
@@ -973,7 +973,7 @@ export NOTION_TOKEN=secret_...
 # (click "..." menu on page → "Add connections" → select your integration)
 
 # Test connection
-skill-seekers notion --database DATABASE_ID --dry-run
+yonyou-doc2skill notion --database DATABASE_ID --dry-run
 ```
 
 ### Issue: Jupyter Notebook Extraction Fails
@@ -994,7 +994,7 @@ python -c "import json; json.load(open('notebook.ipynb'))"
 pip install nbformat nbconvert
 
 # Try with explicit format version
-skill-seekers jupyter notebook.ipynb --nbformat 4
+yonyou-doc2skill jupyter notebook.ipynb --nbformat 4
 ```
 
 ### Issue: OpenAPI Spec Parsing Fails
@@ -1019,7 +1019,7 @@ validate({'openapi': '3.0.0', ...})
 # Supported: OpenAPI 3.x and Swagger 2.0
 
 # For remote specs
-skill-seekers openapi https://api.example.com/openapi.json --name my-api
+yonyou-doc2skill openapi https://api.example.com/openapi.json --name my-api
 ```
 
 ### Issue: EPUB Extraction Produces Empty Output
@@ -1038,7 +1038,7 @@ pip install epubcheck
 epubcheck book.epub
 
 # Try with different content extraction
-skill-seekers epub book.epub --extract-images --verbose
+yonyou-doc2skill epub book.epub --extract-images --verbose
 
 # Some DRM-protected EPUBs cannot be extracted
 # Ensure your EPUB is DRM-free
@@ -1056,8 +1056,8 @@ Error: No messages found in export
 
 ```bash
 # Specify platform explicitly
-skill-seekers chat --platform slack --export-dir ./slack-export
-skill-seekers chat --platform discord --export-dir ./discord-export
+yonyou-doc2skill chat --platform slack --export-dir ./slack-export
+yonyou-doc2skill chat --platform discord --export-dir ./discord-export
 
 # For Slack: Export from Workspace Settings → Import/Export
 # For Discord: Use DiscordChatExporter or similar tool
@@ -1073,7 +1073,7 @@ ls ./slack-export/
 
 | Error | Cause | Solution |
 |-------|-------|----------|
-| `ModuleNotFoundError` | Package not installed | `pip install skill-seekers` |
+| `ModuleNotFoundError` | Package not installed | `pip install yonyou-doc2skill` |
 | `401 Unauthorized` | Invalid API key | Check API key format |
 | `403 Forbidden` | Rate limit exceeded | Add more GitHub tokens |
 | `404 Not Found` | Invalid URL/repo | Verify URL is correct |

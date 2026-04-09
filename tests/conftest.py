@@ -2,7 +2,7 @@
 Pytest configuration for tests.
 
 Configures anyio to only use asyncio backend (not trio).
-Checks that the skill_seekers package is installed before running tests.
+Checks that the yonyou_doc2skill package is installed before running tests.
 """
 
 import sys
@@ -13,10 +13,10 @@ import pytest
 def pytest_configure(config):  # noqa: ARG001
     """Check if package is installed before running tests."""
     try:
-        import skill_seekers  # noqa: F401
+        import yonyou_doc2skill  # noqa: F401
     except ModuleNotFoundError:
         print("\n" + "=" * 70)
-        print("ERROR: skill_seekers package not installed")
+        print("ERROR: yonyou_doc2skill package not installed")
         print("=" * 70)
         print("\nPlease install the package in editable mode first:")
         print("  pip install -e .")
@@ -38,7 +38,7 @@ def _reset_execution_context():
     Without this, a test that calls ExecutionContext.initialize() poisons
     all subsequent tests in the same process.
     """
-    from skill_seekers.cli.execution_context import ExecutionContext
+    from yonyou_doc2skill.cli.execution_context import ExecutionContext
 
     ExecutionContext.reset()
     yield

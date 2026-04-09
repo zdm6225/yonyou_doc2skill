@@ -10,7 +10,7 @@ from unittest.mock import patch
 # Skip all tests if numpy is not installed
 pytest.importorskip("numpy")
 
-from skill_seekers.embedding.models import (
+from yonyou_doc2skill.embedding.models import (
     EmbeddingRequest,
     BatchEmbeddingRequest,
     EmbeddingResponse,
@@ -18,8 +18,8 @@ from skill_seekers.embedding.models import (
     HealthResponse,
     ModelInfo,
 )
-from skill_seekers.embedding.generator import EmbeddingGenerator
-from skill_seekers.embedding.cache import EmbeddingCache
+from yonyou_doc2skill.embedding.generator import EmbeddingGenerator
+from yonyou_doc2skill.embedding.cache import EmbeddingCache
 
 
 # ========================================
@@ -179,7 +179,7 @@ def test_generator_compute_hash():
     assert hash1 != hash4
 
 
-@patch("skill_seekers.embedding.generator.SENTENCE_TRANSFORMERS_AVAILABLE", False)
+@patch("yonyou_doc2skill.embedding.generator.SENTENCE_TRANSFORMERS_AVAILABLE", False)
 def test_generator_sentence_transformers_not_available():
     """Test sentence-transformers not available."""
     generator = EmbeddingGenerator()
@@ -188,7 +188,7 @@ def test_generator_sentence_transformers_not_available():
         generator.generate("test", model="all-MiniLM-L6-v2")
 
 
-@patch("skill_seekers.embedding.generator.OPENAI_AVAILABLE", False)
+@patch("yonyou_doc2skill.embedding.generator.OPENAI_AVAILABLE", False)
 def test_generator_openai_not_available():
     """Test OpenAI not available."""
     generator = EmbeddingGenerator()
@@ -197,7 +197,7 @@ def test_generator_openai_not_available():
         generator.generate("test", model="text-embedding-3-small")
 
 
-@patch("skill_seekers.embedding.generator.VOYAGE_AVAILABLE", False)
+@patch("yonyou_doc2skill.embedding.generator.VOYAGE_AVAILABLE", False)
 def test_generator_voyage_not_available():
     """Test Voyage AI not available."""
     generator = EmbeddingGenerator()

@@ -64,7 +64,7 @@ class TestRealWorldFastMCP:
         This fixture runs the full pipeline and caches the result
         for all tests in this class.
         """
-        from skill_seekers.cli.unified_codebase_analyzer import UnifiedCodebaseAnalyzer
+        from yonyou_doc2skill.cli.unified_codebase_analyzer import UnifiedCodebaseAnalyzer
 
         print(f"\n{'=' * 80}")
         print("🚀 REAL-WORLD TEST: FastMCP GitHub Repository")
@@ -264,8 +264,8 @@ class TestRealWorldFastMCP:
         print("TEST 3: Router Generation with GitHub Integration")
         print("=" * 80)
 
-        from skill_seekers.cli.generate_router import RouterGenerator
-        from skill_seekers.cli.github_fetcher import (
+        from yonyou_doc2skill.cli.generate_router import RouterGenerator
+        from yonyou_doc2skill.cli.github_fetcher import (
             CodeStream,
             DocsStream,
             InsightsStream,

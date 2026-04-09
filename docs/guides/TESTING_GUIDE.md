@@ -10,7 +10,7 @@
 
 ## Overview
 
-Skill Seekers has comprehensive test coverage with **1,880+ tests** spanning unit tests, integration tests, end-to-end tests, and MCP integration tests. This guide covers everything you need to know about testing in the project.
+Yonyou Doc2Skill has comprehensive test coverage with **1,880+ tests** spanning unit tests, integration tests, end-to-end tests, and MCP integration tests. This guide covers everything you need to know about testing in the project.
 
 **Test Philosophy:**
 - **Never skip tests** - All tests must pass before commits
@@ -33,7 +33,7 @@ pip install -e ".[all-llms,dev]"
 pytest tests/ -v
 
 # Run with coverage
-pytest tests/ --cov=src/skill_seekers --cov-report=html
+pytest tests/ --cov=src/yonyou_doc2skill --cov-report=html
 
 # View coverage report
 open htmlcov/index.html
@@ -44,7 +44,7 @@ open htmlcov/index.html
 ============================== test session starts ===============================
 platform linux -- Python 3.11.7, pytest-8.4.2, pluggy-1.5.0 -- /usr/bin/python3
 cachedir: .pytest_cache
-rootdir: /path/to/Skill_Seekers
+rootdir: /path/to/yonyou_doc2skill
 configfile: pyproject.toml
 plugins: asyncio-0.24.0, cov-7.0.0
 collected 1215 items
@@ -99,7 +99,7 @@ Test individual functions and classes in isolation.
 
 def test_detect_language():
     """Test code language detection from CSS classes."""
-    from skill_seekers.cli.doc_scraper import detect_language
+    from yonyou_doc2skill.cli.doc_scraper import detect_language
 
     # Test Python detection
     html = '<code class="language-python">def foo():</code>'
@@ -145,7 +145,7 @@ Test multiple components working together.
 
 def test_unified_scraping_integration(tmp_path):
     """Test docs + GitHub + PDF unified scraping."""
-    from skill_seekers.cli.unified_scraper import unified_scrape
+    from yonyou_doc2skill.cli.unified_scraper import unified_scrape
 
     # Create unified config
     config = {
@@ -196,7 +196,7 @@ pytest tests/test_*_integration.py -v
 pytest tests/test_unified_integration.py -v
 
 # With coverage
-pytest tests/test_*_integration.py --cov=src/skill_seekers
+pytest tests/test_*_integration.py --cov=src/yonyou_doc2skill
 ```
 
 ### 3. End-to-End Tests (100+ tests)
@@ -210,7 +210,7 @@ Test complete user workflows from start to finish.
 
 def test_install_workflow_end_to_end(tmp_path):
     """Test complete install workflow: fetch → scrape → package."""
-    from skill_seekers.cli.install_skill import install_skill
+    from yonyou_doc2skill.cli.install_skill import install_skill
 
     # Run complete workflow
     result = install_skill(
@@ -260,7 +260,7 @@ Test MCP server and all 26 MCP tools.
 @pytest.mark.asyncio
 async def test_mcp_list_configs():
     """Test list_configs MCP tool."""
-    from skill_seekers.mcp.server_fastmcp import app
+    from yonyou_doc2skill.mcp.server_fastmcp import app
 
     # Call list_configs tool
     result = await app.call_tool('list_configs', {})
@@ -477,7 +477,7 @@ import pytest
 
 def test_invalid_config_raises_error():
     """Test that invalid config raises ValueError."""
-    from skill_seekers.cli.config_validator import validate_config
+    from yonyou_doc2skill.cli.config_validator import validate_config
 
     invalid_config = {'name': 'test'}  # Missing required fields
 
@@ -498,7 +498,7 @@ Test multiple inputs efficiently:
 ])
 def test_language_detection_parametrized(input_html, expected_lang):
     """Test language detection with multiple inputs."""
-    from skill_seekers.cli.doc_scraper import detect_language
+    from yonyou_doc2skill.cli.doc_scraper import detect_language
 
     assert detect_language(input_html) == expected_lang
 ```
@@ -511,16 +511,16 @@ def test_language_detection_parametrized(input_html, expected_lang):
 
 ```bash
 # Terminal coverage report
-pytest tests/ --cov=src/skill_seekers --cov-report=term
+pytest tests/ --cov=src/yonyou_doc2skill --cov-report=term
 
 # HTML coverage report (recommended)
-pytest tests/ --cov=src/skill_seekers --cov-report=html
+pytest tests/ --cov=src/yonyou_doc2skill --cov-report=html
 
 # XML coverage report (for CI/CD)
-pytest tests/ --cov=src/skill_seekers --cov-report=xml
+pytest tests/ --cov=src/yonyou_doc2skill --cov-report=xml
 
 # Combined report
-pytest tests/ --cov=src/skill_seekers --cov-report=term --cov-report=html
+pytest tests/ --cov=src/yonyou_doc2skill --cov-report=term --cov-report=html
 ```
 
 ### Understanding Coverage Reports
@@ -529,10 +529,10 @@ pytest tests/ --cov=src/skill_seekers --cov-report=term --cov-report=html
 ```
 Name                                          Stmts   Miss  Cover
 -----------------------------------------------------------------
-src/skill_seekers/__init__.py                     8      0   100%
-src/skill_seekers/cli/doc_scraper.py           420     35    92%
-src/skill_seekers/cli/github_scraper.py        310     20    94%
-src/skill_seekers/cli/adaptors/claude.py       125      5    96%
+src/yonyou_doc2skill/__init__.py                     8      0   100%
+src/yonyou_doc2skill/cli/doc_scraper.py           420     35    92%
+src/yonyou_doc2skill/cli/github_scraper.py        310     20    94%
+src/yonyou_doc2skill/cli/adaptors/claude.py       125      5    96%
 -----------------------------------------------------------------
 TOTAL                                         3500    280    92%
 ```
@@ -546,7 +546,7 @@ TOTAL                                         3500    280    92%
 
 ```bash
 # Find untested code
-pytest tests/ --cov=src/skill_seekers --cov-report=html
+pytest tests/ --cov=src/yonyou_doc2skill --cov-report=html
 open htmlcov/index.html
 
 # Click on files with low coverage (red)
@@ -609,7 +609,7 @@ jobs:
 
       - name: Run tests
         run: |
-          pytest tests/ -v --cov=src/skill_seekers --cov-report=xml
+          pytest tests/ -v --cov=src/yonyou_doc2skill --cov-report=xml
 
       - name: Upload coverage
         uses: codecov/codecov-action@v3
@@ -636,7 +636,7 @@ Coverage is uploaded to Codecov for tracking:
 
 ```bash
 # Generate XML coverage report
-pytest tests/ --cov=src/skill_seekers --cov-report=xml
+pytest tests/ --cov=src/yonyou_doc2skill --cov-report=xml
 
 # Upload to Codecov (in CI)
 codecov -f coverage.xml
@@ -702,7 +702,7 @@ pytest tests/ -n 4
 pytest tests/ -n auto
 
 # Parallel with coverage
-pytest tests/ -n auto --cov=src/skill_seekers
+pytest tests/ -n auto --cov=src/yonyou_doc2skill
 ```
 
 ---
@@ -860,7 +860,7 @@ def assert_valid_skill(skill_path):
 
 **Problem:**
 ```
-ImportError: No module named 'skill_seekers'
+ImportError: No module named 'yonyou_doc2skill'
 ```
 
 **Solution:**
@@ -913,7 +913,7 @@ Coverage shows 0% or incorrect values.
 pip install pytest-cov
 
 # Specify correct source directory
-pytest tests/ --cov=src/skill_seekers
+pytest tests/ --cov=src/yonyou_doc2skill
 ```
 
 ---

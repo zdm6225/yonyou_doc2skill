@@ -1,21 +1,21 @@
 #!/usr/bin/env bash
 #
-# Bootstrap Skill Seekers into an Operational Skill for Claude Code
+# Bootstrap Yonyou Doc2Skill into an Operational Skill for Claude Code
 #
 # Usage: ./scripts/bootstrap_skill.sh
-# Output: output/skill-seekers/ (skill directory)
+# Output: output/yonyou-doc2skill/ (skill directory)
 #
 
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
-SKILL_NAME="skill-seekers"
+SKILL_NAME="yonyou-doc2skill"
 OUTPUT_DIR="$PROJECT_ROOT/output/$SKILL_NAME"
 HEADER_FILE="$SCRIPT_DIR/skill_header.md"
 
 echo "============================================"
-echo "  Skill Seekers Bootstrap"
+echo "  Yonyou Doc2Skill Bootstrap"
 echo "============================================"
 
 # Step 1: Sync dependencies
@@ -37,7 +37,7 @@ echo "✓ Done"
 # Step 2: Run codebase analysis
 echo "Step 2: Analyzing codebase..."
 rm -rf "$OUTPUT_DIR" 2>/dev/null || true
-uv run skill-seekers create "$PROJECT_ROOT" \
+uv run yonyou-doc2skill create "$PROJECT_ROOT" \
     --name "$SKILL_NAME" \
     --output "$OUTPUT_DIR" 2>&1 | grep -E "^(INFO|✅)" || true
 echo "✓ Done"
@@ -107,6 +107,9 @@ echo "  - references/ (API docs, patterns, examples)"
 echo ""
 echo "Install to Claude Code:"
 echo "  cp -r output/$SKILL_NAME ~/.claude/skills/"
+echo ""
+echo "Official wrapper skill source:"
+echo "  skills/$SKILL_NAME/"
 echo ""
 echo "Verify:"
 echo "  ls ~/.claude/skills/$SKILL_NAME/SKILL.md"

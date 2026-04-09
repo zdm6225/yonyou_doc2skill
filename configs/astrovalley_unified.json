@@ -6,7 +6,7 @@
   "sources": [
     {
       "type": "github",
-      "repo": "yusufkaraaslan/AstroValley",
+      "repo": "yonyou/AstroValley",
       "clone_path": "/mnt/1ece809a-2821-4f10-aecb-fcdf34760c0b/Git/AstroValley",
       "enable_codebase_analysis": true,
       "analysis_depth": "deep",

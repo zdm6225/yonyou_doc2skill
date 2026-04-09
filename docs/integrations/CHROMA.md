@@ -1,4 +1,4 @@
-# Chroma Integration with Skill Seekers
+# Chroma Integration with Yonyou Doc2Skill
 
 **Status:** ✅ Production Ready
 **Difficulty:** Beginner
@@ -42,7 +42,7 @@ collection = client.create_collection(
 
 ## ✅ The Solution
 
-Skill Seekers automates Chroma integration with structured, production-ready data:
+Yonyou Doc2Skill automates Chroma integration with structured, production-ready data:
 
 **Benefits:**
 - ✅ Auto-formatted documents with embeddings included
@@ -69,8 +69,8 @@ pip install sentence-transformers
 # For OpenAI embeddings (optional)
 pip install openai
 
-# Or with Skill Seekers
-pip install skill-seekers[all-llms]
+# Or with Yonyou Doc2Skill
+pip install yonyou-doc2skill[all-llms]
 ```
 
 **What you need:**
@@ -82,10 +82,10 @@ pip install skill-seekers[all-llms]
 
 ```bash
 # Step 1: Scrape documentation
-skill-seekers scrape --config configs/react.json
+yonyou-doc2skill scrape --config configs/react.json
 
 # Step 2: Package for Chroma (creates LangChain format)
-skill-seekers package output/react --target langchain
+yonyou-doc2skill package output/react --target langchain
 
 # Output: output/react-langchain.json (Chroma-compatible)
 ```
@@ -102,7 +102,7 @@ client = chromadb.PersistentClient(path="./chroma_db")
 # Create collection with local embeddings (free!)
 collection = client.get_or_create_collection(
     name="react_docs",
-    metadata={"description": "React documentation from Skill Seekers"}
+    metadata={"description": "React documentation from Yonyou Doc2Skill"}
 )
 
 # Load documents
@@ -201,30 +201,30 @@ services:
 docker-compose up -d
 ```
 
-### Step 2: Generate Skill Seekers Documents
+### Step 2: Generate Yonyou Doc2Skill Documents
 
 **Option A: Documentation Website**
 ```bash
-skill-seekers scrape --config configs/django.json
-skill-seekers package output/django --target langchain
+yonyou-doc2skill scrape --config configs/django.json
+yonyou-doc2skill package output/django --target langchain
 ```
 
 **Option B: GitHub Repository**
 ```bash
-skill-seekers github --repo django/django --name django
-skill-seekers package output/django --target langchain
+yonyou-doc2skill github --repo django/django --name django
+yonyou-doc2skill package output/django --target langchain
 ```
 
 **Option C: Local Codebase**
 ```bash
-skill-seekers analyze --directory /path/to/repo
-skill-seekers package output/codebase --target langchain
+yonyou-doc2skill analyze --directory /path/to/repo
+yonyou-doc2skill package output/codebase --target langchain
 ```
 
 **Option D: RAG-Optimized Chunking**
 ```bash
-skill-seekers scrape --config configs/fastapi.json --chunk-for-rag --chunk-tokens 512
-skill-seekers package output/fastapi --target langchain
+yonyou-doc2skill scrape --config configs/fastapi.json --chunk-for-rag --chunk-tokens 512
+yonyou-doc2skill package output/fastapi --target langchain
 ```
 
 ### Step 3: Choose Embedding Function
@@ -299,7 +299,7 @@ collection = client.get_or_create_collection(
 ```python
 import json
 
-# Load Skill Seekers documents
+# Load Yonyou Doc2Skill documents
 with open("output/django-langchain.json") as f:
     documents = json.load(f)
 
@@ -941,9 +941,9 @@ collection.add(
 
 ## 📊 Before vs. After
 
-| Aspect | Without Skill Seekers | With Skill Seekers |
+| Aspect | Without Yonyou Doc2Skill | With Yonyou Doc2Skill |
 |--------|----------------------|-------------------|
-| **Data Preparation** | Custom scraping + parsing logic | One command: `skill-seekers scrape` |
+| **Data Preparation** | Custom scraping + parsing logic | One command: `yonyou-doc2skill scrape` |
 | **Embedding Setup** | Manual model selection and config | Auto-configured with sensible defaults |
 | **Metadata** | Manual extraction from docs | Auto-extracted (category, source, file, type) |
 | **Storage** | Complex path management | Simple: `PersistentClient(path="...")` |
@@ -968,7 +968,7 @@ collection.add(
 
 2. **Implement Semantic Chunking:**
    ```bash
-   skill-seekers scrape --config configs/fastapi.json --chunk-for-rag --chunk-tokens 512
+   yonyou-doc2skill scrape --config configs/fastapi.json --chunk-for-rag --chunk-tokens 512
    ```
 
 3. **Set Up Multi-Collection Search:**
@@ -995,10 +995,10 @@ collection.add(
 
 - **Chroma Docs:** https://docs.trychroma.com/
 - **Python Client:** https://docs.trychroma.com/reference/py-client
-- **Support:** https://github.com/yusufkaraaslan/Skill_Seekers/discussions
+- **Support:** https://github.com/yonyou/yonyou-doc2skill/discussions
 
 ---
 
-**Questions?** Open an issue: https://github.com/yusufkaraaslan/Skill_Seekers/issues
-**Website:** https://skillseekersweb.com/
+**Questions?** Open an issue: https://github.com/yonyou/yonyou-doc2skill/issues
+**Website:** https://docs.yonyou.example/yonyou-doc2skill/
 **Last Updated:** February 7, 2026

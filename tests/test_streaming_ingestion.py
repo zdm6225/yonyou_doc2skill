@@ -18,7 +18,7 @@ import tempfile
 # Add src to path
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 
-from skill_seekers.cli.streaming_ingest import StreamingIngester, IngestionProgress
+from yonyou_doc2skill.cli.streaming_ingest import StreamingIngester, IngestionProgress
 
 
 @pytest.fixture

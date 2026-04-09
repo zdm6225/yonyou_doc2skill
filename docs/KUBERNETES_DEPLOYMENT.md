@@ -1,6 +1,6 @@
 # Kubernetes Deployment Guide
 
-Complete guide for deploying Skill Seekers on Kubernetes.
+Complete guide for deploying Yonyou Doc2Skill on Kubernetes.
 
 ## Table of Contents
 
@@ -56,8 +56,8 @@ kubectl cluster-info
 kubectl get nodes
 
 # Create namespace
-kubectl create namespace skillseekers
-kubectl config set-context --current --namespace=skillseekers
+kubectl create namespace yonyoudoc2skill
+kubectl config set-context --current --namespace=yonyoudoc2skill
 ```
 
 ## Quick Start with Helm
@@ -66,17 +66,17 @@ kubectl config set-context --current --namespace=skillseekers
 
 ```bash
 # Add Helm repository (when available)
-helm repo add skillseekers https://charts.skillseekers.io
+helm repo add yonyoudoc2skill https://charts.yonyoudoc2skill.io
 helm repo update
 
 # Install release
-helm install skillseekers skillseekers/skillseekers \
-  --namespace skillseekers \
+helm install yonyoudoc2skill yonyoudoc2skill/yonyoudoc2skill \
+  --namespace yonyoudoc2skill \
   --create-namespace
 
 # Or install from local chart
-helm install skillseekers ./helm/skillseekers \
-  --namespace skillseekers \
+helm install yonyoudoc2skill ./helm/yonyoudoc2skill \
+  --namespace yonyoudoc2skill \
   --create-namespace
 ```
 
@@ -104,14 +104,14 @@ ingress:
   enabled: true
   className: nginx
   hosts:
-    - host: api.skillseekers.example.com
+    - host: api.yonyoudoc2skill.example.com
       paths:
         - path: /
           pathType: Prefix
   tls:
-    - secretName: skillseekers-tls
+    - secretName: yonyoudoc2skill-tls
       hosts:
-        - api.skillseekers.example.com
+        - api.yonyoudoc2skill.example.com
 
 autoscaling:
   enabled: true
@@ -121,8 +121,8 @@ autoscaling:
 EOF
 
 # Install with custom values
-helm install skillseekers ./helm/skillseekers \
-  --namespace skillseekers \
+helm install yonyoudoc2skill ./helm/yonyoudoc2skill \
+  --namespace yonyoudoc2skill \
   --create-namespace \
   --values values-prod.yaml
 ```
@@ -131,21 +131,21 @@ helm install skillseekers ./helm/skillseekers \
 
 ```bash
 # List releases
-helm list -n skillseekers
+helm list -n yonyoudoc2skill
 
 # Get status
-helm status skillseekers -n skillseekers
+helm status yonyoudoc2skill -n yonyoudoc2skill
 
 # Upgrade release
-helm upgrade skillseekers ./helm/skillseekers \
-  --namespace skillseekers \
+helm upgrade yonyoudoc2skill ./helm/yonyoudoc2skill \
+  --namespace yonyoudoc2skill \
   --values values-prod.yaml
 
 # Rollback
-helm rollback skillseekers 1 -n skillseekers
+helm rollback yonyoudoc2skill 1 -n yonyoudoc2skill
 
 # Uninstall
-helm uninstall skillseekers -n skillseekers
+helm uninstall yonyoudoc2skill -n yonyoudoc2skill
 ```
 
 ## Manual Deployment
@@ -159,8 +159,8 @@ Create secrets for API keys:
 apiVersion: v1
 kind: Secret
 metadata:
-  name: skillseekers-secrets
-  namespace: skillseekers
+  name: yonyoudoc2skill-secrets
+  namespace: yonyoudoc2skill
 type: Opaque
 stringData:
   ANTHROPIC_API_KEY: "sk-ant-..."
@@ -180,8 +180,8 @@ kubectl apply -f secrets.yaml
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: skillseekers-config
-  namespace: skillseekers
+  name: yonyoudoc2skill-config
+  namespace: yonyoudoc2skill
 data:
   MCP_TRANSPORT: "http"
   MCP_PORT: "8765"
@@ -200,26 +200,26 @@ kubectl apply -f configmap.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: skillseekers-mcp
-  namespace: skillseekers
+  name: yonyoudoc2skill-mcp
+  namespace: yonyoudoc2skill
   labels:
-    app: skillseekers
+    app: yonyoudoc2skill
     component: mcp-server
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: skillseekers
+      app: yonyoudoc2skill
       component: mcp-server
   template:
     metadata:
       labels:
-        app: skillseekers
+        app: yonyoudoc2skill
         component: mcp-server
     spec:
       containers:
       - name: mcp-server
-        image: skillseekers:2.9.0
+        image: yonyoudoc2skill:2.9.0
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8765
@@ -229,22 +229,22 @@ spec:
         - name: MCP_TRANSPORT
           valueFrom:
             configMapKeyRef:
-              name: skillseekers-config
+              name: yonyoudoc2skill-config
               key: MCP_TRANSPORT
         - name: MCP_PORT
           valueFrom:
             configMapKeyRef:
-              name: skillseekers-config
+              name: yonyoudoc2skill-config
               key: MCP_PORT
         - name: ANTHROPIC_API_KEY
           valueFrom:
             secretKeyRef:
-              name: skillseekers-secrets
+              name: yonyoudoc2skill-secrets
               key: ANTHROPIC_API_KEY
         - name: GITHUB_TOKEN
           valueFrom:
             secretKeyRef:
-              name: skillseekers-secrets
+              name: yonyoudoc2skill-secrets
               key: GITHUB_TOKEN
         resources:
           requests:
@@ -277,7 +277,7 @@ spec:
       volumes:
       - name: data
         persistentVolumeClaim:
-          claimName: skillseekers-data
+          claimName: yonyoudoc2skill-data
       - name: cache
         emptyDir: {}
 ```
@@ -293,10 +293,10 @@ kubectl apply -f deployment.yaml
 apiVersion: v1
 kind: Service
 metadata:
-  name: skillseekers-mcp
-  namespace: skillseekers
+  name: yonyoudoc2skill-mcp
+  namespace: yonyoudoc2skill
   labels:
-    app: skillseekers
+    app: yonyoudoc2skill
     component: mcp-server
 spec:
   type: ClusterIP
@@ -306,7 +306,7 @@ spec:
     protocol: TCP
     name: http
   selector:
-    app: skillseekers
+    app: yonyoudoc2skill
     component: mcp-server
 ```
 
@@ -318,16 +318,16 @@ kubectl apply -f service.yaml
 
 ```bash
 # Check pods
-kubectl get pods -n skillseekers
+kubectl get pods -n yonyoudoc2skill
 
 # Check services
-kubectl get svc -n skillseekers
+kubectl get svc -n yonyoudoc2skill
 
 # Check logs
-kubectl logs -n skillseekers -l app=skillseekers --tail=100 -f
+kubectl logs -n yonyoudoc2skill -l app=yonyoudoc2skill --tail=100 -f
 
 # Port forward for testing
-kubectl port-forward -n skillseekers svc/skillseekers-mcp 8765:8765
+kubectl port-forward -n yonyoudoc2skill svc/yonyoudoc2skill-mcp 8765:8765
 
 # Test endpoint
 curl http://localhost:8765/health
@@ -355,14 +355,14 @@ env:
 - name: LOG_LEVEL
   valueFrom:
     configMapKeyRef:
-      name: skillseekers-config
+      name: yonyoudoc2skill-config
       key: LOG_LEVEL
 
 # From Secret
 - name: ANTHROPIC_API_KEY
   valueFrom:
     secretKeyRef:
-      name: skillseekers-secrets
+      name: yonyoudoc2skill-secrets
       key: ANTHROPIC_API_KEY
 
 # Direct value
@@ -374,18 +374,18 @@ env:
 
 ```bash
 # Development
-helm install skillseekers-dev ./helm/skillseekers \
-  --namespace skillseekers-dev \
+helm install yonyoudoc2skill-dev ./helm/yonyoudoc2skill \
+  --namespace yonyoudoc2skill-dev \
   --values values-dev.yaml
 
 # Staging
-helm install skillseekers-staging ./helm/skillseekers \
-  --namespace skillseekers-staging \
+helm install yonyoudoc2skill-staging ./helm/yonyoudoc2skill \
+  --namespace yonyoudoc2skill-staging \
   --values values-staging.yaml
 
 # Production
-helm install skillseekers-prod ./helm/skillseekers \
-  --namespace skillseekers-prod \
+helm install yonyoudoc2skill-prod ./helm/yonyoudoc2skill \
+  --namespace yonyoudoc2skill-prod \
   --values values-prod.yaml
 ```
 
@@ -395,10 +395,10 @@ helm install skillseekers-prod ./helm/skillseekers \
 
 ```bash
 # Scale deployment
-kubectl scale deployment skillseekers-mcp -n skillseekers --replicas=5
+kubectl scale deployment yonyoudoc2skill-mcp -n yonyoudoc2skill --replicas=5
 
 # Verify
-kubectl get pods -n skillseekers
+kubectl get pods -n yonyoudoc2skill
 ```
 
 ### 2. Horizontal Pod Autoscaler (HPA)
@@ -408,13 +408,13 @@ kubectl get pods -n skillseekers
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: skillseekers-mcp
-  namespace: skillseekers
+  name: yonyoudoc2skill-mcp
+  namespace: yonyoudoc2skill
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: skillseekers-mcp
+    name: yonyoudoc2skill-mcp
   minReplicas: 2
   maxReplicas: 10
   metrics:
@@ -453,7 +453,7 @@ spec:
 kubectl apply -f hpa.yaml
 
 # Monitor autoscaling
-kubectl get hpa -n skillseekers --watch
+kubectl get hpa -n yonyoudoc2skill --watch
 ```
 
 ### 3. Vertical Pod Autoscaler (VPA)
@@ -463,13 +463,13 @@ kubectl get hpa -n skillseekers --watch
 apiVersion: autoscaling.k8s.io/v1
 kind: VerticalPodAutoscaler
 metadata:
-  name: skillseekers-mcp
-  namespace: skillseekers
+  name: yonyoudoc2skill-mcp
+  namespace: yonyoudoc2skill
 spec:
   targetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: skillseekers-mcp
+    name: yonyoudoc2skill-mcp
   updatePolicy:
     updateMode: "Auto"
   resourcePolicy:
@@ -492,13 +492,13 @@ spec:
 apiVersion: policy/v1
 kind: PodDisruptionBudget
 metadata:
-  name: skillseekers-mcp
-  namespace: skillseekers
+  name: yonyoudoc2skill-mcp
+  namespace: yonyoudoc2skill
 spec:
   minAvailable: 2
   selector:
     matchLabels:
-      app: skillseekers
+      app: yonyoudoc2skill
       component: mcp-server
 ```
 
@@ -516,7 +516,7 @@ spec:
             - key: app
               operator: In
               values:
-              - skillseekers
+              - yonyoudoc2skill
           topologyKey: kubernetes.io/hostname
 ```
 
@@ -553,7 +553,7 @@ spec:
     whenUnsatisfiable: DoNotSchedule
     labelSelector:
       matchLabels:
-        app: skillseekers
+        app: yonyoudoc2skill
 ```
 
 ## Monitoring
@@ -565,12 +565,12 @@ spec:
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
-  name: skillseekers-mcp
-  namespace: skillseekers
+  name: yonyoudoc2skill-mcp
+  namespace: yonyoudoc2skill
 spec:
   selector:
     matchLabels:
-      app: skillseekers
+      app: yonyoudoc2skill
   endpoints:
   - port: metrics
     interval: 30s
@@ -596,8 +596,8 @@ data:
   fluent.conf: |
     <source>
       @type tail
-      path /var/log/containers/skillseekers*.log
-      pos_file /var/log/fluentd-skillseekers.pos
+      path /var/log/containers/yonyoudoc2skill*.log
+      pos_file /var/log/fluentd-yonyoudoc2skill.pos
       tag kubernetes.*
       format json
     </source>
@@ -617,8 +617,8 @@ data:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: skillseekers
-  namespace: skillseekers
+  name: yonyoudoc2skill
+  namespace: yonyoudoc2skill
   annotations:
     kubernetes.io/ingress.class: nginx
     cert-manager.io/cluster-issuer: letsencrypt-prod
@@ -627,17 +627,17 @@ metadata:
 spec:
   tls:
   - hosts:
-    - api.skillseekers.example.com
-    secretName: skillseekers-tls
+    - api.yonyoudoc2skill.example.com
+    secretName: yonyoudoc2skill-tls
   rules:
-  - host: api.skillseekers.example.com
+  - host: api.yonyoudoc2skill.example.com
     http:
       paths:
       - path: /
         pathType: Prefix
         backend:
           service:
-            name: skillseekers-mcp
+            name: yonyoudoc2skill-mcp
             port:
               number: 8765
 ```
@@ -676,7 +676,7 @@ EOF
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: skillseekers-data
+  name: yonyoudoc2skill-data
 spec:
   capacity:
     storage: 50Gi
@@ -685,7 +685,7 @@ spec:
   persistentVolumeReclaimPolicy: Retain
   storageClassName: standard
   hostPath:
-    path: /mnt/skillseekers-data
+    path: /mnt/yonyoudoc2skill-data
 ```
 
 ### 2. Persistent Volume Claim
@@ -695,8 +695,8 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: skillseekers-data
-  namespace: skillseekers
+  name: yonyoudoc2skill-data
+  namespace: yonyoudoc2skill
 spec:
   accessModes:
   - ReadWriteOnce
@@ -712,9 +712,9 @@ spec:
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: skillseekers-cache
+  name: yonyoudoc2skill-cache
 spec:
-  serviceName: skillseekers-cache
+  serviceName: yonyoudoc2skill-cache
   replicas: 3
   volumeClaimTemplates:
   - metadata:
@@ -735,12 +735,12 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: skillseekers-mcp
-  namespace: skillseekers
+  name: yonyoudoc2skill-mcp
+  namespace: yonyoudoc2skill
 spec:
   podSelector:
     matchLabels:
-      app: skillseekers
+      app: yonyoudoc2skill
   policyTypes:
   - Ingress
   - Egress
@@ -748,7 +748,7 @@ spec:
   - from:
     - namespaceSelector:
         matchLabels:
-          name: skillseekers
+          name: yonyoudoc2skill
     ports:
     - protocol: TCP
       port: 8765
@@ -769,7 +769,7 @@ spec:
 apiVersion: policy/v1beta1
 kind: PodSecurityPolicy
 metadata:
-  name: skillseekers-restricted
+  name: yonyoudoc2skill-restricted
 spec:
   privileged: false
   allowPrivilegeEscalation: false
@@ -796,14 +796,14 @@ spec:
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: skillseekers
-  namespace: skillseekers
+  name: yonyoudoc2skill
+  namespace: yonyoudoc2skill
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
-  name: skillseekers
-  namespace: skillseekers
+  name: yonyoudoc2skill
+  namespace: yonyoudoc2skill
 rules:
 - apiGroups: [""]
   resources: ["configmaps", "secrets"]
@@ -812,16 +812,16 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
-  name: skillseekers
-  namespace: skillseekers
+  name: yonyoudoc2skill
+  namespace: yonyoudoc2skill
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
-  name: skillseekers
+  name: yonyoudoc2skill
 subjects:
 - kind: ServiceAccount
-  name: skillseekers
-  namespace: skillseekers
+  name: yonyoudoc2skill
+  namespace: yonyoudoc2skill
 ```
 
 ## Troubleshooting
@@ -832,30 +832,30 @@ subjects:
 
 ```bash
 # Check pod status
-kubectl get pods -n skillseekers
+kubectl get pods -n yonyoudoc2skill
 
 # Describe pod
-kubectl describe pod <pod-name> -n skillseekers
+kubectl describe pod <pod-name> -n yonyoudoc2skill
 
 # Check events
-kubectl get events -n skillseekers --sort-by='.lastTimestamp'
+kubectl get events -n yonyoudoc2skill --sort-by='.lastTimestamp'
 
 # Check logs
-kubectl logs <pod-name> -n skillseekers
+kubectl logs <pod-name> -n yonyoudoc2skill
 ```
 
 #### 2. Image Pull Errors
 
 ```bash
 # Check image pull secrets
-kubectl get secrets -n skillseekers
+kubectl get secrets -n yonyoudoc2skill
 
 # Create image pull secret
 kubectl create secret docker-registry regcred \
   --docker-server=registry.example.com \
   --docker-username=user \
   --docker-password=password \
-  -n skillseekers
+  -n yonyoudoc2skill
 
 # Use in pod spec
 spec:
@@ -870,43 +870,43 @@ spec:
 kubectl top nodes
 
 # Check pod resources
-kubectl top pods -n skillseekers
+kubectl top pods -n yonyoudoc2skill
 
 # Increase resources
-kubectl edit deployment skillseekers-mcp -n skillseekers
+kubectl edit deployment yonyoudoc2skill-mcp -n yonyoudoc2skill
 ```
 
 #### 4. Service Not Accessible
 
 ```bash
 # Check service
-kubectl get svc -n skillseekers
-kubectl describe svc skillseekers-mcp -n skillseekers
+kubectl get svc -n yonyoudoc2skill
+kubectl describe svc yonyoudoc2skill-mcp -n yonyoudoc2skill
 
 # Check endpoints
-kubectl get endpoints -n skillseekers
+kubectl get endpoints -n yonyoudoc2skill
 
 # Port forward
-kubectl port-forward svc/skillseekers-mcp 8765:8765 -n skillseekers
+kubectl port-forward svc/yonyoudoc2skill-mcp 8765:8765 -n yonyoudoc2skill
 ```
 
 ### Debug Commands
 
 ```bash
 # Execute command in pod
-kubectl exec -it <pod-name> -n skillseekers -- /bin/bash
+kubectl exec -it <pod-name> -n yonyoudoc2skill -- /bin/bash
 
 # Copy files from pod
-kubectl cp skillseekers/<pod-name>:/app/data ./data
+kubectl cp yonyoudoc2skill/<pod-name>:/app/data ./data
 
 # Check pod networking
-kubectl exec <pod-name> -n skillseekers -- nslookup google.com
+kubectl exec <pod-name> -n yonyoudoc2skill -- nslookup google.com
 
 # View full pod spec
-kubectl get pod <pod-name> -n skillseekers -o yaml
+kubectl get pod <pod-name> -n yonyoudoc2skill -o yaml
 
 # Restart deployment
-kubectl rollout restart deployment skillseekers-mcp -n skillseekers
+kubectl rollout restart deployment yonyoudoc2skill-mcp -n yonyoudoc2skill
 ```
 
 ## Best Practices
@@ -930,4 +930,4 @@ kubectl rollout restart deployment skillseekers-mcp -n skillseekers
 
 ---
 
-**Need help?** Open an issue on [GitHub](https://github.com/yusufkaraaslan/Skill_Seekers/issues).
+**Need help?** Open an issue on [GitHub](https://github.com/yonyou/yonyou-doc2skill/issues).

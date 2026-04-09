@@ -1218,7 +1218,7 @@ def define_topics_enhanced(
 ### 5.1 Core Classes (Enhanced)
 
 ```python
-# src/skill_seekers/cli/github_fetcher.py
+# src/yonyou_doc2skill/cli/github_fetcher.py
 
 from dataclasses import dataclass
 from typing import List, Dict, Optional
@@ -1312,7 +1312,7 @@ class GitHubThreeStreamFetcher:
         pass
 
 
-# src/skill_seekers/cli/unified_codebase_analyzer.py
+# src/yonyou_doc2skill/cli/unified_codebase_analyzer.py
 
 class UnifiedCodebaseAnalyzer:
     """
@@ -1441,7 +1441,7 @@ class UnifiedCodebaseAnalyzer:
         return 'github.com' in source
 
 
-# src/skill_seekers/cli/c3x_to_router.py (Enhanced)
+# src/yonyou_doc2skill/cli/c3x_to_router.py (Enhanced)
 
 class EnhancedC3xToRouterPipeline:
     """
@@ -1717,7 +1717,7 @@ Based on analysis of GitHub issues:
 ### 5.2 Enhanced Topic Templates (With GitHub Issues)
 
 ```python
-# src/skill_seekers/cli/topic_templates.py (Enhanced)
+# src/yonyou_doc2skill/cli/topic_templates.py (Enhanced)
 
 class EnhancedOAuthTemplate(TopicTemplate):
     """Enhanced OAuth template with GitHub issues."""

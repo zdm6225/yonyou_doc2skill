@@ -45,7 +45,7 @@ class TestIssue219Problem1LargeFiles(unittest.TestCase):
         if not self.PYGITHUB_AVAILABLE:
             self.skipTest("PyGithub not installed")
 
-        from skill_seekers.cli.github_scraper import GitHubScraper
+        from yonyou_doc2skill.cli.github_scraper import GitHubScraper
 
         self.GitHubScraper = GitHubScraper
 
@@ -63,7 +63,7 @@ class TestIssue219Problem1LargeFiles(unittest.TestCase):
             "https://raw.githubusercontent.com/ccxt/ccxt/master/CHANGELOG.md"
         )
 
-        with patch("skill_seekers.cli.github_scraper.Github"):
+        with patch("yonyou_doc2skill.cli.github_scraper.Github"):
             scraper = self.GitHubScraper(config)
             scraper.repo = Mock()
             scraper.repo.get_contents.return_value = mock_content
@@ -101,7 +101,7 @@ class TestIssue219Problem1LargeFiles(unittest.TestCase):
         mock_content.size = 2000000
         mock_content.download_url = None  # Missing download URL
 
-        with patch("skill_seekers.cli.github_scraper.Github"):
+        with patch("yonyou_doc2skill.cli.github_scraper.Github"):
             scraper = self.GitHubScraper(config)
             scraper.repo = Mock()
             scraper.repo.get_contents.return_value = mock_content
@@ -121,7 +121,7 @@ class TestIssue219Problem2CLIFlags(unittest.TestCase):
     def test_create_command_has_enhancement_flags(self):
         """E2E: Verify --enhance-level flag exists in create command help"""
         result = subprocess.run(
-            ["skill-seekers", "create", "--help"], capture_output=True, text=True
+            ["yonyou-doc2skill", "create", "--help"], capture_output=True, text=True
         )
 
         # VERIFY: Command succeeds
@@ -132,7 +132,7 @@ class TestIssue219Problem2CLIFlags(unittest.TestCase):
 
     def test_enhance_level_flag_accepted_by_create(self):
         """E2E: Verify --enhance-level flag is accepted by create command parser"""
-        from skill_seekers.cli.main import create_parser
+        from yonyou_doc2skill.cli.main import create_parser
 
         parser = create_parser()
 
@@ -145,7 +145,7 @@ class TestIssue219Problem2CLIFlags(unittest.TestCase):
 
     def test_github_scraper_class_accepts_enhance_level(self):
         """E2E: Verify GitHubScraper config accepts enhance_level."""
-        from skill_seekers.cli.github_scraper import GitHubScraper
+        from yonyou_doc2skill.cli.github_scraper import GitHubScraper
 
         config = {
             "repo": "test/test",
@@ -154,7 +154,7 @@ class TestIssue219Problem2CLIFlags(unittest.TestCase):
             "enhance_level": 2,
         }
 
-        with patch("skill_seekers.cli.github_scraper.Github"):
+        with patch("yonyou_doc2skill.cli.github_scraper.Github"):
             scraper = GitHubScraper(config)
             # Just verify it doesn't crash with enhance_level in config
             self.assertIsNotNone(scraper)
@@ -185,7 +185,7 @@ class TestIssue219Problem3CustomAPIEndpoints(unittest.TestCase):
     def test_anthropic_base_url_support(self):
         """E2E: Verify ANTHROPIC_BASE_URL environment variable is supported"""
         try:
-            from skill_seekers.cli.enhance_skill import SkillEnhancer
+            from yonyou_doc2skill.cli.enhance_skill import SkillEnhancer
         except ImportError:
             self.skipTest("anthropic package not installed")
 
@@ -197,7 +197,7 @@ class TestIssue219Problem3CustomAPIEndpoints(unittest.TestCase):
                 os.environ,
                 {"ANTHROPIC_API_KEY": "test-key-123", "ANTHROPIC_BASE_URL": custom_url},
             ),
-            patch("skill_seekers.cli.enhance_skill.anthropic.Anthropic") as mock_anthropic,
+            patch("yonyou_doc2skill.cli.enhance_skill.anthropic.Anthropic") as mock_anthropic,
         ):
             # Create enhancer
             _enhancer = SkillEnhancer(self.skill_dir)
@@ -215,7 +215,7 @@ class TestIssue219Problem3CustomAPIEndpoints(unittest.TestCase):
     def test_anthropic_auth_token_support(self):
         """E2E: Verify ANTHROPIC_AUTH_TOKEN is accepted as alternative to ANTHROPIC_API_KEY"""
         try:
-            from skill_seekers.cli.enhance_skill import SkillEnhancer
+            from yonyou_doc2skill.cli.enhance_skill import SkillEnhancer
         except ImportError:
             self.skipTest("anthropic package not installed")
 
@@ -224,7 +224,7 @@ class TestIssue219Problem3CustomAPIEndpoints(unittest.TestCase):
         # Use ANTHROPIC_AUTH_TOKEN instead of ANTHROPIC_API_KEY
         with (
             patch.dict(os.environ, {"ANTHROPIC_AUTH_TOKEN": custom_token}, clear=True),
-            patch("skill_seekers.cli.enhance_skill.anthropic.Anthropic") as mock_anthropic,
+            patch("yonyou_doc2skill.cli.enhance_skill.anthropic.Anthropic") as mock_anthropic,
         ):
             # Create enhancer (should accept ANTHROPIC_AUTH_TOKEN)
             enhancer = SkillEnhancer(self.skill_dir)
@@ -248,13 +248,13 @@ class TestIssue219Problem3CustomAPIEndpoints(unittest.TestCase):
     def test_thinking_block_handling(self):
         """E2E: Verify ThinkingBlock doesn't cause .text AttributeError"""
         try:
-            from skill_seekers.cli.enhance_skill import SkillEnhancer
+            from yonyou_doc2skill.cli.enhance_skill import SkillEnhancer
         except ImportError:
             self.skipTest("anthropic package not installed")
 
         with (
             patch.dict(os.environ, {"ANTHROPIC_API_KEY": "test-key"}),
-            patch("skill_seekers.cli.enhance_skill.anthropic.Anthropic") as mock_anthropic,
+            patch("yonyou_doc2skill.cli.enhance_skill.anthropic.Anthropic") as mock_anthropic,
         ):
             enhancer = SkillEnhancer(self.skill_dir)
 
@@ -308,7 +308,7 @@ class TestIssue219IntegrationAll(unittest.TestCase):
         # 3. Custom API endpoints work
 
         result = subprocess.run(
-            ["skill-seekers", "create", "--help"], capture_output=True, text=True
+            ["yonyou-doc2skill", "create", "--help"], capture_output=True, text=True
         )
 
         # Enhancement flags present
@@ -316,9 +316,9 @@ class TestIssue219IntegrationAll(unittest.TestCase):
 
         # Verify we can import all fixed modules
         try:
-            from skill_seekers.cli import main  # noqa: F401
-            from skill_seekers.cli.enhance_skill import SkillEnhancer  # noqa: F401
-            from skill_seekers.cli.github_scraper import GitHubScraper  # noqa: F401
+            from yonyou_doc2skill.cli import main  # noqa: F401
+            from yonyou_doc2skill.cli.enhance_skill import SkillEnhancer  # noqa: F401
+            from yonyou_doc2skill.cli.github_scraper import GitHubScraper  # noqa: F401
 
             # All imports successful
             self.assertTrue(True, "All modules import successfully")

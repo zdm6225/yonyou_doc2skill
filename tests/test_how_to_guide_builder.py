@@ -21,8 +21,8 @@ from pathlib import Path
 # Add src to path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src"))
 
-from skill_seekers.cli.guide_enhancer import StepEnhancement
-from skill_seekers.cli.how_to_guide_builder import (
+from yonyou_doc2skill.cli.guide_enhancer import StepEnhancement
+from yonyou_doc2skill.cli.how_to_guide_builder import (
     GuideCollection,
     GuideGenerator,
     HowToGuide,
@@ -726,7 +726,7 @@ def test_data_scraping():
         output_dir = Path(self.temp_dir) / "guides_enhanced"
 
         # Mock GuideEnhancer to avoid actual AI calls
-        with patch("skill_seekers.cli.guide_enhancer.GuideEnhancer") as MockEnhancer:
+        with patch("yonyou_doc2skill.cli.guide_enhancer.GuideEnhancer") as MockEnhancer:
             mock_enhancer = MockEnhancer.return_value
             mock_enhancer.mode = "api"
 
@@ -792,7 +792,7 @@ def test_api_integration():
         output_dir = Path(self.temp_dir) / "guides_local"
 
         # Mock GuideEnhancer for LOCAL mode
-        with patch("skill_seekers.cli.guide_enhancer.GuideEnhancer") as MockEnhancer:
+        with patch("yonyou_doc2skill.cli.guide_enhancer.GuideEnhancer") as MockEnhancer:
             mock_enhancer = MockEnhancer.return_value
             mock_enhancer.mode = "local"
 
@@ -855,7 +855,7 @@ def test_database_migration():
         output_dir = Path(self.temp_dir) / "guides_auto"
 
         # Mock GuideEnhancer for AUTO mode
-        with patch("skill_seekers.cli.guide_enhancer.GuideEnhancer") as MockEnhancer:
+        with patch("yonyou_doc2skill.cli.guide_enhancer.GuideEnhancer") as MockEnhancer:
             mock_enhancer = MockEnhancer.return_value
             mock_enhancer.mode = "local"  # AUTO mode detected LOCAL
 
@@ -918,7 +918,7 @@ def test_file_processing():
 
         # Mock GuideEnhancer to raise exception
         with patch(
-            "skill_seekers.cli.guide_enhancer.GuideEnhancer",
+            "yonyou_doc2skill.cli.guide_enhancer.GuideEnhancer",
             side_effect=Exception("AI unavailable"),
         ):
             # Should NOT crash - graceful fallback

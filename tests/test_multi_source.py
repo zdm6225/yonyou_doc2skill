@@ -20,7 +20,7 @@ class TestUnifiedScraperDataStructure(unittest.TestCase):
 
     def test_scraped_data_uses_list_structure(self):
         """Test that scraped_data uses list for each source type."""
-        from skill_seekers.cli.unified_scraper import UnifiedScraper
+        from yonyou_doc2skill.cli.unified_scraper import UnifiedScraper
 
         config = {
             "name": "test_multi",
@@ -42,7 +42,7 @@ class TestUnifiedScraperDataStructure(unittest.TestCase):
 
     def test_source_counters_initialized_to_zero(self):
         """Test that source counters start at zero."""
-        from skill_seekers.cli.unified_scraper import UnifiedScraper
+        from yonyou_doc2skill.cli.unified_scraper import UnifiedScraper
 
         config = {
             "name": "test_counters",
@@ -64,7 +64,7 @@ class TestUnifiedScraperDataStructure(unittest.TestCase):
 
     def test_empty_lists_initially(self):
         """Test that source lists are empty initially."""
-        from skill_seekers.cli.unified_scraper import UnifiedScraper
+        from yonyou_doc2skill.cli.unified_scraper import UnifiedScraper
 
         config = {
             "name": "test_empty",
@@ -102,7 +102,7 @@ class TestUnifiedSkillBuilderDocsReferences(unittest.TestCase):
 
     def test_creates_subdirectory_per_source(self):
         """Test that each doc source gets its own subdirectory."""
-        from skill_seekers.cli.unified_skill_builder import UnifiedSkillBuilder
+        from yonyou_doc2skill.cli.unified_skill_builder import UnifiedSkillBuilder
 
         # Create mock refs directories
         refs_dir1 = os.path.join(self.temp_dir, "refs1")
@@ -140,7 +140,7 @@ class TestUnifiedSkillBuilderDocsReferences(unittest.TestCase):
 
     def test_creates_index_per_source(self):
         """Test that each source subdirectory has its own index.md."""
-        from skill_seekers.cli.unified_skill_builder import UnifiedSkillBuilder
+        from yonyou_doc2skill.cli.unified_skill_builder import UnifiedSkillBuilder
 
         refs_dir = os.path.join(self.temp_dir, "refs")
         os.makedirs(refs_dir)
@@ -175,7 +175,7 @@ class TestUnifiedSkillBuilderDocsReferences(unittest.TestCase):
 
     def test_creates_main_index_listing_all_sources(self):
         """Test that main index.md lists all documentation sources."""
-        from skill_seekers.cli.unified_skill_builder import UnifiedSkillBuilder
+        from yonyou_doc2skill.cli.unified_skill_builder import UnifiedSkillBuilder
 
         refs_dir1 = os.path.join(self.temp_dir, "refs1")
         refs_dir2 = os.path.join(self.temp_dir, "refs2")
@@ -217,7 +217,7 @@ class TestUnifiedSkillBuilderDocsReferences(unittest.TestCase):
 
     def test_copies_reference_files_to_source_dir(self):
         """Test that reference files are copied to source subdirectory."""
-        from skill_seekers.cli.unified_skill_builder import UnifiedSkillBuilder
+        from yonyou_doc2skill.cli.unified_skill_builder import UnifiedSkillBuilder
 
         refs_dir = os.path.join(self.temp_dir, "refs")
         os.makedirs(refs_dir)
@@ -268,7 +268,7 @@ class TestUnifiedSkillBuilderGitHubReferences(unittest.TestCase):
 
     def test_creates_subdirectory_per_repo(self):
         """Test that each GitHub repo gets its own subdirectory."""
-        from skill_seekers.cli.unified_skill_builder import UnifiedSkillBuilder
+        from yonyou_doc2skill.cli.unified_skill_builder import UnifiedSkillBuilder
 
         config = {"name": "test_github_refs", "description": "Test", "sources": []}
 
@@ -298,7 +298,7 @@ class TestUnifiedSkillBuilderGitHubReferences(unittest.TestCase):
 
     def test_creates_readme_per_repo(self):
         """Test that README.md is created for each repo."""
-        from skill_seekers.cli.unified_skill_builder import UnifiedSkillBuilder
+        from yonyou_doc2skill.cli.unified_skill_builder import UnifiedSkillBuilder
 
         config = {"name": "test_readme", "description": "Test", "sources": []}
 
@@ -333,7 +333,7 @@ class TestUnifiedSkillBuilderGitHubReferences(unittest.TestCase):
 
     def test_creates_issues_file_when_issues_exist(self):
         """Test that issues.md is created when repo has issues."""
-        from skill_seekers.cli.unified_skill_builder import UnifiedSkillBuilder
+        from yonyou_doc2skill.cli.unified_skill_builder import UnifiedSkillBuilder
 
         config = {"name": "test_issues", "description": "Test", "sources": []}
 
@@ -384,7 +384,7 @@ class TestUnifiedSkillBuilderGitHubReferences(unittest.TestCase):
 
     def test_creates_main_index_listing_all_repos(self):
         """Test that main index.md lists all GitHub repositories."""
-        from skill_seekers.cli.unified_skill_builder import UnifiedSkillBuilder
+        from yonyou_doc2skill.cli.unified_skill_builder import UnifiedSkillBuilder
 
         config = {"name": "test_github_index", "description": "Test", "sources": []}
 
@@ -445,7 +445,7 @@ class TestUnifiedSkillBuilderPdfReferences(unittest.TestCase):
 
     def test_creates_pdf_index_with_count(self):
         """Test that PDF index shows correct document count."""
-        from skill_seekers.cli.unified_skill_builder import UnifiedSkillBuilder
+        from yonyou_doc2skill.cli.unified_skill_builder import UnifiedSkillBuilder
 
         config = {"name": "test_pdf", "description": "Test", "sources": []}
 

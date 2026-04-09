@@ -9,14 +9,14 @@ print("=" * 60)
 
 # Scrape Django docs
 subprocess.run([
-    "skill-seekers", "scrape",
+    "yonyou-doc2skill", "scrape",
     "--config", "configs/django.json",
     "--max-pages", "20"
 ], check=True)
 
 # Package for Qdrant
 subprocess.run([
-    "skill-seekers", "package",
+    "yonyou-doc2skill", "package",
     "output/django",
     "--target", "qdrant"
 ], check=True)

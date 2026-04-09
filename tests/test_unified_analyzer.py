@@ -15,8 +15,8 @@ from unittest.mock import Mock, patch
 
 import pytest
 
-from skill_seekers.cli.github_fetcher import CodeStream, DocsStream, InsightsStream, ThreeStreamData
-from skill_seekers.cli.unified_codebase_analyzer import AnalysisResult, UnifiedCodebaseAnalyzer
+from yonyou_doc2skill.cli.github_fetcher import CodeStream, DocsStream, InsightsStream, ThreeStreamData
+from yonyou_doc2skill.cli.unified_codebase_analyzer import AnalysisResult, UnifiedCodebaseAnalyzer
 
 # Skip marker for tests requiring GitHub access
 requires_github = pytest.mark.skipif(
@@ -244,7 +244,7 @@ class TestC3xAnalysis:
 class TestGitHubAnalysis:
     """Test GitHub repository analysis."""
 
-    @patch("skill_seekers.cli.unified_codebase_analyzer.GitHubThreeStreamFetcher")
+    @patch("yonyou_doc2skill.cli.unified_codebase_analyzer.GitHubThreeStreamFetcher")
     def test_analyze_github_basic(self, mock_fetcher_class, tmp_path):
         """Test basic analysis of GitHub repository."""
         # Mock three-stream fetcher
@@ -275,7 +275,7 @@ class TestGitHubAnalysis:
         assert result.github_docs["readme"] == "# README"
         assert result.github_insights["metadata"]["stars"] == 1234
 
-    @patch("skill_seekers.cli.unified_codebase_analyzer.GitHubThreeStreamFetcher")
+    @patch("yonyou_doc2skill.cli.unified_codebase_analyzer.GitHubThreeStreamFetcher")
     def test_analyze_github_c3x(self, mock_fetcher_class, tmp_path):
         """Test C3.x analysis of GitHub repository."""
         # Mock three-stream fetcher
@@ -298,7 +298,7 @@ class TestGitHubAnalysis:
         assert result.analysis_depth == "c3x"
         assert result.code_analysis["analysis_type"] == "c3x"
 
-    @patch("skill_seekers.cli.unified_codebase_analyzer.GitHubThreeStreamFetcher")
+    @patch("yonyou_doc2skill.cli.unified_codebase_analyzer.GitHubThreeStreamFetcher")
     def test_analyze_github_without_metadata(self, mock_fetcher_class, tmp_path):
         """Test GitHub analysis without fetching metadata."""
         mock_fetcher = Mock()
@@ -355,7 +355,7 @@ class TestTokenHandling:
     """Test GitHub token handling."""
 
     @patch.dict("os.environ", {"GITHUB_TOKEN": "test_token"})
-    @patch("skill_seekers.cli.unified_codebase_analyzer.GitHubThreeStreamFetcher")
+    @patch("yonyou_doc2skill.cli.unified_codebase_analyzer.GitHubThreeStreamFetcher")
     def test_github_token_from_env(self, mock_fetcher_class, tmp_path):
         """Test GitHub token loaded from environment."""
         mock_fetcher = Mock()
@@ -379,7 +379,7 @@ class TestTokenHandling:
         args = mock_fetcher_class.call_args[0]
         assert args[1] == "test_token"  # Second arg is github_token
 
-    @patch("skill_seekers.cli.unified_codebase_analyzer.GitHubThreeStreamFetcher")
+    @patch("yonyou_doc2skill.cli.unified_codebase_analyzer.GitHubThreeStreamFetcher")
     def test_github_token_explicit(self, mock_fetcher_class, tmp_path):
         """Test explicit GitHub token parameter."""
         mock_fetcher = Mock()

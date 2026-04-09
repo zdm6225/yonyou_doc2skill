@@ -26,7 +26,7 @@ except ImportError:
     EPUB_AVAILABLE = False
 
 try:
-    from skill_seekers.cli.epub_scraper import (
+    from yonyou_doc2skill.cli.epub_scraper import (
         EpubToSkillConverter,
         _build_section,
         _extract_table_from_html,
@@ -261,9 +261,9 @@ class TestEpubExtraction(unittest.TestCase):
 
         return book
 
-    @patch("skill_seekers.cli.epub_scraper.epub")
-    @patch("skill_seekers.cli.epub_scraper.os.path.exists", return_value=True)
-    @patch("skill_seekers.cli.epub_scraper.os.path.isfile", return_value=True)
+    @patch("yonyou_doc2skill.cli.epub_scraper.epub")
+    @patch("yonyou_doc2skill.cli.epub_scraper.os.path.exists", return_value=True)
+    @patch("yonyou_doc2skill.cli.epub_scraper.os.path.isfile", return_value=True)
     def test_extract_basic_epub(self, mock_isfile, mock_exists, mock_epub):
         mock_book = self._make_mock_book()
         mock_epub.read_epub.return_value = mock_book
@@ -277,9 +277,9 @@ class TestEpubExtraction(unittest.TestCase):
         self.assertIsNotNone(converter.extracted_data)
         self.assertGreaterEqual(len(converter.extracted_data["pages"]), 1)
 
-    @patch("skill_seekers.cli.epub_scraper.epub")
-    @patch("skill_seekers.cli.epub_scraper.os.path.exists", return_value=True)
-    @patch("skill_seekers.cli.epub_scraper.os.path.isfile", return_value=True)
+    @patch("yonyou_doc2skill.cli.epub_scraper.epub")
+    @patch("yonyou_doc2skill.cli.epub_scraper.os.path.exists", return_value=True)
+    @patch("yonyou_doc2skill.cli.epub_scraper.os.path.isfile", return_value=True)
     def test_extract_metadata(self, mock_isfile, mock_exists, mock_epub):
         mock_book = self._make_mock_book()
         mock_epub.read_epub.return_value = mock_book
@@ -294,9 +294,9 @@ class TestEpubExtraction(unittest.TestCase):
         self.assertEqual(metadata["author"], "Test Author")
         self.assertEqual(metadata["language"], "en")
 
-    @patch("skill_seekers.cli.epub_scraper.epub")
-    @patch("skill_seekers.cli.epub_scraper.os.path.exists", return_value=True)
-    @patch("skill_seekers.cli.epub_scraper.os.path.isfile", return_value=True)
+    @patch("yonyou_doc2skill.cli.epub_scraper.epub")
+    @patch("yonyou_doc2skill.cli.epub_scraper.os.path.exists", return_value=True)
+    @patch("yonyou_doc2skill.cli.epub_scraper.os.path.isfile", return_value=True)
     def test_extract_multiple_chapters(self, mock_isfile, mock_exists, mock_epub):
         spine = [
             ("ch1", "<html><body><h1>Chapter 1</h1><p>Text 1</p></body></html>"),
@@ -313,9 +313,9 @@ class TestEpubExtraction(unittest.TestCase):
         converter.extract_epub()
         self.assertEqual(len(converter.extracted_data["pages"]), 3)
 
-    @patch("skill_seekers.cli.epub_scraper.epub")
-    @patch("skill_seekers.cli.epub_scraper.os.path.exists", return_value=True)
-    @patch("skill_seekers.cli.epub_scraper.os.path.isfile", return_value=True)
+    @patch("yonyou_doc2skill.cli.epub_scraper.epub")
+    @patch("yonyou_doc2skill.cli.epub_scraper.os.path.exists", return_value=True)
+    @patch("yonyou_doc2skill.cli.epub_scraper.os.path.isfile", return_value=True)
     def test_extract_code_blocks(self, mock_isfile, mock_exists, mock_epub):
         spine = [
             (
@@ -337,9 +337,9 @@ class TestEpubExtraction(unittest.TestCase):
         self.assertGreaterEqual(len(code_samples), 1)
         self.assertEqual(code_samples[0]["language"], "python")
 
-    @patch("skill_seekers.cli.epub_scraper.epub")
-    @patch("skill_seekers.cli.epub_scraper.os.path.exists", return_value=True)
-    @patch("skill_seekers.cli.epub_scraper.os.path.isfile", return_value=True)
+    @patch("yonyou_doc2skill.cli.epub_scraper.epub")
+    @patch("yonyou_doc2skill.cli.epub_scraper.os.path.exists", return_value=True)
+    @patch("yonyou_doc2skill.cli.epub_scraper.os.path.isfile", return_value=True)
     def test_extract_images(self, mock_isfile, mock_exists, mock_epub):
         images = [{"media_type": "image/png", "data": b"\x89PNG", "file_name": "fig1.png"}]
         mock_book = self._make_mock_book(images=images)
@@ -352,9 +352,9 @@ class TestEpubExtraction(unittest.TestCase):
         converter.extract_epub()
         self.assertGreaterEqual(converter.extracted_data["total_images"], 1)
 
-    @patch("skill_seekers.cli.epub_scraper.epub")
-    @patch("skill_seekers.cli.epub_scraper.os.path.exists", return_value=True)
-    @patch("skill_seekers.cli.epub_scraper.os.path.isfile", return_value=True)
+    @patch("yonyou_doc2skill.cli.epub_scraper.epub")
+    @patch("yonyou_doc2skill.cli.epub_scraper.os.path.exists", return_value=True)
+    @patch("yonyou_doc2skill.cli.epub_scraper.os.path.isfile", return_value=True)
     def test_heading_boundary_splitting(self, mock_isfile, mock_exists, mock_epub):
         spine = [
             (
@@ -395,17 +395,17 @@ class TestEpubExtraction(unittest.TestCase):
             converter.extract_epub()
 
     def test_extract_deps_not_installed(self):
-        from skill_seekers.cli.epub_scraper import _check_epub_deps
+        from yonyou_doc2skill.cli.epub_scraper import _check_epub_deps
 
-        with patch("skill_seekers.cli.epub_scraper.EPUB_AVAILABLE", False):
+        with patch("yonyou_doc2skill.cli.epub_scraper.EPUB_AVAILABLE", False):
             with self.assertRaises(RuntimeError) as ctx:
                 _check_epub_deps()
             self.assertIn("ebooklib", str(ctx.exception))
             self.assertIn("pip install", str(ctx.exception))
 
-    @patch("skill_seekers.cli.epub_scraper.epub")
-    @patch("skill_seekers.cli.epub_scraper.os.path.exists", return_value=True)
-    @patch("skill_seekers.cli.epub_scraper.os.path.isfile", return_value=True)
+    @patch("yonyou_doc2skill.cli.epub_scraper.epub")
+    @patch("yonyou_doc2skill.cli.epub_scraper.os.path.exists", return_value=True)
+    @patch("yonyou_doc2skill.cli.epub_scraper.os.path.isfile", return_value=True)
     def test_extract_empty_spine(self, mock_isfile, mock_exists, mock_epub):
         mock_book = self._make_mock_book(spine_content=[])
         mock_book.spine = []
@@ -418,9 +418,9 @@ class TestEpubExtraction(unittest.TestCase):
         converter.extract_epub()
         self.assertEqual(len(converter.extracted_data["pages"]), 0)
 
-    @patch("skill_seekers.cli.epub_scraper.epub")
-    @patch("skill_seekers.cli.epub_scraper.os.path.exists", return_value=True)
-    @patch("skill_seekers.cli.epub_scraper.os.path.isfile", return_value=True)
+    @patch("yonyou_doc2skill.cli.epub_scraper.epub")
+    @patch("yonyou_doc2skill.cli.epub_scraper.os.path.exists", return_value=True)
+    @patch("yonyou_doc2skill.cli.epub_scraper.os.path.isfile", return_value=True)
     def test_extract_spine_item_no_body(self, mock_isfile, mock_exists, mock_epub):
         spine = [
             ("ch1", "<html><head><title>No Body</title></head></html>"),
@@ -1147,9 +1147,9 @@ class TestEpubErrorHandling(unittest.TestCase):
         with self.assertRaises(ValueError):
             converter.extract_epub()
 
-    @patch("skill_seekers.cli.epub_scraper.epub")
-    @patch("skill_seekers.cli.epub_scraper.os.path.exists", return_value=True)
-    @patch("skill_seekers.cli.epub_scraper.os.path.isfile", return_value=True)
+    @patch("yonyou_doc2skill.cli.epub_scraper.epub")
+    @patch("yonyou_doc2skill.cli.epub_scraper.os.path.exists", return_value=True)
+    @patch("yonyou_doc2skill.cli.epub_scraper.os.path.isfile", return_value=True)
     def test_corrupted_epub_raises_error(self, mock_isfile, mock_exists, mock_epub):
         mock_epub.read_epub.side_effect = Exception("Bad ZIP file")
         config = {"name": "test", "epub_path": "corrupted.epub"}
@@ -1157,9 +1157,9 @@ class TestEpubErrorHandling(unittest.TestCase):
         with self.assertRaises(ValueError):
             converter.extract_epub()
 
-    @patch("skill_seekers.cli.epub_scraper.epub")
-    @patch("skill_seekers.cli.epub_scraper.os.path.exists", return_value=True)
-    @patch("skill_seekers.cli.epub_scraper.os.path.isfile", return_value=True)
+    @patch("yonyou_doc2skill.cli.epub_scraper.epub")
+    @patch("yonyou_doc2skill.cli.epub_scraper.os.path.exists", return_value=True)
+    @patch("yonyou_doc2skill.cli.epub_scraper.os.path.isfile", return_value=True)
     def test_drm_protected_raises_error(self, mock_isfile, mock_exists, mock_epub):
         book = MagicMock()
         enc_item = MagicMock()
@@ -1178,17 +1178,17 @@ class TestEpubErrorHandling(unittest.TestCase):
         self.assertIn("DRM", str(ctx.exception))
 
     def test_ebooklib_not_installed_error(self):
-        from skill_seekers.cli.epub_scraper import _check_epub_deps
+        from yonyou_doc2skill.cli.epub_scraper import _check_epub_deps
 
-        with patch("skill_seekers.cli.epub_scraper.EPUB_AVAILABLE", False):
+        with patch("yonyou_doc2skill.cli.epub_scraper.EPUB_AVAILABLE", False):
             with self.assertRaises(RuntimeError) as ctx:
                 _check_epub_deps()
             self.assertIn("ebooklib", str(ctx.exception))
             self.assertIn("pip install", str(ctx.exception))
 
-    @patch("skill_seekers.cli.epub_scraper.epub")
-    @patch("skill_seekers.cli.epub_scraper.os.path.exists", return_value=True)
-    @patch("skill_seekers.cli.epub_scraper.os.path.isfile", return_value=True)
+    @patch("yonyou_doc2skill.cli.epub_scraper.epub")
+    @patch("yonyou_doc2skill.cli.epub_scraper.os.path.exists", return_value=True)
+    @patch("yonyou_doc2skill.cli.epub_scraper.os.path.isfile", return_value=True)
     def test_malformed_xhtml_handled_gracefully(self, mock_isfile, mock_exists, mock_epub):
         """Malformed XHTML should not crash thanks to BeautifulSoup tolerant parsing."""
         book = MagicMock()
@@ -1346,7 +1346,7 @@ class TestEpubCLIArguments(unittest.TestCase):
     def _parse_args(self, args_list):
         import argparse
 
-        from skill_seekers.cli.arguments.epub import add_epub_arguments
+        from yonyou_doc2skill.cli.arguments.epub import add_epub_arguments
 
         parser = argparse.ArgumentParser()
         add_epub_arguments(parser)
@@ -1449,7 +1449,7 @@ class TestEpubSourceDetection(unittest.TestCase):
 
     def setUp(self):
         try:
-            from skill_seekers.cli.source_detector import SourceDetector
+            from yonyou_doc2skill.cli.source_detector import SourceDetector
 
             self.SourceDetector = SourceDetector
         except ImportError:

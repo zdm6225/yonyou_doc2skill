@@ -1,10 +1,10 @@
 # LangChain RAG Pipeline Example
 
-Complete example showing how to build a RAG (Retrieval-Augmented Generation) pipeline using Skill Seekers documents with LangChain.
+Complete example showing how to build a RAG (Retrieval-Augmented Generation) pipeline using Yonyou Doc2Skill documents with LangChain.
 
 ## What This Example Does
 
-1. **Loads** Skill Seekers-generated LangChain Documents
+1. **Loads** Yonyou Doc2Skill-generated LangChain Documents
 2. **Creates** a persistent Chroma vector store
 3. **Builds** a RAG query engine with GPT-4
 4. **Queries** the documentation with natural language
@@ -21,16 +21,16 @@ export OPENAI_API_KEY=sk-...
 
 ## Generate Documents
 
-First, generate LangChain documents using Skill Seekers:
+First, generate LangChain documents using Yonyou Doc2Skill:
 
 ```bash
 # Option 1: Use preset config (e.g., React)
-skill-seekers scrape --config configs/react.json
-skill-seekers package output/react --target langchain
+yonyou-doc2skill scrape --config configs/react.json
+yonyou-doc2skill package output/react --target langchain
 
 # Option 2: From GitHub repo
-skill-seekers github --repo facebook/react --name react
-skill-seekers package output/react --target langchain
+yonyou-doc2skill github --repo facebook/react --name react
+yonyou-doc2skill package output/react --target langchain
 
 # Output: output/react-langchain.json
 ```
@@ -119,4 +119,4 @@ SOURCES:
 
 ---
 
-**Need help?** [GitHub Discussions](https://github.com/yusufkaraaslan/Skill_Seekers/discussions)
+**Need help?** [GitHub Discussions](https://github.com/yonyou/yonyou-doc2skill/discussions)

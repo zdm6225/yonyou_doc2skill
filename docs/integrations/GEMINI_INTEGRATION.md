@@ -1,10 +1,10 @@
 # Google Gemini Integration Guide
 
-Complete guide for creating and deploying skills to Google Gemini using Skill Seekers.
+Complete guide for creating and deploying skills to Google Gemini using Yonyou Doc2Skill.
 
 ## Overview
 
-Skill Seekers packages documentation into Gemini-compatible formats optimized for:
+Yonyou Doc2Skill packages documentation into Gemini-compatible formats optimized for:
 - **Gemini 2.0 Flash** for enhancement
 - **Files API** for document upload
 - **Grounding** for accurate, source-based responses
@@ -15,7 +15,7 @@ Skill Seekers packages documentation into Gemini-compatible formats optimized fo
 
 ```bash
 # Install with Gemini dependencies
-pip install skill-seekers[gemini]
+pip install yonyou-doc2skill[gemini]
 
 # Verify installation
 pip list | grep google-generativeai
@@ -35,7 +35,7 @@ pip list | grep google-generativeai
 export GOOGLE_API_KEY=AIzaSy...
 
 # Or pass directly to commands
-skill-seekers upload --target gemini --api-key AIzaSy...
+yonyou-doc2skill upload --target gemini --api-key AIzaSy...
 ```
 
 ## Complete Workflow
@@ -44,10 +44,10 @@ skill-seekers upload --target gemini --api-key AIzaSy...
 
 ```bash
 # Use any config (scraping is platform-agnostic)
-skill-seekers scrape --config configs/react.json
+yonyou-doc2skill scrape --config configs/react.json
 
 # Or use a unified config for multi-source
-skill-seekers unified --config configs/react_unified.json
+yonyou-doc2skill unified --config configs/react_unified.json
 ```
 
 **Result:** `output/react/` skill directory with references
@@ -56,10 +56,10 @@ skill-seekers unified --config configs/react_unified.json
 
 ```bash
 # Enhance SKILL.md using Gemini 2.0 Flash
-skill-seekers enhance output/react/ --target gemini
+yonyou-doc2skill enhance output/react/ --target gemini
 
 # With API key specified
-skill-seekers enhance output/react/ --target gemini --api-key AIzaSy...
+yonyou-doc2skill enhance output/react/ --target gemini --api-key AIzaSy...
 ```
 
 **What it does:**
@@ -77,7 +77,7 @@ skill-seekers enhance output/react/ --target gemini --api-key AIzaSy...
 
 ```bash
 # Create tar.gz package for Gemini
-skill-seekers package output/react/ --target gemini
+yonyou-doc2skill package output/react/ --target gemini
 
 # Result: react-gemini.tar.gz
 ```
@@ -98,10 +98,10 @@ react-gemini.tar.gz/
 
 ```bash
 # Upload to Google AI Studio
-skill-seekers upload react-gemini.tar.gz --target gemini
+yonyou-doc2skill upload react-gemini.tar.gz --target gemini
 
 # With API key
-skill-seekers upload react-gemini.tar.gz --target gemini --api-key AIzaSy...
+yonyou-doc2skill upload react-gemini.tar.gz --target gemini --api-key AIzaSy...
 ```
 
 **Output:**
@@ -216,7 +216,7 @@ print(response.text)
 The enhancement process can be customized by modifying the adaptor:
 
 ```python
-from skill_seekers.cli.adaptors import get_adaptor
+from yonyou_doc2skill.cli.adaptors import get_adaptor
 from pathlib import Path
 
 # Get Gemini adaptor
@@ -232,7 +232,7 @@ success = adaptor.enhance(
 ### Programmatic Upload
 
 ```python
-from skill_seekers.cli.adaptors import get_adaptor
+from yonyou_doc2skill.cli.adaptors import get_adaptor
 from pathlib import Path
 
 # Get adaptor
@@ -305,7 +305,7 @@ Gemini 2.0 Flash supports:
 
 **Solution:**
 ```bash
-pip install skill-seekers[gemini]
+pip install yonyou-doc2skill[gemini]
 ```
 
 ### Issue: `Invalid API key format`
@@ -323,10 +323,10 @@ pip install skill-seekers[gemini]
 **Solution:**
 ```bash
 # Use --target gemini for tar.gz format
-skill-seekers package output/react/ --target gemini
+yonyou-doc2skill package output/react/ --target gemini
 
 # NOT:
-skill-seekers package output/react/  # Creates .zip (Claude format)
+yonyou-doc2skill package output/react/  # Creates .zip (Claude format)
 ```
 
 ### Issue: `File upload failed`
@@ -345,7 +345,7 @@ python3 -c "import google.generativeai as genai; genai.configure(api_key='AIza..
 ls -lh react-gemini.tar.gz
 
 # Try with verbose output
-skill-seekers upload react-gemini.tar.gz --target gemini --verbose
+yonyou-doc2skill upload react-gemini.tar.gz --target gemini --verbose
 ```
 
 ### Issue: Enhancement fails
@@ -356,10 +356,10 @@ skill-seekers upload react-gemini.tar.gz --target gemini --verbose
 # Visit: https://aistudio.google.com/apikey
 
 # Try with smaller skill
-skill-seekers enhance output/react/ --target gemini --max-files 5
+yonyou-doc2skill enhance output/react/ --target gemini --max-files 5
 
 # Use without enhancement
-skill-seekers package output/react/ --target gemini
+yonyou-doc2skill package output/react/ --target gemini
 # (Skip enhancement step)
 ```
 
@@ -393,12 +393,12 @@ After upload, test with sample questions:
 
 ```bash
 # Re-scrape updated documentation
-skill-seekers scrape --config configs/react.json
+yonyou-doc2skill scrape --config configs/react.json
 
 # Re-enhance and upload
-skill-seekers enhance output/react/ --target gemini
-skill-seekers package output/react/ --target gemini
-skill-seekers upload react-gemini.tar.gz --target gemini
+yonyou-doc2skill enhance output/react/ --target gemini
+yonyou-doc2skill package output/react/ --target gemini
+yonyou-doc2skill upload react-gemini.tar.gz --target gemini
 ```
 
 ## Cost Estimation
@@ -416,7 +416,7 @@ skill-seekers upload react-gemini.tar.gz --target gemini
 
 ## Next Steps
 
-1. ✅ Install Gemini support: `pip install skill-seekers[gemini]`
+1. ✅ Install Gemini support: `pip install yonyou-doc2skill[gemini]`
 2. ✅ Get API key from Google AI Studio
 3. ✅ Scrape your documentation
 4. ✅ Enhance with Gemini
@@ -432,4 +432,4 @@ skill-seekers upload react-gemini.tar.gz --target gemini
 
 ## Feedback
 
-Found an issue or have suggestions? [Open an issue](https://github.com/yusufkaraaslan/Skill_Seekers/issues)
+Found an issue or have suggestions? [Open an issue](https://github.com/yonyou/yonyou-doc2skill/issues)

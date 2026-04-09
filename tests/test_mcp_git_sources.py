@@ -62,9 +62,9 @@ class TestFetchConfigModes:
 
     async def test_fetch_config_api_mode_list(self):
         """Test API mode - listing available configs."""
-        from skill_seekers.mcp.server import fetch_config_tool
+        from yonyou_doc2skill.mcp.server import fetch_config_tool
 
-        with patch("skill_seekers.mcp.tools.source_tools.httpx.AsyncClient") as mock_client:
+        with patch("yonyou_doc2skill.mcp.tools.source_tools.httpx.AsyncClient") as mock_client:
             # Mock API response
             mock_response = MagicMock()
             mock_response.json.return_value = {
@@ -96,16 +96,16 @@ class TestFetchConfigModes:
 
     async def test_fetch_config_api_mode_download(self, temp_dirs):
         """Test API mode - downloading specific config."""
-        from skill_seekers.mcp.server import fetch_config_tool
+        from yonyou_doc2skill.mcp.server import fetch_config_tool
 
-        with patch("skill_seekers.mcp.tools.source_tools.httpx.AsyncClient") as mock_client:
+        with patch("yonyou_doc2skill.mcp.tools.source_tools.httpx.AsyncClient") as mock_client:
             # Mock API responses
             mock_detail_response = MagicMock()
             mock_detail_response.json.return_value = {
                 "name": "react",
                 "category": "web-frameworks",
                 "description": "React framework",
-                "download_url": "https://api.skillseekersweb.com/api/configs/react/download",
+                "download_url": "https://api.docs.yonyou.example/yonyou-doc2skill/api/configs/react/download",
             }
 
             mock_download_response = MagicMock()
@@ -128,10 +128,10 @@ class TestFetchConfigModes:
             config_file = temp_dirs["dest"] / "react.json"
             assert config_file.exists()
 
-    @patch("skill_seekers.mcp.git_repo.GitConfigRepo")
+    @patch("yonyou_doc2skill.mcp.git_repo.GitConfigRepo")
     async def test_fetch_config_git_url_mode(self, mock_git_repo_class, temp_dirs):
         """Test Git URL mode - direct git clone."""
-        from skill_seekers.mcp.server import fetch_config_tool
+        from yonyou_doc2skill.mcp.server import fetch_config_tool
 
         # Mock GitConfigRepo
         mock_repo_instance = MagicMock()
@@ -165,13 +165,13 @@ class TestFetchConfigModes:
         config_file = temp_dirs["dest"] / "react.json"
         assert config_file.exists()
 
-    @patch("skill_seekers.mcp.git_repo.GitConfigRepo")
-    @patch("skill_seekers.mcp.source_manager.SourceManager")
+    @patch("yonyou_doc2skill.mcp.git_repo.GitConfigRepo")
+    @patch("yonyou_doc2skill.mcp.source_manager.SourceManager")
     async def test_fetch_config_source_mode(
         self, mock_source_manager_class, mock_git_repo_class, temp_dirs
     ):
         """Test Source mode - using named source from registry."""
-        from skill_seekers.mcp.server import fetch_config_tool
+        from yonyou_doc2skill.mcp.server import fetch_config_tool
 
         # Mock SourceManager
         mock_source_manager = MagicMock()
@@ -212,9 +212,9 @@ class TestFetchConfigModes:
 
     async def test_fetch_config_source_not_found(self):
         """Test error when source doesn't exist."""
-        from skill_seekers.mcp.server import fetch_config_tool
+        from yonyou_doc2skill.mcp.server import fetch_config_tool
 
-        with patch("skill_seekers.mcp.source_manager.SourceManager") as mock_sm_class:
+        with patch("yonyou_doc2skill.mcp.source_manager.SourceManager") as mock_sm_class:
             mock_sm = MagicMock()
             mock_sm.get_source.side_effect = KeyError("Source 'nonexistent' not found")
             mock_sm_class.return_value = mock_sm
@@ -226,10 +226,10 @@ class TestFetchConfigModes:
             assert "❌" in result[0].text
             assert "not found" in result[0].text
 
-    @patch("skill_seekers.mcp.git_repo.GitConfigRepo")
+    @patch("yonyou_doc2skill.mcp.git_repo.GitConfigRepo")
     async def test_fetch_config_config_not_found_in_repo(self, mock_git_repo_class, temp_dirs):
         """Test error when config doesn't exist in repository."""
-        from skill_seekers.mcp.server import fetch_config_tool
+        from yonyou_doc2skill.mcp.server import fetch_config_tool
 
         # Mock GitConfigRepo
         mock_repo_instance = MagicMock()
@@ -250,10 +250,10 @@ class TestFetchConfigModes:
         assert "not found" in result[0].text
         assert "Available configs" in result[0].text
 
-    @patch("skill_seekers.mcp.git_repo.GitConfigRepo")
+    @patch("yonyou_doc2skill.mcp.git_repo.GitConfigRepo")
     async def test_fetch_config_invalid_git_url(self, mock_git_repo_class):
         """Test error handling for invalid git URL."""
-        from skill_seekers.mcp.server import fetch_config_tool
+        from yonyou_doc2skill.mcp.server import fetch_config_tool
 
         # Mock GitConfigRepo to raise ValueError
         mock_repo_instance = MagicMock()
@@ -275,9 +275,9 @@ class TestSourceManagementTools:
 
     async def test_add_config_source(self, temp_dirs):
         """Test adding a new config source."""
-        from skill_seekers.mcp.server import add_config_source_tool
+        from yonyou_doc2skill.mcp.server import add_config_source_tool
 
-        with patch("skill_seekers.mcp.source_manager.SourceManager") as mock_sm_class:
+        with patch("yonyou_doc2skill.mcp.source_manager.SourceManager") as mock_sm_class:
             mock_sm = MagicMock()
             mock_sm.add_source.return_value = {
                 "name": "team",
@@ -304,7 +304,7 @@ class TestSourceManagementTools:
 
     async def test_add_config_source_missing_name(self):
         """Test error when name is missing."""
-        from skill_seekers.mcp.server import add_config_source_tool
+        from yonyou_doc2skill.mcp.server import add_config_source_tool
 
         args = {"git_url": "https://github.com/myorg/configs.git"}
         result = await add_config_source_tool(args)
@@ -316,7 +316,7 @@ class TestSourceManagementTools:
 
     async def test_add_config_source_missing_git_url(self):
         """Test error when git_url is missing."""
-        from skill_seekers.mcp.server import add_config_source_tool
+        from yonyou_doc2skill.mcp.server import add_config_source_tool
 
         args = {"name": "team"}
         result = await add_config_source_tool(args)
@@ -328,9 +328,9 @@ class TestSourceManagementTools:
 
     async def test_add_config_source_invalid_name(self):
         """Test error when source name is invalid."""
-        from skill_seekers.mcp.server import add_config_source_tool
+        from yonyou_doc2skill.mcp.server import add_config_source_tool
 
-        with patch("skill_seekers.mcp.source_manager.SourceManager") as mock_sm_class:
+        with patch("yonyou_doc2skill.mcp.source_manager.SourceManager") as mock_sm_class:
             mock_sm = MagicMock()
             mock_sm.add_source.side_effect = ValueError(
                 "Invalid source name 'team@company'. Must be alphanumeric with optional hyphens/underscores."
@@ -346,9 +346,9 @@ class TestSourceManagementTools:
 
     async def test_list_config_sources(self):
         """Test listing config sources."""
-        from skill_seekers.mcp.server import list_config_sources_tool
+        from yonyou_doc2skill.mcp.server import list_config_sources_tool
 
-        with patch("skill_seekers.mcp.source_manager.SourceManager") as mock_sm_class:
+        with patch("yonyou_doc2skill.mcp.source_manager.SourceManager") as mock_sm_class:
             mock_sm = MagicMock()
             mock_sm.list_sources.return_value = [
                 {
@@ -385,9 +385,9 @@ class TestSourceManagementTools:
 
     async def test_list_config_sources_empty(self):
         """Test listing when no sources registered."""
-        from skill_seekers.mcp.server import list_config_sources_tool
+        from yonyou_doc2skill.mcp.server import list_config_sources_tool
 
-        with patch("skill_seekers.mcp.source_manager.SourceManager") as mock_sm_class:
+        with patch("yonyou_doc2skill.mcp.source_manager.SourceManager") as mock_sm_class:
             mock_sm = MagicMock()
             mock_sm.list_sources.return_value = []
             mock_sm_class.return_value = mock_sm
@@ -400,9 +400,9 @@ class TestSourceManagementTools:
 
     async def test_list_config_sources_enabled_only(self):
         """Test listing only enabled sources."""
-        from skill_seekers.mcp.server import list_config_sources_tool
+        from yonyou_doc2skill.mcp.server import list_config_sources_tool
 
-        with patch("skill_seekers.mcp.source_manager.SourceManager") as mock_sm_class:
+        with patch("yonyou_doc2skill.mcp.source_manager.SourceManager") as mock_sm_class:
             mock_sm = MagicMock()
             mock_sm.list_sources.return_value = [
                 {
@@ -429,9 +429,9 @@ class TestSourceManagementTools:
 
     async def test_remove_config_source(self):
         """Test removing a config source."""
-        from skill_seekers.mcp.server import remove_config_source_tool
+        from yonyou_doc2skill.mcp.server import remove_config_source_tool
 
-        with patch("skill_seekers.mcp.source_manager.SourceManager") as mock_sm_class:
+        with patch("yonyou_doc2skill.mcp.source_manager.SourceManager") as mock_sm_class:
             mock_sm = MagicMock()
             mock_sm.remove_source.return_value = True
             mock_sm_class.return_value = mock_sm
@@ -449,9 +449,9 @@ class TestSourceManagementTools:
 
     async def test_remove_config_source_not_found(self):
         """Test removing non-existent source."""
-        from skill_seekers.mcp.server import remove_config_source_tool
+        from yonyou_doc2skill.mcp.server import remove_config_source_tool
 
-        with patch("skill_seekers.mcp.source_manager.SourceManager") as mock_sm_class:
+        with patch("yonyou_doc2skill.mcp.source_manager.SourceManager") as mock_sm_class:
             mock_sm = MagicMock()
             mock_sm.remove_source.return_value = False
             mock_sm.list_sources.return_value = [
@@ -470,7 +470,7 @@ class TestSourceManagementTools:
 
     async def test_remove_config_source_missing_name(self):
         """Test error when name is missing."""
-        from skill_seekers.mcp.server import remove_config_source_tool
+        from yonyou_doc2skill.mcp.server import remove_config_source_tool
 
         args = {}
         result = await remove_config_source_tool(args)
@@ -486,11 +486,11 @@ class TestSourceManagementTools:
 class TestCompleteWorkflow:
     """Test complete workflow of add → fetch → remove."""
 
-    @patch("skill_seekers.mcp.git_repo.GitConfigRepo")
-    @patch("skill_seekers.mcp.source_manager.SourceManager")
+    @patch("yonyou_doc2skill.mcp.git_repo.GitConfigRepo")
+    @patch("yonyou_doc2skill.mcp.source_manager.SourceManager")
     async def test_add_fetch_remove_workflow(self, mock_sm_class, mock_git_repo_class, temp_dirs):
         """Test complete workflow: add source → fetch config → remove source."""
-        from skill_seekers.mcp.server import (
+        from yonyou_doc2skill.mcp.server import (
             add_config_source_tool,
             fetch_config_tool,
             list_config_sources_tool,

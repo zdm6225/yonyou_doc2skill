@@ -13,8 +13,8 @@ import zipfile
 from pathlib import Path
 from unittest.mock import MagicMock, patch
 
-from skill_seekers.cli.adaptors.openai_compatible import OpenAICompatibleAdaptor
-from skill_seekers.cli.adaptors.base import SkillMetadata
+from yonyou_doc2skill.cli.adaptors.openai_compatible import OpenAICompatibleAdaptor
+from yonyou_doc2skill.cli.adaptors.base import SkillMetadata
 
 
 class ConcreteTestAdaptor(OpenAICompatibleAdaptor):

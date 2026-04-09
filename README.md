@@ -1,63 +1,52 @@
 <p align="center">
-  <img src="docs/assets/logo.png" alt="Skill Seekers" width="200"/>
+  <img src="docs/assets/logo.png" alt="Yonyou Doc2Skill" width="200"/>
 </p>
 
-# Skill Seekers
+# Yonyou Doc2Skill
 
-English | [简体中文](README.zh-CN.md) | [日本語](README.ja.md) | [한국어](README.ko.md) | [Español](README.es.md) | [Français](README.fr.md) | [Deutsch](README.de.md) | [Português](README.pt-BR.md) | [Türkçe](README.tr.md) | [العربية](README.ar.md) | [हिन्दी](README.hi.md) | [Русский](README.ru.md)
+English | [简体中文](README.zh-CN.md)
 
-[![Version](https://img.shields.io/badge/version-3.5.0-blue.svg)](https://github.com/yusufkaraaslan/Skill_Seekers/releases)
+[![Version](https://img.shields.io/badge/version-3.5.0-blue.svg)](docs/README.md)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
 [![MCP Integration](https://img.shields.io/badge/MCP-Integrated-blue.svg)](https://modelcontextprotocol.io)
 [![Tested](https://img.shields.io/badge/Tests-2540%2B%20Passing-brightgreen.svg)](tests/)
-[![Project Board](https://img.shields.io/badge/Project-Board-purple.svg)](https://github.com/users/yusufkaraaslan/projects/2)
-[![PyPI version](https://badge.fury.io/py/skill-seekers.svg)](https://pypi.org/project/skill-seekers/)
-[![PyPI - Downloads](https://img.shields.io/pypi/dm/skill-seekers.svg)](https://pypi.org/project/skill-seekers/)
-[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/skill-seekers.svg)](https://pypi.org/project/skill-seekers/)
-[![Website](https://img.shields.io/badge/Website-skillseekersweb.com-blue.svg)](https://skillseekersweb.com/)
-[![Twitter Follow](https://img.shields.io/twitter/follow/_yUSyUS_?style=social)](https://x.com/_yUSyUS_)
-[![GitHub Repo stars](https://img.shields.io/github/stars/yusufkaraaslan/Skill_Seekers?style=social)](https://github.com/yusufkaraaslan/Skill_Seekers)
-[![PyPI Downloads](https://static.pepy.tech/personalized-badge/skill-seekers?period=total&units=INTERNATIONAL_SYSTEM&left_color=BLACK&right_color=GREEN&left_text=downloads)](https://pepy.tech/projects/skill-seekers)
 
-<a href="https://trendshift.io/repositories/18329" target="_blank"><img src="https://trendshift.io/api/badge/repositories/18329" alt="yusufkaraaslan%2FSkill_Seekers | Trendshift" style="width: 250px; height: 55px;" width="250" height="55"/></a>
+**🧠 The data layer for AI systems.** Yonyou Doc2Skill turns documentation sites, GitHub repos, PDFs, videos, and other retained source types into structured knowledge assets—ready to power AI Skills (Claude, Gemini, OpenAI), RAG pipelines (LangChain, LlamaIndex, Pinecone), and AI coding assistants (Cursor, Windsurf, Cline) in minutes, not hours.
 
-**🧠 The data layer for AI systems.** Skill Seekers turns documentation sites, GitHub repos, PDFs, videos, notebooks, wikis, and 10+ more source types into structured knowledge assets—ready to power AI Skills (Claude, Gemini, OpenAI), RAG pipelines (LangChain, LlamaIndex, Pinecone), and AI coding assistants (Cursor, Windsurf, Cline) in minutes, not hours.
+> 🌐 **[Browse the local docs](docs/README.md)** - Start with the packaged documentation set for Yonyou Doc2Skill.
 
-> 🌐 **[Visit SkillSeekersWeb.com](https://skillseekersweb.com/)** - Browse 24+ preset configs, share your configs, and access complete documentation!
-
-> 📋 **[View Development Roadmap & Tasks](https://github.com/users/yusufkaraaslan/projects/2)** - 134 tasks across 10 categories, pick any to contribute!
+> 📋 **Track delivery in your fork** - Replace repository board links with your Yonyou project tracker before publishing externally.
 
 ## 🌐 Ecosystem
 
-Skill Seekers is a multi-repo project. Here's where everything lives:
+Yonyou Doc2Skill is a multi-repo project. Here's where everything lives:
 
 | Repository | Description | Links |
 |-----------|-------------|-------|
-| **[Skill_Seekers](https://github.com/yusufkaraaslan/Skill_Seekers)** | Core CLI & MCP server (this repo) | [PyPI](https://pypi.org/project/skill-seekers/) |
-| **[skillseekersweb](https://github.com/yusufkaraaslan/skillseekersweb)** | Website & documentation | [Live](https://skillseekersweb.com/) |
-| **[skill-seekers-configs](https://github.com/yusufkaraaslan/skill-seekers-configs)** | Community config repository | |
-| **[skill-seekers-action](https://github.com/yusufkaraaslan/skill-seekers-action)** | GitHub Action for CI/CD | |
-| **[skill-seekers-plugin](https://github.com/yusufkaraaslan/skill-seekers-plugin)** | Claude Code plugin | |
-| **[homebrew-skill-seekers](https://github.com/yusufkaraaslan/homebrew-skill-seekers)** | Homebrew tap for macOS | |
+| **yonyou-doc2skill** | Core CLI & MCP server (this repo) | `pip install yonyou-doc2skill` |
+| **yonyou-doc2skill-docs** | Documentation and onboarding assets | [docs/README.md](docs/README.md) |
+| **yonyou-doc2skill-configs** | Internal or curated preset/config repository | Publish from your Yonyou org |
+| **yonyou-doc2skill-plugin** | Claude Code / MCP integration assets | Publish from your Yonyou org |
+| **yonyou-doc2skill-action** | Optional CI/CD automation entrypoint | Publish from your Yonyou org |
 
 > **Want to contribute?** The website and configs repos are great starting points for new contributors!
 
 ## 🧠 The Data Layer for AI Systems
 
-**Skill Seekers is the universal preprocessing layer** that sits between raw documentation and every AI system that consumes it. Whether you are building Claude skills, a LangChain RAG pipeline, or a Cursor `.cursorrules` file — the data preparation is identical. You do it once, and export to all targets.
+**Yonyou Doc2Skill is the universal preprocessing layer** that sits between raw documentation and every AI system that consumes it. Whether you are building Claude skills, a LangChain RAG pipeline, or a Cursor `.cursorrules` file — the data preparation is identical. You do it once, and export to all targets.
 
 ```bash
 # One command → structured knowledge asset
-skill-seekers create https://docs.react.dev/
-# or: skill-seekers create facebook/react
-# or: skill-seekers create ./my-project
+yonyou-doc2skill create https://docs.react.dev/
+# or: yonyou-doc2skill create facebook/react
+# or: yonyou-doc2skill create ./my-project
 
 # Export to any AI system
-skill-seekers package output/react --target claude      # → Claude AI Skill (ZIP)
-skill-seekers package output/react --target langchain   # → LangChain Documents
-skill-seekers package output/react --target llama-index # → LlamaIndex TextNodes
-skill-seekers package output/react --target cursor      # → .cursorrules
+yonyou-doc2skill package output/react --target claude      # → Claude AI Skill (ZIP)
+yonyou-doc2skill package output/react --target langchain   # → LangChain Documents
+yonyou-doc2skill package output/react --target llama-index # → LlamaIndex TextNodes
+yonyou-doc2skill package output/react --target cursor      # → .cursorrules
 ```
 
 ### What gets built
@@ -81,7 +70,7 @@ skill-seekers package output/react --target cursor      # → .cursorrules
 - 🎯 **AI Skill quality** — 500+ line SKILL.md files with examples, patterns, and guides
 - 📊 **RAG-ready chunks** — Smart chunking preserves code blocks and maintains context
 - 🎬 **Videos** — Extract code, transcripts, and structured knowledge from YouTube and local videos
-- 🔄 **Multi-source** — Combine 17 source types (docs, GitHub, PDFs, videos, notebooks, wikis, and more) into one knowledge asset
+- 🔄 **Multi-source** — Combine the retained source types (docs, GitHub, PDFs, videos, local files, wikis, and more) into one knowledge asset
 - 🌐 **One prep, every target** — Export the same asset to 16 platforms without re-scraping
 - ✅ **Battle-tested** — 2,540+ tests, 24+ framework presets, production-ready
 
@@ -89,76 +78,72 @@ skill-seekers package output/react --target cursor      # → .cursorrules
 
 ```bash
 # 1. Install
-pip install skill-seekers
+pip install yonyou-doc2skill
 
 # 2. Create skill from any source
-skill-seekers create https://docs.django.com/
+yonyou-doc2skill create https://docs.django.com/
 
 # 3. Package for your AI platform
-skill-seekers package output/django --target claude
+yonyou-doc2skill package output/django --target claude
 ```
 
 **That's it!** You now have `output/django-claude.zip` ready to use.
 
+## Official Skill
+
+If you want end users to generate their own skills through an agent, deliver these two pieces together:
+
+- the local CLI package: `yonyou-doc2skill`
+- the official wrapper skill: `skills/yonyou-doc2skill/`
+
+The delivery model is:
+
+1. users install `yonyou-doc2skill` locally
+2. users install the official skill from `skills/yonyou-doc2skill/`
+3. the official skill calls local `yonyou-doc2skill create ...`
+4. if needed, the official skill follows with `yonyou-doc2skill package ...`
+
 ```bash
 # Use a different AI agent for enhancement (default: claude)
-skill-seekers create https://docs.django.com/ --agent kimi
-skill-seekers create https://docs.django.com/ --agent codex
-skill-seekers create https://docs.django.com/ --agent-cmd "my-custom-agent run"
+yonyou-doc2skill create https://docs.django.com/ --agent kimi
+yonyou-doc2skill create https://docs.django.com/ --agent codex
+yonyou-doc2skill create https://docs.django.com/ --agent-cmd "my-custom-agent run"
 ```
 
-### Other Sources (17 Supported)
+### Supported Sources (11 Retained)
 
 ```bash
 # GitHub repository
-skill-seekers create facebook/react
+yonyou-doc2skill create facebook/react
 
 # Local project
-skill-seekers create ./my-project
+yonyou-doc2skill create ./my-project
 
 # PDF document
-skill-seekers create manual.pdf
+yonyou-doc2skill create manual.pdf
 
 # Word document
-skill-seekers create report.docx
-
-# EPUB e-book
-skill-seekers create book.epub
-
-# Jupyter Notebook
-skill-seekers create notebook.ipynb
-
-# OpenAPI spec
-skill-seekers create openapi.yaml
+yonyou-doc2skill create report.docx
 
 # PowerPoint presentation
-skill-seekers create presentation.pptx
+yonyou-doc2skill create presentation.pptx
 
 # AsciiDoc document
-skill-seekers create guide.adoc
+yonyou-doc2skill create guide.adoc
 
 # Local HTML file
-skill-seekers create page.html
+yonyou-doc2skill create page.html
 
-# RSS/Atom feed
-skill-seekers create feed.rss
-
-# Man page
-skill-seekers create curl.1
-
-# Video (YouTube, Vimeo, or local file — requires skill-seekers[video])
-skill-seekers video --url https://www.youtube.com/watch?v=... --name mytutorial
+# Video (YouTube, Vimeo, or local file — requires yonyou-doc2skill[video])
+yonyou-doc2skill video --url https://www.youtube.com/watch?v=... --name mytutorial
 # First time? Auto-install GPU-aware visual deps:
-skill-seekers video --setup
+yonyou-doc2skill video --setup
 
 # Confluence wiki
-skill-seekers confluence --space TEAM --name wiki
-
-# Notion pages
-skill-seekers notion --database-id ... --name docs
+yonyou-doc2skill confluence --space TEAM --name wiki
 
 # Slack/Discord chat export
-skill-seekers chat --export-dir ./slack-export --name team-chat
+yonyou-doc2skill chat --export-dir ./slack-export --name team-chat
 ```
 
 ### Export Everywhere
@@ -166,13 +151,13 @@ skill-seekers chat --export-dir ./slack-export --name team-chat
 ```bash
 # Package for multiple platforms
 for platform in claude gemini openai langchain; do
-  skill-seekers package output/django --target $platform
+  yonyou-doc2skill package output/django --target $platform
 done
 ```
 
-## What is Skill Seekers?
+## What is Yonyou Doc2Skill?
 
-Skill Seekers is the **data layer for AI systems**. It transforms 17 source types—documentation websites, GitHub repositories, PDFs, videos, Jupyter Notebooks, Word/EPUB/AsciiDoc documents, OpenAPI specs, PowerPoint presentations, RSS feeds, man pages, Confluence wikis, Notion pages, Slack/Discord exports, and more—into structured knowledge assets for every AI target:
+Yonyou Doc2Skill is the **data layer for AI systems**. It transforms the retained source types—documentation websites, GitHub repositories, PDFs, videos, Word documents, local codebases, local HTML files, AsciiDoc documents, PowerPoint presentations, Confluence wikis, and Slack/Discord exports—into structured knowledge assets for every AI target:
 
 | Use Case | What you get | Examples |
 |----------|-------------|---------|
@@ -196,9 +181,9 @@ Skill Seekers is the **data layer for AI systems**. It transforms 17 source type
 
 **Complete documentation:** [docs/README.md](docs/README.md)
 
-Instead of spending days on manual preprocessing, Skill Seekers:
+Instead of spending days on manual preprocessing, Yonyou Doc2Skill:
 
-1. **Ingests** — docs, GitHub repos, local codebases, PDFs, videos, notebooks, wikis, and 10+ more source types
+1. **Ingests** — docs, GitHub repos, local codebases, PDFs, videos, wikis, chat exports, and other retained source types
 2. **Analyzes** — deep AST parsing, pattern detection, API extraction
 3. **Structures** — categorized reference files with metadata
 4. **Enhances** — AI-powered SKILL.md generation (Claude, Gemini, or local)
@@ -291,33 +276,33 @@ Instead of spending days on manual preprocessing, Skill Seekers:
 
 ```bash
 # Claude (default - no changes needed!)
-skill-seekers package output/react/
-skill-seekers upload react.zip
+yonyou-doc2skill package output/react/
+yonyou-doc2skill upload react.zip
 
 # Google Gemini
-pip install skill-seekers[gemini]
-skill-seekers package output/react/ --target gemini
-skill-seekers upload react-gemini.tar.gz --target gemini
+pip install yonyou-doc2skill[gemini]
+yonyou-doc2skill package output/react/ --target gemini
+yonyou-doc2skill upload react-gemini.tar.gz --target gemini
 
 # OpenAI ChatGPT
-pip install skill-seekers[openai]
-skill-seekers package output/react/ --target openai
-skill-seekers upload react-openai.zip --target openai
+pip install yonyou-doc2skill[openai]
+yonyou-doc2skill package output/react/ --target openai
+yonyou-doc2skill upload react-openai.zip --target openai
 
 # MiniMax AI
-pip install skill-seekers[minimax]
-skill-seekers package output/react/ --target minimax
-skill-seekers upload react-minimax.zip --target minimax
+pip install yonyou-doc2skill[minimax]
+yonyou-doc2skill package output/react/ --target minimax
+yonyou-doc2skill upload react-minimax.zip --target minimax
 
 # Generic Markdown (universal export)
-skill-seekers package output/react/ --target markdown
+yonyou-doc2skill package output/react/ --target markdown
 # Use the markdown files directly in any LLM
 ```
 
 <details>
 <summary>🔧 <strong>Environment Variables for Claude-Compatible APIs (e.g., GLM-4.7)</strong></summary>
 
-Skill Seekers supports any Claude-compatible API endpoint:
+Yonyou Doc2Skill supports any Claude-compatible API endpoint:
 
 ```bash
 # Option 1: Official Anthropic API (default)
@@ -328,8 +313,8 @@ export ANTHROPIC_API_KEY=your-glm-47-api-key
 export ANTHROPIC_BASE_URL=https://glm-4-7-endpoint.com/v1
 
 # All AI enhancement features will use the configured endpoint
-skill-seekers enhance output/react/
-skill-seekers analyze --directory . --enhance
+yonyou-doc2skill enhance output/react/
+yonyou-doc2skill analyze --directory . --enhance
 ```
 
 **Note**: Setting `ANTHROPIC_BASE_URL` allows you to use any Claude-compatible API endpoint, such as GLM-4.7 (智谱 AI) or other compatible services.
@@ -339,16 +324,16 @@ skill-seekers analyze --directory . --enhance
 **Installation:**
 ```bash
 # Install with Gemini support
-pip install skill-seekers[gemini]
+pip install yonyou-doc2skill[gemini]
 
 # Install with OpenAI support
-pip install skill-seekers[openai]
+pip install yonyou-doc2skill[openai]
 
 # Install with MiniMax support
-pip install skill-seekers[minimax]
+pip install yonyou-doc2skill[minimax]
 
 # Install with all LLM platforms
-pip install skill-seekers[all-llms]
+pip install yonyou-doc2skill[all-llms]
 ```
 
 ### 🔗 RAG Framework Integrations
@@ -371,15 +356,15 @@ pip install skill-seekers[all-llms]
 **Quick Export:**
 ```bash
 # LangChain Documents (JSON)
-skill-seekers package output/django --target langchain
+yonyou-doc2skill package output/django --target langchain
 # → output/django-langchain.json
 
 # LlamaIndex TextNodes (JSON)
-skill-seekers package output/django --target llama-index
+yonyou-doc2skill package output/django --target llama-index
 # → output/django-llama-index.json
 
 # Markdown (Universal)
-skill-seekers package output/django --target markdown
+yonyou-doc2skill package output/django --target markdown
 # → output/django-markdown/SKILL.md + references/
 ```
 
@@ -418,8 +403,8 @@ Transform any framework documentation into expert coding context for 4+ AI assis
 **Quick Export for AI Coding Tools:**
 ```bash
 # For any AI coding assistant (Cursor, Windsurf, Cline, Continue.dev)
-skill-seekers scrape --config configs/django.json
-skill-seekers package output/django --target claude  # or --target markdown
+yonyou-doc2skill scrape --config configs/django.json
+yonyou-doc2skill package output/django --target claude  # or --target markdown
 
 # Copy to your project (example for Cursor)
 cp output/django-claude/SKILL.md my-project/.cursorrules
@@ -453,7 +438,7 @@ python examples/continue-dev-universal/context_server.py
 - **Stream 3: Insights** - Community knowledge (issues, labels, stars, forks)
 
 ```python
-from skill_seekers.cli.unified_codebase_analyzer import UnifiedCodebaseAnalyzer
+from yonyou_doc2skill.cli.unified_codebase_analyzer import UnifiedCodebaseAnalyzer
 
 # Analyze GitHub repo with all three streams
 analyzer = UnifiedCodebaseAnalyzer()
@@ -479,7 +464,7 @@ print(f"Common issues: {len(result.github_insights['common_problems'])}")
 
 ### 🔐 Smart Rate Limit Management & Configuration
 - ✅ **Multi-Token Configuration System** - Manage multiple GitHub accounts (personal, work, OSS)
-  - Secure config storage at `~/.config/skill-seekers/config.json` (600 permissions)
+  - Secure config storage at `~/.config/yonyou-doc2skill/config.json` (600 permissions)
   - Per-profile rate limit strategies: `prompt`, `wait`, `switch`, `fail`
   - Configurable timeout per profile (default: 30 min, prevents indefinite waits)
   - Smart fallback chain: CLI arg → Env var → Config file → Prompt
@@ -506,17 +491,17 @@ print(f"Common issues: {len(result.github_insights['common_problems'])}")
 **Quick Setup:**
 ```bash
 # One-time configuration (5 minutes)
-skill-seekers config --github
+yonyou-doc2skill config --github
 
 # Use specific profile for private repos
-skill-seekers github --repo mycompany/private-repo --profile work
+yonyou-doc2skill github --repo mycompany/private-repo --profile work
 
 # CI/CD mode (fail fast, no prompts)
-skill-seekers github --repo owner/repo --non-interactive
+yonyou-doc2skill github --repo owner/repo --non-interactive
 
 # Resume interrupted job
-skill-seekers resume --list
-skill-seekers resume github_react_20260117_143022
+yonyou-doc2skill resume --list
+yonyou-doc2skill resume github_react_20260117_143022
 ```
 
 **Rate Limit Strategies Explained:**
@@ -527,14 +512,14 @@ skill-seekers resume github_react_20260117_143022
 
 ### 🎯 Bootstrap Skill - Self-Hosting
 
-Generate skill-seekers as a skill to use within your AI agent (Claude Code, Kimi, Codex, etc.):
+Generate yonyou-doc2skill as a skill to use within your AI agent (Claude Code, Kimi, Codex, etc.):
 
 ```bash
 # Generate the skill
 ./scripts/bootstrap_skill.sh
 
 # Install to Claude Code
-cp -r output/skill-seekers ~/.claude/skills/
+cp -r output/yonyou-doc2skill ~/.claude/skills/
 ```
 
 **What you get:**
@@ -574,13 +559,13 @@ cp -r output/skill-seekers ~/.claude/skills/
 **Usage:**
 ```bash
 # Quick analysis (1-2 min, basic features only)
-skill-seekers analyze --directory tests/ --quick
+yonyou-doc2skill analyze --directory tests/ --quick
 
 # Comprehensive analysis with AI (20-60 min, all features)
-skill-seekers analyze --directory tests/ --comprehensive
+yonyou-doc2skill analyze --directory tests/ --comprehensive
 
 # With AI enhancement
-skill-seekers analyze --directory tests/ --enhance
+yonyou-doc2skill analyze --directory tests/ --enhance
 ```
 
 **Full Documentation:** [docs/HOW_TO_GUIDES.md](docs/HOW_TO_GUIDES.md#ai-enhancement-new)
@@ -590,35 +575,35 @@ skill-seekers analyze --directory tests/ --enhance
 Reusable YAML-defined enhancement pipelines that control how AI transforms your raw documentation into a polished skill.
 
 - ✅ **5 Bundled Presets** — `default`, `minimal`, `security-focus`, `architecture-comprehensive`, `api-documentation`
-- ✅ **User-Defined Presets** — add custom workflows to `~/.config/skill-seekers/workflows/`
+- ✅ **User-Defined Presets** — add custom workflows to `~/.config/yonyou-doc2skill/workflows/`
 - ✅ **Multiple Workflows** — chain two or more workflows in one command
 - ✅ **Fully Managed CLI** — list, inspect, copy, add, remove, and validate workflows
 
 ```bash
 # Apply a single workflow
-skill-seekers create ./my-project --enhance-workflow security-focus
+yonyou-doc2skill create ./my-project --enhance-workflow security-focus
 
 # Chain multiple workflows (applied in order)
-skill-seekers create ./my-project \
+yonyou-doc2skill create ./my-project \
   --enhance-workflow security-focus \
   --enhance-workflow minimal
 
 # Manage presets
-skill-seekers workflows list                          # List all (bundled + user)
-skill-seekers workflows show security-focus           # Print YAML content
-skill-seekers workflows copy security-focus           # Copy to user dir for editing
-skill-seekers workflows add ./my-workflow.yaml        # Install a custom preset
-skill-seekers workflows remove my-workflow            # Remove a user preset
-skill-seekers workflows validate security-focus       # Validate preset structure
+yonyou-doc2skill workflows list                          # List all (bundled + user)
+yonyou-doc2skill workflows show security-focus           # Print YAML content
+yonyou-doc2skill workflows copy security-focus           # Copy to user dir for editing
+yonyou-doc2skill workflows add ./my-workflow.yaml        # Install a custom preset
+yonyou-doc2skill workflows remove my-workflow            # Remove a user preset
+yonyou-doc2skill workflows validate security-focus       # Validate preset structure
 
 # Copy multiple at once
-skill-seekers workflows copy security-focus minimal api-documentation
+yonyou-doc2skill workflows copy security-focus minimal api-documentation
 
 # Add multiple files at once
-skill-seekers workflows add ./wf-a.yaml ./wf-b.yaml
+yonyou-doc2skill workflows add ./wf-a.yaml ./wf-b.yaml
 
 # Remove multiple at once
-skill-seekers workflows remove my-wf-a my-wf-b
+yonyou-doc2skill workflows remove my-wf-a my-wf-b
 ```
 
 **YAML preset format:**
@@ -662,45 +647,42 @@ stages:
 
 ```bash
 # Basic install (documentation scraping, GitHub analysis, PDF, packaging)
-pip install skill-seekers
+pip install yonyou-doc2skill
 
 # With all LLM platform support
-pip install skill-seekers[all-llms]
+pip install yonyou-doc2skill[all-llms]
 
 # With MCP server
-pip install skill-seekers[mcp]
+pip install yonyou-doc2skill[mcp]
 
 # Everything
-pip install skill-seekers[all]
+pip install yonyou-doc2skill[all]
 ```
 
 **Need help choosing?** Run the setup wizard:
 ```bash
-skill-seekers-setup
+yonyou-doc2skill-setup
 ```
 
 ### Installation Options
 
 | Install | Features |
 |---------|----------|
-| `pip install skill-seekers` | Scraping, GitHub analysis, PDF, all platforms |
-| `pip install skill-seekers[gemini]` | + Google Gemini support |
-| `pip install skill-seekers[openai]` | + OpenAI ChatGPT support |
-| `pip install skill-seekers[all-llms]` | + All LLM platforms |
-| `pip install skill-seekers[mcp]` | + MCP server for Claude Code, Cursor, etc. |
-| `pip install skill-seekers[video]` | + YouTube/Vimeo transcript & metadata extraction |
-| `pip install skill-seekers[video-full]` | + Whisper transcription & visual frame extraction |
-| `pip install skill-seekers[jupyter]` | + Jupyter Notebook support |
-| `pip install skill-seekers[pptx]` | + PowerPoint support |
-| `pip install skill-seekers[confluence]` | + Confluence wiki support |
-| `pip install skill-seekers[notion]` | + Notion pages support |
-| `pip install skill-seekers[rss]` | + RSS/Atom feed support |
-| `pip install skill-seekers[chat]` | + Slack/Discord chat export support |
-| `pip install skill-seekers[asciidoc]` | + AsciiDoc document support |
-| `pip install skill-seekers[all]` | Everything enabled |
+| `pip install yonyou-doc2skill` | Scraping, GitHub analysis, PDF, all platforms |
+| `pip install yonyou-doc2skill[gemini]` | + Google Gemini support |
+| `pip install yonyou-doc2skill[openai]` | + OpenAI ChatGPT support |
+| `pip install yonyou-doc2skill[all-llms]` | + All LLM platforms |
+| `pip install yonyou-doc2skill[mcp]` | + MCP server for Claude Code, Cursor, etc. |
+| `pip install yonyou-doc2skill[video]` | + YouTube/Vimeo transcript & metadata extraction |
+| `pip install yonyou-doc2skill[video-full]` | + Whisper transcription & visual frame extraction |
+| `pip install yonyou-doc2skill[pptx]` | + PowerPoint support |
+| `pip install yonyou-doc2skill[confluence]` | + Confluence wiki support |
+| `pip install yonyou-doc2skill[chat]` | + Slack/Discord chat export support |
+| `pip install yonyou-doc2skill[asciidoc]` | + AsciiDoc document support |
+| `pip install yonyou-doc2skill[all]` | Everything enabled |
 
-> **Video visual deps (GPU-aware):** After installing `skill-seekers[video-full]`, run
-> `skill-seekers video --setup` to auto-detect your GPU and install the correct PyTorch
+> **Video visual deps (GPU-aware):** After installing `yonyou-doc2skill[video-full]`, run
+> `yonyou-doc2skill video --setup` to auto-detect your GPU and install the correct PyTorch
 > variant + easyocr. This is the recommended way to install visual extraction dependencies.
 
 ---
@@ -711,16 +693,16 @@ skill-seekers-setup
 
 ```bash
 # Install React skill from official configs (auto-uploads to Claude)
-skill-seekers install --config react
+yonyou-doc2skill install --config react
 
 # Install from local config file
-skill-seekers install --config configs/custom.json
+yonyou-doc2skill install --config configs/custom.json
 
 # Install without uploading (package only)
-skill-seekers install --config django --no-upload
+yonyou-doc2skill install --config django --no-upload
 
 # Preview workflow without executing
-skill-seekers install --config react --dry-run
+yonyou-doc2skill install --config react --dry-run
 ```
 
 **Time:** 20-45 minutes total | **Quality:** Production-ready (9/10) | **Cost:** Free
@@ -742,10 +724,10 @@ skill-seekers install --config react --dry-run
 
 ## 📊 Feature Matrix
 
-Skill Seekers supports **12 LLM platforms**, **17 source types**, and full feature parity across all targets.
+Yonyou Doc2Skill supports **12 LLM platforms**, **11 retained source types**, and full feature parity across all targets.
 
 **Platforms:** Claude AI, Google Gemini, OpenAI ChatGPT, MiniMax AI, Generic Markdown, OpenCode, Kimi (Moonshot AI), DeepSeek AI, Qwen (Alibaba), OpenRouter, Together AI, Fireworks AI
-**Source Types:** Documentation websites, GitHub repos, PDFs, Word (.docx), EPUB, Video, Local codebases, Jupyter Notebooks, Local HTML, OpenAPI/Swagger, AsciiDoc, PowerPoint (.pptx), RSS/Atom feeds, Man pages, Confluence wikis, Notion pages, Slack/Discord chat exports
+**Source Types:** Documentation websites, GitHub repos, PDFs, Word (.docx), Video, Local codebases, Local HTML, AsciiDoc, PowerPoint (.pptx), Confluence wikis, Slack/Discord chat exports
 
 See [Complete Feature Matrix](docs/FEATURE_MATRIX.md) for detailed platform and feature support.
 
@@ -766,67 +748,67 @@ See [Complete Feature Matrix](docs/FEATURE_MATRIX.md) for detailed platform and 
 
 ```bash
 # Scrape documentation website
-skill-seekers scrape --config configs/react.json
+yonyou-doc2skill scrape --config configs/react.json
 
 # Quick scrape without config
-skill-seekers scrape --url https://react.dev --name react
+yonyou-doc2skill scrape --url https://react.dev --name react
 
 # With async mode (3x faster)
-skill-seekers scrape --config configs/godot.json --async --workers 8
+yonyou-doc2skill scrape --config configs/godot.json --async --workers 8
 
 # Use a specific AI agent for enhancement
-skill-seekers scrape --config configs/react.json --agent kimi
+yonyou-doc2skill scrape --config configs/react.json --agent kimi
 ```
 
 ### PDF Extraction
 
 ```bash
 # Basic PDF extraction
-skill-seekers pdf --pdf docs/manual.pdf --name myskill
+yonyou-doc2skill pdf --pdf docs/manual.pdf --name myskill
 
 # Advanced features
-skill-seekers pdf --pdf docs/manual.pdf --name myskill \
+yonyou-doc2skill pdf --pdf docs/manual.pdf --name myskill \
     --extract-tables \        # Extract tables
     --parallel \              # Fast parallel processing
     --workers 8               # Use 8 CPU cores
 
 # Scanned PDFs (requires: pip install pytesseract Pillow)
-skill-seekers pdf --pdf docs/scanned.pdf --name myskill --ocr
+yonyou-doc2skill pdf --pdf docs/scanned.pdf --name myskill --ocr
 ```
 
 ### Video Extraction
 
 ```bash
 # Install video support
-pip install skill-seekers[video]        # Transcripts + metadata
-pip install skill-seekers[video-full]   # + Whisper + visual frame extraction
+pip install yonyou-doc2skill[video]        # Transcripts + metadata
+pip install yonyou-doc2skill[video-full]   # + Whisper + visual frame extraction
 
 # Auto-detect GPU and install visual deps (PyTorch + easyocr)
-skill-seekers video --setup
+yonyou-doc2skill video --setup
 
 # Extract from YouTube video
-skill-seekers video --url https://www.youtube.com/watch?v=dQw4w9WgXcQ --name mytutorial
+yonyou-doc2skill video --url https://www.youtube.com/watch?v=dQw4w9WgXcQ --name mytutorial
 
 # Extract from a YouTube playlist
-skill-seekers video --playlist https://www.youtube.com/playlist?list=... --name myplaylist
+yonyou-doc2skill video --playlist https://www.youtube.com/playlist?list=... --name myplaylist
 
 # Extract from a local video file
-skill-seekers video --video-file recording.mp4 --name myrecording
+yonyou-doc2skill video --video-file recording.mp4 --name myrecording
 
 # Extract with visual frame analysis (requires video-full deps)
-skill-seekers video --url https://www.youtube.com/watch?v=... --name mytutorial --visual
+yonyou-doc2skill video --url https://www.youtube.com/watch?v=... --name mytutorial --visual
 
 # With AI enhancement (cleans OCR + generates polished SKILL.md)
-skill-seekers video --url https://www.youtube.com/watch?v=... --visual --enhance-level 2
+yonyou-doc2skill video --url https://www.youtube.com/watch?v=... --visual --enhance-level 2
 
 # Clip a specific section of a video (supports seconds, MM:SS, HH:MM:SS)
-skill-seekers video --url https://www.youtube.com/watch?v=... --start-time 1:30 --end-time 5:00
+yonyou-doc2skill video --url https://www.youtube.com/watch?v=... --start-time 1:30 --end-time 5:00
 
 # Use Vision API for low-confidence OCR frames (requires ANTHROPIC_API_KEY)
-skill-seekers video --url https://www.youtube.com/watch?v=... --visual --vision-ocr
+yonyou-doc2skill video --url https://www.youtube.com/watch?v=... --visual --vision-ocr
 
 # Re-build skill from previously extracted data (skip download)
-skill-seekers video --from-json output/mytutorial/video_data/extracted_data.json --name mytutorial
+yonyou-doc2skill video --from-json output/mytutorial/video_data/extracted_data.json --name mytutorial
 ```
 
 > **Full guide:** See [docs/VIDEO_GUIDE.md](docs/VIDEO_GUIDE.md) for complete CLI reference,
@@ -836,14 +818,14 @@ skill-seekers video --from-json output/mytutorial/video_data/extracted_data.json
 
 ```bash
 # Basic repository scraping
-skill-seekers github --repo facebook/react
+yonyou-doc2skill github --repo facebook/react
 
 # With authentication (higher rate limits)
 export GITHUB_TOKEN=ghp_your_token_here
-skill-seekers github --repo facebook/react
+yonyou-doc2skill github --repo facebook/react
 
 # Customize what to include
-skill-seekers github --repo django/django \
+yonyou-doc2skill github --repo django/django \
     --include-issues \        # Extract GitHub Issues
     --max-issues 100 \        # Limit issue count
     --include-changelog       # Extract CHANGELOG.md
@@ -855,8 +837,8 @@ skill-seekers github --repo django/django \
 
 ```bash
 # Use existing unified configs
-skill-seekers unified --config configs/react_unified.json
-skill-seekers unified --config configs/django_unified.json
+yonyou-doc2skill unified --config configs/react_unified.json
+yonyou-doc2skill unified --config configs/django_unified.json
 
 # Or create unified config
 cat > configs/myframework_unified.json << 'EOF'
@@ -878,7 +860,7 @@ cat > configs/myframework_unified.json << 'EOF'
 }
 EOF
 
-skill-seekers unified --config configs/myframework_unified.json
+yonyou-doc2skill unified --config configs/myframework_unified.json
 ```
 
 **Conflict Detection automatically finds:**
@@ -915,7 +897,7 @@ fetch_config(source="team", config_name="internal-api")
 
 ```mermaid
 graph LR
-    A[Documentation Website] --> B[Skill Seekers]
+    A[Documentation Website] --> B[Yonyou Doc2Skill]
     B --> C[Scraper]
     B --> D[AI Enhancement]
     B --> E[Packager]
@@ -951,7 +933,7 @@ The system is organized into **8 core modules** and **5 utility modules** (~200 
 
 Utility modules: **Parsers** (28 CLI parsers), **Storage** (S3/GCS/Azure), **Embedding** (multi-provider vectors), **Benchmark** (performance), **Utilities** (16 shared helpers).
 
-Full UML diagrams: **[docs/UML_ARCHITECTURE.md](docs/UML_ARCHITECTURE.md)** | StarUML project: `docs/UML/skill_seekers.mdj` | HTML API reference: `docs/UML/html/`
+Full UML diagrams: **[docs/UML_ARCHITECTURE.md](docs/UML_ARCHITECTURE.md)** | StarUML project: `docs/UML/yonyou_doc2skill.mdj` | HTML API reference: `docs/UML/html/`
 
 ## 📋 Prerequisites
 
@@ -976,17 +958,17 @@ Once your skill is packaged, you need to upload it to Claude:
 export ANTHROPIC_API_KEY=sk-ant-...
 
 # Package and upload automatically
-skill-seekers package output/react/ --upload
+yonyou-doc2skill package output/react/ --upload
 
 # OR upload existing .zip
-skill-seekers upload output/react.zip
+yonyou-doc2skill upload output/react.zip
 ```
 
 ### Option 2: Manual Upload (No API Key)
 
 ```bash
 # Package skill
-skill-seekers package output/react/
+yonyou-doc2skill package output/react/
 # → Creates output/react.zip
 
 # Then manually upload:
@@ -1006,17 +988,17 @@ In Claude Code, just ask:
 
 ## 🤖 Installing to AI Agents
 
-Skill Seekers can automatically install skills to 18 AI coding agents.
+Yonyou Doc2Skill can automatically install skills to 18 AI coding agents.
 
 ```bash
 # Install to specific agent
-skill-seekers install-agent output/react/ --agent cursor
+yonyou-doc2skill install-agent output/react/ --agent cursor
 
 # Install to all agents at once
-skill-seekers install-agent output/react/ --agent all
+yonyou-doc2skill install-agent output/react/ --agent all
 
 # Preview without installing
-skill-seekers install-agent output/react/ --agent cursor --dry-run
+yonyou-doc2skill install-agent output/react/ --agent cursor --dry-run
 ```
 
 ### Supported Agents
@@ -1042,14 +1024,14 @@ skill-seekers install-agent output/react/ --agent cursor --dry-run
 
 ## 🔌 MCP Integration (26 Tools)
 
-Skill Seekers ships an MCP server for use from Claude Code, Cursor, Windsurf, VS Code + Cline, or IntelliJ IDEA.
+Yonyou Doc2Skill ships an MCP server for use from Claude Code, Cursor, Windsurf, VS Code + Cline, or IntelliJ IDEA.
 
 ```bash
 # stdio mode (Claude Code, VS Code + Cline)
-python -m skill_seekers.mcp.server_fastmcp
+python -m yonyou_doc2skill.mcp.server_fastmcp
 
 # HTTP mode (Cursor, Windsurf, IntelliJ)
-python -m skill_seekers.mcp.server_fastmcp --transport http --port 8765
+python -m yonyou_doc2skill.mcp.server_fastmcp --transport http --port 8765
 
 # Auto-configure all agents at once
 ./setup_mcp.sh
@@ -1071,7 +1053,7 @@ python -m skill_seekers.mcp.server_fastmcp --transport http --port 8765
 
 ```bash
 # List all presets
-skill-seekers list-configs
+yonyou-doc2skill list-configs
 ```
 
 | Category | Presets |
@@ -1086,12 +1068,12 @@ skill-seekers list-configs
 
 ```bash
 # Option 1: Interactive
-skill-seekers scrape --interactive
+yonyou-doc2skill scrape --interactive
 
 # Option 2: Copy and edit a preset
 cp configs/react.json configs/myframework.json
 nano configs/myframework.json
-skill-seekers scrape --config configs/myframework.json
+yonyou-doc2skill scrape --config configs/myframework.json
 ```
 
 ### Config File Structure
@@ -1124,8 +1106,8 @@ skill-seekers scrape --config configs/myframework.json
 The tool searches in this order:
 1. Exact path as provided
 2. `./configs/` (current directory)
-3. `~/.config/skill-seekers/configs/` (user config directory)
-4. SkillSeekersWeb.com API (preset configs)
+3. `~/.config/yonyou-doc2skill/configs/` (user config directory)
+4. docs.yonyou.example API (preset configs)
 
 ---
 
@@ -1160,7 +1142,7 @@ output/
 ```bash
 # Force re-scrape
 rm -rf output/myframework_data/
-skill-seekers scrape --config configs/myframework.json
+yonyou-doc2skill scrape --config configs/myframework.json
 ```
 
 ### Categories Not Good?
@@ -1170,7 +1152,7 @@ Edit the config `categories` section with better keywords.
 ```bash
 # Delete old data and re-scrape
 rm -rf output/godot_data/
-skill-seekers scrape --config configs/godot.json
+yonyou-doc2skill scrape --config configs/godot.json
 ```
 
 ### Enhancement Not Working?
@@ -1179,10 +1161,10 @@ skill-seekers scrape --config configs/godot.json
 echo $ANTHROPIC_API_KEY
 
 # Try LOCAL mode instead (uses Claude Code Max, no API key needed)
-skill-seekers enhance output/react/ --mode LOCAL
+yonyou-doc2skill enhance output/react/ --mode LOCAL
 
 # Monitor background enhancement status
-skill-seekers enhance-status output/react/ --watch
+yonyou-doc2skill enhance-status output/react/ --watch
 ```
 
 ### GitHub Rate Limit Issues?
@@ -1191,7 +1173,7 @@ skill-seekers enhance-status output/react/ --watch
 export GITHUB_TOKEN=ghp_your_token_here
 
 # Or configure multiple profiles
-skill-seekers config --github
+yonyou-doc2skill config --github
 ```
 
 ---
@@ -1224,7 +1206,7 @@ skill-seekers config --github
 - **[docs/UML_ARCHITECTURE.md](docs/UML_ARCHITECTURE.md)** - UML architecture overview with 14 diagrams
 - **[docs/UML/exports/](docs/UML/exports/)** - PNG diagram exports (package overview + 13 class diagrams)
 - **[docs/UML/html/](docs/UML/html/index.html/index.html)** - Full HTML API reference (all classes, operations, attributes)
-- **[docs/UML/skill_seekers.mdj](docs/UML/skill_seekers.mdj)** - StarUML project file (open with [StarUML](https://staruml.io/))
+- **[docs/UML/yonyou_doc2skill.mdj](docs/UML/yonyou_doc2skill.mdj)** - StarUML project file (open with [StarUML](https://staruml.io/))
 
 ### Guides
 - **[docs/LARGE_DOCUMENTATION.md](docs/LARGE_DOCUMENTATION.md)** - Handle 10K-40K+ page docs
@@ -1254,5 +1236,4 @@ Happy skill building! 🚀
 ---
 
 ## 🔒 Security
-
-[![MseeP.ai Security Assessment Badge](https://mseep.net/pr/yusufkaraaslan-skill-seekers-badge.png)](https://mseep.ai/app/yusufkaraaslan-skill-seekers)
+Security review and compliance badges should be issued from Yonyou-controlled assets before external release.

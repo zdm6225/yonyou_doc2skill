@@ -9,10 +9,10 @@
 
 ## Overview
 
-The **Bootstrap Skill** feature allows Skill Seekers to analyze **itself** and generate a Claude Code skill containing its own documentation, API reference, code patterns, and usage examples. This is the ultimate form of "dogfooding" - using the tool to document itself.
+The **Bootstrap Skill** feature allows Yonyou Doc2Skill to analyze **itself** and generate a Claude Code skill containing its own documentation, API reference, code patterns, and usage examples. This is the ultimate form of "dogfooding" - using the tool to document itself.
 
 **What You Get:**
-- Complete Skill Seekers documentation as a Claude Code skill
+- Complete Yonyou Doc2Skill documentation as a Claude Code skill
 - CLI command reference with examples
 - Auto-generated API documentation from codebase
 - Design pattern detection from source code
@@ -20,7 +20,7 @@ The **Bootstrap Skill** feature allows Skill Seekers to analyze **itself** and g
 - Installation into Claude Code for instant access
 
 **Use Cases:**
-- Learn Skill Seekers by having it explain itself to Claude
+- Learn Yonyou Doc2Skill by having it explain itself to Claude
 - Quick reference for CLI commands while working
 - API documentation for programmatic usage
 - Code pattern examples from the source
@@ -38,10 +38,10 @@ The **Bootstrap Skill** feature allows Skill Seekers to analyze **itself** and g
 ```
 
 This script will:
-1. ✅ Analyze the Skill Seekers codebase (C3.x features)
+1. ✅ Analyze the Yonyou Doc2Skill codebase (C3.x features)
 2. ✅ Merge handcrafted header with auto-generated content
 3. ✅ Validate YAML frontmatter and structure
-4. ✅ Create `output/skill-seekers/` directory
+4. ✅ Create `output/yonyou-doc2skill/` directory
 5. ✅ Install to Claude Code (optional)
 
 **Time:** ~2-5 minutes (depending on analysis depth)
@@ -50,19 +50,19 @@ This script will:
 
 ```bash
 # 1. Run codebase analysis
-skill-seekers codebase \
+yonyou-doc2skill codebase \
   --directory . \
-  --output output/skill-seekers \
-  --name skill-seekers
+  --output output/yonyou-doc2skill \
+  --name yonyou-doc2skill
 
 # 2. Merge with custom header (optional)
-cat scripts/skill_header.md output/skill-seekers/SKILL.md > output/skill-seekers/SKILL_MERGED.md
-mv output/skill-seekers/SKILL_MERGED.md output/skill-seekers/SKILL.md
+cat scripts/skill_header.md output/yonyou-doc2skill/SKILL.md > output/yonyou-doc2skill/SKILL_MERGED.md
+mv output/yonyou-doc2skill/SKILL_MERGED.md output/yonyou-doc2skill/SKILL.md
 
 # 3. Install to Claude Code
-skill-seekers install-agent \
-  --skill-dir output/skill-seekers \
-  --agent-dir ~/.claude/skills/skill-seekers
+yonyou-doc2skill install-agent \
+  --skill-dir output/yonyou-doc2skill \
+  --agent-dir ~/.claude/skills/yonyou-doc2skill
 ```
 
 ---
@@ -104,14 +104,14 @@ The bootstrap skill combines three components:
 
 ### Step 1: Codebase Analysis
 
-The `codebase_scraper.py` module analyzes the Skill Seekers source code:
+The `codebase_scraper.py` module analyzes the Yonyou Doc2Skill source code:
 
 ```bash
-skill-seekers codebase --directory . --output output/skill-seekers
+yonyou-doc2skill codebase --directory . --output output/yonyou-doc2skill
 ```
 
 **What Gets Analyzed:**
-- **Python source files** (`src/skill_seekers/**/*.py`)
+- **Python source files** (`src/yonyou_doc2skill/**/*.py`)
 - **Test files** (`tests/**/*.py`)
 - **Configuration files** (`configs/*.json`)
 - **Documentation** (`docs/**/*.md`, `README.md`, etc.)
@@ -131,7 +131,7 @@ The bootstrap script merges a handcrafted header with auto-generated content:
 
 ```bash
 # scripts/bootstrap_skill.sh does this:
-cat scripts/skill_header.md output/skill-seekers/SKILL.md > merged.md
+cat scripts/skill_header.md output/yonyou-doc2skill/SKILL.md > merged.md
 ```
 
 **Why Two Parts?**
@@ -141,15 +141,15 @@ cat scripts/skill_header.md output/skill-seekers/SKILL.md > merged.md
 **Header Structure** (`scripts/skill_header.md`):
 ```markdown
 ---
-name: skill-seekers
+name: yonyou-doc2skill
 version: 2.7.0
 description: |
   Documentation-to-AI skill conversion tool. Use when working with
-  Skill Seekers codebase, CLI commands, or API integration.
+  Yonyou Doc2Skill codebase, CLI commands, or API integration.
 tags: [documentation, scraping, ai-skills, mcp]
 ---
 
-# Skill Seekers - Documentation to AI Skills
+# Yonyou Doc2Skill - Documentation to AI Skills
 
 ## Installation
 ...
@@ -169,7 +169,7 @@ The bootstrap script validates the final skill:
 
 ```bash
 # Check for YAML frontmatter
-if ! grep -q "^---$" output/skill-seekers/SKILL.md; then
+if ! grep -q "^---$" output/yonyou-doc2skill/SKILL.md; then
     echo "❌ Missing YAML frontmatter"
     exit 1
 fi
@@ -177,7 +177,7 @@ fi
 # Validate required fields
 python -c "
 import yaml
-with open('output/skill-seekers/SKILL.md') as f:
+with open('output/yonyou-doc2skill/SKILL.md') as f:
     content = f.read()
     frontmatter = yaml.safe_load(content.split('---')[1])
     required = ['name', 'version', 'description']
@@ -196,10 +196,10 @@ with open('output/skill-seekers/SKILL.md') as f:
 
 ### Step 4: Output
 
-The final skill is created in `output/skill-seekers/`:
+The final skill is created in `output/yonyou-doc2skill/`:
 
 ```
-output/skill-seekers/
+output/yonyou-doc2skill/
 ├── SKILL.md                    # Main skill file (300-500 lines)
 ├── references/                 # Detailed references
 │   ├── api_reference/          # API documentation
@@ -231,7 +231,7 @@ Edit `scripts/skill_header.md` to customize the introduction:
 
 ```markdown
 ---
-name: skill-seekers
+name: yonyou-doc2skill
 version: 2.7.0
 description: |
   YOUR CUSTOM DESCRIPTION HERE
@@ -316,7 +316,7 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Install Skill Seekers
+      - name: Install Yonyou Doc2Skill
         run: pip install -e .
 
       - name: Generate Bootstrap Skill
@@ -326,13 +326,13 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: bootstrap-skill
-          path: output/skill-seekers/
+          path: output/yonyou-doc2skill/
 
       - name: Commit to Repository (optional)
         run: |
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
-          git add output/skill-seekers/
+          git add output/yonyou-doc2skill/
           git commit -m "chore: Update bootstrap skill [skip ci]"
           git push
 ```
@@ -347,7 +347,7 @@ jobs:
 
 **Error:**
 ```
-❌ Missing YAML frontmatter in output/skill-seekers/SKILL.md
+❌ Missing YAML frontmatter in output/yonyou-doc2skill/SKILL.md
 ```
 
 **Solution:**
@@ -357,7 +357,7 @@ cat scripts/skill_header.md | head -10
 
 # Should start with:
 # ---
-# name: skill-seekers
+# name: yonyou-doc2skill
 # version: 2.7.0
 # ...
 # ---
@@ -375,7 +375,7 @@ cat scripts/skill_header.md | head -10
 # Check frontmatter fields
 python -c "
 import yaml
-with open('output/skill-seekers/SKILL.md') as f:
+with open('output/yonyou-doc2skill/SKILL.md') as f:
     content = f.read()
     fm = yaml.safe_load(content.split('---')[1])
     print('Fields:', list(fm.keys()))
@@ -388,13 +388,13 @@ with open('output/skill-seekers/SKILL.md') as f:
 
 **Error:**
 ```
-❌ skill-seekers codebase failed with exit code 1
+❌ yonyou-doc2skill codebase failed with exit code 1
 ```
 
 **Solution:**
 ```bash
 # Run analysis manually to see error
-skill-seekers codebase --directory . --output output/test
+yonyou-doc2skill codebase --directory . --output output/test
 
 # Common causes:
 # - Missing dependencies: pip install -e ".[all-llms]"
@@ -433,7 +433,7 @@ set +x  # Disable debugging
 ```
 
 **Debug Checklist:**
-1. ✅ Skill Seekers installed: `skill-seekers --version`
+1. ✅ Yonyou Doc2Skill installed: `yonyou-doc2skill --version`
 2. ✅ Python 3.10+: `python --version`
 3. ✅ Dependencies installed: `pip install -e ".[all-llms]"`
 4. ✅ Header file exists: `ls scripts/skill_header.md`
@@ -474,7 +474,7 @@ pytest tests/test_bootstrap*.py -v
 def test_bootstrap_skill_e2e(tmp_path):
     """Test complete bootstrap skill workflow."""
     # Setup
-    output_dir = tmp_path / "skill-seekers"
+    output_dir = tmp_path / "yonyou-doc2skill"
     header_file = "scripts/skill_header.md"
 
     # Run bootstrap
@@ -512,27 +512,27 @@ open htmlcov/index.html
 ./scripts/bootstrap_skill.sh
 
 # Output:
-# ✅ Analyzing Skill Seekers codebase...
+# ✅ Analyzing Yonyou Doc2Skill codebase...
 # ✅ Detected 15 design patterns
 # ✅ Extracted 45 test examples
 # ✅ Generated 12 how-to guides
 # ✅ Merging with header...
 # ✅ Validating skill...
-# ✅ Bootstrap skill created: output/skill-seekers/SKILL.md
+# ✅ Bootstrap skill created: output/yonyou-doc2skill/SKILL.md
 ```
 
 ### Example 2: Custom Analysis Depth
 
 ```bash
 # Run with basic analysis (faster)
-skill-seekers codebase \
+yonyou-doc2skill codebase \
   --directory . \
-  --output output/skill-seekers \
+  --output output/yonyou-doc2skill \
   --skip-patterns \
   --skip-how-to-guides
 
 # Then merge with header
-cat scripts/skill_header.md output/skill-seekers/SKILL.md > merged.md
+cat scripts/skill_header.md output/yonyou-doc2skill/SKILL.md > merged.md
 ```
 
 ### Example 3: Install to Claude Code
@@ -542,25 +542,25 @@ cat scripts/skill_header.md output/skill-seekers/SKILL.md > merged.md
 ./scripts/bootstrap_skill.sh
 
 # Install to Claude Code
-skill-seekers install-agent \
-  --skill-dir output/skill-seekers \
-  --agent-dir ~/.claude/skills/skill-seekers
+yonyou-doc2skill install-agent \
+  --skill-dir output/yonyou-doc2skill \
+  --agent-dir ~/.claude/skills/yonyou-doc2skill
 
 # Now use in Claude Code:
-# "Use the skill-seekers skill to explain how to scrape documentation"
+# "Use the yonyou-doc2skill skill to explain how to scrape documentation"
 ```
 
 ### Example 4: Programmatic Usage
 
 ```python
-from skill_seekers.cli.codebase_scraper import scrape_codebase
-from skill_seekers.cli.install_agent import install_to_agent
+from yonyou_doc2skill.cli.codebase_scraper import scrape_codebase
+from yonyou_doc2skill.cli.install_agent import install_to_agent
 
 # 1. Analyze codebase
 result = scrape_codebase(
     directory='.',
-    output_dir='output/skill-seekers',
-    name='skill-seekers',
+    output_dir='output/yonyou-doc2skill',
+    name='yonyou-doc2skill',
     enable_patterns=True,
     enable_how_to_guides=True
 )
@@ -581,8 +581,8 @@ with open(result['skill_path'], 'w') as f:
 
 # 3. Install to Claude Code
 install_to_agent(
-    skill_dir='output/skill-seekers',
-    agent_dir='~/.claude/skills/skill-seekers'
+    skill_dir='output/yonyou-doc2skill',
+    agent_dir='~/.claude/skills/yonyou-doc2skill'
 )
 
 print("✅ Bootstrap skill installed to Claude Code!")
@@ -619,7 +619,7 @@ The header should provide context and quick start, not duplicate auto-generated 
 
 ```markdown
 ---
-name: skill-seekers
+name: yonyou-doc2skill
 version: 2.7.0
 description: Brief description
 ---
@@ -659,7 +659,7 @@ Always validate the generated skill:
 # Run validation
 python -c "
 import yaml
-with open('output/skill-seekers/SKILL.md') as f:
+with open('output/yonyou-doc2skill/SKILL.md') as f:
     content = f.read()
     assert '---' in content, 'Missing frontmatter'
     fm = yaml.safe_load(content.split('---')[1])

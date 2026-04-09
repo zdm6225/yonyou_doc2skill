@@ -3,7 +3,7 @@
 LangChain RAG Pipeline Quickstart
 
 This example shows how to:
-1. Load Skill Seekers documents
+1. Load Yonyou Doc2Skill documents
 2. Create a Chroma vector store
 3. Build a RAG query engine
 4. Query the documentation
@@ -26,10 +26,10 @@ from langchain.chains import RetrievalQA
 
 def load_documents(json_path: str) -> list[Document]:
     """
-    Load LangChain Documents from Skill Seekers JSON output.
+    Load LangChain Documents from Yonyou Doc2Skill JSON output.
 
     Args:
-        json_path: Path to skill-seekers generated JSON file
+        json_path: Path to yonyou-doc2skill generated JSON file
 
     Returns:
         List of LangChain Document objects
@@ -146,8 +146,8 @@ def main():
     if not Path(DOCS_PATH).exists():
         print(f"❌ Documents not found at: {DOCS_PATH}")
         print("\nGenerate documents first:")
-        print("  1. skill-seekers scrape --config configs/react.json")
-        print("  2. skill-seekers package output/react --target langchain")
+        print("  1. yonyou-doc2skill scrape --config configs/react.json")
+        print("  2. yonyou-doc2skill package output/react --target langchain")
         return
 
     # Step 1: Load documents

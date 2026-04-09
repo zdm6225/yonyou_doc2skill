@@ -17,7 +17,7 @@ import unittest
 # Add src to path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src"))
 
-from skill_seekers.cli.code_analyzer import CodeAnalyzer
+from yonyou_doc2skill.cli.code_analyzer import CodeAnalyzer
 
 
 class TestPythonParsing(unittest.TestCase):

@@ -20,7 +20,7 @@ from pathlib import Path
 # Add src to path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src"))
 
-from skill_seekers.cli.config_extractor import (
+from yonyou_doc2skill.cli.config_extractor import (
     ConfigExtractionResult,
     ConfigExtractor,
     ConfigFile,

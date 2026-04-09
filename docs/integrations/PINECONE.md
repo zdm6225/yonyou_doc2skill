@@ -1,4 +1,4 @@
-# Using Skill Seekers with Pinecone
+# Using Yonyou Doc2Skill with Pinecone
 
 **Last Updated:** February 5, 2026
 **Status:** Production Ready
@@ -22,7 +22,7 @@ Building production-grade vector search applications requires:
 
 ## ✨ The Solution
 
-Use Skill Seekers to **prepare documentation for Pinecone**:
+Use Yonyou Doc2Skill to **prepare documentation for Pinecone**:
 
 1. **Generate structured documents** from any source
 2. **Create embeddings** with your preferred model (OpenAI, Cohere, etc.)
@@ -30,7 +30,7 @@ Use Skill Seekers to **prepare documentation for Pinecone**:
 4. **Query with context** - Full metadata preserved for filtering and routing
 
 **Result:**
-Skill Seekers outputs JSON format ready for Pinecone upsert with all metadata intact.
+Yonyou Doc2Skill outputs JSON format ready for Pinecone upsert with all metadata intact.
 
 ---
 
@@ -45,8 +45,8 @@ Skill Seekers outputs JSON format ready for Pinecone upsert with all metadata in
 ### Installation
 
 ```bash
-# Install Skill Seekers
-pip install skill-seekers
+# Install Yonyou Doc2Skill
+pip install yonyou-doc2skill
 
 # Install Pinecone client + embeddings
 pip install pinecone-client openai
@@ -69,10 +69,10 @@ export OPENAI_API_KEY=sk-...
 
 ```bash
 # Example: React documentation
-skill-seekers scrape --config configs/react.json
+yonyou-doc2skill scrape --config configs/react.json
 
 # Package for Pinecone (uses LangChain format)
-skill-seekers package output/react --target langchain
+yonyou-doc2skill package output/react --target langchain
 
 # Output: output/react-langchain.json
 ```
@@ -203,24 +203,24 @@ pc.create_index(
 - GCP: us-central1, europe-west1, asia-southeast1
 - Azure: eastus2, westeurope
 
-### Step 2: Generate Skill Seekers Documents
+### Step 2: Generate Yonyou Doc2Skill Documents
 
 **Option A: Documentation Website**
 ```bash
-skill-seekers scrape --config configs/django.json
-skill-seekers package output/django --target langchain
+yonyou-doc2skill scrape --config configs/django.json
+yonyou-doc2skill package output/django --target langchain
 ```
 
 **Option B: GitHub Repository**
 ```bash
-skill-seekers github --repo django/django --name django
-skill-seekers package output/django --target langchain
+yonyou-doc2skill github --repo django/django --name django
+yonyou-doc2skill package output/django --target langchain
 ```
 
 **Option C: Local Codebase**
 ```bash
-skill-seekers analyze --directory /path/to/repo
-skill-seekers package output/codebase --target langchain
+yonyou-doc2skill analyze --directory /path/to/repo
+yonyou-doc2skill package output/codebase --target langchain
 ```
 
 ### Step 3: Create Embeddings Strategy
@@ -295,7 +295,7 @@ def batch_upsert_documents(
 
     Args:
         index: Pinecone index object
-        documents_path: Path to Skill Seekers JSON output
+        documents_path: Path to Yonyou Doc2Skill JSON output
         embedding_func: Function to create embeddings
         batch_size: Number of documents per batch
     """
@@ -315,7 +315,7 @@ def batch_upsert_documents(
             "metadata": {
                 "text": doc["page_content"][:1000],  # Pinecone limit
                 "full_text_id": str(i),  # Reference to full text
-                **doc["metadata"]  # Preserve all Skill Seekers metadata
+                **doc["metadata"]  # Preserve all Yonyou Doc2Skill metadata
             }
         })
 
@@ -642,7 +642,7 @@ class SupportBotRAG:
         self.openai = OpenAI()
 
     def ingest_docs(self, docs_path: str):
-        """Ingest Skill Seekers documentation."""
+        """Ingest Yonyou Doc2Skill documentation."""
         with open(docs_path) as f:
             documents = json.load(f)
 
@@ -832,9 +832,9 @@ results = index.query(
 
 ## 🤝 Community & Support
 
-- **Questions:** [GitHub Discussions](https://github.com/yusufkaraaslan/Skill_Seekers/discussions)
-- **Issues:** [GitHub Issues](https://github.com/yusufkaraaslan/Skill_Seekers/issues)
-- **Documentation:** [https://skillseekersweb.com/](https://skillseekersweb.com/)
+- **Questions:** [GitHub Discussions](https://github.com/yonyou/yonyou-doc2skill/discussions)
+- **Issues:** [GitHub Issues](https://github.com/yonyou/yonyou-doc2skill/issues)
+- **Documentation:** [https://docs.yonyou.example/yonyou-doc2skill/](https://docs.yonyou.example/yonyou-doc2skill/)
 - **Pinecone Docs:** [https://docs.pinecone.io/](https://docs.pinecone.io/)
 
 ---
@@ -858,4 +858,4 @@ results = index.query(
 
 **Last Updated:** February 5, 2026
 **Tested With:** Pinecone Serverless, OpenAI ada-002, GPT-4
-**Skill Seekers Version:** v2.9.0+
+**Yonyou Doc2Skill Version:** v2.9.0+

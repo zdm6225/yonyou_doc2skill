@@ -1,4 +1,4 @@
-name: 'Skill Seekers - AI Knowledge Builder'
+name: 'Yonyou Doc2Skill - AI Knowledge Builder'
 description: 'Transform documentation, repos, PDFs, videos, and 13 other source types into AI skills and RAG knowledge'
 author: 'Yusuf Karaaslan'
 
@@ -26,7 +26,7 @@ inputs:
     required: false
     default: 'output'
   extra-args:
-    description: 'Additional CLI arguments to pass to skill-seekers'
+    description: 'Additional CLI arguments to pass to yonyou-doc2skill'
     required: false
     default: ''
 
@@ -46,11 +46,11 @@ runs:
       with:
         python-version: '3.12'
 
-    - name: Install Skill Seekers
+    - name: Install Yonyou Doc2Skill
       shell: bash
-      run: pip install skill-seekers
+      run: pip install yonyou-doc2skill
 
-    - name: Run Skill Seekers
+    - name: Run Yonyou Doc2Skill
       id: run
       shell: bash
       env:
@@ -72,11 +72,11 @@ runs:
 
         # Build the command
         if [ "$CMD" = "create" ]; then
-          skill-seekers create "$SOURCE" --target "$TARGET" --output "$OUTPUT_DIR" $EXTRA
+          yonyou-doc2skill create "$SOURCE" --target "$TARGET" --output "$OUTPUT_DIR" $EXTRA
         elif [ -n "$CONFIG" ]; then
-          skill-seekers "$CMD" --config "$CONFIG" --target "$TARGET" --output "$OUTPUT_DIR" $EXTRA
+          yonyou-doc2skill "$CMD" --config "$CONFIG" --target "$TARGET" --output "$OUTPUT_DIR" $EXTRA
         else
-          skill-seekers "$CMD" "$SOURCE" --target "$TARGET" --output "$OUTPUT_DIR" $EXTRA
+          yonyou-doc2skill "$CMD" "$SOURCE" --target "$TARGET" --output "$OUTPUT_DIR" $EXTRA
         fi
 
         # Find the generated skill directory

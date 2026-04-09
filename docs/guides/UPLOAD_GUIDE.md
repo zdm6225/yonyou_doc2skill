@@ -1,6 +1,6 @@
 # Multi-Platform Upload Guide
 
-Skill Seekers supports uploading to **12 LLM platforms**: Claude AI, Google Gemini, OpenAI ChatGPT, MiniMax AI, OpenCode, Kimi, DeepSeek, Qwen, OpenRouter, Together AI, Fireworks AI, and Generic Markdown export.
+Yonyou Doc2Skill supports uploading to **12 LLM platforms**: Claude AI, Google Gemini, OpenAI ChatGPT, MiniMax AI, OpenCode, Kimi, DeepSeek, Qwen, OpenRouter, Together AI, Fireworks AI, and Generic Markdown export.
 
 ## Quick Platform Selection
 
@@ -29,7 +29,7 @@ export ANTHROPIC_API_KEY=sk-ant-...
 
 ```bash
 # Claude uses ZIP format (default)
-skill-seekers package output/react/
+yonyou-doc2skill package output/react/
 ```
 
 **Output:** `output/react.zip`
@@ -38,7 +38,7 @@ skill-seekers package output/react/
 
 **Option 1: Automatic (with API key)**
 ```bash
-skill-seekers upload output/react.zip
+yonyou-doc2skill upload output/react.zip
 ```
 
 **Option 2: Manual (no API key)**
@@ -71,7 +71,7 @@ react.zip
 
 ```bash
 # Install Gemini support
-pip install skill-seekers[gemini]
+pip install yonyou-doc2skill[gemini]
 
 # Set API key
 export GOOGLE_API_KEY=AIzaSy...
@@ -81,7 +81,7 @@ export GOOGLE_API_KEY=AIzaSy...
 
 ```bash
 # Gemini uses tar.gz format
-skill-seekers package output/react/ --target gemini
+yonyou-doc2skill package output/react/ --target gemini
 ```
 
 **Output:** `output/react-gemini.tar.gz`
@@ -89,7 +89,7 @@ skill-seekers package output/react/ --target gemini
 ### Upload to Gemini
 
 ```bash
-skill-seekers upload output/react-gemini.tar.gz --target gemini
+yonyou-doc2skill upload output/react-gemini.tar.gz --target gemini
 ```
 
 **What happens:**
@@ -125,7 +125,7 @@ react-gemini.tar.gz
 
 ```bash
 # Install OpenAI support
-pip install skill-seekers[openai]
+pip install yonyou-doc2skill[openai]
 
 # Set API key
 export OPENAI_API_KEY=sk-proj-...
@@ -135,7 +135,7 @@ export OPENAI_API_KEY=sk-proj-...
 
 ```bash
 # OpenAI uses ZIP format with vector store
-skill-seekers package output/react/ --target openai
+yonyou-doc2skill package output/react/ --target openai
 ```
 
 **Output:** `output/react-openai.zip`
@@ -143,7 +143,7 @@ skill-seekers package output/react/ --target openai
 ### Upload to OpenAI
 
 ```bash
-skill-seekers upload output/react-openai.zip --target openai
+yonyou-doc2skill upload output/react-openai.zip --target openai
 ```
 
 **What happens:**
@@ -187,7 +187,7 @@ react-openai.zip
 
 ```bash
 # Generic markdown for manual distribution
-skill-seekers package output/react/ --target markdown
+yonyou-doc2skill package output/react/ --target markdown
 ```
 
 **Output:** `output/react-markdown.zip`
@@ -233,41 +233,41 @@ react-markdown.zip
 
 ```bash
 # 1. Scrape documentation
-skill-seekers scrape --config configs/react.json
+yonyou-doc2skill scrape --config configs/react.json
 
 # 2. Enhance (recommended)
-skill-seekers enhance output/react/
+yonyou-doc2skill enhance output/react/
 
 # 3. Package for Claude (default)
-skill-seekers package output/react/
+yonyou-doc2skill package output/react/
 
 # 4. Upload to Claude
-skill-seekers upload output/react.zip
+yonyou-doc2skill upload output/react.zip
 ```
 
 ### Multi-Platform (Same Skill)
 
 ```bash
 # 1. Scrape once (universal)
-skill-seekers scrape --config configs/react.json
+yonyou-doc2skill scrape --config configs/react.json
 
 # 2. Enhance once (or per-platform if desired)
-skill-seekers enhance output/react/
+yonyou-doc2skill enhance output/react/
 
 # 3. Package for ALL platforms
-skill-seekers package output/react/ --target claude
-skill-seekers package output/react/ --target gemini
-skill-seekers package output/react/ --target openai
-skill-seekers package output/react/ --target markdown
+yonyou-doc2skill package output/react/ --target claude
+yonyou-doc2skill package output/react/ --target gemini
+yonyou-doc2skill package output/react/ --target openai
+yonyou-doc2skill package output/react/ --target markdown
 
 # 4. Upload to platforms
 export ANTHROPIC_API_KEY=sk-ant-...
 export GOOGLE_API_KEY=AIzaSy...
 export OPENAI_API_KEY=sk-proj-...
 
-skill-seekers upload output/react.zip --target claude
-skill-seekers upload output/react-gemini.tar.gz --target gemini
-skill-seekers upload output/react-openai.zip --target openai
+yonyou-doc2skill upload output/react.zip --target claude
+yonyou-doc2skill upload output/react-gemini.tar.gz --target gemini
+yonyou-doc2skill upload output/react-openai.zip --target openai
 
 # Result:
 # - react.zip (Claude)
@@ -307,8 +307,8 @@ ls -lh output/react.zip
 
 Make sure you scraped and built first:
 ```bash
-skill-seekers scrape --config configs/react.json
-skill-seekers package output/react/
+yonyou-doc2skill scrape --config configs/react.json
+yonyou-doc2skill package output/react/
 ```
 
 ### "Invalid target platform"
@@ -336,13 +336,13 @@ export ANTHROPIC_API_KEY=sk-ant-...
 **Gemini:**
 ```bash
 export GOOGLE_API_KEY=AIzaSy...
-pip install skill-seekers[gemini]
+pip install yonyou-doc2skill[gemini]
 ```
 
 **OpenAI:**
 ```bash
 export OPENAI_API_KEY=sk-proj-...
-pip install skill-seekers[openai]
+pip install yonyou-doc2skill[openai]
 ```
 
 ### Upload fails

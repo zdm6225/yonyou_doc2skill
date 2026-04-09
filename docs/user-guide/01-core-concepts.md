@@ -1,16 +1,16 @@
 # Core Concepts
 
-> **Skill Seekers v3.2.0**  
-> **Understanding how Skill Seekers works**
+> **Yonyou Doc2Skill v3.2.0**  
+> **Understanding how Yonyou Doc2Skill works**
 
 ---
 
 ## Overview
 
-Skill Seekers transforms documentation, code, and content into **structured knowledge assets** that AI systems can use effectively. It supports **17 source types** including documentation sites, GitHub repos, PDFs, videos, notebooks, wikis, and more.
+Yonyou Doc2Skill transforms documentation, code, and content into **structured knowledge assets** that AI systems can use effectively. It supports **17 source types** including documentation sites, GitHub repos, PDFs, videos, notebooks, wikis, and more.
 
 ```
-Raw Content → Skill Seekers → AI-Ready Skill
+Raw Content → Yonyou Doc2Skill → AI-Ready Skill
      ↓                              ↓
   (docs, code, PDFs,          (SKILL.md +
    videos, notebooks,          references)
@@ -31,7 +31,7 @@ output/my-skill/
 │   ├── getting_started.md
 │   ├── api_reference.md
 │   └── ...
-├── .skill-seekers/      # Metadata
+├── .yonyou-doc2skill/      # Metadata
 └── assets/              # Images, downloads
 ```
 
@@ -77,7 +77,7 @@ npm install my-framework
 
 ## Source Types
 
-Skill Seekers works with **17 types of sources**:
+Yonyou Doc2Skill works with **17 types of sources**:
 
 ### 1. Documentation Websites
 
@@ -90,7 +90,7 @@ Skill Seekers works with **17 types of sources**:
 
 **Command:**
 ```bash
-skill-seekers create https://docs.example.com/
+yonyou-doc2skill create https://docs.example.com/
 ```
 
 **Best for:**
@@ -112,8 +112,8 @@ skill-seekers create https://docs.example.com/
 
 **Command:**
 ```bash
-skill-seekers create owner/repo
-skill-seekers github --repo owner/repo
+yonyou-doc2skill create owner/repo
+yonyou-doc2skill github --repo owner/repo
 ```
 
 **Best for:**
@@ -135,8 +135,8 @@ skill-seekers github --repo owner/repo
 
 **Command:**
 ```bash
-skill-seekers create manual.pdf
-skill-seekers pdf --pdf manual.pdf
+yonyou-doc2skill create manual.pdf
+yonyou-doc2skill pdf --pdf manual.pdf
 ```
 
 **Best for:**
@@ -158,8 +158,8 @@ skill-seekers pdf --pdf manual.pdf
 
 **Command:**
 ```bash
-skill-seekers create ./my-project
-skill-seekers analyze --directory ./my-project
+yonyou-doc2skill create ./my-project
+yonyou-doc2skill analyze --directory ./my-project
 ```
 
 **Best for:**
@@ -175,7 +175,7 @@ skill-seekers analyze --directory ./my-project
 
 **Command:**
 ```bash
-skill-seekers create report.docx
+yonyou-doc2skill create report.docx
 ```
 
 ---
@@ -186,7 +186,7 @@ skill-seekers create report.docx
 
 **Command:**
 ```bash
-skill-seekers create book.epub
+yonyou-doc2skill create book.epub
 ```
 
 ---
@@ -197,8 +197,8 @@ skill-seekers create book.epub
 
 **Command:**
 ```bash
-skill-seekers create https://www.youtube.com/watch?v=...
-skill-seekers video --url https://www.youtube.com/watch?v=...
+yonyou-doc2skill create https://www.youtube.com/watch?v=...
+yonyou-doc2skill video --url https://www.youtube.com/watch?v=...
 ```
 
 ---
@@ -209,8 +209,8 @@ skill-seekers video --url https://www.youtube.com/watch?v=...
 
 **Command:**
 ```bash
-skill-seekers create analysis.ipynb
-skill-seekers jupyter --notebook analysis.ipynb
+yonyou-doc2skill create analysis.ipynb
+yonyou-doc2skill jupyter --notebook analysis.ipynb
 ```
 
 ---
@@ -221,8 +221,8 @@ skill-seekers jupyter --notebook analysis.ipynb
 
 **Command:**
 ```bash
-skill-seekers create page.html
-skill-seekers html --file page.html
+yonyou-doc2skill create page.html
+yonyou-doc2skill html --file page.html
 ```
 
 ---
@@ -233,8 +233,8 @@ skill-seekers html --file page.html
 
 **Command:**
 ```bash
-skill-seekers create api-spec.yaml
-skill-seekers openapi --spec api-spec.yaml
+yonyou-doc2skill create api-spec.yaml
+yonyou-doc2skill openapi --spec api-spec.yaml
 ```
 
 ---
@@ -245,8 +245,8 @@ skill-seekers openapi --spec api-spec.yaml
 
 **Command:**
 ```bash
-skill-seekers create guide.adoc
-skill-seekers asciidoc --file guide.adoc
+yonyou-doc2skill create guide.adoc
+yonyou-doc2skill asciidoc --file guide.adoc
 ```
 
 ---
@@ -257,8 +257,8 @@ skill-seekers asciidoc --file guide.adoc
 
 **Command:**
 ```bash
-skill-seekers create slides.pptx
-skill-seekers pptx --file slides.pptx
+yonyou-doc2skill create slides.pptx
+yonyou-doc2skill pptx --file slides.pptx
 ```
 
 ---
@@ -269,8 +269,8 @@ skill-seekers pptx --file slides.pptx
 
 **Command:**
 ```bash
-skill-seekers create feed.rss
-skill-seekers rss --feed feed.rss
+yonyou-doc2skill create feed.rss
+yonyou-doc2skill rss --feed feed.rss
 ```
 
 ---
@@ -281,8 +281,8 @@ skill-seekers rss --feed feed.rss
 
 **Command:**
 ```bash
-skill-seekers create grep.1
-skill-seekers manpage --file grep.1
+yonyou-doc2skill create grep.1
+yonyou-doc2skill manpage --file grep.1
 ```
 
 ---
@@ -293,7 +293,7 @@ skill-seekers manpage --file grep.1
 
 **Command:**
 ```bash
-skill-seekers confluence --space DEV --base-url https://wiki.example.com
+yonyou-doc2skill confluence --space DEV --base-url https://wiki.example.com
 ```
 
 ---
@@ -304,7 +304,7 @@ skill-seekers confluence --space DEV --base-url https://wiki.example.com
 
 **Command:**
 ```bash
-skill-seekers notion --database abc123
+yonyou-doc2skill notion --database abc123
 ```
 
 ---
@@ -315,7 +315,7 @@ skill-seekers notion --database abc123
 
 **Command:**
 ```bash
-skill-seekers chat --export slack-export/
+yonyou-doc2skill chat --export slack-export/
 ```
 
 ---
@@ -426,10 +426,10 @@ Control how much AI enhancement is applied:
 
 ```bash
 # Skip enhancement (fastest)
-skill-seekers create <source> --enhance-level 0
+yonyou-doc2skill create <source> --enhance-level 0
 
 # Full enhancement (best quality)
-skill-seekers create <source> --enhance-level 3
+yonyou-doc2skill create <source> --enhance-level 3
 ```
 
 ---
@@ -458,14 +458,14 @@ Package skills for different AI systems:
 
 ```bash
 # Just provide the source
-skill-seekers create https://docs.react.dev/
+yonyou-doc2skill create https://docs.react.dev/
 ```
 
 ### Preset Configs
 
 ```bash
 # Use predefined configuration
-skill-seekers create --config react
+yonyou-doc2skill create --config react
 ```
 
 **Available presets:** `react`, `vue`, `django`, `fastapi`, `godot`, etc.
@@ -482,7 +482,7 @@ cat > configs/my-docs.json << 'EOF'
 }
 EOF
 
-skill-seekers create --config configs/my-docs.json
+yonyou-doc2skill create --config configs/my-docs.json
 ```
 
 See [Config Format](../reference/CONFIG_FORMAT.md) for full specification.
@@ -507,7 +507,7 @@ cat > configs/my-project.json << 'EOF'
 EOF
 
 # Run unified scraping
-skill-seekers unified --config configs/my-project.json
+yonyou-doc2skill unified --config configs/my-project.json
 ```
 
 **Benefits:**
@@ -530,17 +530,17 @@ Second scrape:   Reuses cached data → fast rebuild
 
 ```bash
 # Use cached data, just rebuild
-skill-seekers create --config react --skip-scrape
+yonyou-doc2skill create --config react --skip-scrape
 ```
 
 ### Resume Interrupted Jobs
 
 ```bash
 # List resumable jobs
-skill-seekers resume --list
+yonyou-doc2skill resume --list
 
 # Resume specific job
-skill-seekers resume job-abc123
+yonyou-doc2skill resume job-abc123
 ```
 
 ---
@@ -551,13 +551,13 @@ Be respectful to servers:
 
 ```bash
 # Default: 0.5 seconds between requests
-skill-seekers create <source>
+yonyou-doc2skill create <source>
 
 # Faster (for your own servers)
-skill-seekers create <source> --rate-limit 0.1
+yonyou-doc2skill create <source> --rate-limit 0.1
 
 # Slower (for rate-limited sites)
-skill-seekers create <source> --rate-limit 2.0
+yonyou-doc2skill create <source> --rate-limit 2.0
 ```
 
 **Why it matters:**

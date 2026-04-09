@@ -7,9 +7,9 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from skill_seekers.cli.adaptors import get_adaptor, is_platform_available
-from skill_seekers.cli.adaptors.base import SkillMetadata
-from skill_seekers.cli.adaptors.opencode import OpenCodeAdaptor
+from yonyou_doc2skill.cli.adaptors import get_adaptor, is_platform_available
+from yonyou_doc2skill.cli.adaptors.base import SkillMetadata
+from yonyou_doc2skill.cli.adaptors.opencode import OpenCodeAdaptor
 
 
 class TestOpenCodeAdaptor(unittest.TestCase):
@@ -88,7 +88,7 @@ class TestOpenCodeAdaptor(unittest.TestCase):
             self.assertTrue(formatted.startswith("---"))
             self.assertIn("name: test-skill", formatted)
             self.assertIn("compatibility: opencode", formatted)
-            self.assertIn("generated-by: skill-seekers", formatted)
+            self.assertIn("generated-by: yonyou-doc2skill", formatted)
 
     def test_format_description_truncation(self):
         with tempfile.TemporaryDirectory() as temp_dir:

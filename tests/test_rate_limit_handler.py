@@ -9,8 +9,8 @@ from unittest.mock import Mock, patch
 
 import pytest
 
-from skill_seekers.cli.config_manager import ConfigManager
-from skill_seekers.cli.rate_limit_handler import (
+from yonyou_doc2skill.cli.config_manager import ConfigManager
+from yonyou_doc2skill.cli.rate_limit_handler import (
     RateLimitError,
     RateLimitHandler,
     create_github_headers,
@@ -44,7 +44,7 @@ class TestRateLimitHandler:
         assert handler.token == "ghp_test"
         assert handler.interactive is False
 
-    @patch("skill_seekers.cli.rate_limit_handler.get_config_manager")
+    @patch("yonyou_doc2skill.cli.rate_limit_handler.get_config_manager")
     def test_init_with_config_strategy(self, mock_get_config):
         """Test initialization pulls strategy from config."""
         mock_config = Mock()
@@ -114,7 +114,7 @@ class TestRateLimitHandler:
         assert result is True
 
     @patch("requests.get")
-    @patch("skill_seekers.cli.rate_limit_handler.get_config_manager")
+    @patch("yonyou_doc2skill.cli.rate_limit_handler.get_config_manager")
     def test_check_upfront_with_token_good_status(self, mock_get_config, mock_get):
         """Test upfront check with token and good rate limit status."""
         # Mock config
@@ -167,7 +167,7 @@ class TestRateLimitHandler:
 
         assert result is True
 
-    @patch("skill_seekers.cli.rate_limit_handler.get_config_manager")
+    @patch("yonyou_doc2skill.cli.rate_limit_handler.get_config_manager")
     def test_non_interactive_fail_strategy(self, mock_get_config):
         """Test non-interactive mode with fail strategy raises error."""
         mock_config = Mock()
@@ -197,8 +197,8 @@ class TestConfigManagerIntegration:
     def test_config_manager_creates_default_config(self, tmp_path, monkeypatch):
         """Test that ConfigManager creates default config structure."""
         # Override config paths for testing
-        config_dir = tmp_path / ".config" / "skill-seekers"
-        progress_dir = tmp_path / ".local" / "share" / "skill-seekers" / "progress"
+        config_dir = tmp_path / ".config" / "yonyou-doc2skill"
+        progress_dir = tmp_path / ".local" / "share" / "yonyou-doc2skill" / "progress"
 
         # Monkey patch the class variables
         monkeypatch.setattr(ConfigManager, "CONFIG_DIR", config_dir)
@@ -223,13 +223,13 @@ class TestConfigManagerIntegration:
 
     def test_add_and_retrieve_github_profile(self, tmp_path, monkeypatch):
         """Test adding and retrieving GitHub profiles."""
-        config_dir = tmp_path / ".config" / "skill-seekers"
+        config_dir = tmp_path / ".config" / "yonyou-doc2skill"
         monkeypatch.setattr(ConfigManager, "CONFIG_DIR", config_dir)
         monkeypatch.setattr(ConfigManager, "CONFIG_FILE", config_dir / "config.json")
         monkeypatch.setattr(
             ConfigManager,
             "PROGRESS_DIR",
-            tmp_path / ".local" / "share" / "skill-seekers" / "progress",
+            tmp_path / ".local" / "share" / "yonyou-doc2skill" / "progress",
         )
 
         config = ConfigManager()
@@ -258,13 +258,13 @@ class TestConfigManagerIntegration:
         """Test profile switching."""
         # Use separate tmp directory for this test
         test_dir = tmp_path / "test_switching"
-        config_dir = test_dir / ".config" / "skill-seekers"
+        config_dir = test_dir / ".config" / "yonyou-doc2skill"
         monkeypatch.setattr(ConfigManager, "CONFIG_DIR", config_dir)
         monkeypatch.setattr(ConfigManager, "CONFIG_FILE", config_dir / "config.json")
         monkeypatch.setattr(
             ConfigManager,
             "PROGRESS_DIR",
-            test_dir / ".local" / "share" / "skill-seekers" / "progress",
+            test_dir / ".local" / "share" / "yonyou-doc2skill" / "progress",
         )
         monkeypatch.setattr(ConfigManager, "WELCOME_FLAG", config_dir / ".welcomed")
 

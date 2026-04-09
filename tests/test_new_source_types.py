@@ -1,20 +1,22 @@
 #!/usr/bin/env python3
 """
-Tests for v3.2.0 new source type integration points.
+Tests for public source type integration points.
 
 Covers source detection, config validation, generic merge, CLI wiring,
-and source validation for the 10 new source types: jupyter, html, openapi,
-asciidoc, pptx, rss, manpage, confluence, notion, chat.
+and source validation for the retained public source types.
 """
 
 import os
+from argparse import Namespace
 import textwrap
 
 import pytest
 
-from skill_seekers.cli.config_validator import ConfigValidator
-from skill_seekers.cli.source_detector import SourceDetector, SourceInfo
-from skill_seekers.cli.unified_skill_builder import UnifiedSkillBuilder
+from yonyou_doc2skill.cli.config_validator import ConfigValidator
+from yonyou_doc2skill.cli.create_command import CreateCommand
+from yonyou_doc2skill.cli.execution_context import ExecutionContext
+from yonyou_doc2skill.cli.source_detector import SourceDetector, SourceInfo
+from yonyou_doc2skill.cli.unified_skill_builder import UnifiedSkillBuilder
 
 
 # ---------------------------------------------------------------------------
@@ -24,14 +26,6 @@ from skill_seekers.cli.unified_skill_builder import UnifiedSkillBuilder
 
 class TestSourceDetectorNewTypes:
     """Test that SourceDetector.detect() maps new extensions to correct types."""
-
-    # -- Jupyter --
-    def test_detect_ipynb(self):
-        """Test .ipynb → jupyter detection."""
-        info = SourceDetector.detect("analysis.ipynb")
-        assert info.type == "jupyter"
-        assert info.parsed["file_path"] == "analysis.ipynb"
-        assert info.suggested_name == "analysis"
 
     # -- HTML --
     def test_detect_html_extension(self):
@@ -67,109 +61,54 @@ class TestSourceDetectorNewTypes:
         assert info.type == "asciidoc"
         assert info.parsed["file_path"] == "guide.ASCIIDOC"
 
-    # -- Man pages --
-    def test_detect_man_extension(self):
-        """Test .man → manpage detection."""
-        info = SourceDetector.detect("curl.man")
-        assert info.type == "manpage"
-        assert info.parsed["file_path"] == "curl.man"
+    # -- Retired public file types --
+    @pytest.mark.parametrize(
+        "source",
+        [
+            "analysis.ipynb",
+            "curl.man",
+            "git.1",
+            "feed.rss",
+            "updates.atom",
+        ],
+    )
+    def test_retired_file_types_raise_value_error(self, source):
+        """Retired file types should no longer be auto-detected."""
+        with pytest.raises(ValueError, match="Cannot determine source type"):
+            SourceDetector.detect(source)
 
-    @pytest.mark.parametrize("section", range(1, 9))
-    def test_detect_man_sections(self, section):
-        """Test .1 through .8 → manpage for simple basenames."""
-        filename = f"git.{section}"
-        info = SourceDetector.detect(filename)
-        assert info.type == "manpage", f"{filename} should detect as manpage"
-        assert info.suggested_name == "git"
+    def test_yaml_falls_through_without_openapi_classification(self, tmp_path):
+        """Plain YAML should not be classified as openapi."""
+        spec = tmp_path / "config.yaml"
+        spec.write_text(
+            textwrap.dedent(
+                """\
+                name: demo
+                version: 1
+                """
+            )
+        )
 
-    def test_man_section_with_dotted_basename_not_detected(self):
-        """Test that 'access.log.1' is NOT detected as a man page.
+        with pytest.raises(ValueError, match="Cannot determine source type"):
+            SourceDetector.detect(str(spec))
 
-        The heuristic checks that the basename (without extension) has no dots.
-        """
-        # This should fall through to web/domain detection (has a dot, not a path)
-        info = SourceDetector.detect("access.log.1")
-        # access.log.1 has a dot in the basename-without-ext ("access.log"),
-        # so it should NOT be detected as manpage.  It falls through to the
-        # domain inference branch because it contains a dot and doesn't start
-        # with '/'.
-        assert info.type != "manpage"
-
-    # -- RSS/Atom --
-    def test_detect_rss_extension(self):
-        """Test .rss → rss detection."""
-        info = SourceDetector.detect("feed.rss")
-        assert info.type == "rss"
-        assert info.parsed["file_path"] == "feed.rss"
-
-    def test_detect_atom_extension(self):
-        """Test .atom → rss detection."""
-        info = SourceDetector.detect("updates.atom")
-        assert info.type == "rss"
-        assert info.parsed["file_path"] == "updates.atom"
-
-    def test_xml_not_detected_as_rss(self):
-        """Test .xml is NOT detected as rss (too generic).
-
-        The fix ensures .xml files do not get incorrectly classified as RSS feeds.
-        """
-        # .xml has no special handling — it will fall through to domain inference
-        # or raise ValueError depending on contents.  Either way, it must not
-        # be classified as "rss".
-        info = SourceDetector.detect("data.xml")
-        assert info.type != "rss"
-
-    # -- OpenAPI --
-    def test_yaml_with_openapi_content_detected(self, tmp_path):
-        """Test .yaml with 'openapi:' key → openapi detection."""
+    def test_openapi_like_yaml_falls_through_without_openapi_classification(self, tmp_path):
+        """OpenAPI-looking YAML should also fall through normally."""
         spec = tmp_path / "petstore.yaml"
         spec.write_text(
-            textwrap.dedent("""\
+            textwrap.dedent(
+                """\
                 openapi: "3.0.0"
                 info:
                   title: Petstore
                   version: "1.0.0"
                 paths: {}
-            """)
+                """
+            )
         )
-        info = SourceDetector.detect(str(spec))
-        assert info.type == "openapi"
-        assert info.parsed["file_path"] == str(spec)
-        assert info.suggested_name == "petstore"
 
-    def test_yaml_with_swagger_content_detected(self, tmp_path):
-        """Test .yaml with 'swagger:' key → openapi detection."""
-        spec = tmp_path / "legacy.yml"
-        spec.write_text(
-            textwrap.dedent("""\
-                swagger: "2.0"
-                info:
-                  title: Legacy API
-                basePath: /v1
-            """)
-        )
-        info = SourceDetector.detect(str(spec))
-        assert info.type == "openapi"
-
-    def test_yaml_without_openapi_not_detected(self, tmp_path):
-        """Test .yaml without OpenAPI content is NOT detected as openapi.
-
-        When the YAML file doesn't contain openapi/swagger keys the detector
-        skips OpenAPI and falls through.  For an absolute path it will raise
-        ValueError (cannot determine type), which still confirms it was NOT
-        classified as openapi.
-        """
-        plain = tmp_path / "config.yaml"
-        plain.write_text("name: my-project\nversion: 1.0\n")
-        # Absolute path falls through to ValueError (no matching type).
-        # Either way, it must NOT be "openapi".
-        try:
-            info = SourceDetector.detect(str(plain))
-            assert info.type != "openapi"
-        except ValueError:
-            # Raised because source type cannot be determined — this is fine,
-            # the important thing is it was not classified as openapi.
-            pass
+        with pytest.raises(ValueError, match="Cannot determine source type"):
+            SourceDetector.detect(str(spec))
 
     def test_looks_like_openapi_returns_false_for_missing_file(self):
         """Test _looks_like_openapi returns False for non-existent file."""
@@ -190,7 +129,7 @@ class TestSourceDetectorNewTypes:
 class TestConfigValidatorNewTypes:
     """Test ConfigValidator VALID_SOURCE_TYPES and per-type validation."""
 
-    # All 17 expected types
+    # Public retained types
     EXPECTED_TYPES = {
         "documentation",
         "github",
@@ -198,22 +137,45 @@ class TestConfigValidatorNewTypes:
         "local",
         "word",
         "video",
-        "epub",
-        "jupyter",
         "html",
-        "openapi",
         "asciidoc",
         "pptx",
         "confluence",
-        "notion",
-        "rss",
-        "manpage",
         "chat",
     }
 
-    def test_all_17_types_present(self):
-        """Test that VALID_SOURCE_TYPES contains all 17 types."""
-        assert ConfigValidator.VALID_SOURCE_TYPES == self.EXPECTED_TYPES
+    def test_public_types_still_allowed(self):
+        """Test that retained public types remain in the validator allowlist."""
+        assert self.EXPECTED_TYPES.issubset(ConfigValidator.VALID_SOURCE_TYPES)
+
+    def test_removed_public_types_not_in_validator_allowlist(self):
+        """Test that retired public types are no longer accepted in configs."""
+        removed = {"epub", "jupyter", "openapi", "rss", "manpage", "notion"}
+        assert removed.isdisjoint(ConfigValidator.VALID_SOURCE_TYPES)
+
+    @pytest.mark.parametrize(
+        "source_type, source_payload",
+        [
+            ("epub", {"type": "epub", "path": "book.epub"}),
+            ("jupyter", {"type": "jupyter", "path": "nb.ipynb"}),
+            ("openapi", {"type": "openapi", "path": "spec.yaml"}),
+            ("rss", {"type": "rss", "url": "https://example.com/feed.xml"}),
+            ("manpage", {"type": "manpage", "path": "git.1"}),
+            ("notion", {"type": "notion", "page_id": "page123"}),
+        ],
+    )
+    def test_retired_public_types_rejected_in_config_validation(
+        self, source_type, source_payload
+    ):
+        """Test that retired types are rejected from public config JSON."""
+        config = {
+            "name": "test",
+            "description": "test",
+            "sources": [source_payload],
+        }
+        validator = ConfigValidator(config)
+        with pytest.raises(ValueError, match=f"Invalid type '{source_type}'"):
+            validator.validate()
 
     def test_unknown_type_rejected(self):
         """Test that an unknown source type is rejected during validation."""
@@ -236,39 +198,12 @@ class TestConfigValidatorNewTypes:
             "sources": [source],
         }
 
-    def test_epub_requires_path(self):
-        """Test epub source validation requires 'path'."""
-        config = self._make_config({"type": "epub"})
-        validator = ConfigValidator(config)
-        with pytest.raises(ValueError, match="Missing required field 'path'"):
-            validator.validate()
-
-    def test_jupyter_requires_path(self):
-        """Test jupyter source validation requires 'path'."""
-        config = self._make_config({"type": "jupyter"})
-        validator = ConfigValidator(config)
-        with pytest.raises(ValueError, match="Missing required field 'path'"):
-            validator.validate()
-
     def test_html_requires_path(self):
         """Test html source validation requires 'path'."""
         config = self._make_config({"type": "html"})
         validator = ConfigValidator(config)
         with pytest.raises(ValueError, match="Missing required field 'path'"):
             validator.validate()
-
-    def test_openapi_requires_path_or_url(self):
-        """Test openapi source validation requires 'path' or 'url'."""
-        config = self._make_config({"type": "openapi"})
-        validator = ConfigValidator(config)
-        with pytest.raises(ValueError, match="Missing required field 'path' or 'url'"):
-            validator.validate()
-
-    def test_openapi_accepts_url(self):
-        """Test openapi source passes validation with 'url'."""
-        config = self._make_config({"type": "openapi", "url": "https://example.com/spec.yaml"})
-        validator = ConfigValidator(config)
-        assert validator.validate() is True
 
     def test_pptx_requires_path(self):
         """Test pptx source validation requires 'path'."""
@@ -309,50 +244,6 @@ class TestConfigValidatorNewTypes:
         validator = ConfigValidator(config)
         assert validator.validate() is True
 
-    def test_notion_requires_url_or_path(self):
-        """Test notion requires 'url'/'database_id'/'page_id' or 'path'."""
-        config = self._make_config({"type": "notion"})
-        validator = ConfigValidator(config)
-        with pytest.raises(ValueError, match="Missing required field"):
-            validator.validate()
-
-    def test_notion_accepts_page_id(self):
-        """Test notion passes with page_id."""
-        config = self._make_config({"type": "notion", "page_id": "abc123"})
-        validator = ConfigValidator(config)
-        assert validator.validate() is True
-
-    def test_notion_accepts_database_id(self):
-        """Test notion passes with database_id."""
-        config = self._make_config({"type": "notion", "database_id": "db-456"})
-        validator = ConfigValidator(config)
-        assert validator.validate() is True
-
-    def test_rss_requires_url_or_path(self):
-        """Test rss source validation requires 'url' or 'path'."""
-        config = self._make_config({"type": "rss"})
-        validator = ConfigValidator(config)
-        with pytest.raises(ValueError, match="Missing required field 'url' or 'path'"):
-            validator.validate()
-
-    def test_rss_accepts_url(self):
-        """Test rss passes with url."""
-        config = self._make_config({"type": "rss", "url": "https://blog.example.com/feed.xml"})
-        validator = ConfigValidator(config)
-        assert validator.validate() is True
-
-    def test_manpage_requires_path_or_names(self):
-        """Test manpage source validation requires 'path' or 'names'."""
-        config = self._make_config({"type": "manpage"})
-        validator = ConfigValidator(config)
-        with pytest.raises(ValueError, match="Missing required field 'path' or 'names'"):
-            validator.validate()
-
-    def test_manpage_accepts_names(self):
-        """Test manpage passes with 'names' list."""
-        config = self._make_config({"type": "manpage", "names": ["git", "curl"]})
-        validator = ConfigValidator(config)
-        assert validator.validate() is True
 
     def test_chat_requires_path_or_token(self):
         """Test chat source validation requires 'path' or 'token'."""
@@ -521,28 +412,22 @@ class TestUnifiedSkillBuilderGenericMerge:
 
         assert "*Footer*" in result
 
-    def test_source_labels_has_all_17_types(self):
-        """Test _SOURCE_LABELS has entries for all 17 source types."""
+    def test_source_labels_include_retained_public_types(self):
+        """Test _SOURCE_LABELS contains the retained public source types."""
         expected = {
             "documentation",
             "github",
             "pdf",
             "word",
-            "epub",
             "video",
             "local",
-            "jupyter",
             "html",
-            "openapi",
             "asciidoc",
             "pptx",
             "confluence",
-            "notion",
-            "rss",
-            "manpage",
             "chat",
         }
-        assert set(UnifiedSkillBuilder._SOURCE_LABELS.keys()) == expected
+        assert expected.issubset(set(UnifiedSkillBuilder._SOURCE_LABELS.keys()))
 
     def test_source_labels_values_are_nonempty_strings(self):
         """Test all _SOURCE_LABELS values are non-empty strings."""
@@ -556,7 +441,7 @@ class TestUnifiedSkillBuilderGenericMerge:
 # ---------------------------------------------------------------------------
 # Individual scraper CLI commands (jupyter, html, etc.) were removed in the
 # Grand Unification refactor.  All 17 source types are now accessed via
-# `skill-seekers create`.  The routing is tested in TestCreateCommandRouting.
+# `yonyou-doc2skill create`.  The routing is tested in TestCreateCommandRouting.
 
 
 # ---------------------------------------------------------------------------
@@ -566,31 +451,6 @@ class TestUnifiedSkillBuilderGenericMerge:
 
 class TestSourceDetectorValidation:
     """Test validate_source for new file-based source types."""
-
-    def test_validation_passes_for_existing_jupyter(self, tmp_path):
-        """Test validation passes for an existing .ipynb file."""
-        nb = tmp_path / "test.ipynb"
-        nb.write_text('{"cells": []}')
-
-        info = SourceInfo(
-            type="jupyter",
-            parsed={"file_path": str(nb)},
-            suggested_name="test",
-            raw_input=str(nb),
-        )
-        # Should not raise
-        SourceDetector.validate_source(info)
-
-    def test_validation_raises_for_nonexistent_jupyter(self):
-        """Test validation raises ValueError for non-existent file."""
-        info = SourceInfo(
-            type="jupyter",
-            parsed={"file_path": "/nonexistent/notebook.ipynb"},
-            suggested_name="notebook",
-            raw_input="/nonexistent/notebook.ipynb",
-        )
-        with pytest.raises(ValueError, match="does not exist"):
-            SourceDetector.validate_source(info)
 
     def test_validation_passes_for_existing_html(self, tmp_path):
         """Test validation passes for an existing .html file."""
@@ -616,19 +476,6 @@ class TestSourceDetectorValidation:
         with pytest.raises(ValueError, match="does not exist"):
             SourceDetector.validate_source(info)
 
-    def test_validation_passes_for_existing_openapi(self, tmp_path):
-        """Test validation passes for an existing OpenAPI spec file."""
-        spec = tmp_path / "api.yaml"
-        spec.write_text("openapi: '3.0.0'\n")
-
-        info = SourceInfo(
-            type="openapi",
-            parsed={"file_path": str(spec)},
-            suggested_name="api",
-            raw_input=str(spec),
-        )
-        SourceDetector.validate_source(info)
-
     def test_validation_raises_for_nonexistent_asciidoc(self):
         """Test validation raises ValueError for non-existent asciidoc."""
         info = SourceInfo(
@@ -639,65 +486,6 @@ class TestSourceDetectorValidation:
         )
         with pytest.raises(ValueError, match="does not exist"):
             SourceDetector.validate_source(info)
-
-    def test_validation_raises_for_nonexistent_manpage(self):
-        """Test validation raises ValueError for non-existent manpage."""
-        info = SourceInfo(
-            type="manpage",
-            parsed={"file_path": "/nonexistent/git.1"},
-            suggested_name="git",
-            raw_input="/nonexistent/git.1",
-        )
-        with pytest.raises(ValueError, match="does not exist"):
-            SourceDetector.validate_source(info)
-
-    def test_validation_passes_for_existing_manpage(self, tmp_path):
-        """Test validation passes for an existing man page file."""
-        man = tmp_path / "curl.1"
-        man.write_text(".TH CURL 1\n")
-
-        info = SourceInfo(
-            type="manpage",
-            parsed={"file_path": str(man)},
-            suggested_name="curl",
-            raw_input=str(man),
-        )
-        SourceDetector.validate_source(info)
-
-    def test_rss_url_validation_no_file_check(self):
-        """Test rss validation passes for URL-based source (no file check)."""
-        info = SourceInfo(
-            type="rss",
-            parsed={"url": "https://example.com/feed.rss"},
-            suggested_name="feed",
-            raw_input="https://example.com/feed.rss",
-        )
-        # rss validation only checks file if file_path is present; URL should pass
-        SourceDetector.validate_source(info)
-
-    def test_rss_validation_raises_for_nonexistent_file(self):
-        """Test rss validation raises for non-existent local file."""
-        info = SourceInfo(
-            type="rss",
-            parsed={"file_path": "/nonexistent/feed.rss"},
-            suggested_name="feed",
-            raw_input="/nonexistent/feed.rss",
-        )
-        with pytest.raises(ValueError, match="does not exist"):
-            SourceDetector.validate_source(info)
-
-    def test_rss_validation_passes_for_existing_file(self, tmp_path):
-        """Test rss validation passes for an existing .rss file."""
-        rss = tmp_path / "feed.rss"
-        rss.write_text("<rss></rss>")
-
-        info = SourceInfo(
-            type="rss",
-            parsed={"file_path": str(rss)},
-            suggested_name="feed",
-            raw_input=str(rss),
-        )
-        SourceDetector.validate_source(info)
 
     def test_validation_passes_for_directory_types(self, tmp_path):
         """Test validation passes when source is a directory (e.g., html dir)."""
@@ -723,21 +511,16 @@ class TestCreateCommandRouting:
     """Test that CreateCommand uses get_converter for all source types."""
 
     NEW_SOURCE_TYPES = [
-        "jupyter",
         "html",
-        "openapi",
         "asciidoc",
         "pptx",
-        "rss",
-        "manpage",
         "confluence",
-        "notion",
         "chat",
     ]
 
     def test_get_converter_handles_all_new_types(self):
         """Test get_converter returns a converter for each new source type."""
-        from skill_seekers.cli.skill_converter import get_converter
+        from yonyou_doc2skill.cli.skill_converter import get_converter
 
         for source_type in self.NEW_SOURCE_TYPES:
             # get_converter should not raise for known types
@@ -749,19 +532,49 @@ class TestCreateCommandRouting:
                 # Optional dependency not installed - that's fine
                 pass
 
+    def test_get_converter_rejects_removed_public_types(self):
+        """Removed public source types should no longer resolve to converters."""
+        from yonyou_doc2skill.cli.skill_converter import get_converter
+
+        removed_types = ["epub", "jupyter", "openapi", "rss", "manpage", "notion"]
+
+        for source_type in removed_types:
+            with pytest.raises(ValueError, match="Unknown source type"):
+                get_converter(source_type, {"name": "test"})
+
     def test_route_to_scraper_uses_get_converter(self):
         """Test _route_to_scraper delegates to get_converter (not per-type branches)."""
         import inspect
 
         source = inspect.getsource(
             __import__(
-                "skill_seekers.cli.create_command",
+                "yonyou_doc2skill.cli.create_command",
                 fromlist=["CreateCommand"],
             ).CreateCommand._route_to_scraper
         )
         assert "get_converter" in source, (
             "_route_to_scraper should use get_converter for unified routing"
         )
+
+    @pytest.mark.parametrize("source_type", ["epub", "jupyter", "openapi", "rss", "manpage", "notion"])
+    def test_build_config_rejects_retired_source_types(self, source_type):
+        """Retired source types should not be buildable through create flow."""
+        ExecutionContext.reset()
+        try:
+            cmd = CreateCommand(
+                Namespace(source="dummy"),
+            )
+            cmd.source_info = SourceInfo(
+                type=source_type,
+                parsed={"file_path": "dummy"},
+                suggested_name="dummy",
+                raw_input="dummy",
+            )
+
+            with pytest.raises(ValueError, match="Unsupported source type"):
+                cmd._build_config(source_type, ExecutionContext.get())
+        finally:
+            ExecutionContext.reset()
 
 
 if __name__ == "__main__":

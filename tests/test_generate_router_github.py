@@ -10,8 +10,8 @@ Tests the enhanced router generator that integrates GitHub insights:
 
 import json
 
-from skill_seekers.cli.generate_router import RouterGenerator
-from skill_seekers.cli.github_fetcher import CodeStream, DocsStream, InsightsStream, ThreeStreamData
+from yonyou_doc2skill.cli.generate_router import RouterGenerator
+from yonyou_doc2skill.cli.github_fetcher import CodeStream, DocsStream, InsightsStream, ThreeStreamData
 
 
 class TestRouterGeneratorBasic:

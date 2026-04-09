@@ -1,4 +1,4 @@
-# Using Skill Seekers with Windsurf IDE
+# Using Yonyou Doc2Skill with Windsurf IDE
 
 **Last Updated:** February 7, 2026
 **Status:** Production Ready
@@ -22,7 +22,7 @@ Windsurf IDE (by Codeium) offers powerful AI flows and Cascade agent, but:
 
 ## ✨ The Solution
 
-Use Skill Seekers to create **custom rules** for Windsurf's Cascade agent:
+Use Yonyou Doc2Skill to create **custom rules** for Windsurf's Cascade agent:
 
 1. **Generate structured docs** from any framework or codebase
 2. **Package as .windsurfrules** - Windsurf's markdown rules format
@@ -39,26 +39,26 @@ Windsurf's Cascade becomes an expert in your frameworks with persistent, automat
 ### Prerequisites
 
 - Windsurf IDE installed (https://windsurf.com/)
-- Python 3.10+ (for Skill Seekers)
+- Python 3.10+ (for Yonyou Doc2Skill)
 
 ### Installation
 
 ```bash
-# Install Skill Seekers
-pip install skill-seekers
+# Install Yonyou Doc2Skill
+pip install yonyou-doc2skill
 
 # Verify installation
-skill-seekers --version
+yonyou-doc2skill --version
 ```
 
 ### Generate .windsurfrules
 
 ```bash
 # Example: FastAPI framework
-skill-seekers scrape --config configs/fastapi.json
+yonyou-doc2skill scrape --config configs/fastapi.json
 
 # Package for Windsurf (markdown format)
-skill-seekers package output/fastapi --target markdown
+yonyou-doc2skill package output/fastapi --target markdown
 
 # Extract SKILL.md
 # output/fastapi-markdown/SKILL.md
@@ -86,8 +86,8 @@ cp output/fastapi-markdown/SKILL.md /path/to/your/project/.windsurfrules
 **Option 3: Split Large Documentation** (for >6K char files)
 
 ```bash
-# Skill Seekers automatically splits large files
-skill-seekers package output/react --target markdown --split-rules
+# Yonyou Doc2Skill automatically splits large files
+yonyou-doc2skill package output/react --target markdown --split-rules
 
 # This creates multiple rule files:
 # output/react-markdown/rules/
@@ -157,10 +157,10 @@ Create `myframework-config.json`:
 
 ```bash
 # Analyze open-source codebase
-skill-seekers github --repo facebook/react
+yonyou-doc2skill github --repo facebook/react
 
 # Or local codebase
-skill-seekers analyze --directory /path/to/repo --comprehensive
+yonyou-doc2skill analyze --directory /path/to/repo --comprehensive
 ```
 
 ### Step 2: Optimize for Windsurf
@@ -175,7 +175,7 @@ Windsurf has strict limits:
 
 ```bash
 # Automatically split large documentation
-skill-seekers package output/django --target markdown --split-rules
+yonyou-doc2skill package output/django --target markdown --split-rules
 
 # This creates modular rules:
 # - core-concepts.md      (Always On)
@@ -221,7 +221,7 @@ Combine rules with Windsurf's Memory feature:
 
 ```bash
 # Generate initial rules from docs
-skill-seekers package output/fastapi --target markdown
+yonyou-doc2skill package output/fastapi --target markdown
 
 # Windsurf Memory learns from your usage:
 # - Coding patterns you use frequently
@@ -237,15 +237,15 @@ skill-seekers package output/fastapi --target markdown
 For live documentation access:
 
 ```bash
-# Install Skill Seekers MCP server
-pip install skill-seekers[mcp]
+# Install Yonyou Doc2Skill MCP server
+pip install yonyou-doc2skill[mcp]
 
 # Configure in Windsurf's mcp_config.json
 {
   "mcpServers": {
-    "skill-seekers": {
+    "yonyou-doc2skill": {
       "command": "python",
-      "args": ["-m", "skill_seekers.mcp.server_fastmcp", "--transport", "stdio"]
+      "args": ["-m", "yonyou_doc2skill.mcp.server_fastmcp", "--transport", "stdio"]
     }
   }
 }
@@ -299,7 +299,7 @@ find .windsurf/rules -name "*.md" -exec wc -c {} \;
 
 # Ensure no file exceeds 6,000 characters
 # If too large, split further:
-skill-seekers package output/react --target markdown --split-rules --max-chars 5000
+yonyou-doc2skill package output/react --target markdown --split-rules --max-chars 5000
 ```
 
 ---
@@ -312,12 +312,12 @@ skill-seekers package output/react --target markdown --split-rules --max-chars 5
 
 ```bash
 # Generate backend rules (FastAPI)
-skill-seekers scrape --config configs/fastapi.json
-skill-seekers package output/fastapi --target markdown --split-rules
+yonyou-doc2skill scrape --config configs/fastapi.json
+yonyou-doc2skill package output/fastapi --target markdown --split-rules
 
 # Generate frontend rules (React)
-skill-seekers scrape --config configs/react.json
-skill-seekers package output/react --target markdown --split-rules
+yonyou-doc2skill scrape --config configs/react.json
+yonyou-doc2skill package output/react --target markdown --split-rules
 
 # Organize rules directory:
 .windsurf/rules/
@@ -373,13 +373,13 @@ During code review, verify:
 **Combine Rules with Vector Search**
 
 ```python
-# Use Skill Seekers to create both:
+# Use Yonyou Doc2Skill to create both:
 # 1. Windsurf rules (for Cascade context)
 # 2. RAG chunks (for deep search)
 
-from skill_seekers.cli.doc_scraper import main as scrape
-from skill_seekers.cli.package_skill import main as package
-from skill_seekers.cli.adaptors import get_adaptor
+from yonyou_doc2skill.cli.doc_scraper import main as scrape
+from yonyou_doc2skill.cli.package_skill import main as package
+from yonyou_doc2skill.cli.adaptors import get_adaptor
 
 # Scrape documentation
 scrape(["--config", "configs/react.json"])
@@ -401,7 +401,7 @@ Create custom MCP tool that queries RAG pipeline:
 
 ```python
 # mcp_custom_search.py
-from skill_seekers.mcp.tools import search_docs
+from yonyou_doc2skill.mcp.tools import search_docs
 
 @mcp.tool()
 def search_react_docs(query: str) -> str:
@@ -542,8 +542,8 @@ Use this pattern in all endpoints.
 
 ```bash
 # Framework updates quarterly
-skill-seekers scrape --config configs/react.json
-skill-seekers package output/react --target markdown --split-rules
+yonyou-doc2skill scrape --config configs/react.json
+yonyou-doc2skill package output/react --target markdown --split-rules
 
 # Check what changed
 diff -r .windsurf/rules/react-old/ .windsurf/rules/react-new/
@@ -688,8 +688,8 @@ Cascade will:
 
 ```bash
 # Generate Godot documentation + codebase analysis
-skill-seekers github --repo godotengine/godot-demo-projects
-skill-seekers package output/godot-demo-projects --target markdown --split-rules
+yonyou-doc2skill github --repo godotengine/godot-demo-projects
+yonyou-doc2skill package output/godot-demo-projects --target markdown --split-rules
 
 # Create rules structure:
 .windsurf/rules/
@@ -803,12 +803,12 @@ EventBus.game_over.emit(final_score)
 
 1. **Use split-rules flag**
    ```bash
-   skill-seekers package output/react --target markdown --split-rules
+   yonyou-doc2skill package output/react --target markdown --split-rules
    ```
 
 2. **Set custom max-chars**
    ```bash
-   skill-seekers package output/django --target markdown --split-rules --max-chars 5000
+   yonyou-doc2skill package output/django --target markdown --split-rules --max-chars 5000
    ```
 
 3. **Manual splitting**
@@ -934,7 +934,7 @@ EventBus.game_over.emit(final_score)
 
 ## 📊 Before vs After Comparison
 
-| Aspect | Before Skill Seekers | After Skill Seekers |
+| Aspect | Before Yonyou Doc2Skill | After Yonyou Doc2Skill |
 |--------|---------------------|---------------------|
 | **Context Source** | Copy-paste docs into chat | Automatic rules files |
 | **Character Limits** | Hit 12K limit easily | Modular rules fit perfectly |
@@ -949,9 +949,9 @@ EventBus.game_over.emit(final_score)
 
 ## 🤝 Community & Support
 
-- **Questions:** [GitHub Discussions](https://github.com/yusufkaraaslan/Skill_Seekers/discussions)
-- **Issues:** [GitHub Issues](https://github.com/yusufkaraaslan/Skill_Seekers/issues)
-- **Website:** [skillseekersweb.com](https://skillseekersweb.com/)
+- **Questions:** [GitHub Discussions](https://github.com/yonyou/yonyou-doc2skill/discussions)
+- **Issues:** [GitHub Issues](https://github.com/yonyou/yonyou-doc2skill/issues)
+- **Website:** [docs.yonyou.example/yonyou-doc2skill](https://docs.yonyou.example/yonyou-doc2skill/)
 - **Windsurf Docs:** [docs.windsurf.com](https://docs.windsurf.com/)
 - **Windsurf Rules Directory:** [windsurf.com/editor/directory](https://windsurf.com/editor/directory)
 
@@ -969,7 +969,7 @@ EventBus.game_over.emit(final_score)
 
 ## 📖 Next Steps
 
-1. **Try another framework:** `skill-seekers scrape --config configs/vue.json`
+1. **Try another framework:** `yonyou-doc2skill scrape --config configs/vue.json`
 2. **Combine multiple frameworks:** Create modular rules for full-stack projects
 3. **Integrate with MCP:** Add live documentation access via MCP servers
 4. **Build RAG pipeline:** Use `--target langchain` for deep search

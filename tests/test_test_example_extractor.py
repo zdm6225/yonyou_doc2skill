@@ -21,7 +21,7 @@ from pathlib import Path
 # Add src to path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src"))
 
-from skill_seekers.cli.test_example_extractor import (
+from yonyou_doc2skill.cli.test_example_extractor import (
     ExampleQualityFilter,
     ExampleReport,
     GenericTestAnalyzer,

@@ -31,12 +31,12 @@ First, extract workflow examples from your test files:
 
 ```bash
 # Extract test examples including workflows
-skill-seekers analyze tests/ \
+yonyou-doc2skill analyze tests/ \
   --extract-test-examples \
   --output output/codebase/
 
 # Or use standalone tool
-skill-seekers-extract-test-examples tests/ \
+yonyou-doc2skill-extract-test-examples tests/ \
   --output output/codebase/test_examples/
 ```
 
@@ -46,12 +46,12 @@ Generate guides from extracted workflow examples:
 
 ```bash
 # Build guides from extracted examples
-skill-seekers-how-to-guides \
+yonyou-doc2skill-how-to-guides \
   output/codebase/test_examples/test_examples.json \
   --output output/codebase/tutorials/
 
 # Choose grouping strategy
-skill-seekers-how-to-guides examples.json \
+yonyou-doc2skill-how-to-guides examples.json \
   --group-by ai-tutorial-group   # AI-based (default)
   --group-by file-path            # Group by test file
   --group-by test-name            # Group by test name patterns
@@ -64,13 +64,13 @@ Enable guide generation during codebase analysis:
 
 ```bash
 # Automatic pipeline: extract tests → build guides
-skill-seekers analyze tests/ \
+yonyou-doc2skill analyze tests/ \
   --extract-test-examples \
   --build-how-to-guides \
   --output output/codebase/
 
 # Skip guide generation
-skill-seekers analyze tests/ \
+yonyou-doc2skill analyze tests/ \
   --skip-how-to-guides
 ```
 
@@ -284,7 +284,7 @@ AI enhancement happens automatically with AUTO mode detection:
 
 ```bash
 # Auto-detects best mode (API if key set, else LOCAL)
-skill-seekers analyze tests/ \
+yonyou-doc2skill analyze tests/ \
   --extract-test-examples \
   --build-how-to-guides \
   --ai-mode auto
@@ -299,7 +299,7 @@ Use Claude API directly (requires ANTHROPIC_API_KEY):
 export ANTHROPIC_API_KEY=sk-ant-...
 
 # Enable API mode
-skill-seekers analyze tests/ \
+yonyou-doc2skill analyze tests/ \
   --build-how-to-guides \
   --ai-mode api
 ```
@@ -316,7 +316,7 @@ Use Claude Code CLI (no API key needed):
 
 ```bash
 # Uses your Claude Code Max plan (FREE!)
-skill-seekers analyze tests/ \
+yonyou-doc2skill analyze tests/ \
   --build-how-to-guides \
   --ai-mode local
 ```
@@ -334,7 +334,7 @@ Generate basic guides without AI:
 
 ```bash
 # Faster, but basic quality
-skill-seekers analyze tests/ \
+yonyou-doc2skill analyze tests/ \
   --build-how-to-guides \
   --ai-mode none
 ```
@@ -358,12 +358,12 @@ skill-seekers analyze tests/ \
 
 ```bash
 # 1. Extract test examples from your codebase
-skill-seekers analyze tests/ \
+yonyou-doc2skill analyze tests/ \
   --extract-test-examples \
   --output output/codebase/
 
 # 2. Build enhanced guides (AUTO mode)
-skill-seekers-how-to-guides \
+yonyou-doc2skill-how-to-guides \
   output/codebase/test_examples/test_examples.json \
   --group-by ai-tutorial-group \
   --ai-mode auto \
@@ -401,7 +401,7 @@ which claude
 **Issue: Enhancement takes too long**
 ```bash
 # Switch to API mode for faster processing
-skill-seekers analyze tests/ \
+yonyou-doc2skill analyze tests/ \
   --build-how-to-guides \
   --ai-mode api  # Much faster than LOCAL
 
@@ -412,10 +412,10 @@ skill-seekers analyze tests/ \
 **Issue: Want to skip enhancement for specific guides**
 ```bash
 # Generate basic guides first
-skill-seekers-how-to-guides examples.json --ai-mode none
+yonyou-doc2skill-how-to-guides examples.json --ai-mode none
 
 # Then enhance only specific guides manually
-skill-seekers-enhance output/codebase/tutorials/user_management.md
+yonyou-doc2skill-enhance output/codebase/tutorials/user_management.md
 ```
 
 ---
@@ -426,7 +426,7 @@ skill-seekers-enhance output/codebase/tutorials/user_management.md
 
 ```bash
 # Basic usage
-skill-seekers-how-to-guides <input-file> [OPTIONS]
+yonyou-doc2skill-how-to-guides <input-file> [OPTIONS]
 
 # Options
   --output PATH              Output directory (default: output/codebase/tutorials)
@@ -435,9 +435,9 @@ skill-seekers-how-to-guides <input-file> [OPTIONS]
   --json-output              Output JSON alongside markdown
 
 # Examples
-skill-seekers-how-to-guides test_examples.json
-skill-seekers-how-to-guides examples.json --output tutorials/
-skill-seekers-how-to-guides examples.json --group-by file-path --no-ai
+yonyou-doc2skill-how-to-guides test_examples.json
+yonyou-doc2skill-how-to-guides examples.json --output tutorials/
+yonyou-doc2skill-how-to-guides examples.json --group-by file-path --no-ai
 ```
 
 ### MCP Tool
@@ -459,7 +459,7 @@ build_how_to_guides(
 ### Python API
 
 ```python
-from skill_seekers.cli.how_to_guide_builder import HowToGuideBuilder
+from yonyou_doc2skill.cli.how_to_guide_builder import HowToGuideBuilder
 
 # Create builder
 builder = HowToGuideBuilder(enhance_with_ai=True)
@@ -494,7 +494,7 @@ Uses AI analysis from C3.6 enhancement to intelligently group related workflows.
 **Best for:** Maximum quality, logical topic organization
 
 ```bash
-skill-seekers-how-to-guides examples.json --group-by ai-tutorial-group
+yonyou-doc2skill-how-to-guides examples.json --group-by ai-tutorial-group
 ```
 
 **Example Output:**
@@ -519,7 +519,7 @@ Groups workflows by test file location.
 **Best for:** Small projects, file-based organization
 
 ```bash
-skill-seekers-how-to-guides examples.json --group-by file-path
+yonyou-doc2skill-how-to-guides examples.json --group-by file-path
 ```
 
 **Example Output:**
@@ -543,7 +543,7 @@ Groups workflows by test name prefixes.
 **Best for:** Consistent test naming conventions
 
 ```bash
-skill-seekers-how-to-guides examples.json --group-by test-name
+yonyou-doc2skill-how-to-guides examples.json --group-by test-name
 ```
 
 **Example Output:**
@@ -567,7 +567,7 @@ Groups workflows by difficulty level.
 **Best for:** Educational content, progressive learning paths
 
 ```bash
-skill-seekers-how-to-guides examples.json --group-by complexity
+yonyou-doc2skill-how-to-guides examples.json --group-by complexity
 ```
 
 **Example Output:**
@@ -873,7 +873,7 @@ How-to guides are built from workflow examples extracted by C3.2:
 
 ```bash
 # Full pipeline
-skill-seekers analyze tests/ \
+yonyou-doc2skill analyze tests/ \
   --extract-test-examples \
   --build-how-to-guides
 ```
@@ -889,11 +889,11 @@ AI analysis enhances grouping and explanations:
 
 ```bash
 # With AI enhancement (default)
-skill-seekers-how-to-guides examples.json \
+yonyou-doc2skill-how-to-guides examples.json \
   --group-by ai-tutorial-group
 
 # Without AI (faster, basic grouping)
-skill-seekers-how-to-guides examples.json --no-ai
+yonyou-doc2skill-how-to-guides examples.json --no-ai
 ```
 
 **AI Contributions:**
@@ -907,7 +907,7 @@ skill-seekers-how-to-guides examples.json --no-ai
 Automatic guide generation during codebase analysis:
 
 ```bash
-skill-seekers analyze /path/to/repo/ \
+yonyou-doc2skill analyze /path/to/repo/ \
   --extract-test-examples \
   --build-how-to-guides \
   --output output/codebase/
@@ -934,7 +934,7 @@ output/codebase/
 Generate tutorials for new team members:
 
 ```bash
-skill-seekers-how-to-guides tests/integration/test_examples.json \
+yonyou-doc2skill-how-to-guides tests/integration/test_examples.json \
   --group-by ai-tutorial-group \
   --output docs/tutorials/
 ```
@@ -946,7 +946,7 @@ skill-seekers-how-to-guides tests/integration/test_examples.json \
 Extract usage patterns from test suites:
 
 ```bash
-skill-seekers analyze tests/api/ \
+yonyou-doc2skill analyze tests/api/ \
   --extract-test-examples \
   --build-how-to-guides
 ```
@@ -958,7 +958,7 @@ skill-seekers analyze tests/api/ \
 Create progressive learning paths:
 
 ```bash
-skill-seekers-how-to-guides examples.json \
+yonyou-doc2skill-how-to-guides examples.json \
   --group-by complexity \
   --output learning-path/
 ```
@@ -971,14 +971,14 @@ Document workflows for version upgrades:
 
 ```bash
 # Extract from old version tests
-skill-seekers-extract-test-examples tests/ --output old-examples.json
+yonyou-doc2skill-extract-test-examples tests/ --output old-examples.json
 
 # Extract from new version tests
-skill-seekers-extract-test-examples tests/ --output new-examples.json
+yonyou-doc2skill-extract-test-examples tests/ --output new-examples.json
 
 # Generate migration guides
-skill-seekers-how-to-guides old-examples.json --output migration/old/
-skill-seekers-how-to-guides new-examples.json --output migration/new/
+yonyou-doc2skill-how-to-guides old-examples.json --output migration/old/
+yonyou-doc2skill-how-to-guides new-examples.json --output migration/new/
 ```
 
 **Result:** Side-by-side comparison of old vs new workflows.
@@ -1041,7 +1041,7 @@ Automatic difficulty assessment based on:
 
 3. Check test example extraction included workflows:
    ```bash
-   skill-seekers-extract-test-examples tests/ --json
+   yonyou-doc2skill-extract-test-examples tests/ --json
    # Look for "workflow" in categories
    ```
 
@@ -1052,13 +1052,13 @@ Automatic difficulty assessment based on:
 **Solutions:**
 1. Enable AI enhancement:
    ```bash
-   skill-seekers-how-to-guides examples.json  # AI enabled by default
+   yonyou-doc2skill-how-to-guides examples.json  # AI enabled by default
    ```
 
 2. Use better grouping strategy:
    ```bash
    # Try ai-tutorial-group instead of file-path
-   skill-seekers-how-to-guides examples.json --group-by ai-tutorial-group
+   yonyou-doc2skill-how-to-guides examples.json --group-by ai-tutorial-group
    ```
 
 3. Improve source tests:
@@ -1074,7 +1074,7 @@ Automatic difficulty assessment based on:
 1. Try different grouping strategy:
    ```bash
    # If ai-tutorial-group fails, try file-path
-   skill-seekers-how-to-guides examples.json --group-by file-path
+   yonyou-doc2skill-how-to-guides examples.json --group-by file-path
    ```
 
 2. Organize test files better:
@@ -1292,7 +1292,7 @@ def test_api_integration_workflow():
 
 ### Benchmark Results
 
-**Test Set:** Skill_Seekers own test suite
+**Test Set:** yonyou_doc2skill own test suite
 - 54 test files
 - 1,880+ total tests
 - 50+ workflow examples
@@ -1312,13 +1312,13 @@ def test_api_integration_workflow():
 
 1. **Disable AI for speed:**
    ```bash
-   skill-seekers-how-to-guides examples.json --no-ai  # 2x faster
+   yonyou-doc2skill-how-to-guides examples.json --no-ai  # 2x faster
    ```
 
 2. **Use simpler grouping:**
    ```bash
    # file-path is faster than ai-tutorial-group
-   skill-seekers-how-to-guides examples.json --group-by file-path
+   yonyou-doc2skill-how-to-guides examples.json --group-by file-path
    ```
 
 3. **Filter input examples:**
@@ -1346,7 +1346,7 @@ pytest tests/test_how_to_guide_builder.py::TestHowToGuideBuilder -v
 pytest tests/test_how_to_guide_builder.py::TestEndToEnd -v
 
 # Coverage report
-pytest tests/test_how_to_guide_builder.py --cov=skill_seekers.cli.how_to_guide_builder
+pytest tests/test_how_to_guide_builder.py --cov=yonyou_doc2skill.cli.how_to_guide_builder
 ```
 
 **Test Coverage:** 21 tests covering all components
@@ -1375,7 +1375,7 @@ pytest tests/test_how_to_guide_builder.py --cov=skill_seekers.cli.how_to_guide_b
 **Get Started:**
 ```bash
 # Quick start
-skill-seekers analyze tests/ --output output/codebase/
+yonyou-doc2skill analyze tests/ --output output/codebase/
 
 # Check your new guides
 cat output/codebase/tutorials/index.md

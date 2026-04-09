@@ -1,16 +1,16 @@
 # Core Concepts
 
-> **Skill Seekers v3.1.0**  
-> **Understanding how Skill Seekers works**
+> **Yonyou Doc2Skill v3.1.0**  
+> **Understanding how Yonyou Doc2Skill works**
 
 ---
 
 ## Overview
 
-Skill Seekers transforms documentation, code, and content into **structured knowledge assets** that AI systems can use effectively.
+Yonyou Doc2Skill transforms documentation, code, and content into **structured knowledge assets** that AI systems can use effectively.
 
 ```
-Raw Content → Skill Seekers → AI-Ready Skill
+Raw Content → Yonyou Doc2Skill → AI-Ready Skill
      ↓                              ↓
   (docs, code,               (SKILL.md +
    PDFs, repos)                references)
@@ -30,7 +30,7 @@ output/my-skill/
 │   ├── getting_started.md
 │   ├── api_reference.md
 │   └── ...
-├── .skill-seekers/      # Metadata
+├── .yonyou-doc2skill/      # Metadata
 └── assets/              # Images, downloads
 ```
 
@@ -76,7 +76,7 @@ npm install my-framework
 
 ## Source Types
 
-Skill Seekers works with four types of sources:
+Yonyou Doc2Skill works with four types of sources:
 
 ### 1. Documentation Websites
 
@@ -89,7 +89,7 @@ Skill Seekers works with four types of sources:
 
 **Command:**
 ```bash
-skill-seekers create https://docs.example.com/
+yonyou-doc2skill create https://docs.example.com/
 ```
 
 **Best for:**
@@ -111,8 +111,8 @@ skill-seekers create https://docs.example.com/
 
 **Command:**
 ```bash
-skill-seekers create owner/repo
-skill-seekers github --repo owner/repo
+yonyou-doc2skill create owner/repo
+yonyou-doc2skill github --repo owner/repo
 ```
 
 **Best for:**
@@ -134,8 +134,8 @@ skill-seekers github --repo owner/repo
 
 **Command:**
 ```bash
-skill-seekers create manual.pdf
-skill-seekers pdf --pdf manual.pdf
+yonyou-doc2skill create manual.pdf
+yonyou-doc2skill pdf --pdf manual.pdf
 ```
 
 **Best for:**
@@ -157,8 +157,8 @@ skill-seekers pdf --pdf manual.pdf
 
 **Command:**
 ```bash
-skill-seekers create ./my-project
-skill-seekers analyze --directory ./my-project
+yonyou-doc2skill create ./my-project
+yonyou-doc2skill analyze --directory ./my-project
 ```
 
 **Best for:**
@@ -274,10 +274,10 @@ Control how much AI enhancement is applied:
 
 ```bash
 # Skip enhancement (fastest)
-skill-seekers create <source> --enhance-level 0
+yonyou-doc2skill create <source> --enhance-level 0
 
 # Full enhancement (best quality)
-skill-seekers create <source> --enhance-level 3
+yonyou-doc2skill create <source> --enhance-level 3
 ```
 
 ---
@@ -306,14 +306,14 @@ Package skills for different AI systems:
 
 ```bash
 # Just provide the source
-skill-seekers create https://docs.react.dev/
+yonyou-doc2skill create https://docs.react.dev/
 ```
 
 ### Preset Configs
 
 ```bash
 # Use predefined configuration
-skill-seekers create --config react
+yonyou-doc2skill create --config react
 ```
 
 **Available presets:** `react`, `vue`, `django`, `fastapi`, `godot`, etc.
@@ -330,7 +330,7 @@ cat > configs/my-docs.json << 'EOF'
 }
 EOF
 
-skill-seekers create --config configs/my-docs.json
+yonyou-doc2skill create --config configs/my-docs.json
 ```
 
 See [Config Format](../reference/CONFIG_FORMAT.md) for full specification.
@@ -355,7 +355,7 @@ cat > configs/my-project.json << 'EOF'
 EOF
 
 # Run unified scraping
-skill-seekers unified --config configs/my-project.json
+yonyou-doc2skill unified --config configs/my-project.json
 ```
 
 **Benefits:**
@@ -378,17 +378,17 @@ Second scrape:   Reuses cached data → fast rebuild
 
 ```bash
 # Use cached data, just rebuild
-skill-seekers create --config react --skip-scrape
+yonyou-doc2skill create --config react --skip-scrape
 ```
 
 ### Resume Interrupted Jobs
 
 ```bash
 # List resumable jobs
-skill-seekers resume --list
+yonyou-doc2skill resume --list
 
 # Resume specific job
-skill-seekers resume job-abc123
+yonyou-doc2skill resume job-abc123
 ```
 
 ---
@@ -399,13 +399,13 @@ Be respectful to servers:
 
 ```bash
 # Default: 0.5 seconds between requests
-skill-seekers create <source>
+yonyou-doc2skill create <source>
 
 # Faster (for your own servers)
-skill-seekers create <source> --rate-limit 0.1
+yonyou-doc2skill create <source> --rate-limit 0.1
 
 # Slower (for rate-limited sites)
-skill-seekers create <source> --rate-limit 2.0
+yonyou-doc2skill create <source> --rate-limit 2.0
 ```
 
 **Why it matters:**

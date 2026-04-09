@@ -1,4 +1,4 @@
-from skill_seekers.cli.llms_txt_parser import LlmsTxtParser
+from yonyou_doc2skill.cli.llms_txt_parser import LlmsTxtParser
 
 
 def test_parse_markdown_sections():

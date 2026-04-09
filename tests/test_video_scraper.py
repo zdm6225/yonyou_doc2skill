@@ -41,7 +41,7 @@ except ImportError:
 
 def _make_sample_video_info():
     """Build a minimal VideoInfo dict for testing."""
-    from skill_seekers.cli.video_models import (
+    from yonyou_doc2skill.cli.video_models import (
         TranscriptSource,
         VideoInfo,
         VideoSourceType,
@@ -75,7 +75,7 @@ def _make_sample_video_info():
 
 def _make_sample_transcript_segments():
     """Build a list of TranscriptSegment objects for testing."""
-    from skill_seekers.cli.video_models import TranscriptSegment, TranscriptSource
+    from yonyou_doc2skill.cli.video_models import TranscriptSegment, TranscriptSource
 
     return [
         TranscriptSegment(
@@ -170,27 +170,27 @@ class TestVideoModels(unittest.TestCase):
     """Test video data models (enums + dataclasses)."""
 
     def test_video_source_type_enum(self):
-        from skill_seekers.cli.video_models import VideoSourceType
+        from yonyou_doc2skill.cli.video_models import VideoSourceType
 
         self.assertEqual(VideoSourceType.YOUTUBE.value, "youtube")
         self.assertEqual(VideoSourceType.LOCAL_FILE.value, "local_file")
         self.assertEqual(VideoSourceType.VIMEO.value, "vimeo")
 
     def test_transcript_source_enum(self):
-        from skill_seekers.cli.video_models import TranscriptSource
+        from yonyou_doc2skill.cli.video_models import TranscriptSource
 
         self.assertEqual(TranscriptSource.YOUTUBE_MANUAL.value, "youtube_manual")
         self.assertEqual(TranscriptSource.WHISPER.value, "whisper")
         self.assertEqual(TranscriptSource.NONE.value, "none")
 
     def test_segment_content_type_enum(self):
-        from skill_seekers.cli.video_models import SegmentContentType
+        from yonyou_doc2skill.cli.video_models import SegmentContentType
 
         self.assertEqual(SegmentContentType.LIVE_CODING.value, "live_coding")
         self.assertEqual(SegmentContentType.EXPLANATION.value, "explanation")
 
     def test_chapter_serialization(self):
-        from skill_seekers.cli.video_models import Chapter
+        from yonyou_doc2skill.cli.video_models import Chapter
 
         ch = Chapter(title="Intro", start_time=0.0, end_time=60.0)
         d = ch.to_dict()
@@ -203,7 +203,7 @@ class TestVideoModels(unittest.TestCase):
         self.assertAlmostEqual(ch2.duration, 60.0)
 
     def test_transcript_segment_serialization(self):
-        from skill_seekers.cli.video_models import TranscriptSegment, TranscriptSource
+        from yonyou_doc2skill.cli.video_models import TranscriptSegment, TranscriptSource
 
         seg = TranscriptSegment(
             text="Hello world",
@@ -221,7 +221,7 @@ class TestVideoModels(unittest.TestCase):
         self.assertEqual(seg2.source, TranscriptSource.YOUTUBE_MANUAL)
 
     def test_video_segment_serialization(self):
-        from skill_seekers.cli.video_models import SegmentContentType, VideoSegment
+        from yonyou_doc2skill.cli.video_models import SegmentContentType, VideoSegment
 
         seg = VideoSegment(
             index=0,
@@ -242,13 +242,13 @@ class TestVideoModels(unittest.TestCase):
         self.assertEqual(seg2.content_type, SegmentContentType.INTRO)
 
     def test_video_segment_timestamp_display(self):
-        from skill_seekers.cli.video_models import VideoSegment
+        from yonyou_doc2skill.cli.video_models import VideoSegment
 
         seg = VideoSegment(index=0, start_time=330.0, end_time=495.0, duration=165.0)
         self.assertEqual(seg.timestamp_display, "05:30 - 08:15")
 
     def test_video_segment_timestamp_display_hours(self):
-        from skill_seekers.cli.video_models import VideoSegment
+        from yonyou_doc2skill.cli.video_models import VideoSegment
 
         seg = VideoSegment(index=0, start_time=3661.0, end_time=7200.0, duration=3539.0)
         self.assertIn("1:", seg.timestamp_display)
@@ -260,14 +260,14 @@ class TestVideoModels(unittest.TestCase):
         self.assertEqual(d["source_type"], "youtube")
         self.assertEqual(len(d["chapters"]), 4)
 
-        from skill_seekers.cli.video_models import VideoInfo
+        from yonyou_doc2skill.cli.video_models import VideoInfo
 
         info2 = VideoInfo.from_dict(d)
         self.assertEqual(info2.video_id, "abc123def45")
         self.assertEqual(len(info2.chapters), 4)
 
     def test_video_source_config_validation(self):
-        from skill_seekers.cli.video_models import VideoSourceConfig
+        from yonyou_doc2skill.cli.video_models import VideoSourceConfig
 
         # No source specified
         config = VideoSourceConfig()
@@ -285,7 +285,7 @@ class TestVideoModels(unittest.TestCase):
         self.assertTrue(len(errors) > 0)
 
     def test_video_scraper_result_serialization(self):
-        from skill_seekers.cli.video_models import VideoScraperResult
+        from yonyou_doc2skill.cli.video_models import VideoScraperResult
 
         result = VideoScraperResult(
             total_duration_seconds=600.0,
@@ -300,7 +300,7 @@ class TestVideoModels(unittest.TestCase):
         self.assertEqual(result2.total_segments, 4)
 
     def test_word_timestamp_serialization(self):
-        from skill_seekers.cli.video_models import WordTimestamp
+        from yonyou_doc2skill.cli.video_models import WordTimestamp
 
         wt = WordTimestamp(word="hello", start=0.0, end=0.5, probability=0.95)
         d = wt.to_dict()
@@ -310,7 +310,7 @@ class TestVideoModels(unittest.TestCase):
         self.assertEqual(wt2.word, "hello")
 
     def test_code_block_serialization(self):
-        from skill_seekers.cli.video_models import CodeBlock, CodeContext
+        from yonyou_doc2skill.cli.video_models import CodeBlock, CodeContext
 
         cb = CodeBlock(
             code="print('hi')", language="python", context=CodeContext.EDITOR, confidence=0.9
@@ -331,7 +331,7 @@ class TestVideoMetadata(unittest.TestCase):
     """Test video metadata extraction functions."""
 
     def test_extract_video_id_standard_url(self):
-        from skill_seekers.cli.video_metadata import extract_video_id
+        from yonyou_doc2skill.cli.video_metadata import extract_video_id
 
         self.assertEqual(
             extract_video_id("https://www.youtube.com/watch?v=dQw4w9WgXcQ"),
@@ -339,7 +339,7 @@ class TestVideoMetadata(unittest.TestCase):
         )
 
     def test_extract_video_id_short_url(self):
-        from skill_seekers.cli.video_metadata import extract_video_id
+        from yonyou_doc2skill.cli.video_metadata import extract_video_id
 
         self.assertEqual(
             extract_video_id("https://youtu.be/dQw4w9WgXcQ"),
@@ -347,7 +347,7 @@ class TestVideoMetadata(unittest.TestCase):
         )
 
     def test_extract_video_id_embed_url(self):
-        from skill_seekers.cli.video_metadata import extract_video_id
+        from yonyou_doc2skill.cli.video_metadata import extract_video_id
 
         self.assertEqual(
             extract_video_id("https://www.youtube.com/embed/dQw4w9WgXcQ"),
@@ -355,7 +355,7 @@ class TestVideoMetadata(unittest.TestCase):
         )
 
     def test_extract_video_id_shorts_url(self):
-        from skill_seekers.cli.video_metadata import extract_video_id
+        from yonyou_doc2skill.cli.video_metadata import extract_video_id
 
         self.assertEqual(
             extract_video_id("https://www.youtube.com/shorts/dQw4w9WgXcQ"),
@@ -363,14 +363,14 @@ class TestVideoMetadata(unittest.TestCase):
         )
 
     def test_extract_video_id_not_youtube(self):
-        from skill_seekers.cli.video_metadata import extract_video_id
+        from yonyou_doc2skill.cli.video_metadata import extract_video_id
 
         self.assertIsNone(extract_video_id("https://vimeo.com/123456"))
         self.assertIsNone(extract_video_id("https://example.com"))
 
     def test_detect_video_source_type_youtube(self):
-        from skill_seekers.cli.video_metadata import detect_video_source_type
-        from skill_seekers.cli.video_models import VideoSourceType
+        from yonyou_doc2skill.cli.video_metadata import detect_video_source_type
+        from yonyou_doc2skill.cli.video_models import VideoSourceType
 
         self.assertEqual(
             detect_video_source_type("https://www.youtube.com/watch?v=test"),
@@ -382,8 +382,8 @@ class TestVideoMetadata(unittest.TestCase):
         )
 
     def test_detect_video_source_type_vimeo(self):
-        from skill_seekers.cli.video_metadata import detect_video_source_type
-        from skill_seekers.cli.video_models import VideoSourceType
+        from yonyou_doc2skill.cli.video_metadata import detect_video_source_type
+        from yonyou_doc2skill.cli.video_models import VideoSourceType
 
         self.assertEqual(
             detect_video_source_type("https://vimeo.com/123456"),
@@ -391,7 +391,7 @@ class TestVideoMetadata(unittest.TestCase):
         )
 
     def test_extract_local_metadata(self):
-        from skill_seekers.cli.video_metadata import extract_local_metadata
+        from yonyou_doc2skill.cli.video_metadata import extract_local_metadata
 
         # Create a temp file
         with tempfile.NamedTemporaryFile(suffix=".mp4", delete=False) as tmp:
@@ -414,7 +414,7 @@ class TestVideoTranscript(unittest.TestCase):
     """Test transcript extraction functions."""
 
     def test_parse_srt(self):
-        from skill_seekers.cli.video_transcript import parse_srt
+        from yonyou_doc2skill.cli.video_transcript import parse_srt
 
         with tempfile.NamedTemporaryFile(
             mode="w", suffix=".srt", delete=False, encoding="utf-8"
@@ -432,7 +432,7 @@ class TestVideoTranscript(unittest.TestCase):
             os.unlink(tmp_name)
 
     def test_parse_vtt(self):
-        from skill_seekers.cli.video_transcript import parse_vtt
+        from yonyou_doc2skill.cli.video_transcript import parse_vtt
 
         with tempfile.NamedTemporaryFile(
             mode="w", suffix=".vtt", delete=False, encoding="utf-8"
@@ -448,7 +448,7 @@ class TestVideoTranscript(unittest.TestCase):
             os.unlink(tmp_name)
 
     def test_parse_srt_with_html_tags(self):
-        from skill_seekers.cli.video_transcript import parse_srt
+        from yonyou_doc2skill.cli.video_transcript import parse_srt
 
         content = """1
 00:00:00,000 --> 00:00:03,000
@@ -467,7 +467,7 @@ class TestVideoTranscript(unittest.TestCase):
             os.unlink(tmp_name)
 
     def test_whisper_stub_raises(self):
-        from skill_seekers.cli.video_transcript import transcribe_with_whisper, HAS_WHISPER
+        from yonyou_doc2skill.cli.video_transcript import transcribe_with_whisper, HAS_WHISPER
 
         if not HAS_WHISPER:
             with self.assertRaises(RuntimeError) as ctx:
@@ -476,8 +476,8 @@ class TestVideoTranscript(unittest.TestCase):
 
     def test_get_transcript_fallback_to_subtitle(self):
         """Test that get_transcript falls back to subtitle files."""
-        from skill_seekers.cli.video_transcript import get_transcript
-        from skill_seekers.cli.video_models import (
+        from yonyou_doc2skill.cli.video_transcript import get_transcript
+        from yonyou_doc2skill.cli.video_models import (
             TranscriptSource,
             VideoInfo,
             VideoSourceConfig,
@@ -517,7 +517,7 @@ class TestVideoSegmenter(unittest.TestCase):
     """Test video segmentation."""
 
     def test_segment_by_chapters(self):
-        from skill_seekers.cli.video_segmenter import segment_by_chapters
+        from yonyou_doc2skill.cli.video_segmenter import segment_by_chapters
 
         video_info = _make_sample_video_info()
         transcript = _make_sample_transcript_segments()
@@ -529,7 +529,7 @@ class TestVideoSegmenter(unittest.TestCase):
         self.assertIn("Welcome", segments[0].transcript)
 
     def test_segment_by_time_window(self):
-        from skill_seekers.cli.video_segmenter import segment_by_time_window
+        from yonyou_doc2skill.cli.video_segmenter import segment_by_time_window
 
         video_info = _make_sample_video_info()
         transcript = _make_sample_transcript_segments()
@@ -540,8 +540,8 @@ class TestVideoSegmenter(unittest.TestCase):
         self.assertIsNone(segments[0].chapter_title)
 
     def test_segment_video_uses_chapters(self):
-        from skill_seekers.cli.video_segmenter import segment_video
-        from skill_seekers.cli.video_models import VideoSourceConfig
+        from yonyou_doc2skill.cli.video_segmenter import segment_video
+        from yonyou_doc2skill.cli.video_models import VideoSourceConfig
 
         video_info = _make_sample_video_info()
         transcript = _make_sample_transcript_segments()
@@ -553,8 +553,8 @@ class TestVideoSegmenter(unittest.TestCase):
         self.assertEqual(segments[0].chapter_title, "Intro")
 
     def test_segment_video_fallback_to_time_window(self):
-        from skill_seekers.cli.video_segmenter import segment_video
-        from skill_seekers.cli.video_models import VideoInfo, VideoSourceConfig, VideoSourceType
+        from yonyou_doc2skill.cli.video_segmenter import segment_video
+        from yonyou_doc2skill.cli.video_models import VideoInfo, VideoSourceConfig, VideoSourceType
 
         video_info = VideoInfo(
             video_id="no_chapters",
@@ -571,8 +571,8 @@ class TestVideoSegmenter(unittest.TestCase):
             self.assertIsNone(seg.chapter_title)
 
     def test_segment_content_type_classification(self):
-        from skill_seekers.cli.video_segmenter import _classify_content_type
-        from skill_seekers.cli.video_models import SegmentContentType
+        from yonyou_doc2skill.cli.video_segmenter import _classify_content_type
+        from yonyou_doc2skill.cli.video_models import SegmentContentType
 
         self.assertEqual(
             _classify_content_type("Welcome to this tutorial, today we"),
@@ -597,41 +597,41 @@ class TestVideoSourceDetection(unittest.TestCase):
     """Test SourceDetector recognizes video URLs and file extensions."""
 
     def test_detect_youtube_url(self):
-        from skill_seekers.cli.source_detector import SourceDetector
+        from yonyou_doc2skill.cli.source_detector import SourceDetector
 
         info = SourceDetector.detect("https://www.youtube.com/watch?v=dQw4w9WgXcQ")
         self.assertEqual(info.type, "video")
         self.assertEqual(info.parsed["source_kind"], "url")
 
     def test_detect_youtube_short_url(self):
-        from skill_seekers.cli.source_detector import SourceDetector
+        from yonyou_doc2skill.cli.source_detector import SourceDetector
 
         info = SourceDetector.detect("https://youtu.be/dQw4w9WgXcQ")
         self.assertEqual(info.type, "video")
 
     def test_detect_youtube_playlist(self):
-        from skill_seekers.cli.source_detector import SourceDetector
+        from yonyou_doc2skill.cli.source_detector import SourceDetector
 
         info = SourceDetector.detect("https://www.youtube.com/playlist?list=PLtest123")
         self.assertEqual(info.type, "video")
         self.assertEqual(info.suggested_name, "youtube_playlist")
 
     def test_detect_youtube_channel(self):
-        from skill_seekers.cli.source_detector import SourceDetector
+        from yonyou_doc2skill.cli.source_detector import SourceDetector
 
         info = SourceDetector.detect("https://www.youtube.com/@testchannel")
         self.assertEqual(info.type, "video")
         self.assertEqual(info.suggested_name, "youtube_channel")
 
     def test_detect_vimeo_url(self):
-        from skill_seekers.cli.source_detector import SourceDetector
+        from yonyou_doc2skill.cli.source_detector import SourceDetector
 
         info = SourceDetector.detect("https://vimeo.com/123456789")
         self.assertEqual(info.type, "video")
         self.assertEqual(info.suggested_name, "vimeo_video")
 
     def test_detect_mp4_file(self):
-        from skill_seekers.cli.source_detector import SourceDetector
+        from yonyou_doc2skill.cli.source_detector import SourceDetector
 
         info = SourceDetector.detect("recording.mp4")
         self.assertEqual(info.type, "video")
@@ -639,31 +639,31 @@ class TestVideoSourceDetection(unittest.TestCase):
         self.assertEqual(info.parsed["source_kind"], "file")
 
     def test_detect_mkv_file(self):
-        from skill_seekers.cli.source_detector import SourceDetector
+        from yonyou_doc2skill.cli.source_detector import SourceDetector
 
         info = SourceDetector.detect("tutorial.mkv")
         self.assertEqual(info.type, "video")
 
     def test_detect_webm_file(self):
-        from skill_seekers.cli.source_detector import SourceDetector
+        from yonyou_doc2skill.cli.source_detector import SourceDetector
 
         info = SourceDetector.detect("screencast.webm")
         self.assertEqual(info.type, "video")
 
     def test_detect_avi_file(self):
-        from skill_seekers.cli.source_detector import SourceDetector
+        from yonyou_doc2skill.cli.source_detector import SourceDetector
 
         info = SourceDetector.detect("old-recording.avi")
         self.assertEqual(info.type, "video")
 
     def test_detect_mov_file(self):
-        from skill_seekers.cli.source_detector import SourceDetector
+        from yonyou_doc2skill.cli.source_detector import SourceDetector
 
         info = SourceDetector.detect("screen.mov")
         self.assertEqual(info.type, "video")
 
     def test_validate_video_file_exists(self):
-        from skill_seekers.cli.source_detector import SourceDetector, SourceInfo
+        from yonyou_doc2skill.cli.source_detector import SourceDetector, SourceInfo
 
         info = SourceInfo(
             type="video",
@@ -676,7 +676,7 @@ class TestVideoSourceDetection(unittest.TestCase):
 
     def test_validate_video_url_no_error(self):
         """URL-based video sources should not raise during validation."""
-        from skill_seekers.cli.source_detector import SourceDetector, SourceInfo
+        from yonyou_doc2skill.cli.source_detector import SourceDetector, SourceInfo
 
         info = SourceInfo(
             type="video",
@@ -697,7 +697,7 @@ class TestVideoArguments(unittest.TestCase):
     """Test video CLI argument definitions."""
 
     def test_video_arguments_dict(self):
-        from skill_seekers.cli.arguments.video import VIDEO_ARGUMENTS
+        from yonyou_doc2skill.cli.arguments.video import VIDEO_ARGUMENTS
 
         self.assertIn("url", VIDEO_ARGUMENTS)
         self.assertIn("video_file", VIDEO_ARGUMENTS)
@@ -709,7 +709,7 @@ class TestVideoArguments(unittest.TestCase):
 
     def test_add_video_arguments(self):
         import argparse
-        from skill_seekers.cli.arguments.video import add_video_arguments
+        from yonyou_doc2skill.cli.arguments.video import add_video_arguments
 
         parser = argparse.ArgumentParser()
         add_video_arguments(parser)
@@ -720,7 +720,7 @@ class TestVideoArguments(unittest.TestCase):
 
     def test_enhance_level_defaults_to_zero(self):
         import argparse
-        from skill_seekers.cli.arguments.video import add_video_arguments
+        from yonyou_doc2skill.cli.arguments.video import add_video_arguments
 
         parser = argparse.ArgumentParser()
         add_video_arguments(parser)
@@ -730,7 +730,7 @@ class TestVideoArguments(unittest.TestCase):
 
     def test_video_accessible_via_create(self):
         """Test video source is accessible via 'create' command (not as subcommand)."""
-        from skill_seekers.cli.source_detector import SourceDetector
+        from yonyou_doc2skill.cli.source_detector import SourceDetector
 
         info = SourceDetector.detect("https://youtube.com/watch?v=test")
         self.assertEqual(info.type, "video")
@@ -758,14 +758,14 @@ class TestVideoToSkillConverter(unittest.TestCase):
                     os.unlink(d)
 
     def test_init_with_url(self):
-        from skill_seekers.cli.video_scraper import VideoToSkillConverter
+        from yonyou_doc2skill.cli.video_scraper import VideoToSkillConverter
 
         config = {"name": "test_video", "url": "https://youtube.com/watch?v=test"}
         converter = VideoToSkillConverter(config)
         self.assertEqual(converter.name, "test_video")
 
     def test_init_with_video_file(self):
-        from skill_seekers.cli.video_scraper import VideoToSkillConverter
+        from yonyou_doc2skill.cli.video_scraper import VideoToSkillConverter
 
         config = {"name": "test_video", "video_file": "test.mp4"}
         converter = VideoToSkillConverter(config)
@@ -773,8 +773,8 @@ class TestVideoToSkillConverter(unittest.TestCase):
 
     def test_build_skill_from_loaded_data(self):
         """Test build_skill works with pre-loaded result data."""
-        from skill_seekers.cli.video_scraper import VideoToSkillConverter
-        from skill_seekers.cli.video_models import (
+        from yonyou_doc2skill.cli.video_scraper import VideoToSkillConverter
+        from yonyou_doc2skill.cli.video_models import (
             VideoScraperResult,
             VideoInfo,
             VideoSourceType,
@@ -846,8 +846,8 @@ class TestVideoToSkillConverter(unittest.TestCase):
 
     def test_save_and_load_extracted_data(self):
         """Test JSON save/load roundtrip."""
-        from skill_seekers.cli.video_scraper import VideoToSkillConverter
-        from skill_seekers.cli.video_models import VideoScraperResult, VideoInfo, VideoSourceType
+        from yonyou_doc2skill.cli.video_scraper import VideoToSkillConverter
+        from yonyou_doc2skill.cli.video_models import VideoScraperResult, VideoInfo, VideoSourceType
 
         config = {"name": "test_video"}
         converter = VideoToSkillConverter(config)
@@ -879,7 +879,7 @@ class TestVideoVisualStubs(unittest.TestCase):
     """Test Tier 2 visual extraction stubs raise proper errors."""
 
     def test_check_visual_dependencies(self):
-        from skill_seekers.cli.video_visual import check_visual_dependencies
+        from yonyou_doc2skill.cli.video_visual import check_visual_dependencies
 
         deps = check_visual_dependencies()
         self.assertIn("opencv", deps)
@@ -887,28 +887,28 @@ class TestVideoVisualStubs(unittest.TestCase):
         self.assertIn("easyocr", deps)
 
     def test_detect_scenes_raises_without_deps(self):
-        from skill_seekers.cli.video_visual import detect_scenes, HAS_OPENCV
+        from yonyou_doc2skill.cli.video_visual import detect_scenes, HAS_OPENCV
 
         if not HAS_OPENCV:
             with self.assertRaises(RuntimeError):
                 detect_scenes("test.mp4")
 
     def test_extract_keyframes_raises_without_deps(self):
-        from skill_seekers.cli.video_visual import extract_keyframes, HAS_OPENCV
+        from yonyou_doc2skill.cli.video_visual import extract_keyframes, HAS_OPENCV
 
         if not HAS_OPENCV:
             with self.assertRaises(RuntimeError):
                 extract_keyframes("test.mp4", [0.0, 1.0])
 
     def test_classify_frame_raises_without_deps(self):
-        from skill_seekers.cli.video_visual import classify_frame, HAS_OPENCV
+        from yonyou_doc2skill.cli.video_visual import classify_frame, HAS_OPENCV
 
         if not HAS_OPENCV:
             with self.assertRaises(RuntimeError):
                 classify_frame("frame.png")
 
     def test_extract_text_raises_without_deps(self):
-        from skill_seekers.cli.video_visual import extract_text_from_frame, HAS_EASYOCR
+        from yonyou_doc2skill.cli.video_visual import extract_text_from_frame, HAS_EASYOCR
 
         if not HAS_EASYOCR:
             with self.assertRaises(RuntimeError):
@@ -925,7 +925,7 @@ class TestVideoCreateCommandIntegration(unittest.TestCase):
 
     def test_create_command_routing_youtube_url(self):
         """Test that CreateCommand routes YouTube URLs to video scraper."""
-        from skill_seekers.cli.source_detector import SourceDetector
+        from yonyou_doc2skill.cli.source_detector import SourceDetector
 
         # Detect source
         info = SourceDetector.detect("https://www.youtube.com/watch?v=dQw4w9WgXcQ")
@@ -933,14 +933,14 @@ class TestVideoCreateCommandIntegration(unittest.TestCase):
 
     def test_create_command_routing_video_file(self):
         """Test that CreateCommand routes video files to video scraper."""
-        from skill_seekers.cli.source_detector import SourceDetector
+        from yonyou_doc2skill.cli.source_detector import SourceDetector
 
         info = SourceDetector.detect("tutorial.mp4")
         self.assertEqual(info.type, "video")
 
     def test_create_arguments_include_video(self):
         """Test that create arguments include video mode."""
-        from skill_seekers.cli.arguments.create import get_source_specific_arguments
+        from yonyou_doc2skill.cli.arguments.create import get_source_specific_arguments
 
         video_args = get_source_specific_arguments("video")
         self.assertIn("video_url", video_args)
@@ -957,7 +957,7 @@ class TestVideoConfigValidator(unittest.TestCase):
     """Test that video is a valid source type in config validator."""
 
     def test_video_in_valid_source_types(self):
-        from skill_seekers.cli.config_validator import ConfigValidator
+        from yonyou_doc2skill.cli.config_validator import ConfigValidator
 
         self.assertIn("video", ConfigValidator.VALID_SOURCE_TYPES)
 
@@ -971,7 +971,7 @@ class TestVideoHelperFunctions(unittest.TestCase):
     """Test module-level helper functions."""
 
     def test_sanitize_filename(self):
-        from skill_seekers.cli.video_scraper import _sanitize_filename
+        from yonyou_doc2skill.cli.video_scraper import _sanitize_filename
 
         self.assertEqual(
             _sanitize_filename("React Hooks Tutorial for Beginners"),
@@ -983,26 +983,26 @@ class TestVideoHelperFunctions(unittest.TestCase):
         )
 
     def test_sanitize_filename_max_length(self):
-        from skill_seekers.cli.video_scraper import _sanitize_filename
+        from yonyou_doc2skill.cli.video_scraper import _sanitize_filename
 
         result = _sanitize_filename("a" * 100, max_length=20)
         self.assertLessEqual(len(result), 20)
 
     def test_format_duration(self):
-        from skill_seekers.cli.video_scraper import _format_duration
+        from yonyou_doc2skill.cli.video_scraper import _format_duration
 
         self.assertEqual(_format_duration(65), "01:05")
         self.assertEqual(_format_duration(3661), "1:01:01")
         self.assertEqual(_format_duration(0), "00:00")
 
     def test_format_count(self):
-        from skill_seekers.cli.video_scraper import _format_count
+        from yonyou_doc2skill.cli.video_scraper import _format_count
 
         self.assertEqual(_format_count(1500000), "1,500,000")
         self.assertEqual(_format_count(None), "N/A")
 
     def test_infer_description_from_video(self):
-        from skill_seekers.cli.video_scraper import infer_description_from_video
+        from yonyou_doc2skill.cli.video_scraper import infer_description_from_video
 
         info = _make_sample_video_info()
         desc = infer_description_from_video(info)
@@ -1018,8 +1018,8 @@ class TestOCRPreprocessing(unittest.TestCase):
     """Test frame-type-aware OCR preprocessing functions."""
 
     def test_get_ocr_params_code_editor(self):
-        from skill_seekers.cli.video_visual import _get_ocr_params
-        from skill_seekers.cli.video_models import FrameType
+        from yonyou_doc2skill.cli.video_visual import _get_ocr_params
+        from yonyou_doc2skill.cli.video_models import FrameType
 
         params = _get_ocr_params(FrameType.CODE_EDITOR)
         self.assertEqual(params["decoder"], "beamsearch")
@@ -1028,38 +1028,38 @@ class TestOCRPreprocessing(unittest.TestCase):
         self.assertEqual(params["mag_ratio"], 1.0)
 
     def test_get_ocr_params_terminal(self):
-        from skill_seekers.cli.video_visual import _get_ocr_params
-        from skill_seekers.cli.video_models import FrameType
+        from yonyou_doc2skill.cli.video_visual import _get_ocr_params
+        from yonyou_doc2skill.cli.video_models import FrameType
 
         params = _get_ocr_params(FrameType.TERMINAL)
         self.assertEqual(params["decoder"], "beamsearch")
         self.assertEqual(params["low_text"], 0.3)
 
     def test_get_ocr_params_slide(self):
-        from skill_seekers.cli.video_visual import _get_ocr_params
-        from skill_seekers.cli.video_models import FrameType
+        from yonyou_doc2skill.cli.video_visual import _get_ocr_params
+        from yonyou_doc2skill.cli.video_models import FrameType
 
         params = _get_ocr_params(FrameType.SLIDE)
         self.assertEqual(params["decoder"], "greedy")
         self.assertEqual(params["text_threshold"], 0.6)
 
     def test_get_ocr_params_other(self):
-        from skill_seekers.cli.video_visual import _get_ocr_params
-        from skill_seekers.cli.video_models import FrameType
+        from yonyou_doc2skill.cli.video_visual import _get_ocr_params
+        from yonyou_doc2skill.cli.video_models import FrameType
 
         params = _get_ocr_params(FrameType.OTHER)
         self.assertEqual(params["decoder"], "greedy")
 
     def test_preprocess_returns_original_for_other(self):
-        from skill_seekers.cli.video_visual import _preprocess_frame_for_ocr
-        from skill_seekers.cli.video_models import FrameType
+        from yonyou_doc2skill.cli.video_visual import _preprocess_frame_for_ocr
+        from yonyou_doc2skill.cli.video_models import FrameType
 
         result = _preprocess_frame_for_ocr("/nonexistent/path.jpg", FrameType.OTHER)
         self.assertEqual(result, "/nonexistent/path.jpg")
 
     def test_preprocess_returns_original_for_webcam(self):
-        from skill_seekers.cli.video_visual import _preprocess_frame_for_ocr
-        from skill_seekers.cli.video_models import FrameType
+        from yonyou_doc2skill.cli.video_visual import _preprocess_frame_for_ocr
+        from yonyou_doc2skill.cli.video_models import FrameType
 
         result = _preprocess_frame_for_ocr("/nonexistent/path.jpg", FrameType.WEBCAM)
         self.assertEqual(result, "/nonexistent/path.jpg")
@@ -1074,15 +1074,15 @@ class TestSpatialLayout(unittest.TestCase):
     """Test OCR spatial layout preservation functions."""
 
     def test_cluster_empty_results(self):
-        from skill_seekers.cli.video_visual import _cluster_ocr_into_lines
-        from skill_seekers.cli.video_models import FrameType
+        from yonyou_doc2skill.cli.video_visual import _cluster_ocr_into_lines
+        from yonyou_doc2skill.cli.video_models import FrameType
 
         regions = _cluster_ocr_into_lines([], FrameType.OTHER)
         self.assertEqual(regions, [])
 
     def test_cluster_single_result(self):
-        from skill_seekers.cli.video_visual import _cluster_ocr_into_lines
-        from skill_seekers.cli.video_models import FrameType
+        from yonyou_doc2skill.cli.video_visual import _cluster_ocr_into_lines
+        from yonyou_doc2skill.cli.video_models import FrameType
 
         raw = [([[0, 10], [100, 10], [100, 30], [0, 30]], "hello world", 0.9)]
         regions = _cluster_ocr_into_lines(raw, FrameType.OTHER)
@@ -1091,8 +1091,8 @@ class TestSpatialLayout(unittest.TestCase):
         self.assertAlmostEqual(regions[0].confidence, 0.9)
 
     def test_cluster_two_lines(self):
-        from skill_seekers.cli.video_visual import _cluster_ocr_into_lines
-        from skill_seekers.cli.video_models import FrameType
+        from yonyou_doc2skill.cli.video_visual import _cluster_ocr_into_lines
+        from yonyou_doc2skill.cli.video_models import FrameType
 
         raw = [
             ([[0, 10], [100, 10], [100, 30], [0, 30]], "line one", 0.9),
@@ -1105,8 +1105,8 @@ class TestSpatialLayout(unittest.TestCase):
         self.assertTrue(regions[0].is_monospace)
 
     def test_cluster_same_line_fragments(self):
-        from skill_seekers.cli.video_visual import _cluster_ocr_into_lines
-        from skill_seekers.cli.video_models import FrameType
+        from yonyou_doc2skill.cli.video_visual import _cluster_ocr_into_lines
+        from yonyou_doc2skill.cli.video_models import FrameType
 
         raw = [
             ([[0, 10], [50, 10], [50, 30], [0, 30]], "hello", 0.9),
@@ -1118,8 +1118,8 @@ class TestSpatialLayout(unittest.TestCase):
         self.assertIn("world", regions[0].text)
 
     def test_cluster_monospace_flag(self):
-        from skill_seekers.cli.video_visual import _cluster_ocr_into_lines
-        from skill_seekers.cli.video_models import FrameType
+        from yonyou_doc2skill.cli.video_visual import _cluster_ocr_into_lines
+        from yonyou_doc2skill.cli.video_models import FrameType
 
         raw = [([[0, 0], [100, 0], [100, 20], [0, 20]], "test", 0.9)]
 
@@ -1133,8 +1133,8 @@ class TestSpatialLayout(unittest.TestCase):
         self.assertFalse(slide_regions[0].is_monospace)
 
     def test_assemble_code_editor_newlines(self):
-        from skill_seekers.cli.video_visual import _assemble_structured_text
-        from skill_seekers.cli.video_models import FrameType, OCRRegion
+        from yonyou_doc2skill.cli.video_visual import _assemble_structured_text
+        from yonyou_doc2skill.cli.video_models import FrameType, OCRRegion
 
         regions = [
             OCRRegion(text="def hello():", confidence=0.9, bbox=(100, 10, 300, 30)),
@@ -1146,8 +1146,8 @@ class TestSpatialLayout(unittest.TestCase):
         self.assertIn("return 'world'", text)
 
     def test_assemble_slide_double_newlines(self):
-        from skill_seekers.cli.video_visual import _assemble_structured_text
-        from skill_seekers.cli.video_models import FrameType, OCRRegion
+        from yonyou_doc2skill.cli.video_visual import _assemble_structured_text
+        from yonyou_doc2skill.cli.video_models import FrameType, OCRRegion
 
         regions = [
             OCRRegion(text="Title", confidence=0.9, bbox=(100, 10, 300, 30)),
@@ -1157,8 +1157,8 @@ class TestSpatialLayout(unittest.TestCase):
         self.assertIn("\n\n", text)
 
     def test_assemble_other_flat(self):
-        from skill_seekers.cli.video_visual import _assemble_structured_text
-        from skill_seekers.cli.video_models import FrameType, OCRRegion
+        from yonyou_doc2skill.cli.video_visual import _assemble_structured_text
+        from yonyou_doc2skill.cli.video_models import FrameType, OCRRegion
 
         regions = [
             OCRRegion(text="hello", confidence=0.9, bbox=(0, 0, 50, 20)),
@@ -1169,8 +1169,8 @@ class TestSpatialLayout(unittest.TestCase):
         self.assertNotIn("\n", text)
 
     def test_assemble_empty_regions(self):
-        from skill_seekers.cli.video_visual import _assemble_structured_text
-        from skill_seekers.cli.video_models import FrameType
+        from yonyou_doc2skill.cli.video_visual import _assemble_structured_text
+        from yonyou_doc2skill.cli.video_models import FrameType
 
         text = _assemble_structured_text([], FrameType.CODE_EDITOR)
         self.assertEqual(text, "")
@@ -1185,25 +1185,25 @@ class TestTextContinuity(unittest.TestCase):
     """Test cross-frame text tracking and code block detection."""
 
     def test_text_similarity_identical(self):
-        from skill_seekers.cli.video_visual import _text_similarity
+        from yonyou_doc2skill.cli.video_visual import _text_similarity
 
         self.assertAlmostEqual(_text_similarity("hello world", "hello world"), 1.0)
 
     def test_text_similarity_empty(self):
-        from skill_seekers.cli.video_visual import _text_similarity
+        from yonyou_doc2skill.cli.video_visual import _text_similarity
 
         self.assertEqual(_text_similarity("", "hello"), 0.0)
         self.assertEqual(_text_similarity("hello", ""), 0.0)
         self.assertEqual(_text_similarity("", ""), 0.0)
 
     def test_text_similarity_different(self):
-        from skill_seekers.cli.video_visual import _text_similarity
+        from yonyou_doc2skill.cli.video_visual import _text_similarity
 
         sim = _text_similarity("hello world", "goodbye universe")
         self.assertLess(sim, 0.5)
 
     def test_text_similarity_similar(self):
-        from skill_seekers.cli.video_visual import _text_similarity
+        from yonyou_doc2skill.cli.video_visual import _text_similarity
 
         sim = _text_similarity(
             "def hello():\n    return 'world'",
@@ -1212,8 +1212,8 @@ class TestTextContinuity(unittest.TestCase):
         self.assertGreater(sim, 0.8)
 
     def test_tracker_creates_new_block(self):
-        from skill_seekers.cli.video_visual import TextBlockTracker
-        from skill_seekers.cli.video_models import FrameType
+        from yonyou_doc2skill.cli.video_visual import TextBlockTracker
+        from yonyou_doc2skill.cli.video_models import FrameType
 
         tracker = TextBlockTracker()
         tracker.update(0, 1.0, "def hello():\n    return 'world'", 0.9, FrameType.CODE_EDITOR)
@@ -1223,8 +1223,8 @@ class TestTextContinuity(unittest.TestCase):
         self.assertEqual(blocks[0].frame_type, FrameType.CODE_EDITOR)
 
     def test_tracker_merges_similar_frames(self):
-        from skill_seekers.cli.video_visual import TextBlockTracker
-        from skill_seekers.cli.video_models import FrameType
+        from yonyou_doc2skill.cli.video_visual import TextBlockTracker
+        from yonyou_doc2skill.cli.video_models import FrameType
 
         tracker = TextBlockTracker()
         text1 = "def hello():\n    return 'world'"
@@ -1238,8 +1238,8 @@ class TestTextContinuity(unittest.TestCase):
         self.assertEqual(len(blocks[0].frame_indices), 2)
 
     def test_tracker_creates_separate_blocks_for_different_text(self):
-        from skill_seekers.cli.video_visual import TextBlockTracker
-        from skill_seekers.cli.video_models import FrameType
+        from yonyou_doc2skill.cli.video_visual import TextBlockTracker
+        from yonyou_doc2skill.cli.video_models import FrameType
 
         tracker = TextBlockTracker()
         tracker.update(0, 1.0, "completely different text about cats", 0.8, FrameType.CODE_EDITOR)
@@ -1248,8 +1248,8 @@ class TestTextContinuity(unittest.TestCase):
         self.assertEqual(len(blocks), 2)
 
     def test_tracker_completes_on_non_code_frame(self):
-        from skill_seekers.cli.video_visual import TextBlockTracker
-        from skill_seekers.cli.video_models import FrameType
+        from yonyou_doc2skill.cli.video_visual import TextBlockTracker
+        from yonyou_doc2skill.cli.video_models import FrameType
 
         tracker = TextBlockTracker()
         tracker.update(0, 1.0, "def hello():\n    return 'world'", 0.9, FrameType.CODE_EDITOR)
@@ -1261,8 +1261,8 @@ class TestTextContinuity(unittest.TestCase):
         self.assertEqual(len(blocks), 2)
 
     def test_tracker_ignores_short_text(self):
-        from skill_seekers.cli.video_visual import TextBlockTracker
-        from skill_seekers.cli.video_models import FrameType
+        from yonyou_doc2skill.cli.video_visual import TextBlockTracker
+        from yonyou_doc2skill.cli.video_models import FrameType
 
         tracker = TextBlockTracker()
         tracker.update(0, 1.0, "short", 0.9, FrameType.CODE_EDITOR)
@@ -1270,8 +1270,8 @@ class TestTextContinuity(unittest.TestCase):
         self.assertEqual(len(blocks), 0)
 
     def test_extract_code_blocks_filters_short(self):
-        from skill_seekers.cli.video_visual import _extract_code_blocks, TrackedTextBlock
-        from skill_seekers.cli.video_models import FrameType
+        from yonyou_doc2skill.cli.video_visual import _extract_code_blocks, TrackedTextBlock
+        from yonyou_doc2skill.cli.video_models import FrameType
 
         blocks_in = [
             TrackedTextBlock(
@@ -1288,8 +1288,8 @@ class TestTextContinuity(unittest.TestCase):
         self.assertEqual(len(code_blocks), 0)
 
     def test_extract_code_blocks_maps_context(self):
-        from skill_seekers.cli.video_visual import _extract_code_blocks, TrackedTextBlock
-        from skill_seekers.cli.video_models import CodeContext, FrameType
+        from yonyou_doc2skill.cli.video_visual import _extract_code_blocks, TrackedTextBlock
+        from yonyou_doc2skill.cli.video_models import CodeContext, FrameType
 
         blocks_in = [
             TrackedTextBlock(
@@ -1317,8 +1317,8 @@ class TestTextContinuity(unittest.TestCase):
         self.assertEqual(code_blocks[1].context, CodeContext.TERMINAL)
 
     def test_extract_code_blocks_skips_non_code_frames(self):
-        from skill_seekers.cli.video_visual import _extract_code_blocks, TrackedTextBlock
-        from skill_seekers.cli.video_models import FrameType
+        from yonyou_doc2skill.cli.video_visual import _extract_code_blocks, TrackedTextBlock
+        from yonyou_doc2skill.cli.video_models import FrameType
 
         blocks_in = [
             TrackedTextBlock(
@@ -1336,7 +1336,7 @@ class TestTextContinuity(unittest.TestCase):
 
     def test_extract_visual_data_returns_tuple(self):
         """Verify extract_visual_data returns (keyframes, code_blocks) tuple."""
-        from skill_seekers.cli.video_visual import extract_visual_data, HAS_OPENCV
+        from yonyou_doc2skill.cli.video_visual import extract_visual_data, HAS_OPENCV
 
         if not HAS_OPENCV:
             with self.assertRaises(RuntimeError):
@@ -1351,7 +1351,7 @@ class TestTextContinuity(unittest.TestCase):
 
     def test_extract_text_from_frame_returns_tuple(self):
         """Verify extract_text_from_frame returns (raw_results, flat_text) tuple."""
-        from skill_seekers.cli.video_visual import extract_text_from_frame, HAS_EASYOCR
+        from yonyou_doc2skill.cli.video_visual import extract_text_from_frame, HAS_EASYOCR
 
         if not HAS_EASYOCR:
             with self.assertRaises(RuntimeError):
@@ -1379,8 +1379,8 @@ class TestOutputFormatting(unittest.TestCase):
 
     def test_reference_md_code_block_formatting(self):
         """Test that code editor OCR is wrapped in fenced code blocks."""
-        from skill_seekers.cli.video_scraper import VideoToSkillConverter
-        from skill_seekers.cli.video_models import (
+        from yonyou_doc2skill.cli.video_scraper import VideoToSkillConverter
+        from yonyou_doc2skill.cli.video_models import (
             CodeBlock,
             CodeContext,
             FrameType,
@@ -1452,8 +1452,8 @@ class TestOutputFormatting(unittest.TestCase):
 
     def test_reference_md_slide_formatting(self):
         """Test that slide OCR is formatted as blockquotes."""
-        from skill_seekers.cli.video_scraper import VideoToSkillConverter
-        from skill_seekers.cli.video_models import (
+        from yonyou_doc2skill.cli.video_scraper import VideoToSkillConverter
+        from yonyou_doc2skill.cli.video_models import (
             FrameType,
             KeyFrame,
             SegmentContentType,
@@ -1511,8 +1511,8 @@ class TestOutputFormatting(unittest.TestCase):
 
     def test_skill_md_code_block_count(self):
         """Test that SKILL.md overview includes code block count."""
-        from skill_seekers.cli.video_scraper import VideoToSkillConverter
-        from skill_seekers.cli.video_models import (
+        from yonyou_doc2skill.cli.video_scraper import VideoToSkillConverter
+        from yonyou_doc2skill.cli.video_models import (
             CodeBlock,
             CodeContext,
             KeyFrame,
@@ -1585,8 +1585,8 @@ class TestYBucketConsensus(unittest.TestCase):
     """Test the Y-bucket consensus engine for multi-frame OCR."""
 
     def test_single_frame_single_region(self):
-        from skill_seekers.cli.video_visual import YBucketConsensusEngine
-        from skill_seekers.cli.video_models import OCRRegion
+        from yonyou_doc2skill.cli.video_visual import YBucketConsensusEngine
+        from yonyou_doc2skill.cli.video_models import OCRRegion
 
         engine = YBucketConsensusEngine(y_tolerance=15.0)
         engine.add_frame(
@@ -1600,8 +1600,8 @@ class TestYBucketConsensus(unittest.TestCase):
         self.assertAlmostEqual(buckets[0].consensus_confidence, 0.9)
 
     def test_consensus_from_multiple_frames(self):
-        from skill_seekers.cli.video_visual import YBucketConsensusEngine
-        from skill_seekers.cli.video_models import OCRRegion
+        from yonyou_doc2skill.cli.video_visual import YBucketConsensusEngine
+        from yonyou_doc2skill.cli.video_models import OCRRegion
 
         engine = YBucketConsensusEngine(y_tolerance=15.0)
         # Frame 0: low confidence garbled text
@@ -1628,8 +1628,8 @@ class TestYBucketConsensus(unittest.TestCase):
         self.assertGreater(buckets[0].consensus_confidence, 0.5)
 
     def test_multiple_lines_tracked(self):
-        from skill_seekers.cli.video_visual import YBucketConsensusEngine
-        from skill_seekers.cli.video_models import OCRRegion
+        from yonyou_doc2skill.cli.video_visual import YBucketConsensusEngine
+        from yonyou_doc2skill.cli.video_models import OCRRegion
 
         engine = YBucketConsensusEngine(y_tolerance=15.0)
         engine.add_frame(
@@ -1647,8 +1647,8 @@ class TestYBucketConsensus(unittest.TestCase):
         self.assertIn("line two", texts)
 
     def test_low_confidence_single_observation_empty(self):
-        from skill_seekers.cli.video_visual import YBucketConsensusEngine
-        from skill_seekers.cli.video_models import OCRRegion
+        from yonyou_doc2skill.cli.video_visual import YBucketConsensusEngine
+        from yonyou_doc2skill.cli.video_models import OCRRegion
 
         engine = YBucketConsensusEngine(y_tolerance=15.0)
         engine.add_frame(
@@ -1661,8 +1661,8 @@ class TestYBucketConsensus(unittest.TestCase):
         self.assertEqual(buckets[0].consensus_text, "")
 
     def test_get_consensus_text_joins_lines(self):
-        from skill_seekers.cli.video_visual import YBucketConsensusEngine
-        from skill_seekers.cli.video_models import OCRRegion
+        from yonyou_doc2skill.cli.video_visual import YBucketConsensusEngine
+        from yonyou_doc2skill.cli.video_models import OCRRegion
 
         engine = YBucketConsensusEngine(y_tolerance=15.0)
         engine.add_frame(
@@ -1680,8 +1680,8 @@ class TestYBucketConsensus(unittest.TestCase):
         self.assertIn("\n", text)
 
     def test_reset_clears_state(self):
-        from skill_seekers.cli.video_visual import YBucketConsensusEngine
-        from skill_seekers.cli.video_models import OCRRegion
+        from yonyou_doc2skill.cli.video_visual import YBucketConsensusEngine
+        from yonyou_doc2skill.cli.video_models import OCRRegion
 
         engine = YBucketConsensusEngine()
         engine.add_frame(0, 1.0, [OCRRegion(text="test", confidence=0.9, bbox=(10, 100, 200, 120))])
@@ -1690,8 +1690,8 @@ class TestYBucketConsensus(unittest.TestCase):
         self.assertEqual(engine.get_consensus_confidence(), 0.0)
 
     def test_get_bucket_y_centers(self):
-        from skill_seekers.cli.video_visual import YBucketConsensusEngine
-        from skill_seekers.cli.video_models import OCRRegion
+        from yonyou_doc2skill.cli.video_visual import YBucketConsensusEngine
+        from yonyou_doc2skill.cli.video_models import OCRRegion
 
         engine = YBucketConsensusEngine(y_tolerance=15.0)
         engine.add_frame(
@@ -1717,8 +1717,8 @@ class TestTextGroupLifecycle(unittest.TestCase):
     """Test text group assignment and edit detection."""
 
     def test_single_block_creates_group(self):
-        from skill_seekers.cli.video_visual import TextBlockTracker
-        from skill_seekers.cli.video_models import FrameType, OCRRegion
+        from yonyou_doc2skill.cli.video_visual import TextBlockTracker
+        from yonyou_doc2skill.cli.video_models import FrameType, OCRRegion
 
         tracker = TextBlockTracker()
         regions = [
@@ -1740,8 +1740,8 @@ class TestTextGroupLifecycle(unittest.TestCase):
         self.assertEqual(len(groups[0].appearances), 1)
 
     def test_same_text_reappears_same_group(self):
-        from skill_seekers.cli.video_visual import TextBlockTracker
-        from skill_seekers.cli.video_models import FrameType, OCRRegion
+        from yonyou_doc2skill.cli.video_visual import TextBlockTracker
+        from yonyou_doc2skill.cli.video_models import FrameType, OCRRegion
 
         tracker = TextBlockTracker()
         regions = [
@@ -1763,8 +1763,8 @@ class TestTextGroupLifecycle(unittest.TestCase):
         self.assertEqual(len(groups[0].appearances), 2)
 
     def test_different_text_creates_new_group(self):
-        from skill_seekers.cli.video_visual import TextBlockTracker
-        from skill_seekers.cli.video_models import FrameType, OCRRegion
+        from yonyou_doc2skill.cli.video_visual import TextBlockTracker
+        from yonyou_doc2skill.cli.video_models import FrameType, OCRRegion
 
         tracker = TextBlockTracker()
         regions_a = [
@@ -1785,8 +1785,8 @@ class TestTextGroupLifecycle(unittest.TestCase):
         self.assertEqual(len(groups), 2)
 
     def test_edit_detected_between_appearances(self):
-        from skill_seekers.cli.video_visual import TextBlockTracker
-        from skill_seekers.cli.video_models import FrameType, OCRRegion
+        from yonyou_doc2skill.cli.video_visual import TextBlockTracker
+        from yonyou_doc2skill.cli.video_models import FrameType, OCRRegion
 
         tracker = TextBlockTracker()
         regions_v1 = [
@@ -1825,8 +1825,8 @@ class TestTextGroupLifecycle(unittest.TestCase):
 
     def test_tracker_y_bucket_matching(self):
         """Test that y-bucket matching works for consecutive code frames."""
-        from skill_seekers.cli.video_visual import TextBlockTracker
-        from skill_seekers.cli.video_models import FrameType, OCRRegion
+        from yonyou_doc2skill.cli.video_visual import TextBlockTracker
+        from yonyou_doc2skill.cli.video_models import FrameType, OCRRegion
 
         tracker = TextBlockTracker()
         # Two frames with same y-coordinates but slightly different text
@@ -1852,14 +1852,14 @@ class TestTextGroupLifecycle(unittest.TestCase):
         self.assertEqual(len(blocks[0].frame_indices), 2)
 
     def test_compute_edit_no_changes(self):
-        from skill_seekers.cli.video_visual import TextBlockTracker
+        from yonyou_doc2skill.cli.video_visual import TextBlockTracker
 
         tracker = TextBlockTracker()
         result = tracker._compute_edit(["line1", "line2"], ["line1", "line2"], 1.0)
         self.assertIsNone(result)
 
     def test_compute_edit_with_additions(self):
-        from skill_seekers.cli.video_visual import TextBlockTracker
+        from yonyou_doc2skill.cli.video_visual import TextBlockTracker
 
         tracker = TextBlockTracker()
         result = tracker._compute_edit(["line1"], ["line1", "line2"], 1.0)
@@ -1867,7 +1867,7 @@ class TestTextGroupLifecycle(unittest.TestCase):
         self.assertIn("line2", result.added_lines)
 
     def test_compute_edit_with_removals(self):
-        from skill_seekers.cli.video_visual import TextBlockTracker
+        from yonyou_doc2skill.cli.video_visual import TextBlockTracker
 
         tracker = TextBlockTracker()
         result = tracker._compute_edit(["line1", "line2"], ["line1"], 1.0)
@@ -1884,7 +1884,7 @@ class TestTextGroupTimeline(unittest.TestCase):
     """Test TextGroupTimeline data structure."""
 
     def test_timeline_serialization(self):
-        from skill_seekers.cli.video_models import TextGroup, TextGroupTimeline, FrameType
+        from yonyou_doc2skill.cli.video_models import TextGroup, TextGroupTimeline, FrameType
 
         tg = TextGroup(
             group_id="TG-001",
@@ -1912,7 +1912,7 @@ class TestTextGroupTimeline(unittest.TestCase):
         self.assertEqual(timeline2.text_groups[0].group_id, "TG-001")
 
     def test_get_groups_at_time(self):
-        from skill_seekers.cli.video_models import TextGroup, TextGroupTimeline, FrameType
+        from yonyou_doc2skill.cli.video_models import TextGroup, TextGroupTimeline, FrameType
 
         tg1 = TextGroup(
             group_id="TG-001",
@@ -1944,7 +1944,7 @@ class TestTextGroupTimeline(unittest.TestCase):
         self.assertEqual(active[0].group_id, "TG-002")
 
     def test_text_group_full_text(self):
-        from skill_seekers.cli.video_models import TextGroup, FrameType
+        from yonyou_doc2skill.cli.video_models import TextGroup, FrameType
 
         tg = TextGroup(
             group_id="TG-001",
@@ -1959,7 +1959,7 @@ class TestTextGroupTimeline(unittest.TestCase):
         self.assertEqual(tg.full_text, "line one\nline three")
 
     def test_text_group_serialization(self):
-        from skill_seekers.cli.video_models import TextGroup, TextGroupEdit, FrameType
+        from yonyou_doc2skill.cli.video_models import TextGroup, TextGroupEdit, FrameType
 
         edit = TextGroupEdit(
             timestamp=5.0,
@@ -1988,7 +1988,7 @@ class TestTextGroupTimeline(unittest.TestCase):
         self.assertEqual(tg2.edits[0].added_lines, ["new line"])
 
     def test_code_block_text_group_id(self):
-        from skill_seekers.cli.video_models import CodeBlock, CodeContext
+        from yonyou_doc2skill.cli.video_models import CodeBlock, CodeContext
 
         cb = CodeBlock(
             code="print('hi')",
@@ -2004,7 +2004,7 @@ class TestTextGroupTimeline(unittest.TestCase):
         self.assertEqual(cb2.text_group_id, "TG-001")
 
     def test_video_info_timeline_serialization(self):
-        from skill_seekers.cli.video_models import (
+        from yonyou_doc2skill.cli.video_models import (
             VideoInfo,
             VideoSourceType,
             TextGroupTimeline,
@@ -2035,7 +2035,7 @@ class TestTextGroupTimeline(unittest.TestCase):
         self.assertEqual(len(info2.text_group_timeline.text_groups), 1)
 
     def test_video_info_no_timeline_serialization(self):
-        from skill_seekers.cli.video_models import VideoInfo, VideoSourceType
+        from yonyou_doc2skill.cli.video_models import VideoInfo, VideoSourceType
 
         info = VideoInfo(video_id="test", source_type=VideoSourceType.YOUTUBE)
         d = info.to_dict()
@@ -2046,7 +2046,7 @@ class TestTextGroupTimeline(unittest.TestCase):
 
     def test_extract_visual_data_returns_3_tuple(self):
         """Verify extract_visual_data returns (keyframes, code_blocks, timeline) tuple."""
-        from skill_seekers.cli.video_visual import extract_visual_data, HAS_OPENCV
+        from yonyou_doc2skill.cli.video_visual import extract_visual_data, HAS_OPENCV
 
         if not HAS_OPENCV:
             with self.assertRaises(RuntimeError):
@@ -2068,7 +2068,7 @@ class TestAudioVisualAlignment(unittest.TestCase):
     """Test audio-visual alignment building and rendering."""
 
     def test_alignment_serialization(self):
-        from skill_seekers.cli.video_models import AudioVisualAlignment
+        from yonyou_doc2skill.cli.video_models import AudioVisualAlignment
 
         av = AudioVisualAlignment(
             text_group_id="TG-001",
@@ -2088,8 +2088,8 @@ class TestAudioVisualAlignment(unittest.TestCase):
         self.assertIn("hello function", av2.transcript_during)
 
     def test_build_audio_visual_alignments(self):
-        from skill_seekers.cli.video_scraper import _build_audio_visual_alignments
-        from skill_seekers.cli.video_models import (
+        from yonyou_doc2skill.cli.video_scraper import _build_audio_visual_alignments
+        from yonyou_doc2skill.cli.video_models import (
             TextGroup,
             TextGroupTimeline,
             TranscriptSegment,
@@ -2139,8 +2139,8 @@ class TestAudioVisualAlignment(unittest.TestCase):
         self.assertNotIn("After code", alignments[0].transcript_during)
 
     def test_build_alignments_no_overlap(self):
-        from skill_seekers.cli.video_scraper import _build_audio_visual_alignments
-        from skill_seekers.cli.video_models import (
+        from yonyou_doc2skill.cli.video_scraper import _build_audio_visual_alignments
+        from yonyou_doc2skill.cli.video_models import (
             TextGroup,
             TextGroupTimeline,
             TranscriptSegment,
@@ -2168,8 +2168,8 @@ class TestAudioVisualAlignment(unittest.TestCase):
 
     def test_reference_md_code_timeline_section(self):
         """Test that Code Timeline section renders correctly."""
-        from skill_seekers.cli.video_scraper import VideoToSkillConverter
-        from skill_seekers.cli.video_models import (
+        from yonyou_doc2skill.cli.video_scraper import VideoToSkillConverter
+        from yonyou_doc2skill.cli.video_models import (
             FrameType,
             TextGroup,
             TextGroupTimeline,
@@ -2231,8 +2231,8 @@ class TestAudioVisualAlignment(unittest.TestCase):
 
     def test_reference_md_audio_visual_section(self):
         """Test that Audio-Visual Alignment section renders correctly."""
-        from skill_seekers.cli.video_scraper import VideoToSkillConverter
-        from skill_seekers.cli.video_models import (
+        from yonyou_doc2skill.cli.video_scraper import VideoToSkillConverter
+        from yonyou_doc2skill.cli.video_models import (
             AudioVisualAlignment,
             TranscriptSource,
             VideoInfo,
@@ -2299,7 +2299,7 @@ class TestDarkThemePreprocessing(unittest.TestCase):
         """Dark image (median < 128) returns 'dark'."""
         import numpy as np
 
-        from skill_seekers.cli.video_visual import _detect_theme
+        from yonyou_doc2skill.cli.video_visual import _detect_theme
 
         # Simulate a dark IDE background (median ~30)
         dark_img = np.full((100, 200), 30, dtype=np.uint8)
@@ -2309,7 +2309,7 @@ class TestDarkThemePreprocessing(unittest.TestCase):
         """Light image (median >= 128) returns 'light'."""
         import numpy as np
 
-        from skill_seekers.cli.video_visual import _detect_theme
+        from yonyou_doc2skill.cli.video_visual import _detect_theme
 
         # Simulate a light background (median ~220)
         light_img = np.full((100, 200), 220, dtype=np.uint8)
@@ -2323,8 +2323,8 @@ class TestDarkThemePreprocessing(unittest.TestCase):
         except ImportError:
             self.skipTest("OpenCV not available")
 
-        from skill_seekers.cli.video_models import FrameType
-        from skill_seekers.cli.video_visual import _preprocess_frame_for_ocr
+        from yonyou_doc2skill.cli.video_models import FrameType
+        from yonyou_doc2skill.cli.video_visual import _preprocess_frame_for_ocr
 
         # Create a dark frame (simulating dark-theme IDE)
         dark_frame = np.full((100, 200, 3), 30, dtype=np.uint8)
@@ -2359,8 +2359,8 @@ class TestDarkThemePreprocessing(unittest.TestCase):
         except ImportError:
             self.skipTest("OpenCV not available")
 
-        from skill_seekers.cli.video_models import FrameType
-        from skill_seekers.cli.video_visual import _preprocess_frame_for_ocr
+        from yonyou_doc2skill.cli.video_models import FrameType
+        from yonyou_doc2skill.cli.video_visual import _preprocess_frame_for_ocr
 
         # Create a light frame (white background, dark text)
         light_frame = np.full((100, 200, 3), 240, dtype=np.uint8)
@@ -2397,8 +2397,8 @@ class TestMultiEngineOCR(unittest.TestCase):
         except ImportError:
             self.skipTest("pytesseract or OpenCV not available")
 
-        from skill_seekers.cli.video_models import FrameType
-        from skill_seekers.cli.video_visual import _run_tesseract_ocr
+        from yonyou_doc2skill.cli.video_models import FrameType
+        from yonyou_doc2skill.cli.video_visual import _run_tesseract_ocr
 
         # Create a simple white image with black text
         img = np.full((100, 400), 255, dtype=np.uint8)
@@ -2425,7 +2425,7 @@ class TestMultiEngineOCR(unittest.TestCase):
 
     def test_multi_engine_picks_higher_confidence(self):
         """Mock both engines: higher confidence result wins."""
-        from skill_seekers.cli.video_visual import _pick_better_ocr_result
+        from yonyou_doc2skill.cli.video_visual import _pick_better_ocr_result
 
         result_high = ([[0, 0], [100, 0], [100, 20], [0, 20]], "def foo():", 0.9)
         result_low = ([[0, 0], [100, 0], [100, 20], [0, 20]], "deff fo()", 0.4)
@@ -2436,7 +2436,7 @@ class TestMultiEngineOCR(unittest.TestCase):
 
     def test_multi_engine_code_token_preference(self):
         """Result with code tokens preferred over garbage."""
-        from skill_seekers.cli.video_visual import _pick_better_ocr_result
+        from yonyou_doc2skill.cli.video_visual import _pick_better_ocr_result
 
         # Garbage has higher confidence but no code tokens
         garbage = ([[0, 0], [100, 0], [100, 20], [0, 20]], "chitd Icrate", 0.8)
@@ -2447,7 +2447,7 @@ class TestMultiEngineOCR(unittest.TestCase):
 
     def test_multi_engine_single_engine_fallback(self):
         """When one engine returns nothing, use the other."""
-        from skill_seekers.cli.video_visual import _merge_by_y_bucket
+        from yonyou_doc2skill.cli.video_visual import _merge_by_y_bucket
 
         easy_results = [
             ([[0, 0], [100, 0], [100, 20], [0, 20]], "line one", 0.8),
@@ -2467,8 +2467,8 @@ class TestClaudeVisionOCR(unittest.TestCase):
         """Returns empty when ANTHROPIC_API_KEY is not set."""
         from unittest.mock import patch
 
-        from skill_seekers.cli.video_models import FrameType
-        from skill_seekers.cli.video_visual import _ocr_with_claude_vision
+        from yonyou_doc2skill.cli.video_models import FrameType
+        from yonyou_doc2skill.cli.video_visual import _ocr_with_claude_vision
 
         with patch.dict(os.environ, {}, clear=True):
             # Ensure no ANTHROPIC_API_KEY
@@ -2482,8 +2482,8 @@ class TestClaudeVisionOCR(unittest.TestCase):
         import sys
         from unittest.mock import MagicMock, patch
 
-        from skill_seekers.cli.video_models import FrameType
-        from skill_seekers.cli.video_visual import _ocr_with_claude_vision
+        from yonyou_doc2skill.cli.video_models import FrameType
+        from yonyou_doc2skill.cli.video_visual import _ocr_with_claude_vision
 
         # Create a minimal image file
         with tempfile.NamedTemporaryFile(suffix=".png", delete=False) as tmp:
@@ -2515,8 +2515,8 @@ class TestClaudeVisionOCR(unittest.TestCase):
 
     def test_vision_fallback_on_low_confidence(self):
         """Vision API is only called when multi-engine conf < 0.5."""
-        from skill_seekers.cli.video_models import FrameType
-        from skill_seekers.cli.video_visual import _ocr_with_claude_vision
+        from yonyou_doc2skill.cli.video_models import FrameType
+        from yonyou_doc2skill.cli.video_visual import _ocr_with_claude_vision
 
         # Without API key, vision always returns empty — simulating no-fallback
         os.environ.pop("ANTHROPIC_API_KEY", None)
@@ -2536,7 +2536,7 @@ class TestRegionDetection(unittest.TestCase):
         except ImportError:
             self.skipTest("OpenCV not available")
 
-        from skill_seekers.cli.video_visual import classify_frame_regions
+        from yonyou_doc2skill.cli.video_visual import classify_frame_regions
 
         # Uniform dark frame — no dividers
         img = np.full((400, 800, 3), 35, dtype=np.uint8)
@@ -2561,7 +2561,7 @@ class TestRegionDetection(unittest.TestCase):
         except ImportError:
             self.skipTest("OpenCV not available")
 
-        from skill_seekers.cli.video_visual import classify_frame_regions
+        from yonyou_doc2skill.cli.video_visual import classify_frame_regions
 
         # Dark frame with a bright vertical divider at x=400
         img = np.full((600, 800, 3), 35, dtype=np.uint8)
@@ -2580,8 +2580,8 @@ class TestRegionDetection(unittest.TestCase):
 
     def test_find_code_bbox_merges_regions(self):
         """_find_code_bbox merges multiple code panels into one box."""
-        from skill_seekers.cli.video_models import FrameType
-        from skill_seekers.cli.video_visual import _find_code_bbox
+        from yonyou_doc2skill.cli.video_models import FrameType
+        from yonyou_doc2skill.cli.video_visual import _find_code_bbox
 
         regions = [
             (0, 0, 200, 600, FrameType.CODE_EDITOR),
@@ -2594,8 +2594,8 @@ class TestRegionDetection(unittest.TestCase):
 
     def test_find_code_bbox_returns_none_for_no_code(self):
         """_find_code_bbox returns None when no code regions exist."""
-        from skill_seekers.cli.video_models import FrameType
-        from skill_seekers.cli.video_visual import _find_code_bbox
+        from yonyou_doc2skill.cli.video_models import FrameType
+        from yonyou_doc2skill.cli.video_visual import _find_code_bbox
 
         regions = [
             (0, 0, 800, 600, FrameType.WEBCAM),
@@ -2611,7 +2611,7 @@ class TestRegionDetection(unittest.TestCase):
         except ImportError:
             self.skipTest("OpenCV not available")
 
-        from skill_seekers.cli.video_visual import classify_frame_regions
+        from yonyou_doc2skill.cli.video_visual import classify_frame_regions
 
         # Create frame with many thin vertical dividers creating tiny panels
         img = np.full((400, 800, 3), 35, dtype=np.uint8)
@@ -2639,7 +2639,7 @@ class TestRegionDetection(unittest.TestCase):
         except ImportError:
             self.skipTest("OpenCV not available")
 
-        from skill_seekers.cli.video_visual import _crop_code_region
+        from yonyou_doc2skill.cli.video_visual import _crop_code_region
 
         img = np.full((600, 1000, 3), 100, dtype=np.uint8)
         # Mark code region with distinct color
@@ -2664,8 +2664,8 @@ class TestPerPanelOCR(unittest.TestCase):
 
     def test_get_code_panels_returns_individual_panels(self):
         """_get_code_panels returns separate bboxes instead of merging."""
-        from skill_seekers.cli.video_models import FrameType
-        from skill_seekers.cli.video_visual import _get_code_panels
+        from yonyou_doc2skill.cli.video_models import FrameType
+        from yonyou_doc2skill.cli.video_visual import _get_code_panels
 
         regions = [
             (0, 0, 500, 1080, FrameType.CODE_EDITOR),
@@ -2680,8 +2680,8 @@ class TestPerPanelOCR(unittest.TestCase):
 
     def test_get_code_panels_includes_terminals(self):
         """_get_code_panels returns terminal panels too."""
-        from skill_seekers.cli.video_models import FrameType
-        from skill_seekers.cli.video_visual import _get_code_panels
+        from yonyou_doc2skill.cli.video_models import FrameType
+        from yonyou_doc2skill.cli.video_visual import _get_code_panels
 
         regions = [
             (0, 0, 960, 540, FrameType.CODE_EDITOR),
@@ -2694,8 +2694,8 @@ class TestPerPanelOCR(unittest.TestCase):
 
     def test_get_code_panels_filters_narrow_panels(self):
         """_get_code_panels drops panels narrower than min_width."""
-        from skill_seekers.cli.video_models import FrameType
-        from skill_seekers.cli.video_visual import _get_code_panels
+        from yonyou_doc2skill.cli.video_models import FrameType
+        from yonyou_doc2skill.cli.video_visual import _get_code_panels
 
         regions = [
             (0, 0, 500, 1080, FrameType.CODE_EDITOR),  # 500px wide — kept
@@ -2711,8 +2711,8 @@ class TestPerPanelOCR(unittest.TestCase):
 
     def test_get_code_panels_custom_min_width(self):
         """_get_code_panels respects custom min_width."""
-        from skill_seekers.cli.video_models import FrameType
-        from skill_seekers.cli.video_visual import _get_code_panels
+        from yonyou_doc2skill.cli.video_models import FrameType
+        from yonyou_doc2skill.cli.video_visual import _get_code_panels
 
         regions = [
             (0, 0, 200, 1080, FrameType.CODE_EDITOR),  # 200px
@@ -2726,7 +2726,7 @@ class TestPerPanelOCR(unittest.TestCase):
 
     def test_frame_subsection_serialization(self):
         """FrameSubSection to_dict/from_dict round-trips correctly."""
-        from skill_seekers.cli.video_models import (
+        from yonyou_doc2skill.cli.video_models import (
             FrameSubSection,
             FrameType,
             OCRRegion,
@@ -2752,7 +2752,7 @@ class TestPerPanelOCR(unittest.TestCase):
 
     def test_keyframe_with_sub_sections(self):
         """KeyFrame serialization preserves sub_sections."""
-        from skill_seekers.cli.video_models import (
+        from yonyou_doc2skill.cli.video_models import (
             FrameSubSection,
             FrameType,
             KeyFrame,
@@ -2788,8 +2788,8 @@ class TestPerPanelOCR(unittest.TestCase):
 
     def test_tracker_panel_position_matching(self):
         """Two calls with overlapping x-range bbox match the same block."""
-        from skill_seekers.cli.video_models import FrameType
-        from skill_seekers.cli.video_visual import TextBlockTracker
+        from yonyou_doc2skill.cli.video_models import FrameType
+        from yonyou_doc2skill.cli.video_visual import TextBlockTracker
 
         tracker = TextBlockTracker()
         code = "def hello():\n    return 'world'\n# some code here"
@@ -2821,8 +2821,8 @@ class TestPerPanelOCR(unittest.TestCase):
 
     def test_tracker_separate_panels_tracked_separately(self):
         """Two calls with non-overlapping bboxes create separate blocks."""
-        from skill_seekers.cli.video_models import FrameType
-        from skill_seekers.cli.video_visual import TextBlockTracker
+        from yonyou_doc2skill.cli.video_models import FrameType
+        from yonyou_doc2skill.cli.video_visual import TextBlockTracker
 
         tracker = TextBlockTracker()
         left_code = "def left_func():\n    return 'left'\n# left panel code"
@@ -2861,8 +2861,8 @@ class TestTextGroupPanelId(unittest.TestCase):
 
     def test_text_group_inherits_panel_id(self):
         """Panel ID propagates from TrackedTextBlock to TextGroup."""
-        from skill_seekers.cli.video_models import FrameType
-        from skill_seekers.cli.video_visual import TextBlockTracker
+        from yonyou_doc2skill.cli.video_models import FrameType
+        from yonyou_doc2skill.cli.video_visual import TextBlockTracker
 
         tracker = TextBlockTracker()
         code = "class MyClass:\n    def method(self):\n        pass"
@@ -2892,7 +2892,7 @@ class TestTextGroupPanelId(unittest.TestCase):
 
     def test_text_group_panel_id_serialization(self):
         """TextGroup panel_id survives to_dict/from_dict."""
-        from skill_seekers.cli.video_models import FrameType, TextGroup
+        from yonyou_doc2skill.cli.video_models import FrameType, TextGroup
 
         group = TextGroup(
             group_id="TG-001",
@@ -2919,7 +2919,7 @@ class TestVideoEnhanceSourceDetection(unittest.TestCase):
 
     def test_utils_detect_video_source(self):
         """_determine_source_metadata classifies video_ files as video_tutorial."""
-        from skill_seekers.cli.utils import read_reference_files
+        from yonyou_doc2skill.cli.utils import read_reference_files
 
         # Create a temp skill dir with a video reference file
         with tempfile.TemporaryDirectory() as tmpdir:
@@ -2936,7 +2936,7 @@ class TestVideoEnhanceSourceDetection(unittest.TestCase):
 
     def test_utils_non_video_not_detected(self):
         """Regular reference files are not classified as video_tutorial."""
-        from skill_seekers.cli.utils import read_reference_files
+        from yonyou_doc2skill.cli.utils import read_reference_files
 
         with tempfile.TemporaryDirectory() as tmpdir:
             refs_dir = os.path.join(tmpdir, "references")
@@ -2957,7 +2957,7 @@ class TestVideoEnhancementPrompt(unittest.TestCase):
         """_is_video_source returns True for video_tutorial references."""
         from unittest.mock import MagicMock
 
-        from skill_seekers.cli.enhance_skill import SkillEnhancer
+        from yonyou_doc2skill.cli.enhance_skill import SkillEnhancer
 
         # Mock the enhancer (skip API key requirement)
         enhancer = MagicMock(spec=SkillEnhancer)
@@ -2972,7 +2972,7 @@ class TestVideoEnhancementPrompt(unittest.TestCase):
         """_is_video_source returns False for non-video references."""
         from unittest.mock import MagicMock
 
-        from skill_seekers.cli.enhance_skill import SkillEnhancer
+        from yonyou_doc2skill.cli.enhance_skill import SkillEnhancer
 
         enhancer = MagicMock(spec=SkillEnhancer)
         enhancer._is_video_source = SkillEnhancer._is_video_source.__get__(enhancer)
@@ -2986,7 +2986,7 @@ class TestVideoEnhancementPrompt(unittest.TestCase):
         """Video enhancement prompt contains video-specific instructions."""
         from unittest.mock import MagicMock, PropertyMock
 
-        from skill_seekers.cli.enhance_skill import SkillEnhancer
+        from yonyou_doc2skill.cli.enhance_skill import SkillEnhancer
 
         enhancer = MagicMock(spec=SkillEnhancer)
         enhancer._build_video_enhancement_prompt = (
@@ -3021,7 +3021,7 @@ class TestVideoEnhancementPrompt(unittest.TestCase):
         """_build_enhancement_prompt dispatches to video prompt when video source detected."""
         from unittest.mock import MagicMock, PropertyMock
 
-        from skill_seekers.cli.enhance_skill import SkillEnhancer
+        from yonyou_doc2skill.cli.enhance_skill import SkillEnhancer
 
         enhancer = MagicMock(spec=SkillEnhancer)
         enhancer._is_video_source = SkillEnhancer._is_video_source.__get__(enhancer)
@@ -3095,7 +3095,7 @@ class TestVideoWorkflowAutoInjection(unittest.TestCase):
         from importlib.resources import files as importlib_files
 
         try:
-            pkg = importlib_files("skill_seekers.workflows")
+            pkg = importlib_files("yonyou_doc2skill.workflows")
             yaml_content = pkg.joinpath("video-tutorial.yaml").read_text(encoding="utf-8")
             self.assertIn("video-tutorial", yaml_content)
             self.assertIn("ocr_code_cleanup", yaml_content)
@@ -3107,7 +3107,7 @@ class TestVideoWorkflowAutoInjection(unittest.TestCase):
             yaml_path = (
                 pathlib.Path(__file__).parent.parent
                 / "src"
-                / "skill_seekers"
+                / "yonyou_doc2skill"
                 / "workflows"
                 / "video-tutorial.yaml"
             )
@@ -3125,51 +3125,51 @@ class TestTimeClipping(unittest.TestCase):
     # ---- parse_time_to_seconds() ----
 
     def test_parse_time_seconds_integer(self):
-        from skill_seekers.cli.video_scraper import parse_time_to_seconds
+        from yonyou_doc2skill.cli.video_scraper import parse_time_to_seconds
 
         self.assertEqual(parse_time_to_seconds("330"), 330.0)
 
     def test_parse_time_seconds_float(self):
-        from skill_seekers.cli.video_scraper import parse_time_to_seconds
+        from yonyou_doc2skill.cli.video_scraper import parse_time_to_seconds
 
         self.assertAlmostEqual(parse_time_to_seconds("90.5"), 90.5)
 
     def test_parse_time_mmss(self):
-        from skill_seekers.cli.video_scraper import parse_time_to_seconds
+        from yonyou_doc2skill.cli.video_scraper import parse_time_to_seconds
 
         self.assertEqual(parse_time_to_seconds("5:30"), 330.0)
 
     def test_parse_time_hhmmss(self):
-        from skill_seekers.cli.video_scraper import parse_time_to_seconds
+        from yonyou_doc2skill.cli.video_scraper import parse_time_to_seconds
 
         self.assertEqual(parse_time_to_seconds("1:05:30"), 3930.0)
 
     def test_parse_time_zero(self):
-        from skill_seekers.cli.video_scraper import parse_time_to_seconds
+        from yonyou_doc2skill.cli.video_scraper import parse_time_to_seconds
 
         self.assertEqual(parse_time_to_seconds("0"), 0.0)
         self.assertEqual(parse_time_to_seconds("0:00"), 0.0)
         self.assertEqual(parse_time_to_seconds("0:00:00"), 0.0)
 
     def test_parse_time_decimal_mmss(self):
-        from skill_seekers.cli.video_scraper import parse_time_to_seconds
+        from yonyou_doc2skill.cli.video_scraper import parse_time_to_seconds
 
         self.assertAlmostEqual(parse_time_to_seconds("1:30.5"), 90.5)
 
     def test_parse_time_invalid_raises(self):
-        from skill_seekers.cli.video_scraper import parse_time_to_seconds
+        from yonyou_doc2skill.cli.video_scraper import parse_time_to_seconds
 
         with self.assertRaises(ValueError):
             parse_time_to_seconds("abc")
 
     def test_parse_time_empty_raises(self):
-        from skill_seekers.cli.video_scraper import parse_time_to_seconds
+        from yonyou_doc2skill.cli.video_scraper import parse_time_to_seconds
 
         with self.assertRaises(ValueError):
             parse_time_to_seconds("")
 
     def test_parse_time_too_many_colons_raises(self):
-        from skill_seekers.cli.video_scraper import parse_time_to_seconds
+        from yonyou_doc2skill.cli.video_scraper import parse_time_to_seconds
 
         with self.assertRaises(ValueError):
             parse_time_to_seconds("1:2:3:4")
@@ -3177,20 +3177,20 @@ class TestTimeClipping(unittest.TestCase):
     # ---- Argument registration ----
 
     def test_video_arguments_include_start_end_time(self):
-        from skill_seekers.cli.arguments.video import VIDEO_ARGUMENTS
+        from yonyou_doc2skill.cli.arguments.video import VIDEO_ARGUMENTS
 
         self.assertIn("start_time", VIDEO_ARGUMENTS)
         self.assertIn("end_time", VIDEO_ARGUMENTS)
 
     def test_create_arguments_include_start_end_time(self):
-        from skill_seekers.cli.arguments.create import VIDEO_ARGUMENTS
+        from yonyou_doc2skill.cli.arguments.create import VIDEO_ARGUMENTS
 
         self.assertIn("start_time", VIDEO_ARGUMENTS)
         self.assertIn("end_time", VIDEO_ARGUMENTS)
 
     def test_argument_parsing_defaults_none(self):
         import argparse
-        from skill_seekers.cli.arguments.video import add_video_arguments
+        from yonyou_doc2skill.cli.arguments.video import add_video_arguments
 
         parser = argparse.ArgumentParser()
         add_video_arguments(parser)
@@ -3200,7 +3200,7 @@ class TestTimeClipping(unittest.TestCase):
 
     def test_argument_parsing_with_values(self):
         import argparse
-        from skill_seekers.cli.arguments.video import add_video_arguments
+        from yonyou_doc2skill.cli.arguments.video import add_video_arguments
 
         parser = argparse.ArgumentParser()
         add_video_arguments(parser)
@@ -3214,7 +3214,7 @@ class TestTimeClipping(unittest.TestCase):
 
     def test_transcript_clip_filters_segments(self):
         """Verify transcript segments are filtered to clip range."""
-        from skill_seekers.cli.video_models import TranscriptSegment
+        from yonyou_doc2skill.cli.video_models import TranscriptSegment
 
         segments = [
             TranscriptSegment(text="intro", start=0.0, end=30.0),
@@ -3232,7 +3232,7 @@ class TestTimeClipping(unittest.TestCase):
 
     def test_transcript_clip_start_only(self):
         """Verify only clip_start filters correctly."""
-        from skill_seekers.cli.video_models import TranscriptSegment
+        from yonyou_doc2skill.cli.video_models import TranscriptSegment
 
         segments = [
             TranscriptSegment(text="before", start=0.0, end=50.0),
@@ -3247,7 +3247,7 @@ class TestTimeClipping(unittest.TestCase):
     # ---- Validation ----
 
     def test_playlist_plus_clip_rejected(self):
-        from skill_seekers.cli.video_models import VideoSourceConfig
+        from yonyou_doc2skill.cli.video_models import VideoSourceConfig
 
         config = VideoSourceConfig(
             playlist="https://youtube.com/playlist?list=x",
@@ -3257,7 +3257,7 @@ class TestTimeClipping(unittest.TestCase):
         self.assertTrue(any("--start-time" in e for e in errors))
 
     def test_start_gte_end_rejected(self):
-        from skill_seekers.cli.video_models import VideoSourceConfig
+        from yonyou_doc2skill.cli.video_models import VideoSourceConfig
 
         config = VideoSourceConfig(
             url="https://youtube.com/watch?v=x", clip_start=300.0, clip_end=120.0
@@ -3266,7 +3266,7 @@ class TestTimeClipping(unittest.TestCase):
         self.assertTrue(any("must be before" in e for e in errors))
 
     def test_valid_clip_no_errors(self):
-        from skill_seekers.cli.video_models import VideoSourceConfig
+        from yonyou_doc2skill.cli.video_models import VideoSourceConfig
 
         config = VideoSourceConfig(
             url="https://youtube.com/watch?v=x", clip_start=60.0, clip_end=300.0
@@ -3277,7 +3277,7 @@ class TestTimeClipping(unittest.TestCase):
     # ---- VideoInfo clip metadata serialization ----
 
     def test_video_info_clip_roundtrip(self):
-        from skill_seekers.cli.video_models import VideoInfo, VideoSourceType
+        from yonyou_doc2skill.cli.video_models import VideoInfo, VideoSourceType
 
         info = VideoInfo(
             video_id="test",
@@ -3298,7 +3298,7 @@ class TestTimeClipping(unittest.TestCase):
         self.assertEqual(restored.clip_end, 420.0)
 
     def test_video_info_no_clip_roundtrip(self):
-        from skill_seekers.cli.video_models import VideoInfo, VideoSourceType
+        from yonyou_doc2skill.cli.video_models import VideoInfo, VideoSourceType
 
         info = VideoInfo(video_id="test", source_type=VideoSourceType.YOUTUBE)
         data = info.to_dict()
@@ -3313,7 +3313,7 @@ class TestTimeClipping(unittest.TestCase):
     # ---- VideoSourceConfig clip fields ----
 
     def test_source_config_clip_fields(self):
-        from skill_seekers.cli.video_models import VideoSourceConfig
+        from yonyou_doc2skill.cli.video_models import VideoSourceConfig
 
         config = VideoSourceConfig.from_dict(
             {
@@ -3326,7 +3326,7 @@ class TestTimeClipping(unittest.TestCase):
         self.assertEqual(config.clip_end, 60.0)
 
     def test_source_config_clip_defaults_none(self):
-        from skill_seekers.cli.video_models import VideoSourceConfig
+        from yonyou_doc2skill.cli.video_models import VideoSourceConfig
 
         config = VideoSourceConfig.from_dict({"url": "https://example.com"})
         self.assertIsNone(config.clip_start)
@@ -3335,7 +3335,7 @@ class TestTimeClipping(unittest.TestCase):
     # ---- Converter init ----
 
     def test_converter_init_with_clip_times(self):
-        from skill_seekers.cli.video_scraper import VideoToSkillConverter
+        from yonyou_doc2skill.cli.video_scraper import VideoToSkillConverter
 
         config = {
             "name": "test",
@@ -3348,7 +3348,7 @@ class TestTimeClipping(unittest.TestCase):
         self.assertEqual(converter.end_time, 300.0)
 
     def test_converter_init_without_clip_times(self):
-        from skill_seekers.cli.video_scraper import VideoToSkillConverter
+        from yonyou_doc2skill.cli.video_scraper import VideoToSkillConverter
 
         config = {"name": "test", "url": "https://youtube.com/watch?v=x"}
         converter = VideoToSkillConverter(config)
@@ -3358,8 +3358,8 @@ class TestTimeClipping(unittest.TestCase):
     # ---- Segmenter start_offset / end_limit ----
 
     def test_segmenter_time_window_with_offset(self):
-        from skill_seekers.cli.video_segmenter import segment_by_time_window
-        from skill_seekers.cli.video_models import VideoInfo, VideoSourceType
+        from yonyou_doc2skill.cli.video_segmenter import segment_by_time_window
+        from yonyou_doc2skill.cli.video_models import VideoInfo, VideoSourceType
 
         info = VideoInfo(video_id="test", source_type=VideoSourceType.YOUTUBE, duration=600.0)
         # Use 120s windows starting at 120s, ending at 360s
@@ -3370,8 +3370,8 @@ class TestTimeClipping(unittest.TestCase):
         self.assertEqual(len(segments), 0)
 
     def test_segmenter_time_window_offset_with_transcript(self):
-        from skill_seekers.cli.video_segmenter import segment_by_time_window
-        from skill_seekers.cli.video_models import (
+        from yonyou_doc2skill.cli.video_segmenter import segment_by_time_window
+        from yonyou_doc2skill.cli.video_models import (
             VideoInfo,
             VideoSourceType,
             TranscriptSegment,
@@ -3404,14 +3404,14 @@ class TestCleanOcrLine(unittest.TestCase):
     """Tests for _clean_ocr_line() in video_visual.py."""
 
     def test_strips_leading_line_numbers(self):
-        from skill_seekers.cli.video_visual import _clean_ocr_line
+        from yonyou_doc2skill.cli.video_visual import _clean_ocr_line
 
         self.assertEqual(_clean_ocr_line("23 public class Card"), "public class Card")
         self.assertEqual(_clean_ocr_line("1\tpublic void Start()"), "public void Start()")
         self.assertEqual(_clean_ocr_line("  456 return x"), "return x")
 
     def test_strips_ide_decorations(self):
-        from skill_seekers.cli.video_visual import _clean_ocr_line
+        from yonyou_doc2skill.cli.video_visual import _clean_ocr_line
 
         # Unity Inspector line should be removed entirely
         self.assertEqual(_clean_ocr_line("Inspector Card Script"), "")
@@ -3420,13 +3420,13 @@ class TestCleanOcrLine(unittest.TestCase):
         self.assertEqual(_clean_ocr_line("File Edit Assets Window Help"), "")
 
     def test_strips_collapse_markers(self):
-        from skill_seekers.cli.video_visual import _clean_ocr_line
+        from yonyou_doc2skill.cli.video_visual import _clean_ocr_line
 
         self.assertNotIn("▶", _clean_ocr_line("▶ class Card"))
         self.assertNotIn("▼", _clean_ocr_line("▼ Properties"))
 
     def test_preserves_normal_code(self):
-        from skill_seekers.cli.video_visual import _clean_ocr_line
+        from yonyou_doc2skill.cli.video_visual import _clean_ocr_line
 
         self.assertEqual(
             _clean_ocr_line("public class Card : MonoBehaviour"),
@@ -3439,7 +3439,7 @@ class TestFixIntraLineDuplication(unittest.TestCase):
     """Tests for _fix_intra_line_duplication() in video_visual.py."""
 
     def test_fixes_simple_duplication(self):
-        from skill_seekers.cli.video_visual import _fix_intra_line_duplication
+        from yonyou_doc2skill.cli.video_visual import _fix_intra_line_duplication
 
         result = _fix_intra_line_duplication("public class Card public class Card : MonoBehaviour")
         # Should keep the half with more content
@@ -3448,13 +3448,13 @@ class TestFixIntraLineDuplication(unittest.TestCase):
         self.assertLessEqual(result.count("public class Card"), 1)
 
     def test_preserves_non_duplicated(self):
-        from skill_seekers.cli.video_visual import _fix_intra_line_duplication
+        from yonyou_doc2skill.cli.video_visual import _fix_intra_line_duplication
 
         original = "public class Card : MonoBehaviour"
         self.assertEqual(_fix_intra_line_duplication(original), original)
 
     def test_short_lines_unchanged(self):
-        from skill_seekers.cli.video_visual import _fix_intra_line_duplication
+        from yonyou_doc2skill.cli.video_visual import _fix_intra_line_duplication
 
         self.assertEqual(_fix_intra_line_duplication("a b"), "a b")
         self.assertEqual(_fix_intra_line_duplication("x"), "x")
@@ -3464,7 +3464,7 @@ class TestIsLikelyCode(unittest.TestCase):
     """Tests for _is_likely_code() in video_scraper.py."""
 
     def test_true_for_real_code(self):
-        from skill_seekers.cli.video_scraper import _is_likely_code
+        from yonyou_doc2skill.cli.video_scraper import _is_likely_code
 
         self.assertTrue(_is_likely_code("public void DrawCard() {"))
         self.assertTrue(_is_likely_code("def main():\n    return x"))
@@ -3472,7 +3472,7 @@ class TestIsLikelyCode(unittest.TestCase):
         self.assertTrue(_is_likely_code("import os; import sys"))
 
     def test_false_for_ui_junk(self):
-        from skill_seekers.cli.video_scraper import _is_likely_code
+        from yonyou_doc2skill.cli.video_scraper import _is_likely_code
 
         self.assertFalse(_is_likely_code("Inspector Image Type Simple"))
         self.assertFalse(_is_likely_code("Hierarchy Canvas Button"))
@@ -3480,7 +3480,7 @@ class TestIsLikelyCode(unittest.TestCase):
         self.assertFalse(_is_likely_code("short"))
 
     def test_code_tokens_must_exceed_ui(self):
-        from skill_seekers.cli.video_scraper import _is_likely_code
+        from yonyou_doc2skill.cli.video_scraper import _is_likely_code
 
         # More UI than code tokens
         self.assertFalse(_is_likely_code("Inspector Console Project Hierarchy Scene Game = ;"))
@@ -3492,8 +3492,8 @@ class TestTextGroupLanguageDetection(unittest.TestCase):
     def test_groups_get_language_detected(self):
         from unittest.mock import MagicMock, patch
 
-        from skill_seekers.cli.video_visual import TextBlockTracker
-        from skill_seekers.cli.video_models import FrameType
+        from yonyou_doc2skill.cli.video_visual import TextBlockTracker
+        from yonyou_doc2skill.cli.video_models import FrameType
 
         tracker = TextBlockTracker()
 
@@ -3512,7 +3512,7 @@ class TestTextGroupLanguageDetection(unittest.TestCase):
         mock_module = MagicMock()
         mock_module.LanguageDetector.return_value = mock_detector
 
-        with patch.dict("sys.modules", {"skill_seekers.cli.language_detector": mock_module}):
+        with patch.dict("sys.modules", {"yonyou_doc2skill.cli.language_detector": mock_module}):
             groups = tracker.get_text_groups()
 
             # If groups were formed and had enough text, language should be detected
@@ -3526,7 +3526,7 @@ class TestSkipWebcamOcr(unittest.TestCase):
 
     def test_webcam_frame_type_excluded_from_ocr_condition(self):
         """Verify the condition in the OCR block excludes WEBCAM/OTHER."""
-        from skill_seekers.cli.video_models import FrameType
+        from yonyou_doc2skill.cli.video_models import FrameType
 
         # These should be excluded from the non-code OCR path
         excluded = (FrameType.WEBCAM, FrameType.OTHER)
@@ -3543,7 +3543,7 @@ class TestReferenceSkipsJunkCodeFences(unittest.TestCase):
     """Tests that _is_likely_code() prevents junk from becoming code fences."""
 
     def test_junk_text_not_in_code_fence(self):
-        from skill_seekers.cli.video_scraper import _is_likely_code
+        from yonyou_doc2skill.cli.video_scraper import _is_likely_code
 
         # UI junk should be filtered
         junk_texts = [
@@ -3558,7 +3558,7 @@ class TestReferenceSkipsJunkCodeFences(unittest.TestCase):
             )
 
     def test_real_code_in_code_fence(self):
-        from skill_seekers.cli.video_scraper import _is_likely_code
+        from yonyou_doc2skill.cli.video_scraper import _is_likely_code
 
         real_code = [
             "public class Card : MonoBehaviour { void Start() {} }",
@@ -3576,19 +3576,19 @@ class TestFuzzyWordMatch(unittest.TestCase):
     """Tests for _fuzzy_word_match() in video_visual.py."""
 
     def test_exact_match(self):
-        from skill_seekers.cli.video_visual import _fuzzy_word_match
+        from yonyou_doc2skill.cli.video_visual import _fuzzy_word_match
 
         self.assertTrue(_fuzzy_word_match("public", "public"))
 
     def test_prefix_noise(self):
-        from skill_seekers.cli.video_visual import _fuzzy_word_match
+        from yonyou_doc2skill.cli.video_visual import _fuzzy_word_match
 
         # OCR often adds a garbage char prefix
         self.assertTrue(_fuzzy_word_match("gpublic", "public"))
         self.assertTrue(_fuzzy_word_match("Jpublic", "public"))
 
     def test_different_words(self):
-        from skill_seekers.cli.video_visual import _fuzzy_word_match
+        from yonyou_doc2skill.cli.video_visual import _fuzzy_word_match
 
         self.assertFalse(_fuzzy_word_match("class", "void"))
         self.assertFalse(_fuzzy_word_match("ab", "xy"))

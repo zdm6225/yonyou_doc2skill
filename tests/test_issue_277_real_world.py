@@ -9,7 +9,7 @@ Updated: _convert_to_md_urls no longer appends /index.html.md to non-.md URLs.
 import unittest
 from unittest.mock import MagicMock, patch
 
-from skill_seekers.cli.doc_scraper import DocToSkillConverter
+from yonyou_doc2skill.cli.doc_scraper import DocToSkillConverter
 
 
 class TestIssue277RealWorld(unittest.TestCase):
@@ -148,7 +148,7 @@ class TestIssue277RealWorld(unittest.TestCase):
         for url in result:
             self.assertNotIn("#", url, "Result should not contain anchor fragments")
 
-    @patch("skill_seekers.cli.doc_scraper.requests.get")
+    @patch("yonyou_doc2skill.cli.doc_scraper.requests.get")
     def test_real_scraping_scenario_no_404s(self, mock_get):
         """
         Integration test: Simulate real scraping scenario with llms.txt URLs.

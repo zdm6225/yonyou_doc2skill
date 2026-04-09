@@ -1,4 +1,4 @@
-# Config Format Reference - Skill Seekers
+# Config Format Reference - Yonyou Doc2Skill
 
 > **Version:** 3.1.0  
 > **Last Updated:** 2026-02-16  
@@ -25,7 +25,7 @@
 
 ## Overview
 
-Skill Seekers uses JSON configuration files to define scraping targets. There are two types:
+Yonyou Doc2Skill uses JSON configuration files to define scraping targets. There are two types:
 
 | Type | Use Case | File |
 |------|----------|------|
@@ -548,7 +548,7 @@ Validate your config before scraping:
 
 ```bash
 # Using CLI
-skill-seekers scrape --config my-config.json --dry-run
+yonyou-doc2skill scrape --config my-config.json --dry-run
 
 # Using MCP tool
 validate_config({"config": "my-config.json"})

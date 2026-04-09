@@ -19,7 +19,7 @@ import asyncio
 # Add src to path
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 
-from skill_seekers.mcp.tools.vector_db_tools import (
+from yonyou_doc2skill.mcp.tools.vector_db_tools import (
     export_to_weaviate_impl,
     export_to_chroma_impl,
     export_to_faiss_impl,

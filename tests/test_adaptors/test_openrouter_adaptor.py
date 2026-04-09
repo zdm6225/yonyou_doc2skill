@@ -7,7 +7,7 @@ import unittest
 import zipfile
 from pathlib import Path
 
-from skill_seekers.cli.adaptors import get_adaptor, is_platform_available
+from yonyou_doc2skill.cli.adaptors import get_adaptor, is_platform_available
 
 
 class TestOpenRouterAdaptor(unittest.TestCase):

@@ -1,6 +1,6 @@
 # Weaviate Vector Database Example
 
-This example demonstrates how to use Skill Seekers with Weaviate, a powerful vector database with hybrid search capabilities (keyword + semantic).
+This example demonstrates how to use Yonyou Doc2Skill with Weaviate, a powerful vector database with hybrid search capabilities (keyword + semantic).
 
 ## What You'll Learn
 
@@ -235,8 +235,8 @@ Want to use a different documentation source? Easy:
 
 Or scrape from scratch:
 ```bash
-skill-seekers scrape --config configs/your_framework.json
-skill-seekers package output/your_framework --target weaviate
+yonyou-doc2skill scrape --config configs/your_framework.json
+yonyou-doc2skill package output/your_framework --target weaviate
 ```
 
 ### Adjust Search Parameters
@@ -317,7 +317,7 @@ print(result)  # Should show {"data": {"Aggregate": {"React": [{"meta": {"count"
 - **Weaviate Docs**: https://weaviate.io/developers/weaviate
 - **Hybrid Search**: https://weaviate.io/developers/weaviate/search/hybrid
 - **Python Client**: https://weaviate.io/developers/weaviate/client-libraries/python
-- **Skill Seekers Docs**: https://github.com/yourusername/skill-seekers
+- **Yonyou Doc2Skill Docs**: https://github.com/yourusername/yonyou-doc2skill
 
 ## File Structure
 
@@ -336,4 +336,4 @@ weaviate-example/
 ---
 
 **Last Updated:** February 2026
-**Tested With:** Weaviate v1.25.0, Python 3.10+, skill-seekers v2.10.0
+**Tested With:** Weaviate v1.25.0, Python 3.10+, yonyou-doc2skill v2.10.0

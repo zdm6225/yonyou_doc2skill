@@ -59,7 +59,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ### Usage Example
 
 ```python
-from skill_seekers.cli.unified_codebase_analyzer import UnifiedCodebaseAnalyzer
+from yonyou_doc2skill.cli.unified_codebase_analyzer import UnifiedCodebaseAnalyzer
 
 # Analyze GitHub repo with three streams
 analyzer = UnifiedCodebaseAnalyzer()
@@ -79,8 +79,8 @@ print(f"C3.x Patterns: {len(result.code_analysis['c3_1_patterns'])}")
 ### Router Generation with GitHub
 
 ```python
-from skill_seekers.cli.generate_router import RouterGenerator
-from skill_seekers.cli.github_fetcher import GitHubThreeStreamFetcher
+from yonyou_doc2skill.cli.generate_router import RouterGenerator
+from yonyou_doc2skill.cli.github_fetcher import GitHubThreeStreamFetcher
 
 # Fetch GitHub repo with three streams
 fetcher = GitHubThreeStreamFetcher("https://github.com/jlowin/fastmcp")
@@ -217,20 +217,20 @@ Set `"max_pages": 20` in the config file to test with fewer pages.
 **Use the `--target` parameter for packaging, upload, and enhancement:**
 ```bash
 # Package for different platforms
-skill-seekers package output/react/ --target claude     # Default
-skill-seekers package output/react/ --target gemini
-skill-seekers package output/react/ --target openai
-skill-seekers package output/react/ --target markdown
+yonyou-doc2skill package output/react/ --target claude     # Default
+yonyou-doc2skill package output/react/ --target gemini
+yonyou-doc2skill package output/react/ --target openai
+yonyou-doc2skill package output/react/ --target markdown
 
 # Upload to platforms (requires API keys)
-skill-seekers upload output/react.zip --target claude
-skill-seekers upload output/react-gemini.tar.gz --target gemini
-skill-seekers upload output/react-openai.zip --target openai
+yonyou-doc2skill upload output/react.zip --target claude
+yonyou-doc2skill upload output/react-gemini.tar.gz --target gemini
+yonyou-doc2skill upload output/react-openai.zip --target openai
 
 # Enhance with platform-specific AI
-skill-seekers enhance output/react/ --target claude     # Sonnet 4
-skill-seekers enhance output/react/ --target gemini --mode api    # Gemini 2.0
-skill-seekers enhance output/react/ --target openai --mode api    # GPT-4o
+yonyou-doc2skill enhance output/react/ --target claude     # Sonnet 4
+yonyou-doc2skill enhance output/react/ --target gemini --mode api    # Gemini 2.0
+yonyou-doc2skill enhance output/react/ --target openai --mode api    # GPT-4o
 ```
 
 See [Multi-Platform Guide](UPLOAD_GUIDE.md) and [Feature Matrix](FEATURE_MATRIX.md) for complete details.
@@ -259,7 +259,7 @@ The entire tool is contained in `doc_scraper.py` (~737 lines). It follows a clas
 
 ### Directory Structure
 ```
-Skill_Seekers/
+yonyou_doc2skill/
 ├── cli/                        # CLI tools
 │   ├── doc_scraper.py         # Main scraping & building tool
 │   ├── enhance_skill.py       # AI enhancement (API-based)
@@ -481,11 +481,11 @@ pytest tests/test_github_scraper.py
 pytest -v
 
 # 5. Run with coverage report
-pytest --cov=src/skill_seekers --cov-report=html
+pytest --cov=src/yonyou_doc2skill --cov-report=html
 ```
 
 **Why install first?**
-- Tests import from `skill_seekers.cli` which requires the package to be installed
+- Tests import from `yonyou_doc2skill.cli` which requires the package to be installed
 - Modern Python packaging best practice (PEP 517/518)
 - CI/CD automatically installs with `pip install -e .`
 - conftest.py will show helpful error if package not installed
@@ -517,7 +517,7 @@ ls output/godot/references/            # Should have category .md files
 
 ## llms.txt Support
 
-Skill_Seekers automatically detects llms.txt files before HTML scraping:
+yonyou_doc2skill automatically detects llms.txt files before HTML scraping:
 
 ### Detection Order
 1. `{base_url}/llms-full.txt` (complete documentation)

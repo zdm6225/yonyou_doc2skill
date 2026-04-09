@@ -11,7 +11,7 @@ import unittest
 # Add parent directory to path
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from skill_seekers.cli.doc_scraper import validate_config
+from yonyou_doc2skill.cli.doc_scraper import validate_config
 
 
 class TestConfigValidation(unittest.TestCase):

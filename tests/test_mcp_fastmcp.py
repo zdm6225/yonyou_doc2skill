@@ -32,7 +32,7 @@ finally:
 # Import FastMCP server
 if FASTMCP_AVAILABLE:
     try:
-        from skill_seekers.mcp import server_fastmcp
+        from yonyou_doc2skill.mcp import server_fastmcp
     except ImportError as e:
         print(f"Warning: Could not import server_fastmcp: {e}")
         server_fastmcp = None
@@ -434,7 +434,7 @@ class TestPackagingTools:
         skill_dir.mkdir()
         (skill_dir / "SKILL.md").write_text("# Test Skill")
 
-        with patch("skill_seekers.mcp.tools.packaging_tools.subprocess.run") as mock_run:
+        with patch("yonyou_doc2skill.mcp.tools.packaging_tools.subprocess.run") as mock_run:
             mock_run.return_value = Mock(returncode=0, stdout="Packaging completed")
 
             result = await server_fastmcp.package_skill(skill_dir=str(skill_dir), auto_upload=False)
@@ -457,7 +457,7 @@ class TestPackagingTools:
         zip_path = temp_dirs["output"] / "test-skill.zip"
         zip_path.write_text("fake zip content")
 
-        with patch("skill_seekers.mcp.tools.packaging_tools.subprocess.run") as mock_run:
+        with patch("yonyou_doc2skill.mcp.tools.packaging_tools.subprocess.run") as mock_run:
             mock_run.return_value = Mock(returncode=0, stdout="Upload successful")
 
             result = await server_fastmcp.upload_skill(skill_zip=str(zip_path))
@@ -475,7 +475,7 @@ class TestPackagingTools:
     async def test_install_skill_with_config_name(self):
         """Test complete install workflow with config name."""
         # Mock the fetch_config_tool import that install_skill_tool uses
-        with patch("skill_seekers.mcp.tools.source_tools.fetch_config_tool") as mock_fetch:
+        with patch("yonyou_doc2skill.mcp.tools.source_tools.fetch_config_tool") as mock_fetch:
             mock_fetch.return_value = [Mock(text="Config fetched")]
 
             result = await server_fastmcp.install_skill(
@@ -486,7 +486,7 @@ class TestPackagingTools:
 
     async def test_install_skill_with_config_path(self, sample_config):
         """Test complete install workflow with config path."""
-        with patch("skill_seekers.mcp.tools.source_tools.fetch_config_tool") as mock_fetch:
+        with patch("yonyou_doc2skill.mcp.tools.source_tools.fetch_config_tool") as mock_fetch:
             mock_fetch.return_value = [Mock(text="Config ready")]
 
             result = await server_fastmcp.install_skill(
@@ -497,7 +497,7 @@ class TestPackagingTools:
 
     async def test_install_skill_unlimited(self):
         """Test install workflow with unlimited pages."""
-        with patch("skill_seekers.mcp.tools.source_tools.fetch_config_tool") as mock_fetch:
+        with patch("yonyou_doc2skill.mcp.tools.source_tools.fetch_config_tool") as mock_fetch:
             mock_fetch.return_value = [Mock(text="Config fetched")]
 
             result = await server_fastmcp.install_skill(
@@ -508,7 +508,7 @@ class TestPackagingTools:
 
     async def test_install_skill_no_upload(self):
         """Test install workflow without auto-upload."""
-        with patch("skill_seekers.mcp.tools.source_tools.fetch_config_tool") as mock_fetch:
+        with patch("yonyou_doc2skill.mcp.tools.source_tools.fetch_config_tool") as mock_fetch:
             mock_fetch.return_value = [Mock(text="Config fetched")]
 
             result = await server_fastmcp.install_skill(
@@ -585,7 +585,7 @@ class TestSourceTools:
 
     async def test_fetch_config_list_api(self):
         """Test fetching config list from API."""
-        with patch("skill_seekers.mcp.tools.source_tools.httpx.AsyncClient") as mock_client:
+        with patch("yonyou_doc2skill.mcp.tools.source_tools.httpx.AsyncClient") as mock_client:
             mock_response = MagicMock()
             mock_response.json.return_value = {
                 "configs": [

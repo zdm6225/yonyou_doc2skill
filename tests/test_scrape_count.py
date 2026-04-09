@@ -5,7 +5,7 @@ import os
 
 import pytest
 
-from skill_seekers.cli.doc_scraper import DocToSkillConverter
+from yonyou_doc2skill.cli.doc_scraper import DocToSkillConverter
 
 
 @pytest.fixture

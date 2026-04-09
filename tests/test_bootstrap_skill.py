@@ -33,11 +33,11 @@ class TestBootstrapSkillScript:
 
         # Must have prerequisites
         assert "## Prerequisites" in content, "Header must have Prerequisites section"
-        assert "pip install skill-seekers" in content, "Header must have pip install instruction"
+        assert "pip install yonyou-doc2skill" in content, "Header must have pip install instruction"
 
         # Must have commands table
         assert "## Commands" in content, "Header must have Commands section"
-        assert "skill-seekers create" in content, "Header must mention create command"
+        assert "yonyou-doc2skill create" in content, "Header must mention create command"
 
     def test_header_has_yaml_frontmatter(self, project_root):
         """Test that header has valid YAML frontmatter."""
@@ -45,7 +45,7 @@ class TestBootstrapSkillScript:
         content = header.read_text()
 
         assert content.startswith("---"), "Header must start with YAML frontmatter"
-        assert "name: skill-seekers" in content, "Header must have skill name"
+        assert "name: yonyou-doc2skill" in content, "Header must have skill name"
         assert "description:" in content, "Header must have description"
 
     @pytest.mark.slow
@@ -69,8 +69,8 @@ class TestBootstrapSkillScript:
         # Check script completed
         assert result.returncode == 0, f"Script failed: {result.stderr}"
 
-        # Check outputs exist (directory named 'skill-seekers' for Claude Code)
-        output_dir = project_root / "output" / "skill-seekers"
+        # Check outputs exist (directory named 'yonyou-doc2skill' for Claude Code)
+        output_dir = project_root / "output" / "yonyou-doc2skill"
         assert output_dir.exists(), "Output directory should be created"
 
         skill_md = output_dir / "SKILL.md"
@@ -79,4 +79,4 @@ class TestBootstrapSkillScript:
         # Check SKILL.md has header prepended
         content = skill_md.read_text()
         assert "## Prerequisites" in content, "SKILL.md should have header prepended"
-        assert "pip install skill-seekers" in content, "SKILL.md should have install instructions"
+        assert "pip install yonyou-doc2skill" in content, "SKILL.md should have install instructions"

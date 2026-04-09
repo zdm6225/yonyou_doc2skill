@@ -8,7 +8,7 @@
 
 ## Overview
 
-This guide helps you upgrade Skill Seekers between major versions. Each section covers breaking changes, new features, and step-by-step migration instructions.
+This guide helps you upgrade Yonyou Doc2Skill between major versions. Each section covers breaking changes, new features, and step-by-step migration instructions.
 
 **Current Version:** v2.7.0
 
@@ -24,13 +24,13 @@ This guide helps you upgrade Skill Seekers between major versions. Each section 
 
 ```bash
 # Check installed version
-skill-seekers --version
+yonyou-doc2skill --version
 
 # Check for updates
-pip show skill-seekers | grep Version
+pip show yonyou-doc2skill | grep Version
 
 # Upgrade to latest
-pip install --upgrade skill-seekers[all-llms]
+pip install --upgrade yonyou-doc2skill[all-llms]
 ```
 
 ---
@@ -77,10 +77,10 @@ pip install --upgrade skill-seekers[all-llms]
 
 ```bash
 # Upgrade
-pip install --upgrade skill-seekers[all-llms]
+pip install --upgrade yonyou-doc2skill[all-llms]
 
 # Verify
-skill-seekers --version  # Should show 2.7.0
+yonyou-doc2skill --version  # Should show 2.7.0
 
 # Run tests (optional)
 pytest tests/ -v
@@ -140,7 +140,7 @@ pytest tests/ -v
 #### 1. Upgrade Package
 
 ```bash
-pip install --upgrade skill-seekers[all-llms]
+pip install --upgrade yonyou-doc2skill[all-llms]
 ```
 
 #### 2. Update Codebase Analysis Commands
@@ -148,16 +148,16 @@ pip install --upgrade skill-seekers[all-llms]
 **Before (v2.5.0 - opt-in):**
 ```bash
 # Had to enable features explicitly
-skill-seekers codebase --directory . --build-api-reference --build-dependency-graph
+yonyou-doc2skill codebase --directory . --build-api-reference --build-dependency-graph
 ```
 
 **After (v2.6.0 - opt-out):**
 ```bash
 # All features enabled by default
-skill-seekers codebase --directory .
+yonyou-doc2skill codebase --directory .
 
 # Or skip specific features
-skill-seekers codebase --directory . --skip-patterns --skip-how-to-guides
+yonyou-doc2skill codebase --directory . --skip-patterns --skip-how-to-guides
 ```
 
 #### 3. Legacy Flags (Deprecated but Still Work)
@@ -165,10 +165,10 @@ skill-seekers codebase --directory . --skip-patterns --skip-how-to-guides
 Old flags still work but show warnings:
 ```bash
 # Works with deprecation warning
-skill-seekers codebase --directory . --build-api-reference
+yonyou-doc2skill codebase --directory . --build-api-reference
 
 # Recommended: Remove old flags
-skill-seekers codebase --directory .
+yonyou-doc2skill codebase --directory .
 ```
 
 #### 4. Verify MCP Configuration
@@ -176,7 +176,7 @@ skill-seekers codebase --directory .
 If using MCP server, note new tools:
 ```bash
 # Test new enhance_skill tool
-python -m skill_seekers.mcp.server
+python -m yonyou_doc2skill.mcp.server
 
 # In Claude Code:
 # "Use enhance_skill tool to improve the react skill"
@@ -231,13 +231,13 @@ python -m skill_seekers.mcp.server
 
 ```bash
 # Upgrade
-pip install --upgrade skill-seekers
+pip install --upgrade yonyou-doc2skill
 
 # New unified scraping
-skill-seekers unified --config configs/unified/react-unified.json
+yonyou-doc2skill unified --config configs/unified/react-unified.json
 
 # GitHub analysis
-skill-seekers github https://github.com/facebook/react
+yonyou-doc2skill github https://github.com/facebook/react
 ```
 
 ### Compatibility
@@ -275,13 +275,13 @@ pdf-scraper manual.pdf
 **After (v2.0.0+):**
 ```bash
 # Unified CLI
-skill-seekers scrape --config react
-skill-seekers github https://github.com/facebook/react
-skill-seekers pdf manual.pdf
+yonyou-doc2skill scrape --config react
+yonyou-doc2skill github https://github.com/facebook/react
+yonyou-doc2skill pdf manual.pdf
 ```
 
 **Migration:**
-- Replace command prefixes with `skill-seekers <subcommand>`
+- Replace command prefixes with `yonyou-doc2skill <subcommand>`
 - Update scripts/CI/CD workflows
 
 #### 2. Config Format (Additive)
@@ -330,7 +330,7 @@ skill-seekers pdf manual.pdf
 
 **Migration:**
 - Update MCP server configuration in `claude_desktop_config.json`
-- Use `skill-seekers-mcp` instead of custom server script
+- Use `yonyou-doc2skill-mcp` instead of custom server script
 
 ### Migration Steps
 
@@ -338,13 +338,13 @@ skill-seekers pdf manual.pdf
 
 ```bash
 # Uninstall old version
-pip uninstall skill-seekers
+pip uninstall yonyou-doc2skill
 
 # Install latest
-pip install skill-seekers[all-llms]
+pip install yonyou-doc2skill[all-llms]
 
 # Verify
-skill-seekers --version
+yonyou-doc2skill --version
 ```
 
 #### Step 2: Update Scripts
@@ -360,12 +360,12 @@ upload-skill output/react-claude.zip
 **After:**
 ```bash
 #!/bin/bash
-skill-seekers scrape --config react
-skill-seekers package output/react/ --target claude
-skill-seekers upload output/react-claude.zip --target claude
+yonyou-doc2skill scrape --config react
+yonyou-doc2skill package output/react/ --target claude
+yonyou-doc2skill upload output/react-claude.zip --target claude
 
 # Or use one command
-skill-seekers install react --target claude --upload
+yonyou-doc2skill install react --target claude --upload
 ```
 
 #### Step 3: Update Configs (Optional)
@@ -396,7 +396,7 @@ skill-seekers install react --target claude --upload
 ```json
 {
   "mcpServers": {
-    "skill-seekers": {
+    "yonyou-doc2skill": {
       "command": "python",
       "args": ["/path/to/mcp_server.py"]
     }
@@ -408,8 +408,8 @@ skill-seekers install react --target claude --upload
 ```json
 {
   "mcpServers": {
-    "skill-seekers": {
-      "command": "skill-seekers-mcp"
+    "yonyou-doc2skill": {
+      "command": "yonyou-doc2skill-mcp"
     }
   }
 }
@@ -439,7 +439,7 @@ doc-scraper --config react.json
 **Solution:**
 ```bash
 # Use new CLI
-skill-seekers scrape --config react
+yonyou-doc2skill scrape --config react
 ```
 
 ### Issue 2: Config Validation Errors
@@ -452,7 +452,7 @@ InvalidConfigError: Missing 'sources' key
 **Solution:**
 ```bash
 # Old configs still work for single-source
-skill-seekers scrape --config configs/react.json
+yonyou-doc2skill scrape --config configs/react.json
 
 # Or convert to unified format
 # Add 'sources' wrapper
@@ -462,16 +462,16 @@ skill-seekers scrape --config configs/react.json
 
 **Problem:**
 ```
-ModuleNotFoundError: No module named 'skill_seekers.mcp'
+ModuleNotFoundError: No module named 'yonyou_doc2skill.mcp'
 ```
 
 **Solution:**
 ```bash
 # Reinstall with latest version
-pip install --upgrade skill-seekers[all-llms]
+pip install --upgrade yonyou-doc2skill[all-llms]
 
 # Use correct command
-skill-seekers-mcp
+yonyou-doc2skill-mcp
 ```
 
 ### Issue 4: API Key Errors
@@ -504,10 +504,10 @@ python -m venv test-env
 source test-env/bin/activate
 
 # Install new version
-pip install skill-seekers[all-llms]
+pip install yonyou-doc2skill[all-llms]
 
 # Test your workflows
-skill-seekers scrape --config react --dry-run
+yonyou-doc2skill scrape --config react --dry-run
 ```
 
 ### 2. Backup Existing Configs
@@ -522,7 +522,7 @@ cp -r output/ output.backup/
 
 ```bash
 # Stage 1: Upgrade package
-pip install --upgrade skill-seekers[all-llms]
+pip install --upgrade yonyou-doc2skill[all-llms]
 
 # Stage 2: Update CLI commands
 # Update scripts one by one
@@ -537,10 +537,10 @@ pytest tests/ -v
 
 ```bash
 # Pin to specific version in requirements.txt
-skill-seekers==2.7.0
+yonyou-doc2skill==2.7.0
 
 # Or use version range
-skill-seekers>=2.7.0,<3.0.0
+yonyou-doc2skill>=2.7.0,<3.0.0
 ```
 
 ---
@@ -551,10 +551,10 @@ If migration fails, rollback to previous version:
 
 ```bash
 # Rollback to v2.6.0
-pip install skill-seekers==2.6.0
+pip install yonyou-doc2skill==2.6.0
 
 # Rollback to v2.5.0
-pip install skill-seekers==2.5.0
+pip install yonyou-doc2skill==2.5.0
 
 # Restore configs
 cp -r configs.backup/* configs/
@@ -568,8 +568,8 @@ cp -r configs.backup/* configs/
 
 - **[CHANGELOG](../../CHANGELOG.md)** - Full version history
 - **[Troubleshooting](../../TROUBLESHOOTING.md)** - Common issues
-- **[GitHub Issues](https://github.com/yusufkaraaslan/Skill_Seekers/issues)** - Report problems
-- **[Discussions](https://github.com/yusufkaraaslan/Skill_Seekers/discussions)** - Ask questions
+- **[GitHub Issues](https://github.com/yonyou/yonyou-doc2skill/issues)** - Report problems
+- **[Discussions](https://github.com/yonyou/yonyou-doc2skill/discussions)** - Ask questions
 
 ### Reporting Migration Issues
 
@@ -587,8 +587,8 @@ When reporting migration issues:
 **OS:** Ubuntu 22.04
 
 **What I did:**
-1. Upgraded with pip install --upgrade skill-seekers
-2. Ran skill-seekers scrape --config react
+1. Upgraded with pip install --upgrade yonyou-doc2skill
+2. Ran yonyou-doc2skill scrape --config react
 
 **Expected:** Scraping completes successfully
 **Actual:** Error: ...

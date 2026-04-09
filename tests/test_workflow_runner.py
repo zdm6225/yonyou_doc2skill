@@ -16,7 +16,7 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from skill_seekers.cli.workflow_runner import collect_workflow_vars, run_workflows
+from yonyou_doc2skill.cli.workflow_runner import collect_workflow_vars, run_workflows
 
 
 # ─────────────────────────── helpers ────────────────────────────────────────
@@ -107,7 +107,7 @@ class TestRunWorkflowsSingle:
         mock_engine.workflow.stages = [MagicMock(), MagicMock()]
 
         with patch(
-            "skill_seekers.cli.enhancement_workflow.WorkflowEngine",
+            "yonyou_doc2skill.cli.enhancement_workflow.WorkflowEngine",
             return_value=mock_engine,
         ):
             executed, names = run_workflows(args)
@@ -120,7 +120,7 @@ class TestRunWorkflowsSingle:
         args = make_args(enhance_workflow=["nonexistent-workflow"])
 
         with patch(
-            "skill_seekers.cli.enhancement_workflow.WorkflowEngine",
+            "yonyou_doc2skill.cli.enhancement_workflow.WorkflowEngine",
             side_effect=FileNotFoundError("not found"),
         ):
             executed, names = run_workflows(args)
@@ -138,7 +138,7 @@ class TestRunWorkflowsSingle:
         mock_engine.run.side_effect = RuntimeError("AI call failed")
 
         with patch(
-            "skill_seekers.cli.enhancement_workflow.WorkflowEngine",
+            "yonyou_doc2skill.cli.enhancement_workflow.WorkflowEngine",
             return_value=mock_engine,
         ):
             executed, names = run_workflows(args)
@@ -163,7 +163,7 @@ class TestRunWorkflowsMultiple:
             engines.append(m)
 
         with patch(
-            "skill_seekers.cli.enhancement_workflow.WorkflowEngine",
+            "yonyou_doc2skill.cli.enhancement_workflow.WorkflowEngine",
             side_effect=engines,
         ):
             executed, names = run_workflows(args)
@@ -189,7 +189,7 @@ class TestRunWorkflowsMultiple:
             engines.append(m)
 
         with patch(
-            "skill_seekers.cli.enhancement_workflow.WorkflowEngine",
+            "yonyou_doc2skill.cli.enhancement_workflow.WorkflowEngine",
             side_effect=engines,
         ):
             executed, names = run_workflows(args)
@@ -213,7 +213,7 @@ class TestRunWorkflowsMultiple:
             return good_engine
 
         with patch(
-            "skill_seekers.cli.enhancement_workflow.WorkflowEngine",
+            "yonyou_doc2skill.cli.enhancement_workflow.WorkflowEngine",
             side_effect=side_effect,
         ):
             executed, names = run_workflows(args)
@@ -233,7 +233,7 @@ class TestRunWorkflowsInlineStages:
         mock_engine.workflow.stages = [MagicMock(), MagicMock()]
 
         with patch(
-            "skill_seekers.cli.enhancement_workflow.WorkflowEngine",
+            "yonyou_doc2skill.cli.enhancement_workflow.WorkflowEngine",
             return_value=mock_engine,
         ) as MockEngine:
             executed, names = run_workflows(args)
@@ -259,7 +259,7 @@ class TestRunWorkflowsInlineStages:
         mock_engine.workflow.stages = []
 
         with patch(
-            "skill_seekers.cli.enhancement_workflow.WorkflowEngine",
+            "yonyou_doc2skill.cli.enhancement_workflow.WorkflowEngine",
             return_value=mock_engine,
         ) as MockEngine:
             run_workflows(args)
@@ -288,7 +288,7 @@ class TestRunWorkflowsMixed:
         inline_engine.workflow.stages = []
 
         with patch(
-            "skill_seekers.cli.enhancement_workflow.WorkflowEngine",
+            "yonyou_doc2skill.cli.enhancement_workflow.WorkflowEngine",
             side_effect=[named_engine, inline_engine],
         ):
             executed, names = run_workflows(args)
@@ -313,7 +313,7 @@ class TestRunWorkflowsVariables:
         mock_engine.workflow.stages = []
 
         with patch(
-            "skill_seekers.cli.enhancement_workflow.WorkflowEngine",
+            "yonyou_doc2skill.cli.enhancement_workflow.WorkflowEngine",
             return_value=mock_engine,
         ):
             run_workflows(args, context={"extra": "ctx"})
@@ -339,7 +339,7 @@ class TestRunWorkflowsDryRun:
 
         with (
             patch(
-                "skill_seekers.cli.enhancement_workflow.WorkflowEngine",
+                "yonyou_doc2skill.cli.enhancement_workflow.WorkflowEngine",
                 return_value=mock_engine,
             ),
             pytest.raises(SystemExit) as exc,
@@ -366,7 +366,7 @@ class TestRunWorkflowsDryRun:
 
         with (
             patch(
-                "skill_seekers.cli.enhancement_workflow.WorkflowEngine",
+                "yonyou_doc2skill.cli.enhancement_workflow.WorkflowEngine",
                 side_effect=engines,
             ),
             pytest.raises(SystemExit),
@@ -398,7 +398,7 @@ class TestBundledPresetsLoad:
 
     @pytest.mark.parametrize("preset_name", BUNDLED_NAMES)
     def test_bundled_preset_loads(self, preset_name):
-        from skill_seekers.cli.enhancement_workflow import WorkflowEngine
+        from yonyou_doc2skill.cli.enhancement_workflow import WorkflowEngine
 
         engine = WorkflowEngine(preset_name)
         wf = engine.workflow
@@ -408,7 +408,7 @@ class TestBundledPresetsLoad:
 
     @pytest.mark.parametrize("preset_name", BUNDLED_NAMES)
     def test_bundled_preset_stages_have_required_fields(self, preset_name):
-        from skill_seekers.cli.enhancement_workflow import WorkflowEngine
+        from yonyou_doc2skill.cli.enhancement_workflow import WorkflowEngine
 
         engine = WorkflowEngine(preset_name)
         for stage in engine.workflow.stages:
@@ -418,21 +418,21 @@ class TestBundledPresetsLoad:
             )
 
     def test_unknown_preset_raises_file_not_found(self):
-        from skill_seekers.cli.enhancement_workflow import WorkflowEngine
+        from yonyou_doc2skill.cli.enhancement_workflow import WorkflowEngine
 
         with pytest.raises(FileNotFoundError):
             WorkflowEngine("completely-nonexistent-preset-xyz")
 
     def test_list_bundled_workflows_returns_all(self):
-        from skill_seekers.cli.enhancement_workflow import list_bundled_workflows
+        from yonyou_doc2skill.cli.enhancement_workflow import list_bundled_workflows
 
         names = list_bundled_workflows()
         for expected in self.BUNDLED_NAMES:
             assert expected in names, f"'{expected}' not in bundled workflows: {names}"
 
     def test_list_user_workflows_empty_when_no_user_dir(self, tmp_path, monkeypatch):
-        """list_user_workflows returns [] when ~/.config/skill-seekers/workflows/ does not exist."""
-        from skill_seekers.cli import enhancement_workflow as ew_mod
+        """list_user_workflows returns [] when ~/.config/yonyou-doc2skill/workflows/ does not exist."""
+        from yonyou_doc2skill.cli import enhancement_workflow as ew_mod
         import pathlib
 
         fake_home = tmp_path / "fake_home"

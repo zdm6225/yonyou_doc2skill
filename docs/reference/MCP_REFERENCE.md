@@ -1,4 +1,4 @@
-# MCP Reference - Skill Seekers
+# MCP Reference - Yonyou Doc2Skill
 
 > **Version:** 3.4.0  
 > **Last Updated:** 2026-04-01  
@@ -31,7 +31,7 @@
 
 ### What is MCP?
 
-MCP (Model Context Protocol) allows AI agents like Claude Code to interact with Skill Seekers through a standardized interface. Instead of running CLI commands, you can use natural language:
+MCP (Model Context Protocol) allows AI agents like Claude Code to interact with Yonyou Doc2Skill through a standardized interface. Instead of running CLI commands, you can use natural language:
 
 ```
 "Scrape the React documentation and create a skill"
@@ -45,20 +45,20 @@ The MCP server supports two transport modes:
 
 | Mode | Use Case | Command |
 |------|----------|---------|
-| **stdio** | Claude Code, VS Code + Cline | `skill-seekers-mcp` |
-| **HTTP** | Cursor, Windsurf, HTTP clients | `skill-seekers-mcp --transport http --port 8765` |
+| **stdio** | Claude Code, VS Code + Cline | `yonyou-doc2skill-mcp` |
+| **HTTP** | Cursor, Windsurf, HTTP clients | `yonyou-doc2skill-mcp --transport http --port 8765` |
 
 ### Starting the Server
 
 ```bash
 # stdio mode (default)
-skill-seekers-mcp
+yonyou-doc2skill-mcp
 
 # HTTP mode
-skill-seekers-mcp --transport http --port 8765
+yonyou-doc2skill-mcp --transport http --port 8765
 
 # With custom host
-skill-seekers-mcp --transport http --host 0.0.0.0 --port 8765
+yonyou-doc2skill-mcp --transport http --host 0.0.0.0 --port 8765
 ```
 
 ---

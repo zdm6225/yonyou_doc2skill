@@ -92,7 +92,7 @@ jobs:
           import sys
           from pathlib import Path
 
-          from skill_seekers.cli.quality_metrics import QualityAnalyzer
+          from yonyou_doc2skill.cli.quality_metrics import QualityAnalyzer
 
           skill_dir = Path('$skill_dir')
           threshold = float('$THRESHOLD')

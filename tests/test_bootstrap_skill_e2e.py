@@ -54,7 +54,7 @@ def run_bootstrap(project_root):
 @pytest.fixture
 def output_skill_dir(project_root):
     """Get path to bootstrap output directory"""
-    return project_root / "output" / "skill-seekers"
+    return project_root / "output" / "yonyou-doc2skill"
 
 
 @pytest.mark.e2e
@@ -79,7 +79,7 @@ class TestBootstrapSkillE2E:
 
         # Check header sections present
         assert "## Prerequisites" in content, "Missing Prerequisites section"
-        assert "pip install skill-seekers" in content, "Missing install instruction"
+        assert "pip install yonyou-doc2skill" in content, "Missing install instruction"
         assert "## Commands" in content, "Missing Commands section"
 
     def test_bootstrap_validates_yaml_frontmatter(self, run_bootstrap, output_skill_dir):
@@ -148,7 +148,7 @@ class TestBootstrapSkillE2E:
         assert result.returncode == 0
 
         # Try to package with claude adaptor (simplest)
-        from skill_seekers.cli.adaptors import get_adaptor
+        from yonyou_doc2skill.cli.adaptors import get_adaptor
 
         adaptor = get_adaptor("claude")
 

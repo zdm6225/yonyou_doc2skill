@@ -1,7 +1,7 @@
 {
 	"_type": "Project",
 	"_id": "AAAAAAFF+h6SjaM2Hec=",
-	"name": "Skill Seekers",
+	"name": "Yonyou Doc2Skill",
 	"ownedElements": [
 		{
 			"_type": "UMLModel",
@@ -9,7 +9,7 @@
 			"_parent": {
 				"$ref": "AAAAAAFF+h6SjaM2Hec="
 			},
-			"name": "skill_seekers",
+			"name": "yonyou_doc2skill",
 			"ownedElements": [
 				{
 					"_type": "UMLPackage",
@@ -1740,7 +1740,7 @@
 									}
 								}
 							],
-							"documentation": "Git-style CLI dispatcher implementing ICLIDispatcher. Maps command names to module paths via COMMAND_MODULES dict. Lazily imports and invokes the main() function of each subcommand module. Entry point: skill-seekers CLI.",
+							"documentation": "Git-style CLI dispatcher implementing ICLIDispatcher. Maps command names to module paths via COMMAND_MODULES dict. Lazily imports and invokes the main() function of each subcommand module. Entry point: yonyou-doc2skill CLI.",
 							"attributes": [
 								{
 									"_type": "UMLAttribute",
@@ -1937,7 +1937,7 @@
 							}
 						}
 					],
-					"documentation": "Git-style CLI dispatcher. Entry point for all skill-seekers commands. Maps subcommands to modules via COMMAND_MODULES registry, handles argument parsing, and delegates to source-specific scrapers via auto-detection."
+					"documentation": "Git-style CLI dispatcher. Entry point for all yonyou-doc2skill commands. Maps subcommands to modules via COMMAND_MODULES registry, handles argument parsing, and delegates to source-specific scrapers via auto-detection."
 				},
 				{
 					"_type": "UMLPackage",
@@ -15941,7 +15941,7 @@
 								"$ref": "AAAAAAGdElK54mzK+bQ="
 							},
 							"name": "BrowserRenderer",
-							"documentation": "Render JavaScript pages using Playwright headless Chromium. Lazily launches browser on first render_page() call. Auto-installs Chromium if needed. Supports context manager protocol. Optional dependency: pip install 'skill-seekers[browser]'. Source: browser_renderer.py",
+							"documentation": "Render JavaScript pages using Playwright headless Chromium. Lazily launches browser on first render_page() call. Auto-installs Chromium if needed. Supports context manager protocol. Optional dependency: pip install 'yonyou-doc2skill[browser]'. Source: browser_renderer.py",
 							"attributes": [
 								{
 									"_type": "UMLAttribute",
@@ -51026,7 +51026,7 @@
 								"$ref": "AAAAAAGdElK+z20y0uU="
 							},
 							"name": "OpenCodeSkillConverter",
-							"documentation": "Bi-directional skill format converter. Converts between Skill Seekers format and OpenCode ecosystem format. Supports importing OpenCode skills (parsing frontmatter and references) and exporting to any target platform via the adaptor system.",
+							"documentation": "Bi-directional skill format converter. Converts between Yonyou Doc2Skill format and OpenCode ecosystem format. Supports importing OpenCode skills (parsing frontmatter and references) and exporting to any target platform via the adaptor system.",
 							"operations": [
 								{
 									"_type": "UMLOperation",
@@ -58457,7 +58457,7 @@
 								"$ref": "AAAAAAGdElLDt21MXsE="
 							},
 							"name": "SourceManager",
-							"documentation": "Manages registry of custom config sources (git repositories) at ~/.skill-seekers/sources.json. Supports add, get, list, remove, update operations with atomic file writes.",
+							"documentation": "Manages registry of custom config sources (git repositories) at ~/.yonyou-doc2skill/sources.json. Supports add, get, list, remove, update operations with atomic file writes.",
 							"attributes": [
 								{
 									"_type": "UMLAttribute",
@@ -59392,7 +59392,7 @@
 								"$ref": "AAAAAAGdElLDt21MXsE="
 							},
 							"name": "WorkflowTools",
-							"documentation": "5 workflow management tool implementations: list_workflows (bundled+user), get_workflow, create_workflow, update_workflow, delete_workflow. Manages YAML workflow files in ~/.config/skill-seekers/workflows/.",
+							"documentation": "5 workflow management tool implementations: list_workflows (bundled+user), get_workflow, create_workflow, update_workflow, delete_workflow. Manages YAML workflow files in ~/.config/yonyou-doc2skill/workflows/.",
 							"operations": [
 								{
 									"_type": "UMLOperation",
@@ -93051,7 +93051,7 @@
 								"$ref": "AAAAAAGdElLoxm3oohs="
 							},
 							"name": "ConfigManager",
-							"documentation": "Manages persistent configuration for GitHub profiles, API keys, and scraping settings. Stores config in ~/.config/skill-seekers/config.json. Supports multiple GitHub token profiles with rotation.",
+							"documentation": "Manages persistent configuration for GitHub profiles, API keys, and scraping settings. Stores config in ~/.config/yonyou-doc2skill/config.json. Supports multiple GitHub token profiles with rotation.",
 							"attributes": [
 								{
 									"_type": "UMLAttribute",
@@ -108991,7 +108991,7 @@
 														"$ref": "AAAAAAGdMQ+lFCo4lMo="
 													},
 													"edgePosition": 1,
-													"text": "2 : Path A: scraping_tools → subprocess.run([\"skill-seekers\", ...])"
+													"text": "2 : Path A: scraping_tools → subprocess.run([\"yonyou-doc2skill\", ...])"
 												},
 												{
 													"_type": "EdgeLabelView",
@@ -109592,7 +109592,7 @@
 									"_parent": {
 										"$ref": "AAAAAAGdMQ9FTSmW7yI="
 									},
-									"name": "Path A: scraping_tools → subprocess.run([\"skill-seekers\", ...])",
+									"name": "Path A: scraping_tools → subprocess.run([\"yonyou-doc2skill\", ...])",
 									"source": {
 										"$ref": "AAAAAAGdMQ+AjinGv48="
 									},

@@ -1,4 +1,4 @@
-# Using Skill Seekers with Cline (VS Code Extension)
+# Using Yonyou Doc2Skill with Cline (VS Code Extension)
 
 **Last Updated:** February 7, 2026
 **Status:** Production Ready
@@ -22,7 +22,7 @@ Cline (formerly Claude Dev) is a powerful autonomous coding agent for VS Code, b
 
 ## ✨ The Solution
 
-Use Skill Seekers to create **custom rules and MCP tools** for Cline:
+Use Yonyou Doc2Skill to create **custom rules and MCP tools** for Cline:
 
 1. **Generate structured docs** from any framework or codebase
 2. **Package as .clinerules** - Cline's markdown rules format
@@ -40,27 +40,27 @@ Cline becomes an expert in your frameworks with automatic context and autonomous
 
 - VS Code installed (https://code.visualstudio.com/)
 - Cline extension installed (https://marketplace.visualstudio.com/items?itemName=saoudrizwan.claude-dev)
-- Python 3.10+ (for Skill Seekers)
+- Python 3.10+ (for Yonyou Doc2Skill)
 - Claude API key (recommended) or other LLM
 
 ### Installation
 
 ```bash
-# Install Skill Seekers with MCP support
-pip install skill-seekers[mcp]
+# Install Yonyou Doc2Skill with MCP support
+pip install yonyou-doc2skill[mcp]
 
 # Verify installation
-skill-seekers --version
+yonyou-doc2skill --version
 ```
 
 ### Generate .clinerules
 
 ```bash
 # Example: Django framework
-skill-seekers scrape --config configs/django.json
+yonyou-doc2skill scrape --config configs/django.json
 
 # Package for Cline (markdown format)
-skill-seekers package output/django --target markdown
+yonyou-doc2skill package output/django --target markdown
 
 # Extract SKILL.md (this becomes your .clinerules content)
 # output/django-markdown/SKILL.md
@@ -93,11 +93,11 @@ You are an expert in Django. Follow these patterns:
 # Configure Cline's MCP settings
 # In Cline panel → Settings → MCP Servers → Add Server
 
-# Add Skill Seekers MCP server:
+# Add Yonyou Doc2Skill MCP server:
 {
-  "skill-seekers": {
+  "yonyou-doc2skill": {
     "command": "python",
-    "args": ["-m", "skill_seekers.mcp.server_fastmcp", "--transport", "stdio"],
+    "args": ["-m", "yonyou_doc2skill.mcp.server_fastmcp", "--transport", "stdio"],
     "env": {}
   }
 }
@@ -158,10 +158,10 @@ Create `myframework-config.json`:
 
 ```bash
 # Analyze codebase patterns
-skill-seekers github --repo facebook/react
+yonyou-doc2skill github --repo facebook/react
 
 # Or local codebase
-skill-seekers analyze --directory /path/to/repo --comprehensive
+yonyou-doc2skill analyze --directory /path/to/repo --comprehensive
 ```
 
 ### Step 2: Optimize for Cline
@@ -255,10 +255,10 @@ echo "# Project Memory Bank
 
 **MCP Server Setup** (for dynamic documentation access)
 
-1. **Install Skill Seekers MCP server:**
+1. **Install Yonyou Doc2Skill MCP server:**
 
 ```bash
-pip install skill-seekers[mcp]
+pip install yonyou-doc2skill[mcp]
 ```
 
 2. **Configure in Cline settings:**
@@ -270,11 +270,11 @@ Add this configuration:
 ```json
 {
   "mcpServers": {
-    "skill-seekers": {
+    "yonyou-doc2skill": {
       "command": "python",
       "args": [
         "-m",
-        "skill_seekers.mcp.server_fastmcp",
+        "yonyou_doc2skill.mcp.server_fastmcp",
         "--transport",
         "stdio"
       ],
@@ -301,7 +301,7 @@ Now Cline can access documentation on-demand:
 ```
 In Cline chat:
 
-"Use the skill-seekers MCP tool to scrape React documentation
+"Use the yonyou-doc2skill MCP tool to scrape React documentation
 and generate .clinerules for this project"
 
 Cline will:
@@ -379,11 +379,11 @@ Watch for:
 
 ```bash
 # Generate backend rules
-skill-seekers scrape --config configs/django.json
+yonyou-doc2skill scrape --config configs/django.json
 cp output/django-markdown/SKILL.md .clinerules.backend
 
 # Generate frontend rules
-skill-seekers scrape --config configs/react.json
+yonyou-doc2skill scrape --config configs/react.json
 cp output/react-markdown/SKILL.md .clinerules.frontend
 
 # Add project conventions
@@ -472,8 +472,8 @@ def search_framework_docs(framework: str, query: str) -> str:
     Returns:
         Relevant documentation snippets
     """
-    # Use Skill Seekers to search
-    from skill_seekers.cli.adaptors import get_adaptor
+    # Use Yonyou Doc2Skill to search
+    from yonyou_doc2skill.cli.adaptors import get_adaptor
 
     adaptor = get_adaptor('markdown')
     results = adaptor.search(framework, query)
@@ -486,9 +486,9 @@ Register in Cline's MCP config:
 ```json
 {
   "mcpServers": {
-    "skill-seekers": {
+    "yonyou-doc2skill": {
       "command": "python",
-      "args": ["-m", "skill_seekers.mcp.server_fastmcp", "--transport", "stdio"]
+      "args": ["-m", "yonyou_doc2skill.mcp.server_fastmcp", "--transport", "stdio"]
     },
     "custom-search": {
       "command": "python",
@@ -510,8 +510,8 @@ In Cline: "Use custom-search MCP tool to find Django async views best practices"
 
 ```python
 # setup_cline_rag.py
-from skill_seekers.cli.doc_scraper import main as scrape
-from skill_seekers.cli.package_skill import main as package
+from yonyou_doc2skill.cli.doc_scraper import main as scrape
+from yonyou_doc2skill.cli.package_skill import main as package
 
 # Scrape documentation
 scrape(["--config", "configs/django.json"])
@@ -641,7 +641,7 @@ Use this exact pattern for all models.
 
 ```
 In Cline:
-"Use skill-seekers MCP to search Django 5.0 async views documentation"
+"Use yonyou-doc2skill MCP to search Django 5.0 async views documentation"
 
 Cline calls MCP tool → gets latest docs → applies to task
 ```
@@ -650,7 +650,7 @@ Cline calls MCP tool → gets latest docs → applies to task
 
 ```bash
 # Quarterly framework updates
-skill-seekers scrape --config configs/django.json
+yonyou-doc2skill scrape --config configs/django.json
 cp output/django-markdown/SKILL.md .clinerules
 
 # Check what changed
@@ -912,19 +912,19 @@ export function useFetch<T>(url: string): UseFetchResult<T> {
 ### Issue: MCP Server Not Connecting
 
 **Error:**
-> "Failed to connect to MCP server: skill-seekers"
+> "Failed to connect to MCP server: yonyou-doc2skill"
 
 **Solutions:**
 
 1. **Verify installation**
    ```bash
-   pip show skill-seekers
+   pip show yonyou-doc2skill
    # Check [mcp] extra is installed
    ```
 
 2. **Test MCP server directly**
    ```bash
-   python -m skill_seekers.mcp.server_fastmcp --transport stdio
+   python -m yonyou_doc2skill.mcp.server_fastmcp --transport stdio
    # Should start without errors
    ```
 
@@ -933,9 +933,9 @@ export function useFetch<T>(url: string): UseFetchResult<T> {
    // MCP config - use absolute path
    {
      "mcpServers": {
-       "skill-seekers": {
+       "yonyou-doc2skill": {
          "command": "/usr/local/bin/python3",  // Absolute path
-         "args": ["-m", "skill_seekers.mcp.server_fastmcp", "--transport", "stdio"]
+         "args": ["-m", "yonyou_doc2skill.mcp.server_fastmcp", "--transport", "stdio"]
        }
      }
    }
@@ -945,9 +945,9 @@ export function useFetch<T>(url: string): UseFetchResult<T> {
    ```json
    {
      "mcpServers": {
-       "skill-seekers": {
+       "yonyou-doc2skill": {
          "command": "python",
-         "args": ["-m", "skill_seekers.mcp.server_fastmcp", "--transport", "stdio"],
+         "args": ["-m", "yonyou_doc2skill.mcp.server_fastmcp", "--transport", "stdio"],
          "env": {
            "ANTHROPIC_API_KEY": "${env:ANTHROPIC_API_KEY}"
          }
@@ -998,7 +998,7 @@ export function useFetch<T>(url: string): UseFetchResult<T> {
 
 ## 📊 Before vs After Comparison
 
-| Aspect | Before Skill Seekers | After Skill Seekers |
+| Aspect | Before Yonyou Doc2Skill | After Yonyou Doc2Skill |
 |--------|---------------------|---------------------|
 | **Context Source** | Copy-paste into chat | Auto-loaded .clinerules |
 | **AI Knowledge** | Generic patterns | Framework-specific patterns |
@@ -1013,9 +1013,9 @@ export function useFetch<T>(url: string): UseFetchResult<T> {
 
 ## 🤝 Community & Support
 
-- **Questions:** [GitHub Discussions](https://github.com/yusufkaraaslan/Skill_Seekers/discussions)
-- **Issues:** [GitHub Issues](https://github.com/yusufkaraaslan/Skill_Seekers/issues)
-- **Website:** [skillseekersweb.com](https://skillseekersweb.com/)
+- **Questions:** [GitHub Discussions](https://github.com/yonyou/yonyou-doc2skill/discussions)
+- **Issues:** [GitHub Issues](https://github.com/yonyou/yonyou-doc2skill/issues)
+- **Website:** [docs.yonyou.example/yonyou-doc2skill](https://docs.yonyou.example/yonyou-doc2skill/)
 - **Cline Docs:** [docs.cline.bot](https://docs.cline.bot/)
 - **Cline GitHub:** [github.com/cline/cline](https://github.com/cline/cline)
 
@@ -1033,7 +1033,7 @@ export function useFetch<T>(url: string): UseFetchResult<T> {
 
 ## 📖 Next Steps
 
-1. **Try another framework:** `skill-seekers scrape --config configs/fastapi.json`
+1. **Try another framework:** `yonyou-doc2skill scrape --config configs/fastapi.json`
 2. **Set up MCP server:** Dynamic documentation access
 3. **Create memory bank:** Persistent project knowledge
 4. **Build RAG pipeline:** Deep documentation search with `--target langchain`

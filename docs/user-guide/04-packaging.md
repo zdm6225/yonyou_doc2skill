@@ -1,6 +1,6 @@
 # Packaging Guide
 
-> **Skill Seekers v3.2.0**  
+> **Yonyou Doc2Skill v3.2.0**  
 > **Export skills to AI platforms and vector databases**
 
 ---
@@ -61,10 +61,10 @@ output/my-skill/ ──▶ Packager ──▶ output/my-skill-{platform}.{format
 
 ```bash
 # Default packaging
-skill-seekers package output/my-skill/
+yonyou-doc2skill package output/my-skill/
 
 # Explicit target
-skill-seekers package output/my-skill/ --target claude
+yonyou-doc2skill package output/my-skill/ --target claude
 
 # Output: output/my-skill-claude.zip
 ```
@@ -73,19 +73,19 @@ skill-seekers package output/my-skill/ --target claude
 
 ```bash
 # Google Gemini
-skill-seekers package output/my-skill/ --target gemini
+yonyou-doc2skill package output/my-skill/ --target gemini
 # Output: output/my-skill-gemini.tar.gz
 
 # OpenAI
-skill-seekers package output/my-skill/ --target openai
+yonyou-doc2skill package output/my-skill/ --target openai
 # Output: output/my-skill-openai.zip
 
 # LangChain
-skill-seekers package output/my-skill/ --target langchain
+yonyou-doc2skill package output/my-skill/ --target langchain
 # Output: output/my-skill-langchain/ directory
 
 # ChromaDB
-skill-seekers package output/my-skill/ --target chroma
+yonyou-doc2skill package output/my-skill/ --target chroma
 # Output: output/my-skill-chroma.zip
 ```
 
@@ -97,12 +97,12 @@ skill-seekers package output/my-skill/ --target chroma
 
 ```bash
 # Create skill once
-skill-seekers create <source>
+yonyou-doc2skill create <source>
 
 # Package for multiple platforms
 for platform in claude gemini openai langchain; do
   echo "Packaging for $platform..."
-  skill-seekers package output/my-skill/ --target $platform
+  yonyou-doc2skill package output/my-skill/ --target $platform
 done
 
 # Results:
@@ -121,7 +121,7 @@ PLATFORMS="claude gemini openai langchain llama-index chroma"
 
 for platform in $PLATFORMS; do
   echo "▶️ Packaging for $platform..."
-  skill-seekers package "$SKILL_DIR" --target "$platform"
+  yonyou-doc2skill package "$SKILL_DIR" --target "$platform"
   
   if [ $? -eq 0 ]; then
     echo "✅ $platform done"
@@ -141,14 +141,14 @@ echo "🎉 All platforms packaged!"
 
 ```bash
 # Skip validation (faster)
-skill-seekers package output/my-skill/ --skip-quality-check
+yonyou-doc2skill package output/my-skill/ --skip-quality-check
 ```
 
 ### Don't Open Output Folder
 
 ```bash
 # Prevent opening folder after packaging
-skill-seekers package output/my-skill/ --no-open
+yonyou-doc2skill package output/my-skill/ --no-open
 ```
 
 ### Auto-Upload After Packaging
@@ -156,7 +156,7 @@ skill-seekers package output/my-skill/ --no-open
 ```bash
 # Package and upload
 export ANTHROPIC_API_KEY=sk-ant-...
-skill-seekers package output/my-skill/ --target claude --upload
+yonyou-doc2skill package output/my-skill/ --target claude --upload
 ```
 
 ---
@@ -167,10 +167,10 @@ For very large skills, use streaming to reduce memory usage:
 
 ```bash
 # Enable streaming
-skill-seekers package output/large-skill/ --streaming
+yonyou-doc2skill package output/large-skill/ --streaming
 
 # Custom chunk size
-skill-seekers package output/large-skill/ \
+yonyou-doc2skill package output/large-skill/ \
   --streaming \
   --streaming-chunk-chars 2000 \
   --streaming-overlap-chars 100
@@ -189,13 +189,13 @@ Optimize for Retrieval-Augmented Generation:
 
 ```bash
 # Enable semantic chunking
-skill-seekers package output/my-skill/ \
+yonyou-doc2skill package output/my-skill/ \
   --target langchain \
   --chunk-for-rag \
   --chunk-tokens 512
 
 # Custom chunk size
-skill-seekers package output/my-skill/ \
+yonyou-doc2skill package output/my-skill/ \
   --target chroma \
   --chunk-tokens 256 \
   --chunk-overlap-tokens 50
@@ -219,16 +219,16 @@ skill-seekers package output/my-skill/ \
 ### Claude AI
 
 ```bash
-skill-seekers package output/my-skill/ --target claude
+yonyou-doc2skill package output/my-skill/ --target claude
 ```
 
 **Upload:**
 ```bash
 # Auto-upload
-skill-seekers package output/my-skill/ --target claude --upload
+yonyou-doc2skill package output/my-skill/ --target claude --upload
 
 # Manual upload
-skill-seekers upload output/my-skill-claude.zip --target claude
+yonyou-doc2skill upload output/my-skill-claude.zip --target claude
 ```
 
 **Format:**
@@ -241,13 +241,13 @@ skill-seekers upload output/my-skill-claude.zip --target claude
 ### Google Gemini
 
 ```bash
-skill-seekers package output/my-skill/ --target gemini
+yonyou-doc2skill package output/my-skill/ --target gemini
 ```
 
 **Upload:**
 ```bash
 export GOOGLE_API_KEY=AIza...
-skill-seekers upload output/my-skill-gemini.tar.gz --target gemini
+yonyou-doc2skill upload output/my-skill-gemini.tar.gz --target gemini
 ```
 
 **Format:**
@@ -259,13 +259,13 @@ skill-seekers upload output/my-skill-gemini.tar.gz --target gemini
 ### OpenAI ChatGPT
 
 ```bash
-skill-seekers package output/my-skill/ --target openai
+yonyou-doc2skill package output/my-skill/ --target openai
 ```
 
 **Upload:**
 ```bash
 export OPENAI_API_KEY=sk-...
-skill-seekers upload output/my-skill-openai.zip --target openai
+yonyou-doc2skill upload output/my-skill-openai.zip --target openai
 ```
 
 **Format:**
@@ -277,7 +277,7 @@ skill-seekers upload output/my-skill-openai.zip --target openai
 ### LangChain
 
 ```bash
-skill-seekers package output/my-skill/ --target langchain
+yonyou-doc2skill package output/my-skill/ --target langchain
 ```
 
 **Usage:**
@@ -299,16 +299,16 @@ docs = loader.load()
 ### ChromaDB
 
 ```bash
-skill-seekers package output/my-skill/ --target chroma
+yonyou-doc2skill package output/my-skill/ --target chroma
 ```
 
 **Upload:**
 ```bash
 # Local ChromaDB
-skill-seekers upload output/my-skill-chroma.zip --target chroma
+yonyou-doc2skill upload output/my-skill-chroma.zip --target chroma
 
 # With custom URL
-skill-seekers upload output/my-skill-chroma.zip \
+yonyou-doc2skill upload output/my-skill-chroma.zip \
   --target chroma \
   --chroma-url http://localhost:8000
 ```
@@ -326,16 +326,16 @@ collection = client.get_collection("my-skill")
 ### Weaviate
 
 ```bash
-skill-seekers package output/my-skill/ --target weaviate
+yonyou-doc2skill package output/my-skill/ --target weaviate
 ```
 
 **Upload:**
 ```bash
 # Local Weaviate
-skill-seekers upload output/my-skill-weaviate.zip --target weaviate
+yonyou-doc2skill upload output/my-skill-weaviate.zip --target weaviate
 
 # Weaviate Cloud
-skill-seekers upload output/my-skill-weaviate.zip \
+yonyou-doc2skill upload output/my-skill-weaviate.zip \
   --target weaviate \
   --use-cloud \
   --cluster-url https://xxx.weaviate.network
@@ -347,10 +347,10 @@ skill-seekers upload output/my-skill-weaviate.zip \
 
 ```bash
 # Package (actually creates .cursorrules file)
-skill-seekers package output/my-skill/ --target cursor
+yonyou-doc2skill package output/my-skill/ --target cursor
 
 # Or install directly
-skill-seekers install-agent output/my-skill/ --agent cursor
+yonyou-doc2skill install-agent output/my-skill/ --agent cursor
 ```
 
 **Result:** `.cursorrules` file in your project root.
@@ -360,7 +360,7 @@ skill-seekers install-agent output/my-skill/ --agent cursor
 ### Windsurf IDE
 
 ```bash
-skill-seekers install-agent output/my-skill/ --agent windsurf
+yonyou-doc2skill install-agent output/my-skill/ --agent windsurf
 ```
 
 **Result:** `.windsurfrules` file in your project root.
@@ -373,13 +373,13 @@ Before packaging, skills are validated:
 
 ```bash
 # Check quality
-skill-seekers quality output/my-skill/
+yonyou-doc2skill quality output/my-skill/
 
 # Detailed report
-skill-seekers quality output/my-skill/ --report
+yonyou-doc2skill quality output/my-skill/ --report
 
 # Set minimum threshold
-skill-seekers quality output/my-skill/ --threshold 7.0
+yonyou-doc2skill quality output/my-skill/ --threshold 7.0
 ```
 
 **Quality Metrics:**
@@ -422,10 +422,10 @@ output/
 ls output/my-skill/
 
 # Rebuild if needed
-skill-seekers create --config my-config --skip-scrape
+yonyou-doc2skill create --config my-config --skip-scrape
 
 # Or recreate
-skill-seekers create <source>
+yonyou-doc2skill create <source>
 ```
 
 ### "Target platform not supported"
@@ -435,7 +435,7 @@ skill-seekers create <source>
 **Solution:**
 ```bash
 # Check available targets
-skill-seekers package --help
+yonyou-doc2skill package --help
 
 # Common targets: claude, gemini, openai, langchain, chroma, weaviate
 ```
@@ -452,7 +452,7 @@ export GOOGLE_API_KEY=AIza...
 export OPENAI_API_KEY=sk-...
 
 # Try again
-skill-seekers upload output/my-skill-claude.zip --target claude
+yonyou-doc2skill upload output/my-skill-claude.zip --target claude
 ```
 
 ### "Out of memory"
@@ -462,10 +462,10 @@ skill-seekers upload output/my-skill-claude.zip --target claude
 **Solution:**
 ```bash
 # Use streaming mode
-skill-seekers package output/my-skill/ --streaming
+yonyou-doc2skill package output/my-skill/ --streaming
 
 # Smaller chunks
-skill-seekers package output/my-skill/ --streaming --streaming-chunk-chars 1000
+yonyou-doc2skill package output/my-skill/ --streaming --streaming-chunk-chars 1000
 ```
 
 ---
@@ -476,11 +476,11 @@ skill-seekers package output/my-skill/ --streaming --streaming-chunk-chars 1000
 
 ```bash
 # Create once
-skill-seekers create <source>
+yonyou-doc2skill create <source>
 
 # Package for all needed platforms
 for platform in claude gemini langchain; do
-  skill-seekers package output/my-skill/ --target $platform
+  yonyou-doc2skill package output/my-skill/ --target $platform
 done
 ```
 
@@ -488,17 +488,17 @@ done
 
 ```bash
 # Validate first
-skill-seekers quality output/my-skill/ --threshold 6.0
+yonyou-doc2skill quality output/my-skill/ --threshold 6.0
 
 # Then package
-skill-seekers package output/my-skill/
+yonyou-doc2skill package output/my-skill/
 ```
 
 ### 3. Use Streaming for Large Skills
 
 ```bash
 # Automatically detected, but can force
-skill-seekers package output/large-skill/ --streaming
+yonyou-doc2skill package output/large-skill/ --streaming
 ```
 
 ### 4. Keep Original Skill Directory

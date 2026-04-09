@@ -1,6 +1,6 @@
 # ChromaDB Vector Database Example
 
-This example demonstrates how to use Skill Seekers with ChromaDB, the AI-native open-source embedding database. Chroma is designed to be simple, fast, and easy to use locally.
+This example demonstrates how to use Yonyou Doc2Skill with ChromaDB, the AI-native open-source embedding database. Chroma is designed to be simple, fast, and easy to use locally.
 
 ## What You'll Learn
 
@@ -252,8 +252,8 @@ collection = client.create_collection(
 "--config", "configs/django.json",  # Your framework
 
 # Or use CLI directly
-skill-seekers scrape --config configs/flask.json
-skill-seekers package output/flask --target chroma
+yonyou-doc2skill scrape --config configs/flask.json
+yonyou-doc2skill package output/flask --target chroma
 ```
 
 ### Adjust Query Parameters
@@ -359,7 +359,7 @@ Query is slow
 - **ChromaDB Docs**: https://docs.trychroma.com/
 - **GitHub**: https://github.com/chroma-core/chroma
 - **Discord**: https://discord.gg/MMeYNTmh3x
-- **Skill Seekers**: https://github.com/yourusername/skill-seekers
+- **Yonyou Doc2Skill**: https://github.com/yourusername/yonyou-doc2skill
 
 ## File Structure
 
@@ -391,4 +391,4 @@ chroma-example/
 ---
 
 **Last Updated:** February 2026
-**Tested With:** ChromaDB v0.4.22, Python 3.10+, skill-seekers v2.10.0
+**Tested With:** ChromaDB v0.4.22, Python 3.10+, yonyou-doc2skill v2.10.0

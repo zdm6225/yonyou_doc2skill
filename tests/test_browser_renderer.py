@@ -7,7 +7,7 @@ from __future__ import annotations
 
 import pytest
 
-from skill_seekers.cli.browser_renderer import (
+from yonyou_doc2skill.cli.browser_renderer import (
     BrowserRenderer,
     _auto_install_chromium,
     _check_playwright_available,
@@ -17,7 +17,7 @@ from skill_seekers.cli.browser_renderer import (
 _has_playwright = _check_playwright_available()
 requires_playwright = pytest.mark.skipif(
     not _has_playwright,
-    reason="Playwright not installed (pip install 'skill-seekers[browser]')",
+    reason="Playwright not installed (pip install 'yonyou-doc2skill[browser]')",
 )
 
 
@@ -99,7 +99,7 @@ class TestDocScraperBrowserIntegration:
     """Test that doc_scraper correctly accepts browser config."""
 
     def test_browser_mode_config_sets_attribute(self):
-        from skill_seekers.cli.doc_scraper import DocToSkillConverter
+        from yonyou_doc2skill.cli.doc_scraper import DocToSkillConverter
 
         config = {
             "name": "test",
@@ -113,7 +113,7 @@ class TestDocScraperBrowserIntegration:
         assert scraper._browser_renderer is None
 
     def test_browser_mode_default_false(self):
-        from skill_seekers.cli.doc_scraper import DocToSkillConverter
+        from yonyou_doc2skill.cli.doc_scraper import DocToSkillConverter
 
         config = {
             "name": "test",
@@ -127,7 +127,7 @@ class TestDocScraperBrowserIntegration:
     @requires_playwright
     def test_render_with_browser_returns_html(self):
         """Test the _render_with_browser helper directly."""
-        from skill_seekers.cli.doc_scraper import DocToSkillConverter
+        from yonyou_doc2skill.cli.doc_scraper import DocToSkillConverter
 
         config = {
             "name": "test",
@@ -151,7 +151,7 @@ class TestBrowserArgument:
 
     def test_browser_config_true(self):
         """Test that DocToSkillConverter accepts browser=True in config."""
-        from skill_seekers.cli.doc_scraper import DocToSkillConverter
+        from yonyou_doc2skill.cli.doc_scraper import DocToSkillConverter
 
         config = {
             "name": "test",
@@ -165,7 +165,7 @@ class TestBrowserArgument:
 
     def test_browser_config_default_false(self):
         """Test that DocToSkillConverter defaults browser to False."""
-        from skill_seekers.cli.doc_scraper import DocToSkillConverter
+        from yonyou_doc2skill.cli.doc_scraper import DocToSkillConverter
 
         config = {
             "name": "test",

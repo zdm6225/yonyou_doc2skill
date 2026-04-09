@@ -11,7 +11,7 @@ MISSING=0
 OUT_OF_SYNC=0
 
 # Find all English docs (excluding zh-CN and archive)
-find docs -name "*.md" -not -path "docs/zh-CN/*" -not -path "docs/archive/*" | while read -r en_file; do
+find docs -name "*.md" -not -path "docs/zh-CN/*" | while read -r en_file; do
     # Calculate corresponding Chinese file path
     rel_path="${en_file#docs/}"
     zh_file="docs/zh-CN/$rel_path"
@@ -37,7 +37,7 @@ done
 echo ""
 
 # Summary
-TOTAL_EN=$(find docs -name "*.md" -not -path "docs/zh-CN/*" -not -path "docs/archive/*" | wc -l)
+TOTAL_EN=$(find docs -name "*.md" -not -path "docs/zh-CN/*" | wc -l)
 TOTAL_ZH=$(find docs/zh-CN -name "*.md" 2>/dev/null | wc -l)
 
 echo "📊 Summary:"

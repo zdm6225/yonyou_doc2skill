@@ -29,7 +29,7 @@ async def test_http_server():
         [
             sys.executable,
             "-m",
-            "skill_seekers.mcp.server_fastmcp",
+            "yonyou_doc2skill.mcp.server_fastmcp",
             "--http",
             "--port",
             "8765",

@@ -1,12 +1,12 @@
-# Skill Seekers — Smithery MCP Registry
+# Yonyou Doc2Skill — Smithery MCP Registry
 
-Publishing guide for the Skill Seekers MCP server on [Smithery](https://smithery.ai).
+Publishing guide for the Yonyou Doc2Skill MCP server on [Smithery](https://smithery.ai).
 
 ## Status
 
-- **Namespace created:** `yusufkaraaslan`
-- **Server created:** `yusufkaraaslan/skill-seekers`
-- **Server page:** https://smithery.ai/servers/yusufkaraaslan/skill-seekers
+- **Namespace created:** `yonyou`
+- **Server created:** `yonyou/yonyou-doc2skill`
+- **Server page:** https://smithery.ai/servers/yonyou/yonyou-doc2skill
 - **Release status:** Needs re-publish (initial release failed — Smithery couldn't scan GitHub URL as MCP endpoint)
 
 ## Publishing
@@ -15,7 +15,7 @@ Smithery requires a live, scannable MCP HTTP endpoint for URL-based publishing. 
 
 ### Option A: Publish via Web UI (Recommended)
 
-1. Go to https://smithery.ai/servers/yusufkaraaslan/skill-seekers/releases
+1. Go to https://smithery.ai/servers/yonyou/yonyou-doc2skill/releases
 2. The server already exists — create a new release
 3. For the "Local" tab: follow the prompts to publish as a stdio server
 4. For the "URL" tab: provide a hosted HTTP endpoint URL
@@ -25,14 +25,14 @@ Smithery requires a live, scannable MCP HTTP endpoint for URL-based publishing. 
 1. Deploy the MCP server on Render/Railway/Fly.io:
    ```bash
    # Using existing Dockerfile.mcp
-   docker build -f Dockerfile.mcp -t skill-seekers-mcp .
+   docker build -f Dockerfile.mcp -t yonyou-doc2skill-mcp .
    # Deploy to your hosting provider
    ```
 2. Publish the live URL:
    ```bash
    npx @smithery/cli@latest auth login
    npx @smithery/cli@latest mcp publish "https://your-deployed-url/mcp" \
-     -n yusufkaraaslan/skill-seekers
+     -n yonyou/yonyou-doc2skill
    ```
 
 ### CLI Authentication (already done)
@@ -40,14 +40,14 @@ Smithery requires a live, scannable MCP HTTP endpoint for URL-based publishing. 
 ```bash
 # Install via npx (no global install needed)
 npx @smithery/cli@latest auth login
-npx @smithery/cli@latest namespace show   # Should show: yusufkaraaslan
+npx @smithery/cli@latest namespace show   # Should show: yonyou
 ```
 
 ### After Publishing
 
 Update the server page with metadata:
 
-**Display name:** Skill Seekers — AI Skill & RAG Toolkit
+**Display name:** Yonyou Doc2Skill — AI Skill & RAG Toolkit
 
 **Description:**
 > Transform 17 source types into AI-ready skills and RAG knowledge. Ingest documentation sites, GitHub repos, PDFs, Jupyter notebooks, videos, Confluence, Notion, Slack/Discord exports, and more. Package for 16+ LLM platforms including Claude, GPT, Gemini, LangChain, LlamaIndex, and vector databases.
@@ -60,10 +60,10 @@ Once published, users can add the server to their MCP client:
 
 ```bash
 # Via Smithery CLI (adds to Claude Desktop, Cursor, etc.)
-smithery mcp add yusufkaraaslan/skill-seekers --client claude
+smithery mcp add yonyou/yonyou-doc2skill --client claude
 
-# Or configure manually — users need skill-seekers installed:
-pip install skill-seekers[mcp]
+# Or configure manually — users need yonyou-doc2skill installed:
+pip install yonyou-doc2skill[mcp]
 ```
 
 ### Manual MCP Configuration
@@ -73,9 +73,9 @@ For clients that use JSON config (Claude Desktop, Claude Code, Cursor):
 ```json
 {
   "mcpServers": {
-    "skill-seekers": {
+    "yonyou-doc2skill": {
       "command": "python",
-      "args": ["-m", "skill_seekers.mcp.server_fastmcp"]
+      "args": ["-m", "yonyou_doc2skill.mcp.server_fastmcp"]
     }
   }
 }

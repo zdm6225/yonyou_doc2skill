@@ -11,7 +11,7 @@ sys.path.insert(0, "src")
 
 import pytest
 
-from skill_seekers.cli.parsers.extractors import (
+from yonyou_doc2skill.cli.parsers.extractors import (
     ContentBlockType,
     CrossRefType,
     MarkdownParser,
@@ -390,7 +390,7 @@ class TestQualityScorer:
 
     def test_good_python_code_score(self):
         """Test quality score for good Python code."""
-        from skill_seekers.cli.parsers.extractors import QualityScorer
+        from yonyou_doc2skill.cli.parsers.extractors import QualityScorer
 
         scorer = QualityScorer()
         good_code = """
@@ -406,7 +406,7 @@ def calculate_average(numbers):
 
     def test_empty_code_score(self):
         """Test quality score for empty code."""
-        from skill_seekers.cli.parsers.extractors import QualityScorer
+        from yonyou_doc2skill.cli.parsers.extractors import QualityScorer
 
         scorer = QualityScorer()
         score = scorer.score_code_block("", "python")
@@ -414,7 +414,7 @@ def calculate_average(numbers):
 
     def test_good_table_score(self):
         """Test quality score for good table."""
-        from skill_seekers.cli.parsers.extractors import QualityScorer
+        from yonyou_doc2skill.cli.parsers.extractors import QualityScorer
 
         scorer = QualityScorer()
         good_table = Table(
@@ -427,7 +427,7 @@ def calculate_average(numbers):
 
     def test_language_detection(self):
         """Test language detection."""
-        from skill_seekers.cli.parsers.extractors import QualityScorer
+        from yonyou_doc2skill.cli.parsers.extractors import QualityScorer
 
         scorer = QualityScorer()
         python_code = "def foo():\n    return 42"

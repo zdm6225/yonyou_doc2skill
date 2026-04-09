@@ -1,4 +1,4 @@
-# Using Skill Seekers with Haystack
+# Using Yonyou Doc2Skill with Haystack
 
 **Last Updated:** February 7, 2026
 **Status:** Production Ready
@@ -21,7 +21,7 @@ Building RAG (Retrieval-Augmented Generation) applications with Haystack require
 
 ## ✨ The Solution
 
-Use Skill Seekers as **essential preprocessing** before Haystack:
+Use Yonyou Doc2Skill as **essential preprocessing** before Haystack:
 
 1. **Generate Haystack Documents** from any documentation source
 2. **Pre-structured with metadata** following Haystack 2.x format
@@ -29,7 +29,7 @@ Use Skill Seekers as **essential preprocessing** before Haystack:
 4. **One command** - scrape, structure, format in minutes
 
 **Result:**
-Skill Seekers outputs JSON files with Haystack Document format (`content` + `meta`), ready to load directly into your Haystack pipelines.
+Yonyou Doc2Skill outputs JSON files with Haystack Document format (`content` + `meta`), ready to load directly into your Haystack pipelines.
 
 ---
 
@@ -43,21 +43,21 @@ Skill Seekers outputs JSON files with Haystack Document format (`content` + `met
 ### Installation
 
 ```bash
-# Install Skill Seekers
-pip install skill-seekers
+# Install Yonyou Doc2Skill
+pip install yonyou-doc2skill
 
 # Verify installation
-skill-seekers --version
+yonyou-doc2skill --version
 ```
 
 ### Generate Haystack Documents
 
 ```bash
 # Example: Django framework documentation
-skill-seekers scrape --config configs/django.json
+yonyou-doc2skill scrape --config configs/django.json
 
 # Package as Haystack Documents
-skill-seekers package output/django --target haystack
+yonyou-doc2skill package output/django --target haystack
 
 # Output: output/django-haystack.json
 ```
@@ -101,20 +101,20 @@ for doc in results["documents"]:
 
 ### Step 1: Choose Your Documentation Source
 
-Skill Seekers supports multiple documentation sources:
+Yonyou Doc2Skill supports multiple documentation sources:
 
 ```bash
 # Official framework documentation
-skill-seekers scrape --config configs/fastapi.json
+yonyou-doc2skill scrape --config configs/fastapi.json
 
 # GitHub repository
-skill-seekers github --repo tiangolo/fastapi
+yonyou-doc2skill github --repo tiangolo/fastapi
 
 # PDF documentation
-skill-seekers pdf --file docs/manual.pdf
+yonyou-doc2skill pdf --file docs/manual.pdf
 
 # Combine multiple sources
-skill-seekers unified \
+yonyou-doc2skill unified \
   --docs https://fastapi.tiangolo.com/ \
   --github tiangolo/fastapi \
   --output output/fastapi-complete
@@ -146,18 +146,18 @@ Create a custom config for your documentation:
 Save as `configs/my-framework.json` and use:
 
 ```bash
-skill-seekers scrape --config configs/my-framework.json
+yonyou-doc2skill scrape --config configs/my-framework.json
 ```
 
 ### Step 3: Package for Haystack
 
 ```bash
 # Generate Haystack Documents
-skill-seekers package output/my-framework --target haystack
+yonyou-doc2skill package output/my-framework --target haystack
 
 # With semantic chunking for better retrieval
-skill-seekers scrape --config configs/my-framework.json --chunk-for-rag
-skill-seekers package output/my-framework --target haystack
+yonyou-doc2skill scrape --config configs/my-framework.json --chunk-for-rag
+yonyou-doc2skill package output/my-framework --target haystack
 
 # Output files:
 # - output/my-framework-haystack.json (Haystack Documents)
@@ -316,13 +316,13 @@ print(response["llm"]["replies"][0])
 
 ```bash
 # Enable semantic chunking (preserves code blocks, respects paragraphs)
-skill-seekers scrape --config configs/django.json \
+yonyou-doc2skill scrape --config configs/django.json \
   --chunk-for-rag \
   --chunk-tokens 512 \
   --chunk-overlap-tokens 50
 
 # Package chunked output
-skill-seekers package output/django --target haystack
+yonyou-doc2skill package output/django --target haystack
 
 # Result: Smaller, more focused documents for better retrieval
 ```
@@ -331,16 +331,16 @@ skill-seekers package output/django --target haystack
 
 ```bash
 # Combine official docs + GitHub issues + PDF guides
-skill-seekers unified \
+yonyou-doc2skill unified \
   --docs https://docs.example.com/ \
   --github owner/repo \
   --pdf guides/*.pdf \
   --output output/complete-knowledge
 
-skill-seekers package output/complete-knowledge --target haystack
+yonyou-doc2skill package output/complete-knowledge --target haystack
 
 # Detect conflicts between sources
-skill-seekers detect-conflicts output/complete-knowledge
+yonyou-doc2skill detect-conflicts output/complete-knowledge
 ```
 
 ### Custom Metadata for Filtering
@@ -416,10 +416,10 @@ results = retriever.run(
 
 ```bash
 # Initial scrape
-skill-seekers scrape --config configs/fastapi.json
+yonyou-doc2skill scrape --config configs/fastapi.json
 
 # Later: Update only changed pages
-skill-seekers scrape --config configs/fastapi.json --skip-existing
+yonyou-doc2skill scrape --config configs/fastapi.json --skip-existing
 
 # Merge with existing documents
 python scripts/merge_documents.py \
@@ -437,7 +437,7 @@ python scripts/merge_documents.py \
 
 ```bash
 # Enable chunking for frameworks with long pages
-skill-seekers scrape --config configs/django.json \
+yonyou-doc2skill scrape --config configs/django.json \
   --chunk-for-rag \
   --chunk-tokens 512 \
   --chunk-overlap-tokens 50
@@ -485,7 +485,7 @@ for query in test_queries:
 
 ```bash
 # Include version in metadata
-skill-seekers scrape --config configs/django.json --metadata version=4.2
+yonyou-doc2skill scrape --config configs/django.json --metadata version=4.2
 
 # Query specific versions
 results = retriever.run(
@@ -504,14 +504,14 @@ Complete example of building a FastAPI documentation chatbot:
 
 ```bash
 # Scrape FastAPI docs with chunking
-skill-seekers scrape --config configs/fastapi.json \
+yonyou-doc2skill scrape --config configs/fastapi.json \
   --chunk-for-rag \
   --chunk-tokens 512 \
   --chunk-overlap-tokens 50 \
   --max-pages 200
 
 # Package for Haystack
-skill-seekers package output/fastapi --target haystack
+yonyou-doc2skill package output/fastapi --target haystack
 ```
 
 ### Step 2: Setup Haystack Pipeline
@@ -683,7 +683,7 @@ jq '.[0]' output/fastapi-haystack.json
 # }
 
 # Regenerate if malformed
-skill-seekers package output/fastapi --target haystack --force
+yonyou-doc2skill package output/fastapi --target haystack --force
 ```
 
 ### Issue: Poor retrieval quality
@@ -693,10 +693,10 @@ skill-seekers package output/fastapi --target haystack --force
 **Solutions:**
 ```bash
 # 1. Enable semantic chunking
-skill-seekers scrape --config configs/fastapi.json --chunk-for-rag
+yonyou-doc2skill scrape --config configs/fastapi.json --chunk-for-rag
 
 # 2. Adjust chunk size
-skill-seekers scrape --config configs/fastapi.json \
+yonyou-doc2skill scrape --config configs/fastapi.json \
   --chunk-for-rag \
   --chunk-tokens 768 \  # Larger chunks for more context
   --chunk-overlap-tokens 100  # More overlap for continuity
@@ -739,11 +739,11 @@ load_documents_batched("output/large-framework-haystack.json")
 # Check Haystack version
 pip show haystack-ai
 
-# Skill Seekers requires Haystack 2.x
+# Yonyou Doc2Skill requires Haystack 2.x
 pip install --upgrade "haystack-ai>=2.0.0"
 
 # For Haystack 1.x (legacy), use markdown export instead:
-skill-seekers package output/framework --target markdown
+yonyou-doc2skill package output/framework --target markdown
 ```
 
 ### Issue: Slow query performance
@@ -769,7 +769,7 @@ results = retriever.run(
 
 ## 📊 Before vs After
 
-| Aspect | Before Skill Seekers | After Skill Seekers |
+| Aspect | Before Yonyou Doc2Skill | After Yonyou Doc2Skill |
 |--------|---------------------|-------------------|
 | **Setup Time** | 6-8 hours manual scraping | 5 minutes automated |
 | **Documentation Quality** | Inconsistent, missing metadata | Structured with rich metadata |
@@ -809,8 +809,8 @@ results = retriever.run(
 
 ## 🤝 Support
 
-- **Questions:** [GitHub Discussions](https://github.com/yusufkaraaslan/Skill_Seekers/discussions)
-- **Issues:** [GitHub Issues](https://github.com/yusufkaraaslan/Skill_Seekers/issues)
+- **Questions:** [GitHub Discussions](https://github.com/yonyou/yonyou-doc2skill/discussions)
+- **Issues:** [GitHub Issues](https://github.com/yonyou/yonyou-doc2skill/issues)
 - **Haystack Help:** [Haystack Discord](https://discord.gg/haystack)
 
 ---
@@ -818,9 +818,9 @@ results = retriever.run(
 **Ready to build production RAG with Haystack?**
 
 ```bash
-pip install skill-seekers haystack-ai
-skill-seekers scrape --config configs/your-framework.json --chunk-for-rag
-skill-seekers package output/your-framework --target haystack
+pip install yonyou-doc2skill haystack-ai
+yonyou-doc2skill scrape --config configs/your-framework.json --chunk-for-rag
+yonyou-doc2skill package output/your-framework --target haystack
 ```
 
 Transform documentation into production-ready Haystack pipelines in minutes! 🚀

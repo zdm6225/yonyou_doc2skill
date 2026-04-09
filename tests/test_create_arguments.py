@@ -6,7 +6,7 @@ Tests the three-tier argument system:
 3. Advanced arguments
 """
 
-from skill_seekers.cli.arguments.create import (
+from yonyou_doc2skill.cli.arguments.create import (
     UNIVERSAL_ARGUMENTS,
     WEB_ARGUMENTS,
     GITHUB_ARGUMENTS,

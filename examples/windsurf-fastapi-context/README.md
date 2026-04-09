@@ -1,6 +1,6 @@
 # Windsurf + FastAPI Context Example
 
-Complete example showing how to use Skill Seekers to generate Windsurf rules for FastAPI development.
+Complete example showing how to use Yonyou Doc2Skill to generate Windsurf rules for FastAPI development.
 
 ## What This Example Does
 
@@ -14,14 +14,14 @@ Complete example showing how to use Skill Seekers to generate Windsurf rules for
 ### 1. Generate FastAPI Skill
 
 ```bash
-# Install Skill Seekers
-pip install skill-seekers
+# Install Yonyou Doc2Skill
+pip install yonyou-doc2skill
 
 # Generate FastAPI documentation skill
-skill-seekers scrape --config configs/fastapi.json
+yonyou-doc2skill scrape --config configs/fastapi.json
 
 # Package for Windsurf with split rules (respects 6K char limit)
-skill-seekers package output/fastapi --target markdown --split-rules
+yonyou-doc2skill package output/fastapi --target markdown --split-rules
 ```
 
 ### 2. Copy to Windsurf Project
@@ -176,10 +176,10 @@ router = APIRouter(prefix="/api/v1")
 
 ```bash
 # Generate smaller rule files (5K chars each)
-skill-seekers package output/fastapi --target markdown --split-rules --max-chars 5000
+yonyou-doc2skill package output/fastapi --target markdown --split-rules --max-chars 5000
 
 # Generate larger rule files (5.5K chars each)
-skill-seekers package output/fastapi --target markdown --split-rules --max-chars 5500
+yonyou-doc2skill package output/fastapi --target markdown --split-rules --max-chars 5500
 ```
 
 ## Troubleshooting
@@ -204,7 +204,7 @@ Cmd+Shift+P → "Reload Window"
 
 **Solution:** Re-generate with smaller max-chars
 ```bash
-skill-seekers package output/fastapi --target markdown --split-rules --max-chars 4500
+yonyou-doc2skill package output/fastapi --target markdown --split-rules --max-chars 4500
 ```
 
 ### Issue: Cascade not using rules
@@ -222,15 +222,15 @@ priority: "high"
 ### Combine with MCP Server
 
 ```bash
-# Install Skill Seekers MCP server
-pip install skill-seekers[mcp]
+# Install Yonyou Doc2Skill MCP server
+pip install yonyou-doc2skill[mcp]
 
 # Configure in Windsurf's mcp_config.json
 {
   "mcpServers": {
-    "skill-seekers": {
+    "yonyou-doc2skill": {
       "command": "python",
-      "args": ["-m", "skill_seekers.mcp.server_fastmcp", "--transport", "stdio"]
+      "args": ["-m", "yonyou_doc2skill.mcp.server_fastmcp", "--transport", "stdio"]
     }
   }
 }
@@ -242,10 +242,10 @@ Now Cascade can query documentation dynamically via MCP tools.
 
 ```bash
 # Generate backend rules (FastAPI)
-skill-seekers package output/fastapi --target markdown --split-rules
+yonyou-doc2skill package output/fastapi --target markdown --split-rules
 
 # Generate frontend rules (React)
-skill-seekers package output/react --target markdown --split-rules
+yonyou-doc2skill package output/react --target markdown --split-rules
 
 # Organize rules:
 .windsurf/rules/
@@ -274,6 +274,6 @@ skill-seekers package output/react --target markdown --split-rules
 
 ## Support
 
-- **Skill Seekers Issues:** [GitHub](https://github.com/yusufkaraaslan/Skill_Seekers/issues)
+- **Yonyou Doc2Skill Issues:** [GitHub](https://github.com/yonyou/yonyou-doc2skill/issues)
 - **Windsurf Docs:** [docs.windsurf.com](https://docs.windsurf.com/)
 - **Integration Guide:** [WINDSURF.md](../../docs/integrations/WINDSURF.md)

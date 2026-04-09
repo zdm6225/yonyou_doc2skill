@@ -15,7 +15,7 @@ from unittest.mock import Mock, patch
 
 import pytest
 
-from skill_seekers.cli.guide_enhancer import (
+from yonyou_doc2skill.cli.guide_enhancer import (
     GuideEnhancer,
     PrerequisiteItem,
     StepEnhancement,
@@ -30,8 +30,8 @@ class TestGuideEnhancerModeDetection:
         """Test auto mode detects API when key present and library available"""
         with (
             patch.dict(os.environ, {"ANTHROPIC_API_KEY": "sk-ant-test"}),
-            patch("skill_seekers.cli.guide_enhancer.ANTHROPIC_AVAILABLE", True),
-            patch("skill_seekers.cli.guide_enhancer.anthropic", create=True) as mock_anthropic,
+            patch("yonyou_doc2skill.cli.guide_enhancer.ANTHROPIC_AVAILABLE", True),
+            patch("yonyou_doc2skill.cli.guide_enhancer.anthropic", create=True) as mock_anthropic,
         ):
             mock_anthropic.Anthropic = Mock()
             enhancer = GuideEnhancer(mode="auto")
@@ -108,8 +108,8 @@ class TestGuideEnhancerStepDescriptions:
 
         with (
             patch.dict(os.environ, {"ANTHROPIC_API_KEY": "sk-ant-test"}),
-            patch("skill_seekers.cli.guide_enhancer.ANTHROPIC_AVAILABLE", True),
-            patch("skill_seekers.cli.guide_enhancer.anthropic", create=True) as mock_anthropic,
+            patch("yonyou_doc2skill.cli.guide_enhancer.ANTHROPIC_AVAILABLE", True),
+            patch("yonyou_doc2skill.cli.guide_enhancer.anthropic", create=True) as mock_anthropic,
         ):
             mock_anthropic.Anthropic = Mock()
             enhancer = GuideEnhancer(mode="api")
@@ -174,8 +174,8 @@ class TestGuideEnhancerTroubleshooting:
 
         with (
             patch.dict(os.environ, {"ANTHROPIC_API_KEY": "sk-ant-test"}),
-            patch("skill_seekers.cli.guide_enhancer.ANTHROPIC_AVAILABLE", True),
-            patch("skill_seekers.cli.guide_enhancer.anthropic", create=True) as mock_anthropic,
+            patch("yonyou_doc2skill.cli.guide_enhancer.ANTHROPIC_AVAILABLE", True),
+            patch("yonyou_doc2skill.cli.guide_enhancer.anthropic", create=True) as mock_anthropic,
         ):
             mock_anthropic.Anthropic = Mock()
             enhancer = GuideEnhancer(mode="api")
@@ -237,8 +237,8 @@ class TestGuideEnhancerPrerequisites:
 
         with (
             patch.dict(os.environ, {"ANTHROPIC_API_KEY": "sk-ant-test"}),
-            patch("skill_seekers.cli.guide_enhancer.ANTHROPIC_AVAILABLE", True),
-            patch("skill_seekers.cli.guide_enhancer.anthropic", create=True) as mock_anthropic,
+            patch("yonyou_doc2skill.cli.guide_enhancer.ANTHROPIC_AVAILABLE", True),
+            patch("yonyou_doc2skill.cli.guide_enhancer.anthropic", create=True) as mock_anthropic,
         ):
             mock_anthropic.Anthropic = Mock()
             enhancer = GuideEnhancer(mode="api")
@@ -282,8 +282,8 @@ class TestGuideEnhancerNextSteps:
 
         with (
             patch.dict(os.environ, {"ANTHROPIC_API_KEY": "sk-ant-test"}),
-            patch("skill_seekers.cli.guide_enhancer.ANTHROPIC_AVAILABLE", True),
-            patch("skill_seekers.cli.guide_enhancer.anthropic", create=True) as mock_anthropic,
+            patch("yonyou_doc2skill.cli.guide_enhancer.ANTHROPIC_AVAILABLE", True),
+            patch("yonyou_doc2skill.cli.guide_enhancer.anthropic", create=True) as mock_anthropic,
         ):
             mock_anthropic.Anthropic = Mock()
             enhancer = GuideEnhancer(mode="api")
@@ -327,8 +327,8 @@ class TestGuideEnhancerUseCases:
 
         with (
             patch.dict(os.environ, {"ANTHROPIC_API_KEY": "sk-ant-test"}),
-            patch("skill_seekers.cli.guide_enhancer.ANTHROPIC_AVAILABLE", True),
-            patch("skill_seekers.cli.guide_enhancer.anthropic", create=True) as mock_anthropic,
+            patch("yonyou_doc2skill.cli.guide_enhancer.ANTHROPIC_AVAILABLE", True),
+            patch("yonyou_doc2skill.cli.guide_enhancer.anthropic", create=True) as mock_anthropic,
         ):
             mock_anthropic.Anthropic = Mock()
             enhancer = GuideEnhancer(mode="api")
@@ -411,8 +411,8 @@ class TestGuideEnhancerFullWorkflow:
 
         with (
             patch.dict(os.environ, {"ANTHROPIC_API_KEY": "sk-ant-test"}),
-            patch("skill_seekers.cli.guide_enhancer.ANTHROPIC_AVAILABLE", True),
-            patch("skill_seekers.cli.guide_enhancer.anthropic", create=True) as mock_anthropic,
+            patch("yonyou_doc2skill.cli.guide_enhancer.ANTHROPIC_AVAILABLE", True),
+            patch("yonyou_doc2skill.cli.guide_enhancer.anthropic", create=True) as mock_anthropic,
         ):
             mock_anthropic.Anthropic = Mock()
             enhancer = GuideEnhancer(mode="api")

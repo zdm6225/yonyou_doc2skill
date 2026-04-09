@@ -47,7 +47,7 @@ class TestFrameworkDetection(unittest.TestCase):
         )
 
         # Run codebase analyzer directly
-        from skill_seekers.cli.codebase_scraper import analyze_codebase
+        from yonyou_doc2skill.cli.codebase_scraper import analyze_codebase
 
         analyze_codebase(
             directory=self.test_project,
@@ -81,7 +81,7 @@ class TestFrameworkDetection(unittest.TestCase):
         )
 
         # Run codebase analyzer directly
-        from skill_seekers.cli.codebase_scraper import analyze_codebase
+        from yonyou_doc2skill.cli.codebase_scraper import analyze_codebase
 
         analyze_codebase(
             directory=self.test_project,
@@ -122,7 +122,7 @@ class TestFrameworkDetection(unittest.TestCase):
         (app_dir / "utils.py").write_text("def my_function():\n    return 'hello'\n")
 
         # Run codebase analyzer directly
-        from skill_seekers.cli.codebase_scraper import analyze_codebase
+        from yonyou_doc2skill.cli.codebase_scraper import analyze_codebase
 
         analyze_codebase(
             directory=self.test_project,

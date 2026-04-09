@@ -1,10 +1,10 @@
 # Enhancement Modes Guide
 
-Complete guide to all LOCAL enhancement modes in Skill Seekers.
+Complete guide to all LOCAL enhancement modes in Yonyou Doc2Skill.
 
 ## Overview
 
-Skill Seekers supports **4 enhancement modes** for different use cases:
+Yonyou Doc2Skill supports **4 enhancement modes** for different use cases:
 
 1. **Headless** (default) - Runs in foreground, waits for completion
 2. **Background** - Runs in background thread, returns immediately
@@ -31,31 +31,31 @@ All enhancement modes now support **multiple local coding agents**:
 **CLI Flags:**
 ```bash
 # Use Codex CLI
-skill-seekers enhance output/react/ --agent codex
+yonyou-doc2skill enhance output/react/ --agent codex
 
 # Use Copilot CLI
-skill-seekers enhance output/react/ --agent copilot
+yonyou-doc2skill enhance output/react/ --agent copilot
 
 # Use OpenCode CLI
-skill-seekers enhance output/react/ --agent opencode
+yonyou-doc2skill enhance output/react/ --agent opencode
 
 # Custom agent with file input
-skill-seekers enhance output/react/ --agent custom --agent-cmd "my-agent --prompt {prompt_file}"
+yonyou-doc2skill enhance output/react/ --agent custom --agent-cmd "my-agent --prompt {prompt_file}"
 
 # Custom agent with stdin input
-skill-seekers enhance output/react/ --agent custom --agent-cmd "my-agent --enhance"
+yonyou-doc2skill enhance output/react/ --agent custom --agent-cmd "my-agent --enhance"
 ```
 
 **Environment Variables (CI/CD):**
 ```bash
 # Set default agent
 export SKILL_SEEKER_AGENT=codex
-skill-seekers enhance output/react/
+yonyou-doc2skill enhance output/react/
 
 # Set custom command template
 export SKILL_SEEKER_AGENT=custom
 export SKILL_SEEKER_AGENT_CMD="my-agent {prompt_file}"
-skill-seekers enhance output/react/
+yonyou-doc2skill enhance output/react/
 ```
 
 ### Agent Command Templates
@@ -81,7 +81,7 @@ Custom commands are validated for security:
 **Example rejection:**
 ```bash
 # This will fail with security error:
-skill-seekers enhance . --agent custom --agent-cmd "evil; rm -rf /"
+yonyou-doc2skill enhance . --agent custom --agent-cmd "evil; rm -rf /"
 # Error: Custom command contains dangerous shell characters
 ```
 
@@ -126,20 +126,20 @@ Agent names are normalized with smart alias support:
 
 ```bash
 # Basic usage - waits until done (uses Claude Code by default)
-skill-seekers enhance output/react/
+yonyou-doc2skill enhance output/react/
 
 # Use different agent
-skill-seekers enhance output/react/ --agent codex
-skill-seekers enhance output/react/ --agent copilot
+yonyou-doc2skill enhance output/react/ --agent codex
+yonyou-doc2skill enhance output/react/ --agent copilot
 
 # With custom timeout
-skill-seekers enhance output/react/ --timeout 1200
+yonyou-doc2skill enhance output/react/ --timeout 1200
 
 # Force mode - no confirmations
-skill-seekers enhance output/react/ --force
+yonyou-doc2skill enhance output/react/ --force
 
 # Combine agent + force mode
-skill-seekers enhance output/react/ --agent codex --force
+yonyou-doc2skill enhance output/react/ --agent codex --force
 ```
 
 **Behavior**:
@@ -154,11 +154,11 @@ skill-seekers enhance output/react/ --agent codex --force
 
 ```bash
 # Start enhancement in background (default agent: Claude Code)
-skill-seekers enhance output/react/ --background
+yonyou-doc2skill enhance output/react/ --background
 
 # Start with different agent
-skill-seekers enhance output/react/ --background --agent codex
-skill-seekers enhance output/react/ --background --agent copilot
+yonyou-doc2skill enhance output/react/ --background --agent codex
+yonyou-doc2skill enhance output/react/ --background --agent copilot
 
 # Returns immediately with status file created
 # ✅ Background enhancement started!
@@ -174,13 +174,13 @@ skill-seekers enhance output/react/ --background --agent copilot
 **Monitor progress**:
 ```bash
 # Check status once
-skill-seekers enhance-status output/react/
+yonyou-doc2skill enhance-status output/react/
 
 # Watch in real-time
-skill-seekers enhance-status output/react/ --watch
+yonyou-doc2skill enhance-status output/react/ --watch
 
 # JSON output (for scripts)
-skill-seekers enhance-status output/react/ --json
+yonyou-doc2skill enhance-status output/react/ --json
 ```
 
 ### 3. Daemon Mode
@@ -189,7 +189,7 @@ skill-seekers enhance-status output/react/ --json
 
 ```bash
 # Start as daemon (fully detached)
-skill-seekers enhance output/react/ --daemon
+yonyou-doc2skill enhance output/react/ --daemon
 
 # Process continues even if you:
 # - Close the terminal
@@ -206,7 +206,7 @@ skill-seekers enhance output/react/ --daemon
 **Monitor daemon**:
 ```bash
 # Check status
-skill-seekers enhance-status output/react/
+yonyou-doc2skill enhance-status output/react/
 
 # View logs
 tail -f output/react/.enhancement_daemon.log
@@ -222,7 +222,7 @@ cat output/react/.enhancement_status.json
 
 ```bash
 # Open in new terminal window
-skill-seekers enhance output/react/ --interactive-enhancement
+yonyou-doc2skill enhance output/react/ --interactive-enhancement
 ```
 
 **Behavior**:
@@ -239,10 +239,10 @@ skill-seekers enhance output/react/ --interactive-enhancement
 
 ```bash
 # Force mode is ON by default (no flag needed)
-skill-seekers enhance output/react/
+yonyou-doc2skill enhance output/react/
 
 # Disable force mode if you want confirmations
-skill-seekers enhance output/react/ --no-force
+yonyou-doc2skill enhance output/react/ --no-force
 ```
 
 **Use cases**:
@@ -282,7 +282,7 @@ When using `--background` or `--daemon`, a status file is created:
 
 ```bash
 # One-time check
-skill-seekers enhance-status output/react/
+yonyou-doc2skill enhance-status output/react/
 
 # Output:
 # ============================================================
@@ -300,20 +300,20 @@ skill-seekers enhance-status output/react/
 
 ```bash
 # Watch status updates every 2 seconds
-skill-seekers enhance-status output/react/ --watch
+yonyou-doc2skill enhance-status output/react/ --watch
 
 # Custom interval
-skill-seekers enhance-status output/react/ --watch --interval 5
+yonyou-doc2skill enhance-status output/react/ --watch --interval 5
 ```
 
 ### JSON Output (For Scripts)
 
 ```bash
 # Get raw JSON
-skill-seekers enhance-status output/react/ --json
+yonyou-doc2skill enhance-status output/react/ --json
 
 # Use in scripts
-STATUS=$(skill-seekers enhance-status output/react/ --json | jq -r '.status')
+STATUS=$(yonyou-doc2skill enhance-status output/react/ --json | jq -r '.status')
 if [ "$STATUS" = "completed" ]; then
     echo "Enhancement complete!"
 fi
@@ -332,14 +332,14 @@ skills=("react" "vue" "django" "fastapi")
 
 for skill in "${skills[@]}"; do
     echo "Starting enhancement: $skill"
-    skill-seekers enhance output/$skill/ --background
+    yonyou-doc2skill enhance output/$skill/ --background
 done
 
 echo "All enhancements started in background!"
 
 # Monitor all
 for skill in "${skills[@]}"; do
-    skill-seekers enhance-status output/$skill/
+    yonyou-doc2skill enhance-status output/$skill/
 done
 ```
 
@@ -350,7 +350,7 @@ done
 - name: Enhance skill
   run: |
     # Headless mode (blocks until done, force is ON by default)
-    skill-seekers enhance output/react/ --timeout 1200
+    yonyou-doc2skill enhance output/react/ --timeout 1200
 
     # Check if enhancement succeeded
     if [ $? -eq 0 ]; then
@@ -365,13 +365,13 @@ done
 
 ```bash
 # Start daemon for large skill
-skill-seekers enhance output/godot-large/ --daemon --timeout 3600
+yonyou-doc2skill enhance output/godot-large/ --daemon --timeout 3600
 
 # Logout and come back later
 # ... (hours later) ...
 
 # Check if it completed
-skill-seekers enhance-status output/godot-large/
+yonyou-doc2skill enhance-status output/godot-large/
 ```
 
 ## Timeout Configuration
@@ -382,16 +382,16 @@ Default timeout: **600 seconds (10 minutes)**
 
 ```bash
 # Small skills (< 100 pages)
-skill-seekers enhance output/hono/ --timeout 300
+yonyou-doc2skill enhance output/hono/ --timeout 300
 
 # Medium skills (100-1000 pages)
-skill-seekers enhance output/react/ --timeout 600
+yonyou-doc2skill enhance output/react/ --timeout 600
 
 # Large skills (1000+ pages)
-skill-seekers enhance output/godot/ --timeout 1200
+yonyou-doc2skill enhance output/godot/ --timeout 1200
 
 # Extra large (with PDF/GitHub sources)
-skill-seekers enhance output/django-unified/ --timeout 1800
+yonyou-doc2skill enhance output/django-unified/ --timeout 1800
 ```
 
 **What happens on timeout**:
@@ -405,7 +405,7 @@ skill-seekers enhance output/django-unified/ --timeout 1800
 ### Status Check Exit Codes
 
 ```bash
-skill-seekers enhance-status output/react/
+yonyou-doc2skill enhance-status output/react/
 echo $?
 
 # Exit codes:
@@ -425,7 +425,7 @@ echo $?
 **"Enhancement timed out"**:
 ```bash
 # Increase timeout
-skill-seekers enhance output/react/ --timeout 1200
+yonyou-doc2skill enhance output/react/ --timeout 1200
 ```
 
 **"SKILL.md was not updated"**:
@@ -434,7 +434,7 @@ skill-seekers enhance output/react/ --timeout 1200
 ls output/react/references/
 
 # Try terminal mode to see what's happening
-skill-seekers enhance output/react/ --interactive-enhancement
+yonyou-doc2skill enhance output/react/ --interactive-enhancement
 ```
 
 ## File Artifacts
@@ -509,7 +509,7 @@ export ANTHROPIC_BASE_URL=https://your-endpoint.com/v1
 
 ```bash
 # Check status
-skill-seekers enhance-status output/react/ --json
+yonyou-doc2skill enhance-status output/react/ --json
 
 # If stuck, check process
 ps aux | grep claude
@@ -528,14 +528,14 @@ cat output/react/.enhancement_daemon.log
 cat output/react/.enhancement_status.json
 
 # Try without force mode
-skill-seekers enhance output/react/ --daemon
+yonyou-doc2skill enhance output/react/ --daemon
 ```
 
 ### Status file shows error
 
 ```bash
 # Read error details
-skill-seekers enhance-status output/react/ --json | jq -r '.error'
+yonyou-doc2skill enhance-status output/react/ --json | jq -r '.error'
 
 # Common fixes:
 # 1. Increase timeout

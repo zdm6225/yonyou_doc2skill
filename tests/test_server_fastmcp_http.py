@@ -18,7 +18,7 @@ try:
 except ImportError:
     STARLETTE_AVAILABLE = False
 
-from skill_seekers.mcp.server_fastmcp import mcp
+from yonyou_doc2skill.mcp.server_fastmcp import mcp
 
 # Skip all tests if starlette is not installed
 pytestmark = pytest.mark.skipif(
@@ -115,7 +115,7 @@ class TestArgumentParsing:
 
     def test_parse_args_default(self):
         """Test default argument parsing (stdio mode)."""
-        from skill_seekers.mcp.server_fastmcp import parse_args
+        from yonyou_doc2skill.mcp.server_fastmcp import parse_args
 
         # Save original argv
         original_argv = sys.argv
@@ -134,7 +134,7 @@ class TestArgumentParsing:
 
     def test_parse_args_http_mode(self):
         """Test HTTP mode argument parsing."""
-        from skill_seekers.mcp.server_fastmcp import parse_args
+        from yonyou_doc2skill.mcp.server_fastmcp import parse_args
 
         original_argv = sys.argv
 
@@ -150,7 +150,7 @@ class TestArgumentParsing:
 
     def test_parse_args_log_level(self):
         """Test log level argument parsing."""
-        from skill_seekers.mcp.server_fastmcp import parse_args
+        from yonyou_doc2skill.mcp.server_fastmcp import parse_args
 
         original_argv = sys.argv
 

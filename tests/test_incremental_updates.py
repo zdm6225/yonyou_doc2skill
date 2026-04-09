@@ -20,7 +20,7 @@ import time
 # Add src to path
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 
-from skill_seekers.cli.incremental_updater import IncrementalUpdater
+from yonyou_doc2skill.cli.incremental_updater import IncrementalUpdater
 
 
 @pytest.fixture

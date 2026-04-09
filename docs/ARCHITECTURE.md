@@ -1,6 +1,6 @@
 # Documentation Architecture
 
-> **How Skill Seekers documentation is organized (v3.2.0 - 17 source types)**
+> **How Yonyou Doc2Skill documentation is organized (v3.2.0 - 17 source types)**
 
 ---
 
@@ -147,7 +147,7 @@ Example:
 ```markdown
 # Topic Guide
 
-> **Skill Seekers v3.1.0**
+> **Yonyou Doc2Skill v3.1.0**
 
 ## Major Section
 
@@ -232,7 +232,7 @@ When content becomes outdated:
    ```
 3. **Move to archive** after 6 months:
    ```
-   docs/archive/legacy/
+   docs/
    ```
 4. **Update navigation** to remove deprecated links
 

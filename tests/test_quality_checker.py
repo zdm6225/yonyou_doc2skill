@@ -7,7 +7,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from skill_seekers.cli.quality_checker import QualityReport, SkillQualityChecker
+from yonyou_doc2skill.cli.quality_checker import QualityReport, SkillQualityChecker
 
 
 class TestQualityChecker(unittest.TestCase):
@@ -416,7 +416,7 @@ class TestQualityCheckerCLI(unittest.TestCase):
 
         try:
             result = subprocess.run(
-                ["python3", "-m", "skill_seekers.cli.quality_checker", "--help"],
+                ["python3", "-m", "yonyou_doc2skill.cli.quality_checker", "--help"],
                 capture_output=True,
                 text=True,
                 timeout=5,
@@ -433,7 +433,7 @@ class TestQualityCheckerCLI(unittest.TestCase):
         import subprocess
 
         result = subprocess.run(
-            ["python3", "-m", "skill_seekers.cli.quality_checker", "/nonexistent/path"],
+            ["python3", "-m", "yonyou_doc2skill.cli.quality_checker", "/nonexistent/path"],
             capture_output=True,
             text=True,
         )

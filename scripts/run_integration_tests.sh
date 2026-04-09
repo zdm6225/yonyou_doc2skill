@@ -16,7 +16,7 @@ COMPOSE_FILE="tests/docker-compose.test.yml"
 
 function print_header() {
     echo -e "${CYAN}╔════════════════════════════════════════════════════════════╗${NC}"
-    echo -e "${CYAN}║     Skill Seekers Integration Test Runner                ║${NC}"
+    echo -e "${CYAN}║     Yonyou Doc2Skill Integration Test Runner                ║${NC}"
     echo -e "${CYAN}╚════════════════════════════════════════════════════════════╝${NC}"
     echo ""
 }

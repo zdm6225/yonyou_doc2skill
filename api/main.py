@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Skill Seekers Config API
+Yonyou Doc2Skill Config API
 FastAPI backend for listing available skill configs
 """
 
@@ -13,8 +13,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 
 app = FastAPI(
-    title="Skill Seekers Config API",
-    description="API for discovering and downloading Skill Seekers configuration files",
+    title="Yonyou Doc2Skill Config API",
+    description="API for discovering and downloading Yonyou Doc2Skill configuration files",
     version="1.0.0",
     docs_url="/docs",
     redoc_url="/redoc",
@@ -42,7 +42,7 @@ analyzer = ConfigAnalyzer(CONFIG_DIR)
 async def root():
     """Root endpoint - API information"""
     return {
-        "name": "Skill Seekers Config API",
+        "name": "Yonyou Doc2Skill Config API",
         "version": "1.0.0",
         "endpoints": {
             "/api/configs": "List all available configs",
@@ -51,9 +51,9 @@ async def root():
             "/api/download/{name}": "Download config file",
             "/docs": "API documentation",
         },
-        "repository": "https://github.com/yusufkaraaslan/Skill_Seekers",
-        "configs_repository": "https://github.com/yusufkaraaslan/skill-seekers-configs",
-        "website": "https://api.skillseekersweb.com",
+        "repository": "https://github.com/yonyou/yonyou-doc2skill",
+        "configs_repository": "https://github.com/yonyou/yonyou-doc2skill-configs",
+        "website": "https://api.docs.yonyou.example",
     }
 
 
@@ -195,7 +195,7 @@ async def download_config(config_name: str):
 @app.get("/health")
 async def health_check():
     """Health check endpoint for monitoring"""
-    return {"status": "healthy", "service": "skill-seekers-api"}
+    return {"status": "healthy", "service": "yonyou-doc2skill-api"}
 
 
 if __name__ == "__main__":

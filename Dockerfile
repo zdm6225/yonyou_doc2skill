@@ -1,4 +1,4 @@
-# Skill Seekers - Multi-stage Docker Build
+# Yonyou Doc2Skill - Multi-stage Docker Build
 # Optimized for production deployment with minimal image size
 
 # Stage 1: Builder - Install dependencies and build
@@ -25,8 +25,8 @@ RUN pip install --no-cache-dir --upgrade pip uv && \
 # Stage 2: Runtime - Minimal production image
 FROM python:3.12-slim
 
-LABEL maintainer="Skill Seekers <noreply@skillseekers.dev>"
-LABEL description="Skill Seekers - Convert documentation to AI skills"
+LABEL maintainer="Yonyou Doc2Skill <noreply@yonyoudoc2skill.dev>"
+LABEL description="Yonyou Doc2Skill - Convert documentation to AI skills"
 LABEL version="2.9.0"
 
 # Install runtime dependencies only
@@ -44,7 +44,7 @@ WORKDIR /app
 
 # Copy Python packages from builder
 COPY --from=builder /usr/local/lib/python3.12/site-packages /usr/local/lib/python3.12/site-packages
-COPY --from=builder /usr/local/bin/skill-seekers* /usr/local/bin/
+COPY --from=builder /usr/local/bin/yonyou-doc2skill* /usr/local/bin/
 
 # Copy application code
 COPY --chown=skillseeker:skillseeker src/ src/
@@ -63,7 +63,7 @@ ENV PYTHONUNBUFFERED=1 \
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
-    CMD skill-seekers --version || exit 1
+    CMD yonyou-doc2skill --version || exit 1
 
 # Default volumes
 VOLUME ["/data", "/configs", "/output"]
@@ -72,4 +72,4 @@ VOLUME ["/data", "/configs", "/output"]
 EXPOSE 8765
 
 # Default command - show help
-CMD ["skill-seekers", "--help"]
+CMD ["yonyou-doc2skill", "--help"]

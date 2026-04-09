@@ -7,7 +7,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from skill_seekers.cli.opencode_skill_splitter import (
+from yonyou_doc2skill.cli.opencode_skill_splitter import (
     OpenCodeSkillConverter,
     OpenCodeSkillSplitter,
 )
@@ -262,7 +262,7 @@ class TestGitHubActionsTemplate(unittest.TestCase):
         self.assertIn("name:", content)
         self.assertIn("on:", content)
         self.assertIn("jobs:", content)
-        self.assertIn("skill-seekers", content)
+        self.assertIn("yonyou-doc2skill", content)
         self.assertIn("schedule:", content)
         self.assertIn("workflow_dispatch:", content)
 

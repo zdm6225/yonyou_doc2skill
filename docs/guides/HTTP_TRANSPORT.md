@@ -8,20 +8,20 @@ The Skill Seeker MCP server now supports both **stdio** (default) and **HTTP** t
 
 ```bash
 # Traditional stdio transport (backward compatible)
-python -m skill_seekers.mcp.server_fastmcp
+python -m yonyou_doc2skill.mcp.server_fastmcp
 ```
 
 ### HTTP Transport (New!)
 
 ```bash
 # HTTP transport on default port 8000
-python -m skill_seekers.mcp.server_fastmcp --http
+python -m yonyou_doc2skill.mcp.server_fastmcp --http
 
 # HTTP transport on custom port
-python -m skill_seekers.mcp.server_fastmcp --http --port 8080
+python -m yonyou_doc2skill.mcp.server_fastmcp --http --port 8080
 
 # HTTP transport with debug logging
-python -m skill_seekers.mcp.server_fastmcp --http --log-level DEBUG
+python -m yonyou_doc2skill.mcp.server_fastmcp --http --log-level DEBUG
 ```
 
 ## Why Use HTTP Transport?
@@ -50,7 +50,7 @@ python -m skill_seekers.mcp.server_fastmcp --http --log-level DEBUG
   "mcpServers": {
     "skill-seeker": {
       "command": "python",
-      "args": ["-m", "skill_seekers.mcp.server_fastmcp"]
+      "args": ["-m", "yonyou_doc2skill.mcp.server_fastmcp"]
     }
   }
 }
@@ -113,7 +113,7 @@ Handles tool invocation and message passing from MCP clients.
 ## Command-Line Options
 
 ```bash
-python -m skill_seekers.mcp.server_fastmcp --help
+python -m yonyou_doc2skill.mcp.server_fastmcp --help
 ```
 
 ### Options
@@ -128,25 +128,25 @@ python -m skill_seekers.mcp.server_fastmcp --help
 ### Basic HTTP Server
 ```bash
 # Start on default port 8000
-python -m skill_seekers.mcp.server_fastmcp --http
+python -m yonyou_doc2skill.mcp.server_fastmcp --http
 ```
 
 ### Custom Port
 ```bash
 # Start on port 3000
-python -m skill_seekers.mcp.server_fastmcp --http --port 3000
+python -m yonyou_doc2skill.mcp.server_fastmcp --http --port 3000
 ```
 
 ### Allow External Connections
 ```bash
 # Listen on all interfaces (⚠️ use with caution!)
-python -m skill_seekers.mcp.server_fastmcp --http --host 0.0.0.0 --port 8000
+python -m yonyou_doc2skill.mcp.server_fastmcp --http --host 0.0.0.0 --port 8000
 ```
 
 ### Debug Mode
 ```bash
 # Enable debug logging
-python -m skill_seekers.mcp.server_fastmcp --http --log-level DEBUG
+python -m yonyou_doc2skill.mcp.server_fastmcp --http --log-level DEBUG
 ```
 
 ## Security Considerations
@@ -184,7 +184,7 @@ python examples/test_http_server.py
 ### Health Check Test
 ```bash
 # Start server
-python -m skill_seekers.mcp.server_fastmcp --http &
+python -m yonyou_doc2skill.mcp.server_fastmcp --http &
 
 # Test health endpoint
 curl http://localhost:8000/health
@@ -202,7 +202,7 @@ Error: [Errno 48] Address already in use
 
 **Solution:** Use a different port
 ```bash
-python -m skill_seekers.mcp.server_fastmcp --http --port 8001
+python -m yonyou_doc2skill.mcp.server_fastmcp --http --port 8001
 ```
 
 ### Cannot Connect from Browser
@@ -263,10 +263,10 @@ Claude Desktop/Browser → HTTP/SSE → MCP Server → Tools
 1. **Update server startup:**
    ```bash
    # Before
-   python -m skill_seekers.mcp.server_fastmcp
+   python -m yonyou_doc2skill.mcp.server_fastmcp
 
    # After
-   python -m skill_seekers.mcp.server_fastmcp --http
+   python -m yonyou_doc2skill.mcp.server_fastmcp --http
    ```
 
 2. **Update Claude Desktop config:**
@@ -296,7 +296,7 @@ Claude Desktop/Browser → HTTP/SSE → MCP Server → Tools
 ## Support
 
 For issues or questions:
-- GitHub Issues: https://github.com/yusufkaraaslan/Skill_Seekers/issues
+- GitHub Issues: https://github.com/yonyou/yonyou-doc2skill/issues
 - MCP Documentation: https://modelcontextprotocol.io/
 
 ## Changelog

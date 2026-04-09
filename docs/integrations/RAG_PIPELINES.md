@@ -1,4 +1,4 @@
-# Building RAG Pipelines with Skill Seekers
+# Building RAG Pipelines with Yonyou Doc2Skill
 
 **Last Updated:** February 5, 2026
 **Status:** Production Ready
@@ -25,9 +25,9 @@ User Query → [Retrieve Relevant Docs] → [Generate Answer with Context] → R
 
 ---
 
-## ✨ Skill Seekers: Universal RAG Preprocessor
+## ✨ Yonyou Doc2Skill: Universal RAG Preprocessor
 
-Skill Seekers automates the **hardest part of RAG**: documentation preparation.
+Yonyou Doc2Skill automates the **hardest part of RAG**: documentation preparation.
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
@@ -37,7 +37,7 @@ Skill Seekers automates the **hardest part of RAG**: documentation preparation.
                     │
                     ▼
 ┌─────────────────────────────────────────────────────────────────┐
-│ Skill Seekers (Preprocessing Engine)                            │
+│ Yonyou Doc2Skill (Preprocessing Engine)                            │
 │ • Smart scraping • Categorization • Pattern extraction          │
 │ • Multi-source merging • Quality checks • Format conversion     │
 └───────────────────┬─────────────────────────────────────────────┘
@@ -73,24 +73,24 @@ Skill Seekers automates the **hardest part of RAG**: documentation preparation.
 Basic RAG Pipeline Architecture
 
 Components:
-1. Data Ingestion (Skill Seekers)
+1. Data Ingestion (Yonyou Doc2Skill)
 2. Vector Storage (Pinecone/Chroma/FAISS)
 3. Retrieval (Semantic search)
 4. Generation (OpenAI/Claude/Local LLM)
 """
 
-from skill_seekers import package_docs
+from yonyou_doc2skill import package_docs
 from pinecone import Pinecone
 from openai import OpenAI
 import json
 
 # ============================================================
-# STEP 1: PREPROCESSING (Skill Seekers)
+# STEP 1: PREPROCESSING (Yonyou Doc2Skill)
 # ============================================================
 
 # One-time setup: Generate structured docs
-# $ skill-seekers scrape --config configs/react.json
-# $ skill-seekers package output/react --target langchain
+# $ yonyou-doc2skill scrape --config configs/react.json
+# $ yonyou-doc2skill package output/react --target langchain
 
 # Load preprocessed documents
 with open("output/react-langchain.json") as f:
@@ -119,7 +119,7 @@ for i, doc in enumerate(documents):
         "values": response.data[0].embedding,
         "metadata": {
             "text": doc["page_content"][:1000],
-            **doc["metadata"]  # Skill Seekers metadata preserved
+            **doc["metadata"]  # Yonyou Doc2Skill metadata preserved
         }
     }])
 
@@ -207,7 +207,7 @@ from langchain.llms import OpenAI
 from langchain.schema import Document
 import json
 
-# Load Skill Seekers documents
+# Load Yonyou Doc2Skill documents
 with open("output/product-docs-langchain.json") as f:
     docs_data = json.load(f)
 
@@ -241,7 +241,7 @@ print(f"Answer: {result['result']}")
 print(f"Sources: {[doc.metadata['file'] for doc in result['source_documents']]}")
 ```
 
-**Skill Seekers Value:**
+**Yonyou Doc2Skill Value:**
 - Structured documents with categories → Better retrieval accuracy
 - Metadata preserved → Source attribution automatic
 - Pattern extraction → Consistent answer format
@@ -257,7 +257,7 @@ from llama_index.core import VectorStoreIndex
 from llama_index.core.schema import TextNode
 import json
 
-# Load multiple sources (all preprocessed by Skill Seekers)
+# Load multiple sources (all preprocessed by Yonyou Doc2Skill)
 sources = {
     "official_docs": "output/fastapi-llama-index.json",
     "github_issues": "output/fastapi-issues-llama-index.json",
@@ -301,7 +301,7 @@ official_answer = official_query_engine.query("How to deploy FastAPI?")
 community_answer = all_sources_query_engine.query("How to deploy FastAPI?")
 ```
 
-**Skill Seekers Value:**
+**Yonyou Doc2Skill Value:**
 - `unified` command merges multiple sources automatically
 - Conflict detection identifies discrepancies
 - Consistent formatting across all sources
@@ -318,7 +318,7 @@ from pinecone_text.sparse import BM25Encoder
 from openai import OpenAI
 import json
 
-# Load Skill Seekers documents
+# Load Yonyou Doc2Skill documents
 with open("output/django-langchain.json") as f:
     documents = json.load(f)
 
@@ -395,7 +395,7 @@ for match in results:
     print()
 ```
 
-**Skill Seekers Value:**
+**Yonyou Doc2Skill Value:**
 - Pattern extraction identifies technical terminology
 - Category tags improve keyword targeting
 - Code examples preserved with syntax highlighting
@@ -455,7 +455,7 @@ for user_msg in conversations:
         print(f"Sources: {[n.metadata['file'] for n in response.source_nodes[:3]]}")
 ```
 
-**Skill Seekers Value:**
+**Yonyou Doc2Skill Value:**
 - Hierarchical structure (overview → details) helps conversational flow
 - Cross-references enable contextual follow-ups
 - Examples with context improve chat quality
@@ -478,7 +478,7 @@ openai_client = OpenAI()
 customers = ["customer_a", "customer_b", "customer_c"]
 
 for customer in customers:
-    # Load customer-specific docs (generated by Skill Seekers)
+    # Load customer-specific docs (generated by Yonyou Doc2Skill)
     with open(f"output/{customer}-docs-langchain.json") as f:
         documents = json.load(f)
 
@@ -529,7 +529,7 @@ def query_customer_docs(customer: str, query: str):
 results = query_customer_docs("customer_a", "How do I configure X?")
 ```
 
-**Skill Seekers Value:**
+**Yonyou Doc2Skill Value:**
 - Custom configs per customer/project
 - Consistent processing across all tenants
 - Easy updates: regenerate + re-upsert
@@ -596,9 +596,9 @@ def lambda_handler(event, context):
 
 **Deployment:**
 ```bash
-# 1. Preprocess docs with Skill Seekers
-skill-seekers scrape --config configs/product-docs.json
-skill-seekers package output/product-docs --target langchain
+# 1. Preprocess docs with Yonyou Doc2Skill
+yonyou-doc2skill scrape --config configs/product-docs.json
+yonyou-doc2skill package output/product-docs --target langchain
 
 # 2. One-time: Upsert to Pinecone (can be separate Lambda or script)
 python upsert_to_pinecone.py
@@ -630,7 +630,7 @@ import json
 
 app = FastAPI()
 
-# Load documents on startup (from Skill Seekers output)
+# Load documents on startup (from Yonyou Doc2Skill output)
 @app.on_event("startup")
 async def load_documents():
     global qa_chain
@@ -719,10 +719,10 @@ curl -X POST http://localhost:8000/query \
 
 ### 1. Choose the Right Chunking Strategy
 
-Skill Seekers provides **smart chunking** based on content type:
+Yonyou Doc2Skill provides **smart chunking** based on content type:
 
 ```python
-# Skill Seekers automatically:
+# Yonyou Doc2Skill automatically:
 # - Chunks by sections for documentation
 # - Preserves code blocks intact
 # - Maintains context with metadata
@@ -736,7 +736,7 @@ text_splitter = RecursiveCharacterTextSplitter(
     separators=["\n\n", "\n", " ", ""]
 )
 
-# Apply to Skill Seekers output
+# Apply to Yonyou Doc2Skill output
 chunks = text_splitter.split_documents(documents)
 ```
 
@@ -847,13 +847,13 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Install Skill Seekers
-        run: pip install skill-seekers
+      - name: Install Yonyou Doc2Skill
+        run: pip install yonyou-doc2skill
 
       - name: Regenerate documentation
         run: |
-          skill-seekers scrape --config configs/product-docs.json
-          skill-seekers package output/product-docs --target langchain
+          yonyou-doc2skill scrape --config configs/product-docs.json
+          yonyou-doc2skill package output/product-docs --target langchain
 
       - name: Upload to S3 (for Lambda to pick up)
         run: |
@@ -870,9 +870,9 @@ jobs:
 
 ## 📊 Performance Benchmarks
 
-### Preprocessing Time (Skill Seekers)
+### Preprocessing Time (Yonyou Doc2Skill)
 
-| Documentation Size | Pages | Skill Seekers Time | Manual Time (Est.) |
+| Documentation Size | Pages | Yonyou Doc2Skill Time | Manual Time (Est.) |
 |-------------------|-------|-------------------|-------------------|
 | Small (React Core) | 150 | 5 min | 2-3 hours |
 | Medium (Django) | 500 | 15 min | 5-8 hours |
@@ -893,7 +893,7 @@ jobs:
 |-------|---------------------|-------------------|
 | Raw LLM (no RAG) | 6.5 | None |
 | Manual RAG | 8.0 | 60% accurate |
-| Skill Seekers RAG | 9.2 | 95% accurate |
+| Yonyou Doc2Skill RAG | 9.2 | 95% accurate |
 
 ---
 
@@ -912,13 +912,13 @@ jobs:
 **Solution:**
 ```bash
 # 1. Preprocess all product docs
-skill-seekers scrape --config configs/product-a.json
-skill-seekers scrape --config configs/product-b.json
+yonyou-doc2skill scrape --config configs/product-a.json
+yonyou-doc2skill scrape --config configs/product-b.json
 # ... repeat for all products
 
 # 2. Package for LangChain
 for product in product-a product-b product-c product-d product-e; do
-  skill-seekers package output/$product --target langchain
+  yonyou-doc2skill package output/$product --target langchain
 done
 
 # 3. Combine into single Chroma vector store
@@ -952,8 +952,8 @@ docker-compose up -d
 ```bash
 # 1. Generate merchant-specific docs
 for merchant in merchants/*; do
-  skill-seekers analyze --directory $merchant/docs
-  skill-seekers package output/$merchant --target langchain
+  yonyou-doc2skill analyze --directory $merchant/docs
+  yonyou-doc2skill package output/$merchant --target langchain
 done
 
 # 2. Deploy to Pinecone with namespaces (see Pattern 5)
@@ -986,13 +986,13 @@ serverless deploy
 **Solution:**
 ```bash
 # 1. Scrape all sources
-skill-seekers scrape --config configs/docs.json
-skill-seekers unified --docs-config configs/docs.json \
+yonyou-doc2skill scrape --config configs/docs.json
+yonyou-doc2skill unified --docs-config configs/docs.json \
   --github internal/repo \
   --name internal-kb
 
 # 2. Package for LlamaIndex
-skill-seekers package output/internal-kb --target llama-index
+yonyou-doc2skill package output/internal-kb --target llama-index
 
 # 3. Deploy with local models
 # - Use SentenceTransformers for embeddings (no API)
@@ -1015,9 +1015,9 @@ kubectl apply -f k8s/
 
 ## 🤝 Community & Support
 
-- **Questions:** [GitHub Discussions](https://github.com/yusufkaraaslan/Skill_Seekers/discussions)
-- **Issues:** [GitHub Issues](https://github.com/yusufkaraaslan/Skill_Seekers/issues)
-- **Documentation:** [https://skillseekersweb.com/](https://skillseekersweb.com/)
+- **Questions:** [GitHub Discussions](https://github.com/yonyou/yonyou-doc2skill/discussions)
+- **Issues:** [GitHub Issues](https://github.com/yonyou/yonyou-doc2skill/issues)
+- **Documentation:** [https://docs.yonyou.example/yonyou-doc2skill/](https://docs.yonyou.example/yonyou-doc2skill/)
 
 ---
 
@@ -1037,10 +1037,10 @@ kubectl apply -f k8s/
 3. **Iterate** - Add hybrid search, caching, filters as needed
 4. **Deploy** - Choose deployment pattern based on scale
 5. **Monitor** - Track metrics and user feedback
-6. **Update regularly** - Automate doc refresh with Skill Seekers
+6. **Update regularly** - Automate doc refresh with Yonyou Doc2Skill
 
 ---
 
 **Last Updated:** February 5, 2026
 **Tested With:** LangChain 0.1.0+, LlamaIndex 0.10.0+, Pinecone 3.0+
-**Skill Seekers Version:** v2.9.0+
+**Yonyou Doc2Skill Version:** v2.9.0+

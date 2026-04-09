@@ -20,7 +20,7 @@ from pathlib import Path
 # Add src to path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src"))
 
-from skill_seekers.cli.api_reference_builder import APIReferenceBuilder
+from yonyou_doc2skill.cli.api_reference_builder import APIReferenceBuilder
 
 
 class TestAPIReferenceBuilder(unittest.TestCase):

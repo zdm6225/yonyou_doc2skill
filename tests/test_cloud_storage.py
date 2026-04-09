@@ -8,7 +8,7 @@ import tempfile
 from pathlib import Path
 from unittest.mock import Mock, patch
 
-from skill_seekers.cli.storage import (
+from yonyou_doc2skill.cli.storage import (
     get_storage_adaptor,
     BaseStorageAdaptor,
     S3StorageAdaptor,
@@ -49,7 +49,7 @@ def test_get_storage_adaptor_s3():
     """Test S3 adaptor factory."""
     if not BOTO3_AVAILABLE:
         pytest.skip("boto3 not installed")
-    with patch("skill_seekers.cli.storage.s3_storage.boto3"):
+    with patch("yonyou_doc2skill.cli.storage.s3_storage.boto3"):
         adaptor = get_storage_adaptor("s3", bucket="test-bucket")
         assert isinstance(adaptor, S3StorageAdaptor)
 
@@ -58,7 +58,7 @@ def test_get_storage_adaptor_gcs():
     """Test GCS adaptor factory."""
     if not GCS_AVAILABLE:
         pytest.skip("google-cloud-storage not installed")
-    with patch("skill_seekers.cli.storage.gcs_storage.storage"):
+    with patch("yonyou_doc2skill.cli.storage.gcs_storage.storage"):
         adaptor = get_storage_adaptor("gcs", bucket="test-bucket")
         assert isinstance(adaptor, GCSStorageAdaptor)
 
@@ -67,7 +67,7 @@ def test_get_storage_adaptor_azure():
     """Test Azure adaptor factory."""
     if not AZURE_AVAILABLE:
         pytest.skip("azure-storage-blob not installed")
-    with patch("skill_seekers.cli.storage.azure_storage.BlobServiceClient"):
+    with patch("yonyou_doc2skill.cli.storage.azure_storage.BlobServiceClient"):
         adaptor = get_storage_adaptor(
             "azure",
             container="test-container",
@@ -92,7 +92,7 @@ def test_s3_upload_file():
     if not BOTO3_AVAILABLE:
         pytest.skip("boto3 not installed")
 
-    with patch("skill_seekers.cli.storage.s3_storage.boto3") as mock_boto3:
+    with patch("yonyou_doc2skill.cli.storage.s3_storage.boto3") as mock_boto3:
         # Setup mocks
         mock_client = Mock()
         mock_boto3.client.return_value = mock_client
@@ -120,7 +120,7 @@ def test_s3_download_file():
     if not BOTO3_AVAILABLE:
         pytest.skip("boto3 not installed")
 
-    with patch("skill_seekers.cli.storage.s3_storage.boto3") as mock_boto3:
+    with patch("yonyou_doc2skill.cli.storage.s3_storage.boto3") as mock_boto3:
         # Setup mocks
         mock_client = Mock()
         mock_boto3.client.return_value = mock_client
@@ -142,7 +142,7 @@ def test_s3_list_files():
     if not BOTO3_AVAILABLE:
         pytest.skip("boto3 not installed")
 
-    with patch("skill_seekers.cli.storage.s3_storage.boto3") as mock_boto3:
+    with patch("yonyou_doc2skill.cli.storage.s3_storage.boto3") as mock_boto3:
         # Setup mocks
         mock_client = Mock()
         mock_paginator = Mock()
@@ -180,7 +180,7 @@ def test_s3_file_exists():
     if not BOTO3_AVAILABLE:
         pytest.skip("boto3 not installed")
 
-    with patch("skill_seekers.cli.storage.s3_storage.boto3") as mock_boto3:
+    with patch("yonyou_doc2skill.cli.storage.s3_storage.boto3") as mock_boto3:
         # Setup mocks
         mock_client = Mock()
         mock_client.head_object.return_value = {}
@@ -198,7 +198,7 @@ def test_s3_get_file_url():
     if not BOTO3_AVAILABLE:
         pytest.skip("boto3 not installed")
 
-    with patch("skill_seekers.cli.storage.s3_storage.boto3") as mock_boto3:
+    with patch("yonyou_doc2skill.cli.storage.s3_storage.boto3") as mock_boto3:
         # Setup mocks
         mock_client = Mock()
         mock_client.generate_presigned_url.return_value = "https://s3.amazonaws.com/signed-url"
@@ -224,7 +224,7 @@ def test_gcs_upload_file():
     if not GCS_AVAILABLE:
         pytest.skip("google-cloud-storage not installed")
 
-    with patch("skill_seekers.cli.storage.gcs_storage.storage") as mock_storage:
+    with patch("yonyou_doc2skill.cli.storage.gcs_storage.storage") as mock_storage:
         # Setup mocks
         mock_client = Mock()
         mock_bucket = Mock()
@@ -256,7 +256,7 @@ def test_gcs_download_file():
     if not GCS_AVAILABLE:
         pytest.skip("google-cloud-storage not installed")
 
-    with patch("skill_seekers.cli.storage.gcs_storage.storage") as mock_storage:
+    with patch("yonyou_doc2skill.cli.storage.gcs_storage.storage") as mock_storage:
         # Setup mocks
         mock_client = Mock()
         mock_bucket = Mock()
@@ -282,7 +282,7 @@ def test_gcs_list_files():
     if not GCS_AVAILABLE:
         pytest.skip("google-cloud-storage not installed")
 
-    with patch("skill_seekers.cli.storage.gcs_storage.storage") as mock_storage:
+    with patch("yonyou_doc2skill.cli.storage.gcs_storage.storage") as mock_storage:
         # Setup mocks
         mock_client = Mock()
         mock_blob = Mock()
@@ -316,7 +316,7 @@ def test_azure_upload_file():
     if not AZURE_AVAILABLE:
         pytest.skip("azure-storage-blob not installed")
 
-    with patch("skill_seekers.cli.storage.azure_storage.BlobServiceClient") as mock_blob_service:
+    with patch("yonyou_doc2skill.cli.storage.azure_storage.BlobServiceClient") as mock_blob_service:
         # Setup mocks
         mock_service_client = Mock()
         mock_container_client = Mock()
@@ -351,7 +351,7 @@ def test_azure_download_file():
     if not AZURE_AVAILABLE:
         pytest.skip("azure-storage-blob not installed")
 
-    with patch("skill_seekers.cli.storage.azure_storage.BlobServiceClient") as mock_blob_service:
+    with patch("yonyou_doc2skill.cli.storage.azure_storage.BlobServiceClient") as mock_blob_service:
         # Setup mocks
         mock_service_client = Mock()
         mock_container_client = Mock()
@@ -384,7 +384,7 @@ def test_azure_list_files():
     if not AZURE_AVAILABLE:
         pytest.skip("azure-storage-blob not installed")
 
-    with patch("skill_seekers.cli.storage.azure_storage.BlobServiceClient") as mock_blob_service:
+    with patch("yonyou_doc2skill.cli.storage.azure_storage.BlobServiceClient") as mock_blob_service:
         # Setup mocks
         mock_service_client = Mock()
         mock_container_client = Mock()
@@ -448,7 +448,7 @@ def test_upload_directory():
     if not BOTO3_AVAILABLE:
         pytest.skip("boto3 not installed")
 
-    with patch("skill_seekers.cli.storage.s3_storage.boto3") as mock_boto3:
+    with patch("yonyou_doc2skill.cli.storage.s3_storage.boto3") as mock_boto3:
         # Setup mocks
         mock_client = Mock()
         mock_boto3.client.return_value = mock_client
@@ -475,7 +475,7 @@ def test_download_directory():
     if not BOTO3_AVAILABLE:
         pytest.skip("boto3 not installed")
 
-    with patch("skill_seekers.cli.storage.s3_storage.boto3") as mock_boto3:
+    with patch("yonyou_doc2skill.cli.storage.s3_storage.boto3") as mock_boto3:
         # Setup mocks
         mock_client = Mock()
         mock_paginator = Mock()

@@ -17,7 +17,7 @@ First off, thank you for considering contributing to Skill Seeker! It's people l
 
 ## Branch Workflow
 
-**⚠️ IMPORTANT:** Skill Seekers uses a two-branch workflow.
+**⚠️ IMPORTANT:** Yonyou Doc2Skill uses a two-branch workflow.
 
 ### Branch Structure
 
@@ -55,11 +55,11 @@ feature branches
 
 ```bash
 # 1. Fork and clone
-git clone https://github.com/YOUR_USERNAME/Skill_Seekers.git
-cd Skill_Seekers
+git clone https://github.com/YOUR_USERNAME/yonyou_doc2skill.git
+cd yonyou_doc2skill
 
 # 2. Add upstream
-git remote add upstream https://github.com/yusufkaraaslan/Skill_Seekers.git
+git remote add upstream https://github.com/yonyou/yonyou-doc2skill.git
 
 # 3. Create feature branch from development
 git checkout development
@@ -78,16 +78,16 @@ git push origin my-feature
 
 ## Related Repositories
 
-Skill Seekers spans multiple repositories. Make sure you're contributing to the right one:
+Yonyou Doc2Skill spans multiple repositories. Make sure you're contributing to the right one:
 
 | What you want to work on | Repository |
 |--------------------------|-----------|
-| Core CLI, scrapers, MCP tools, adaptors | [Skill_Seekers](https://github.com/yusufkaraaslan/Skill_Seekers) (this repo) |
-| Website, docs, UI/UX | [skillseekersweb](https://github.com/yusufkaraaslan/skillseekersweb) |
-| Preset configs, community configs | [skill-seekers-configs](https://github.com/yusufkaraaslan/skill-seekers-configs) |
-| GitHub Action integration | [skill-seekers-action](https://github.com/yusufkaraaslan/skill-seekers-action) |
-| Claude Code plugin | [skill-seekers-plugin](https://github.com/yusufkaraaslan/skill-seekers-plugin) |
-| Homebrew formula | [homebrew-skill-seekers](https://github.com/yusufkaraaslan/homebrew-skill-seekers) |
+| Core CLI, scrapers, MCP tools, adaptors | [yonyou_doc2skill](https://github.com/yonyou/yonyou-doc2skill) (this repo) |
+| Website, docs, UI/UX | [yonyou-doc2skill-website](https://github.com/yonyou/yonyou-doc2skill-website) |
+| Preset configs, community configs | [yonyou-doc2skill-configs](https://github.com/yonyou/yonyou-doc2skill-configs) |
+| GitHub Action integration | [yonyou-doc2skill-action](https://github.com/yonyou/yonyou-doc2skill-action) |
+| Claude Code plugin | [yonyou-doc2skill-plugin](https://github.com/yonyou/yonyou-doc2skill-plugin) |
+| Homebrew formula | [homebrew-yonyou-doc2skill](https://github.com/yonyou/homebrew-yonyou-doc2skill) |
 
 ---
 
@@ -101,7 +101,7 @@ This project and everyone participating in it is governed by our commitment to f
 
 ### Reporting Bugs
 
-Before creating bug reports, please check the [existing issues](https://github.com/yusufkaraaslan/Skill_Seekers/issues) to avoid duplicates.
+Before creating bug reports, please check the [existing issues](https://github.com/yonyou/yonyou-doc2skill/issues) to avoid duplicates.
 
 When creating a bug report, include:
 - **Clear title and description**
@@ -131,7 +131,7 @@ When creating a bug report, include:
 
 ### Suggesting Enhancements
 
-Enhancement suggestions are tracked as [GitHub issues](https://github.com/yusufkaraaslan/Skill_Seekers/issues).
+Enhancement suggestions are tracked as [GitHub issues](https://github.com/yonyou/yonyou-doc2skill/issues).
 
 Include:
 - **Clear title** describing the enhancement
@@ -189,8 +189,8 @@ We actively welcome your pull requests!
 
 1. **Fork and clone the repository**
    ```bash
-   git clone https://github.com/YOUR_USERNAME/Skill_Seekers.git
-   cd Skill_Seekers
+   git clone https://github.com/YOUR_USERNAME/yonyou_doc2skill.git
+   cd yonyou_doc2skill
    ```
 
 2. **Install dependencies**
@@ -455,8 +455,8 @@ def test_config_validation_with_missing_fields():
 ## Project Structure
 
 ```
-Skill_Seekers/
-├── src/skill_seekers/      # Main package (src/ layout)
+yonyou_doc2skill/
+├── src/yonyou_doc2skill/      # Main package (src/ layout)
 │   ├── cli/                # CLI commands and entry points
 │   │   ├── main.py         # Unified CLI entry (COMMAND_MODULES dict)
 │   │   ├── source_detector.py  # Auto-detects source type
@@ -501,7 +501,7 @@ Skill_Seekers/
 Full UML class diagrams are maintained in StarUML and synced from source code:
 
 - **[docs/UML_ARCHITECTURE.md](docs/UML_ARCHITECTURE.md)** - Overview with embedded PNG diagrams
-- **[docs/UML/skill_seekers.mdj](docs/UML/skill_seekers.mdj)** - StarUML project (open with [StarUML](https://staruml.io/))
+- **[docs/UML/yonyou_doc2skill.mdj](docs/UML/yonyou_doc2skill.mdj)** - StarUML project (open with [StarUML](https://staruml.io/))
 - **[docs/UML/exports/](docs/UML/exports/)** - 14 PNG exports (package overview + 13 class diagrams)
 - **[docs/UML/html/](docs/UML/html/index.html/index.html)** - HTML API reference
 
@@ -530,9 +530,9 @@ Releases are managed by maintainers:
 
 ## Questions?
 
-- 💬 [Open a discussion](https://github.com/yusufkaraaslan/Skill_Seekers/discussions)
-- 🐛 [Report a bug](https://github.com/yusufkaraaslan/Skill_Seekers/issues)
-- 📧 Contact: yusufkaraaslan.yk@pm.me
+- 💬 [Open a discussion](https://github.com/yonyou/yonyou-doc2skill/discussions)
+- 🐛 [Report a bug](https://github.com/yonyou/yonyou-doc2skill/issues)
+- 📧 Contact: engineering@yonyou.com
 
 ---
 

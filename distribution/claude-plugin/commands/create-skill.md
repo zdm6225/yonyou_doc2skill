@@ -9,24 +9,24 @@ Create an AI-ready skill from a source. The source type is auto-detected.
 ## Usage
 
 ```
-/skill-seekers:create-skill <source> [--preset <level>] [--output <dir>]
+/yonyou-doc2skill:create-skill <source> [--preset <level>] [--output <dir>]
 ```
 
 ## Instructions
 
-When the user provides a source via `$ARGUMENTS`, run the `skill-seekers create` command to generate a skill.
+When the user provides a source via `$ARGUMENTS`, run the `yonyou-doc2skill create` command to generate a skill.
 
 1. Parse the arguments: extract the source (first argument) and any flags.
 2. If no `--preset` is specified, default to `quick` for fast results.
 3. If no `--output` is specified, default to `./output`.
 4. Run the create command:
    ```bash
-   skill-seekers create "$SOURCE" --preset quick --output "$OUTPUT"
+   yonyou-doc2skill create "$SOURCE" --preset quick --output "$OUTPUT"
    ```
 5. After completion, read the generated `SKILL.md` and summarize what was created.
 6. If the user wants to target a specific platform (e.g., Claude, OpenAI, LangChain), run the package command after:
    ```bash
-   skill-seekers package "$SKILL_DIR" --target "$PLATFORM"
+   yonyou-doc2skill package "$SKILL_DIR" --target "$PLATFORM"
    ```
 
 ## Presets
@@ -55,8 +55,8 @@ When the user provides a source via `$ARGUMENTS`, run the `skill-seekers create`
 ## Examples
 
 ```
-/skill-seekers:create-skill https://react.dev
-/skill-seekers:create-skill pallets/flask -p standard
-/skill-seekers:create-skill ./docs/api.pdf
-/skill-seekers:create-skill https://youtube.com/watch?v=abc123
+/yonyou-doc2skill:create-skill https://react.dev
+/yonyou-doc2skill:create-skill pallets/flask -p standard
+/yonyou-doc2skill:create-skill ./docs/api.pdf
+/yonyou-doc2skill:create-skill https://youtube.com/watch?v=abc123
 ```

@@ -179,7 +179,7 @@ TEST_PYTHON="${PYTHON_CMD:-python3}"
 # Test stdio mode
 echo "  Testing stdio transport..."
 echo "  Using: $TEST_PYTHON"
-timeout 3 $TEST_PYTHON -m skill_seekers.mcp.server_fastmcp 2>/dev/null || {
+timeout 3 $TEST_PYTHON -m yonyou_doc2skill.mcp.server_fastmcp 2>/dev/null || {
     if [ $? -eq 124 ]; then
         echo -e "  ${GREEN}✓${NC} Stdio transport working"
     else
@@ -192,7 +192,7 @@ echo "  Testing HTTP transport..."
 # Check if uvicorn is available
 if $TEST_PYTHON -c "import uvicorn" 2>/dev/null; then
     # Start HTTP server in background
-    $TEST_PYTHON -m skill_seekers.mcp.server_fastmcp --transport http --port 8765 > /dev/null 2>&1 &
+    $TEST_PYTHON -m yonyou_doc2skill.mcp.server_fastmcp --transport http --port 8765 > /dev/null 2>&1 &
     HTTP_TEST_PID=$!
     sleep 2
 
@@ -224,7 +224,7 @@ echo ""
 DETECTED_AGENTS=$(python3 -c "
 import sys
 sys.path.insert(0, 'src')
-from skill_seekers.mcp.agent_detector import AgentDetector
+from yonyou_doc2skill.mcp.agent_detector import AgentDetector
 detector = AgentDetector()
 agents = detector.detect_agents()
 if agents:
@@ -400,11 +400,11 @@ if [ "$DETECTED_AGENTS" != "NONE" ]; then
                 GENERATED_CONFIG=$(python3 -c "
 import sys
 sys.path.insert(0, 'src')
-from skill_seekers.mcp.agent_detector import AgentDetector
+from yonyou_doc2skill.mcp.agent_detector import AgentDetector
 detector = AgentDetector()
 
 # Use the detected Python command
-server_command = '$PYTHON_CMD -m skill_seekers.mcp.server_fastmcp'
+server_command = '$PYTHON_CMD -m yonyou_doc2skill.mcp.server_fastmcp'
 
 config = detector.generate_config('$agent_id', server_command, $HTTP_PORT)
 print(config)
@@ -505,7 +505,7 @@ if [ ${#SELECTED_AGENTS[@]} -gt 0 ]; then
                 echo "Starting HTTP server on port $HTTP_PORT..."
 
                 # Start server in background
-                nohup $PYTHON_CMD -m skill_seekers.mcp.server_fastmcp --transport http --port $HTTP_PORT > /tmp/skill-seekers-mcp.log 2>&1 &
+                nohup $PYTHON_CMD -m yonyou_doc2skill.mcp.server_fastmcp --transport http --port $HTTP_PORT > /tmp/yonyou-doc2skill-mcp.log 2>&1 &
                 SERVER_PID=$!
 
                 sleep 2
@@ -514,22 +514,22 @@ if [ ${#SELECTED_AGENTS[@]} -gt 0 ]; then
                 if curl -s http://127.0.0.1:$HTTP_PORT/health > /dev/null 2>&1; then
                     echo -e "${GREEN}✓${NC} HTTP server started (PID: $SERVER_PID)"
                     echo "  Health check: http://127.0.0.1:$HTTP_PORT/health"
-                    echo "  Logs: /tmp/skill-seekers-mcp.log"
+                    echo "  Logs: /tmp/yonyou-doc2skill-mcp.log"
                     echo ""
                     echo -e "${YELLOW}Note:${NC} Server is running in background. To stop:"
                     echo "  kill $SERVER_PID"
                 else
                     echo -e "${RED}✗${NC} Failed to start HTTP server"
-                    echo "  Check logs: /tmp/skill-seekers-mcp.log"
+                    echo "  Check logs: /tmp/yonyou-doc2skill-mcp.log"
                 fi
                 ;;
             2)
                 echo "Manual start command:"
                 echo ""
-                echo -e "${GREEN}$PYTHON_CMD -m skill_seekers.mcp.server_fastmcp --transport http --port $HTTP_PORT${NC}"
+                echo -e "${GREEN}$PYTHON_CMD -m yonyou_doc2skill.mcp.server_fastmcp --transport http --port $HTTP_PORT${NC}"
                 echo ""
                 echo "Or run in background:"
-                echo -e "${GREEN}nohup $PYTHON_CMD -m skill_seekers.mcp.server_fastmcp --transport http --port $HTTP_PORT > /tmp/skill-seekers-mcp.log 2>&1 &${NC}"
+                echo -e "${GREEN}nohup $PYTHON_CMD -m yonyou_doc2skill.mcp.server_fastmcp --transport http --port $HTTP_PORT > /tmp/yonyou-doc2skill-mcp.log 2>&1 &${NC}"
                 ;;
             3)
                 echo "Skipping HTTP server start"
@@ -624,7 +624,7 @@ else
     echo "      \"command\": \"$PYTHON_CMD\","
     echo "      \"args\": ["
     echo "        \"-m\","
-    echo "        \"skill_seekers.mcp.server_fastmcp\""
+    echo "        \"yonyou_doc2skill.mcp.server_fastmcp\""
     echo "      ],"
     echo "      \"cwd\": \"$REPO_PATH\","
     echo "      \"env\": {}"
@@ -638,7 +638,7 @@ else
         echo "${CYAN}For Cursor/Windsurf (HTTP):${NC}"
         echo ""
         echo "1. Start HTTP server:"
-        echo "   ${GREEN}$PYTHON_CMD -m skill_seekers.mcp.server_fastmcp --transport http --port 3000${NC}"
+        echo "   ${GREEN}$PYTHON_CMD -m yonyou_doc2skill.mcp.server_fastmcp --transport http --port 3000${NC}"
         echo ""
         echo "2. Add to agent config:"
         echo -e "${GREEN}{"
@@ -689,7 +689,7 @@ echo "Documentation:"
 echo "=========================================================="
 echo "  • MCP Setup Guide:     ${YELLOW}docs/MCP_SETUP.md${NC}"
 echo "  • HTTP Transport:      ${YELLOW}docs/HTTP_TRANSPORT.md${NC}"
-echo "  • Agent Detection:     ${YELLOW}src/skill_seekers/mcp/agent_detector.py${NC}"
+echo "  • Agent Detection:     ${YELLOW}src/yonyou_doc2skill/mcp/agent_detector.py${NC}"
 echo "  • Full Documentation:  ${YELLOW}README.md${NC}"
 echo ""
 
@@ -702,17 +702,17 @@ echo "    - Cursor: ~/.cursor/logs/"
 echo "    - VS Code: ~/.config/Code/logs/"
 echo ""
 echo "  • Test MCP server:"
-echo "    ${CYAN}$PYTHON_CMD -m skill_seekers.mcp.server_fastmcp${NC}"
+echo "    ${CYAN}$PYTHON_CMD -m yonyou_doc2skill.mcp.server_fastmcp${NC}"
 echo ""
 echo "  • Test HTTP server:"
-echo "    ${CYAN}$PYTHON_CMD -m skill_seekers.mcp.server_fastmcp --transport http${NC}"
+echo "    ${CYAN}$PYTHON_CMD -m yonyou_doc2skill.mcp.server_fastmcp --transport http${NC}"
 echo "    ${CYAN}curl http://127.0.0.1:8000/health${NC}"
 echo ""
 echo "  • Run tests:"
 echo "    ${CYAN}pytest tests/test_mcp_server.py -v${NC}"
 echo ""
 echo "  • View server logs (if HTTP):"
-echo "    ${CYAN}tail -f /tmp/skill-seekers-mcp.log${NC}"
+echo "    ${CYAN}tail -f /tmp/yonyou-doc2skill-mcp.log${NC}"
 echo ""
 
 echo "Happy skill creating! 🚀"

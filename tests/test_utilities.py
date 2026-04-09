@@ -9,7 +9,7 @@ import unittest
 import zipfile
 from pathlib import Path
 
-from skill_seekers.cli.utils import (
+from yonyou_doc2skill.cli.utils import (
     format_file_size,
     get_api_key,
     get_upload_url,

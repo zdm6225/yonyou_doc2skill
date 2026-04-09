@@ -1,11 +1,11 @@
-# Skill Seekers Config API
+# Yonyou Doc2Skill Config API
 
-FastAPI backend for discovering and downloading Skill Seekers configuration files.
+FastAPI backend for discovering and downloading Yonyou Doc2Skill configuration files.
 
 ## 🚀 Endpoints
 
 ### Base URL
-- **Production**: `https://skillseekersweb.com`
+- **Production**: `https://docs.yonyou.example`
 - **Local**: `http://localhost:8000`
 
 ### Available Endpoints
@@ -14,13 +14,13 @@ FastAPI backend for discovering and downloading Skill Seekers configuration file
 Returns API metadata and available endpoints.
 
 ```bash
-curl https://skillseekersweb.com/
+curl https://docs.yonyou.example/
 ```
 
 **Response:**
 ```json
 {
-  "name": "Skill Seekers Config API",
+  "name": "Yonyou Doc2Skill Config API",
   "version": "1.0.0",
   "endpoints": {
     "/api/configs": "List all available configs",
@@ -28,8 +28,8 @@ curl https://skillseekersweb.com/
     "/api/categories": "List all categories",
     "/docs": "API documentation"
   },
-  "repository": "https://github.com/yusufkaraaslan/Skill_Seekers",
-  "website": "https://skillseekersweb.com"
+  "repository": "https://github.com/yonyou/yonyou-doc2skill",
+  "website": "https://docs.yonyou.example"
 }
 ```
 
@@ -45,16 +45,16 @@ Returns list of all available configs with metadata.
 
 ```bash
 # Get all configs
-curl https://skillseekersweb.com/api/configs
+curl https://docs.yonyou.example/api/configs
 
 # Filter by category
-curl https://skillseekersweb.com/api/configs?category=web-frameworks
+curl https://docs.yonyou.example/api/configs?category=web-frameworks
 
 # Filter by tag
-curl https://skillseekersweb.com/api/configs?tag=javascript
+curl https://docs.yonyou.example/api/configs?tag=javascript
 
 # Filter by type
-curl https://skillseekersweb.com/api/configs?type=unified
+curl https://docs.yonyou.example/api/configs?type=unified
 ```
 
 **Response:**
@@ -74,7 +74,7 @@ curl https://skillseekersweb.com/api/configs?type=unified
       "max_pages": 300,
       "file_size": 1055,
       "last_updated": "2025-11-30T09:26:07+00:00",
-      "download_url": "https://skillseekersweb.com/api/download/react.json",
+      "download_url": "https://docs.yonyou.example/api/download/react.json",
       "config_file": "react.json"
     }
   ]
@@ -87,7 +87,7 @@ curl https://skillseekersweb.com/api/configs?type=unified
 Returns detailed information about a specific config.
 
 ```bash
-curl https://skillseekersweb.com/api/configs/react
+curl https://docs.yonyou.example/api/configs/react
 ```
 
 **Response:**
@@ -102,7 +102,7 @@ curl https://skillseekersweb.com/api/configs/react
   "max_pages": 300,
   "file_size": 1055,
   "last_updated": "2025-11-30T09:26:07+00:00",
-  "download_url": "https://skillseekersweb.com/api/download/react.json",
+  "download_url": "https://docs.yonyou.example/api/download/react.json",
   "config_file": "react.json"
 }
 ```
@@ -113,7 +113,7 @@ curl https://skillseekersweb.com/api/configs/react
 Returns all available categories with config counts.
 
 ```bash
-curl https://skillseekersweb.com/api/categories
+curl https://docs.yonyou.example/api/categories
 ```
 
 **Response:**
@@ -137,10 +137,10 @@ Downloads the actual config JSON file.
 
 ```bash
 # Download react config
-curl -O https://skillseekersweb.com/api/download/react.json
+curl -O https://docs.yonyou.example/api/download/react.json
 
 # Download with just name (auto-adds .json)
-curl -O https://skillseekersweb.com/api/download/react
+curl -O https://docs.yonyou.example/api/download/react
 ```
 
 ---
@@ -149,14 +149,14 @@ curl -O https://skillseekersweb.com/api/download/react
 Health check endpoint for monitoring.
 
 ```bash
-curl https://skillseekersweb.com/health
+curl https://docs.yonyou.example/health
 ```
 
 **Response:**
 ```json
 {
   "status": "healthy",
-  "service": "skill-seekers-api"
+  "service": "yonyou-doc2skill-api"
 }
 ```
 
@@ -165,7 +165,7 @@ curl https://skillseekersweb.com/health
 #### 7. **GET /docs** - API Documentation
 Interactive OpenAPI documentation (Swagger UI).
 
-Visit: `https://skillseekersweb.com/docs`
+Visit: `https://docs.yonyou.example/docs`
 
 ---
 
@@ -256,12 +256,12 @@ This API is configured for Render deployment via `render.yaml`.
 1. Push to GitHub
 2. Connect repository to Render
 3. Render auto-deploys from `render.yaml`
-4. Configure custom domain: `skillseekersweb.com`
+4. Configure custom domain: `docs.yonyou.example`
 
 ---
 
 ## 🔗 Links
 
-- **API Documentation**: https://skillseekersweb.com/docs
-- **GitHub Repository**: https://github.com/yusufkaraaslan/Skill_Seekers
-- **Main Project**: https://github.com/yusufkaraaslan/Skill_Seekers#readme
+- **API Documentation**: https://docs.yonyou.example/docs
+- **GitHub Repository**: https://github.com/yonyou/yonyou-doc2skill
+- **Main Project**: https://github.com/yonyou/yonyou-doc2skill#readme

@@ -26,14 +26,14 @@
 
 ```bash
 # Dedicated video scraping command
-skill-seekers video --url https://youtube.com/watch?v=abc123
-skill-seekers video --playlist https://youtube.com/playlist?list=PLxxx
-skill-seekers video --channel https://youtube.com/@channelname
-skill-seekers video --path ./recording.mp4
-skill-seekers video --directory ./recordings/
+yonyou-doc2skill video --url https://youtube.com/watch?v=abc123
+yonyou-doc2skill video --playlist https://youtube.com/playlist?list=PLxxx
+yonyou-doc2skill video --channel https://youtube.com/@channelname
+yonyou-doc2skill video --path ./recording.mp4
+yonyou-doc2skill video --directory ./recordings/
 
 # With options
-skill-seekers video --url <URL> \
+yonyou-doc2skill video --url <URL> \
     --output output/react-videos/ \
     --visual \
     --whisper-model large-v3 \
@@ -47,27 +47,27 @@ skill-seekers video --url <URL> \
 
 ```bash
 # These all auto-detect as video sources
-skill-seekers create https://youtube.com/watch?v=abc123
-skill-seekers create https://youtu.be/abc123
-skill-seekers create https://youtube.com/playlist?list=PLxxx
-skill-seekers create https://youtube.com/@channelname
-skill-seekers create https://vimeo.com/123456789
-skill-seekers create ./tutorial.mp4
-skill-seekers create ./recordings/                # Directory of videos
+yonyou-doc2skill create https://youtube.com/watch?v=abc123
+yonyou-doc2skill create https://youtu.be/abc123
+yonyou-doc2skill create https://youtube.com/playlist?list=PLxxx
+yonyou-doc2skill create https://youtube.com/@channelname
+yonyou-doc2skill create https://vimeo.com/123456789
+yonyou-doc2skill create ./tutorial.mp4
+yonyou-doc2skill create ./recordings/                # Directory of videos
 
 # With universal flags
-skill-seekers create https://youtube.com/watch?v=abc123 --visual -p comprehensive
-skill-seekers create ./tutorial.mp4 --enhance-level 2 --dry-run
+yonyou-doc2skill create https://youtube.com/watch?v=abc123 --visual -p comprehensive
+yonyou-doc2skill create ./tutorial.mp4 --enhance-level 2 --dry-run
 ```
 
 ### Registration in main.py
 
 ```python
-# In src/skill_seekers/cli/main.py - COMMAND_MODULES dict
+# In src/yonyou_doc2skill/cli/main.py - COMMAND_MODULES dict
 
 COMMAND_MODULES = {
     # ... existing commands ...
-    'video': 'skill_seekers.cli.video_scraper',
+    'video': 'yonyou_doc2skill.cli.video_scraper',
     # ... rest of commands ...
 }
 ```
@@ -166,14 +166,14 @@ class SourceDetector:
         raise ValueError(
             f"Cannot determine source type for: {source}\n\n"
             "Examples:\n"
-            "  Web:      skill-seekers create https://docs.react.dev/\n"
-            "  GitHub:   skill-seekers create facebook/react\n"
-            "  Local:    skill-seekers create ./my-project\n"
-            "  PDF:      skill-seekers create tutorial.pdf\n"
-            "  DOCX:     skill-seekers create document.docx\n"
-            "  Video:    skill-seekers create https://youtube.com/watch?v=xxx\n"  # NEW
-            "  Playlist: skill-seekers create https://youtube.com/playlist?list=xxx\n"  # NEW
-            "  Config:   skill-seekers create configs/react.json"
+            "  Web:      yonyou-doc2skill create https://docs.react.dev/\n"
+            "  GitHub:   yonyou-doc2skill create facebook/react\n"
+            "  Local:    yonyou-doc2skill create ./my-project\n"
+            "  PDF:      yonyou-doc2skill create tutorial.pdf\n"
+            "  DOCX:     yonyou-doc2skill create document.docx\n"
+            "  Video:    yonyou-doc2skill create https://youtube.com/watch?v=xxx\n"  # NEW
+            "  Playlist: yonyou-doc2skill create https://youtube.com/playlist?list=xxx\n"  # NEW
+            "  Config:   yonyou-doc2skill create configs/react.json"
         )
 
     @classmethod
@@ -337,8 +337,8 @@ def _scrape_video_source(self, source: dict, source_index: int) -> dict:
     Returns:
         Dict with scraping results and metadata
     """
-    from skill_seekers.cli.video_scraper import VideoScraper
-    from skill_seekers.cli.video_models import VideoSourceConfig
+    from yonyou_doc2skill.cli.video_scraper import VideoScraper
+    from yonyou_doc2skill.cli.video_models import VideoSourceConfig
 
     config = VideoSourceConfig.from_dict(source)
     scraper = VideoScraper(config=config, output_dir=self.output_dir)
@@ -427,7 +427,7 @@ def _scrape_video_source(self, source: dict, source_index: int) -> dict:
 ### Changes to Create Command Routing
 
 ```python
-# In src/skill_seekers/cli/create_command.py (or equivalent in main.py)
+# In src/yonyou_doc2skill/cli/create_command.py (or equivalent in main.py)
 
 def route_source(source_info: SourceInfo, args: argparse.Namespace):
     """Route detected source to appropriate scraper."""
@@ -450,8 +450,8 @@ def route_source(source_info: SourceInfo, args: argparse.Namespace):
 
 def _route_video(source_info: SourceInfo, args: argparse.Namespace):
     """Route video source to video scraper."""
-    from skill_seekers.cli.video_scraper import VideoScraper
-    from skill_seekers.cli.video_models import VideoSourceConfig
+    from yonyou_doc2skill.cli.video_scraper import VideoScraper
+    from yonyou_doc2skill.cli.video_models import VideoSourceConfig
 
     parsed = source_info.parsed
 
@@ -497,9 +497,9 @@ def _route_video(source_info: SourceInfo, args: argparse.Namespace):
 ### New Parser: `video_parser.py`
 
 ```python
-# src/skill_seekers/cli/parsers/video_parser.py
+# src/yonyou_doc2skill/cli/parsers/video_parser.py
 
-from skill_seekers.cli.parsers.base import SubcommandParser
+from yonyou_doc2skill.cli.parsers.base import SubcommandParser
 
 
 class VideoParser(SubcommandParser):
@@ -523,18 +523,18 @@ class VideoParser(SubcommandParser):
         source.add_argument('--directory', help='Directory containing video files')
 
         # Add shared arguments (output, dry-run, verbose, etc.)
-        from skill_seekers.cli.arguments.common import add_all_standard_arguments
+        from yonyou_doc2skill.cli.arguments.common import add_all_standard_arguments
         add_all_standard_arguments(parser)
 
         # Add video-specific arguments
-        from skill_seekers.cli.arguments.video import add_video_arguments
+        from yonyou_doc2skill.cli.arguments.video import add_video_arguments
         add_video_arguments(parser)
 ```
 
 ### New Arguments: `video.py`
 
 ```python
-# src/skill_seekers/cli/arguments/video.py
+# src/yonyou_doc2skill/cli/arguments/video.py
 
 VIDEO_ARGUMENTS = {
     # === Filtering ===
@@ -678,7 +678,7 @@ def add_video_arguments(parser):
 }
 
 # VIDEO_ARGUMENTS added to create command's video help mode
-# skill-seekers create --help-video
+# yonyou-doc2skill create --help-video
 ```
 
 ---
@@ -688,7 +688,7 @@ def add_video_arguments(parser):
 ### New MCP Tool: `scrape_video`
 
 ```python
-# In src/skill_seekers/mcp/tools/scraping_tools.py
+# In src/yonyou_doc2skill/mcp/tools/scraping_tools.py
 
 @mcp.tool()
 def scrape_video(
@@ -777,13 +777,13 @@ def enhance_video_content(segments: list[VideoSegment], level: int) -> list[Vide
 
 | File | Purpose | Estimated Size |
 |------|---------|---------------|
-| `src/skill_seekers/cli/video_scraper.py` | Main video scraper orchestrator | ~800-1000 lines |
-| `src/skill_seekers/cli/video_models.py` | All data classes and enums | ~500-600 lines |
-| `src/skill_seekers/cli/video_transcript.py` | Transcript extraction (YouTube API + Whisper) | ~400-500 lines |
-| `src/skill_seekers/cli/video_visual.py` | Visual extraction (scene detection + OCR) | ~500-600 lines |
-| `src/skill_seekers/cli/video_segmenter.py` | Segmentation and stream alignment | ~400-500 lines |
-| `src/skill_seekers/cli/parsers/video_parser.py` | CLI argument parser | ~80-100 lines |
-| `src/skill_seekers/cli/arguments/video.py` | Video-specific argument definitions | ~120-150 lines |
+| `src/yonyou_doc2skill/cli/video_scraper.py` | Main video scraper orchestrator | ~800-1000 lines |
+| `src/yonyou_doc2skill/cli/video_models.py` | All data classes and enums | ~500-600 lines |
+| `src/yonyou_doc2skill/cli/video_transcript.py` | Transcript extraction (YouTube API + Whisper) | ~400-500 lines |
+| `src/yonyou_doc2skill/cli/video_visual.py` | Visual extraction (scene detection + OCR) | ~500-600 lines |
+| `src/yonyou_doc2skill/cli/video_segmenter.py` | Segmentation and stream alignment | ~400-500 lines |
+| `src/yonyou_doc2skill/cli/parsers/video_parser.py` | CLI argument parser | ~80-100 lines |
+| `src/yonyou_doc2skill/cli/arguments/video.py` | Video-specific argument definitions | ~120-150 lines |
 | `tests/test_video_scraper.py` | Video scraper tests | ~600-800 lines |
 | `tests/test_video_transcript.py` | Transcript extraction tests | ~400-500 lines |
 | `tests/test_video_visual.py` | Visual extraction tests | ~400-500 lines |
@@ -796,13 +796,13 @@ def enhance_video_content(segments: list[VideoSegment], level: int) -> list[Vide
 
 | File | Changes |
 |------|---------|
-| `src/skill_seekers/cli/source_detector.py` | Add video URL patterns, video file detection, video directory detection |
-| `src/skill_seekers/cli/main.py` | Register `video` subcommand in COMMAND_MODULES |
-| `src/skill_seekers/cli/unified_scraper.py` | Add `"video": []` to scraped_data, add `_scrape_video_source()` |
-| `src/skill_seekers/cli/arguments/create.py` | Add video args to create command, add `--help-video` |
-| `src/skill_seekers/cli/parsers/__init__.py` | Register VideoParser |
-| `src/skill_seekers/cli/config_validator.py` | Validate video source entries in unified config |
-| `src/skill_seekers/mcp/tools/scraping_tools.py` | Add `scrape_video` tool |
-| `pyproject.toml` | Add `[video]` and `[video-full]` optional dependencies, add `skill-seekers-video` entry point |
+| `src/yonyou_doc2skill/cli/source_detector.py` | Add video URL patterns, video file detection, video directory detection |
+| `src/yonyou_doc2skill/cli/main.py` | Register `video` subcommand in COMMAND_MODULES |
+| `src/yonyou_doc2skill/cli/unified_scraper.py` | Add `"video": []` to scraped_data, add `_scrape_video_source()` |
+| `src/yonyou_doc2skill/cli/arguments/create.py` | Add video args to create command, add `--help-video` |
+| `src/yonyou_doc2skill/cli/parsers/__init__.py` | Register VideoParser |
+| `src/yonyou_doc2skill/cli/config_validator.py` | Validate video source entries in unified config |
+| `src/yonyou_doc2skill/mcp/tools/scraping_tools.py` | Add `scrape_video` tool |
+| `pyproject.toml` | Add `[video]` and `[video-full]` optional dependencies, add `yonyou-doc2skill-video` entry point |
 | `tests/test_source_detector.py` | Add video detection tests |
 | `tests/test_unified.py` | Add video source integration tests |

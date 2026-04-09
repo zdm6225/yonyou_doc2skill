@@ -1,17 +1,17 @@
-# Skill Seekers Architecture
+# Yonyou Doc2Skill Architecture
 
-> Generated 2026-03-22 | StarUML project: `docs/UML/skill_seekers.mdj`
+> Generated 2026-03-22 | StarUML project: `docs/UML/yonyou_doc2skill.mdj`
 
 ## Overview
 
-Skill Seekers converts documentation from 17 source types into production-ready formats for 24+ AI platforms. The architecture follows a layered module design with 8 core modules and 5 utility modules.
+Yonyou Doc2Skill converts documentation from 17 source types into production-ready formats for 24+ AI platforms. The architecture follows a layered module design with 8 core modules and 5 utility modules.
 
 ## Package Diagram
 
 ![Package Overview](UML/exports/00_package_overview.png)
 
 **Core Modules** (upper area):
-- **CLICore** -- Git-style command dispatcher, entry point for all `skill-seekers` commands
+- **CLICore** -- Git-style command dispatcher, entry point for all `yonyou-doc2skill` commands
 - **Scrapers** -- 17 source-type extractors (web, GitHub, PDF, Word, EPUB, video, etc.)
 - **Adaptors** -- Strategy+Factory pattern for 20+ output platforms (Claude, Gemini, OpenAI, RAG frameworks)
 - **Analysis** -- C3.x codebase analysis pipeline (AST parsing, 10 GoF pattern detectors, guide builders)
@@ -32,7 +32,7 @@ Skill Seekers converts documentation from 17 source types into production-ready 
 ### CLICore
 ![CLICore](UML/exports/01_cli_core.png)
 
-Entry point: `skill-seekers` CLI. `CLIDispatcher` maps subcommands to modules via `COMMAND_MODULES` dict. `CreateCommand` auto-detects source type via `SourceDetector`.
+Entry point: `yonyou-doc2skill` CLI. `CLIDispatcher` maps subcommands to modules via `COMMAND_MODULES` dict. `CreateCommand` auto-detects source type via `SourceDetector`.
 
 ### Scrapers
 ![Scrapers](UML/exports/02_scrapers.png)
@@ -127,7 +127,7 @@ Activity diagram showing `source_detector.py` decision tree in correct code orde
 ### MCP Tool Invocation
 ![MCP Invocation](UML/exports/17_mcp_invocation_sequence.png)
 
-MCP Client (Claude Code/Cursor) → FastMCPServer (stdio/HTTP) with two invocation paths: **Path A** (scraping tools) uses `subprocess.run(["skill-seekers", ...])`, **Path B** (packaging/config tools) uses direct Python imports (`get_adaptor()`, `sync_config()`). Both return TextContent → JSON-RPC.
+MCP Client (Claude Code/Cursor) → FastMCPServer (stdio/HTTP) with two invocation paths: **Path A** (scraping tools) uses `subprocess.run(["yonyou-doc2skill", ...])`, **Path B** (packaging/config tools) uses direct Python imports (`get_adaptor()`, `sync_config()`). Both return TextContent → JSON-RPC.
 
 ### Enhancement Pipeline
 ![Enhancement Pipeline](UML/exports/18_enhancement_activity.png)
@@ -142,10 +142,10 @@ Component diagram with corrected runtime dependencies. Key flows: `CLI Core` dis
 ### Browser Rendering Flow
 ![Browser Rendering](UML/exports/20_browser_rendering_sequence.png)
 
-When `--browser` flag is set, `DocScraper.scrape_page()` delegates to `BrowserRenderer.render_page(url)` instead of `requests.get()`. The renderer auto-installs Chromium on first use, navigates with `wait_until='networkidle'` to let JavaScript execute, then returns the fully-rendered HTML. The rest of the pipeline (BeautifulSoup → `extract_content()` → `save_page()`) remains unchanged. Optional dependency: `pip install "skill-seekers[browser]"`.
+When `--browser` flag is set, `DocScraper.scrape_page()` delegates to `BrowserRenderer.render_page(url)` instead of `requests.get()`. The renderer auto-installs Chromium on first use, navigates with `wait_until='networkidle'` to let JavaScript execute, then returns the fully-rendered HTML. The rest of the pipeline (BeautifulSoup → `extract_content()` → `save_page()`) remains unchanged. Optional dependency: `pip install "yonyou-doc2skill[browser]"`.
 
 ## File Locations
 
-- **StarUML project**: `docs/UML/skill_seekers.mdj`
+- **StarUML project**: `docs/UML/yonyou_doc2skill.mdj`
 - **Diagram exports**: `docs/UML/exports/*.png`
-- **Source code**: `src/skill_seekers/`
+- **Source code**: `src/yonyou_doc2skill/`

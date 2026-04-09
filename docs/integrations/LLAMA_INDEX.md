@@ -1,4 +1,4 @@
-# Using Skill Seekers with LlamaIndex
+# Using Yonyou Doc2Skill with LlamaIndex
 
 **Last Updated:** February 5, 2026
 **Status:** Production Ready
@@ -21,7 +21,7 @@ Building knowledge bases and query engines with LlamaIndex requires well-structu
 
 ## ✨ The Solution
 
-Use Skill Seekers as **essential preprocessing** before LlamaIndex:
+Use Yonyou Doc2Skill as **essential preprocessing** before LlamaIndex:
 
 1. **Generate LlamaIndex Nodes** from any documentation source
 2. **Pre-structured with IDs** and rich metadata
@@ -29,7 +29,7 @@ Use Skill Seekers as **essential preprocessing** before LlamaIndex:
 4. **One command** - complete documentation in minutes
 
 **Result:**
-Skill Seekers outputs JSON files with LlamaIndex Node format, ready to build indexes and query engines.
+Yonyou Doc2Skill outputs JSON files with LlamaIndex Node format, ready to build indexes and query engines.
 
 ---
 
@@ -43,21 +43,21 @@ Skill Seekers outputs JSON files with LlamaIndex Node format, ready to build ind
 ### Installation
 
 ```bash
-# Install Skill Seekers
-pip install skill-seekers
+# Install Yonyou Doc2Skill
+pip install yonyou-doc2skill
 
 # Verify installation
-skill-seekers --version
+yonyou-doc2skill --version
 ```
 
 ### Generate LlamaIndex Nodes
 
 ```bash
 # Example: Django framework documentation
-skill-seekers scrape --config configs/django.json
+yonyou-doc2skill scrape --config configs/django.json
 
 # Package as LlamaIndex Nodes
-skill-seekers package output/django --target llama-index
+yonyou-doc2skill package output/django --target llama-index
 
 # Output: output/django-llama-index.json
 ```
@@ -105,26 +105,26 @@ print(response)
 **Option A: Use Preset Config (Fastest)**
 ```bash
 # Available presets: django, fastapi, vue, etc.
-skill-seekers scrape --config configs/django.json
+yonyou-doc2skill scrape --config configs/django.json
 ```
 
 **Option B: From GitHub Repository**
 ```bash
 # Scrape from GitHub repo
-skill-seekers github --repo django/django --name django-skill
+yonyou-doc2skill github --repo django/django --name django-skill
 ```
 
 **Option C: Custom Documentation**
 ```bash
 # Create custom config
-skill-seekers scrape --config configs/my-docs.json
+yonyou-doc2skill scrape --config configs/my-docs.json
 ```
 
 ### Step 2: Generate LlamaIndex Format
 
 ```bash
 # Convert to LlamaIndex Nodes
-skill-seekers package output/django --target llama-index
+yonyou-doc2skill package output/django --target llama-index
 
 # Output structure:
 # output/django-llama-index.json
@@ -376,10 +376,10 @@ print(f"Used {len(response.source_nodes)} source nodes")
 **Step 1: Generate Nodes**
 ```bash
 # Scrape FastAPI docs
-skill-seekers scrape --config configs/fastapi.json
+yonyou-doc2skill scrape --config configs/fastapi.json
 
 # Convert to LlamaIndex format
-skill-seekers package output/fastapi --target llama-index
+yonyou-doc2skill package output/fastapi --target llama-index
 ```
 
 **Step 2: Build Index and Query Engine**
@@ -486,7 +486,7 @@ pip install llama-index-embeddings-openai  # For OpenAI embeddings
 
 ## 📊 Before vs After Comparison
 
-| Aspect | Manual Process | With Skill Seekers |
+| Aspect | Manual Process | With Yonyou Doc2Skill |
 |--------|---------------|-------------------|
 | **Time to Setup** | 3-5 hours | 5 minutes |
 | **Node Structure** | Manual, inconsistent | Automatic, structured |
@@ -499,9 +499,9 @@ pip install llama-index-embeddings-openai  # For OpenAI embeddings
 
 ## 🤝 Community & Support
 
-- **Questions:** [GitHub Discussions](https://github.com/yusufkaraaslan/Skill_Seekers/discussions)
-- **Issues:** [GitHub Issues](https://github.com/yusufkaraaslan/Skill_Seekers/issues)
-- **Documentation:** [https://skillseekersweb.com/](https://skillseekersweb.com/)
+- **Questions:** [GitHub Discussions](https://github.com/yonyou/yonyou-doc2skill/discussions)
+- **Issues:** [GitHub Issues](https://github.com/yonyou/yonyou-doc2skill/issues)
+- **Documentation:** [https://docs.yonyou.example/yonyou-doc2skill/](https://docs.yonyou.example/yonyou-doc2skill/)
 - **Twitter:** [@_yUSyUS_](https://x.com/_yUSyUS_)
 
 ---
@@ -525,4 +525,4 @@ pip install llama-index-embeddings-openai  # For OpenAI embeddings
 
 **Last Updated:** February 5, 2026
 **Tested With:** LlamaIndex v0.10.0+, OpenAI GPT-4
-**Skill Seekers Version:** v2.9.0+
+**Yonyou Doc2Skill Version:** v2.9.0+

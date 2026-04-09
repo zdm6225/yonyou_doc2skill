@@ -24,7 +24,7 @@ except ImportError:
     TextContent = None  # Placeholder
 
 # Import the function to test
-from skill_seekers.mcp.tools.packaging_tools import install_skill_tool
+from yonyou_doc2skill.mcp.tools.packaging_tools import install_skill_tool
 
 
 @pytest.mark.skipif(not MCP_AVAILABLE, reason="MCP package not installed")
@@ -129,11 +129,11 @@ class TestInstallSkillPhaseOrchestration:
     """Test phase orchestration and data flow"""
 
     @pytest.mark.asyncio
-    @patch("skill_seekers.mcp.tools.source_tools.fetch_config_tool")
-    @patch("skill_seekers.mcp.tools.scraping_tools.scrape_docs_tool")
-    @patch("skill_seekers.mcp.tools.packaging_tools.run_subprocess_with_streaming")
-    @patch("skill_seekers.mcp.tools.packaging_tools.package_skill_tool")
-    @patch("skill_seekers.mcp.tools.packaging_tools.upload_skill_tool")
+    @patch("yonyou_doc2skill.mcp.tools.source_tools.fetch_config_tool")
+    @patch("yonyou_doc2skill.mcp.tools.scraping_tools.scrape_docs_tool")
+    @patch("yonyou_doc2skill.mcp.tools.packaging_tools.run_subprocess_with_streaming")
+    @patch("yonyou_doc2skill.mcp.tools.packaging_tools.package_skill_tool")
+    @patch("yonyou_doc2skill.mcp.tools.packaging_tools.upload_skill_tool")
     @patch("builtins.open")
     @patch("os.environ.get")
     async def test_full_workflow_with_fetch(
@@ -203,9 +203,9 @@ class TestInstallSkillPhaseOrchestration:
         assert "upload_skill" in output
 
     @pytest.mark.asyncio
-    @patch("skill_seekers.mcp.tools.scraping_tools.scrape_docs_tool")
-    @patch("skill_seekers.mcp.tools.packaging_tools.run_subprocess_with_streaming")
-    @patch("skill_seekers.mcp.tools.packaging_tools.package_skill_tool")
+    @patch("yonyou_doc2skill.mcp.tools.scraping_tools.scrape_docs_tool")
+    @patch("yonyou_doc2skill.mcp.tools.packaging_tools.run_subprocess_with_streaming")
+    @patch("yonyou_doc2skill.mcp.tools.packaging_tools.package_skill_tool")
     @patch("builtins.open")
     @patch("os.environ.get")
     async def test_workflow_with_existing_config(
@@ -258,7 +258,7 @@ class TestInstallSkillErrorHandling:
     """Test error handling at each phase"""
 
     @pytest.mark.asyncio
-    @patch("skill_seekers.mcp.tools.source_tools.fetch_config_tool")
+    @patch("yonyou_doc2skill.mcp.tools.source_tools.fetch_config_tool")
     async def test_fetch_phase_failure(self, mock_fetch):
         """Test handling of fetch phase failure"""
 
@@ -275,7 +275,7 @@ class TestInstallSkillErrorHandling:
         assert "❌ Failed to fetch config" in output
 
     @pytest.mark.asyncio
-    @patch("skill_seekers.mcp.tools.scraping_tools.scrape_docs_tool")
+    @patch("yonyou_doc2skill.mcp.tools.scraping_tools.scrape_docs_tool")
     @patch("builtins.open")
     async def test_scrape_phase_failure(self, mock_open, mock_scrape):
         """Test handling of scrape phase failure"""
@@ -301,8 +301,8 @@ class TestInstallSkillErrorHandling:
         assert "WORKFLOW COMPLETE" not in output
 
     @pytest.mark.asyncio
-    @patch("skill_seekers.mcp.tools.scraping_tools.scrape_docs_tool")
-    @patch("skill_seekers.mcp.tools.packaging_tools.run_subprocess_with_streaming")
+    @patch("yonyou_doc2skill.mcp.tools.scraping_tools.scrape_docs_tool")
+    @patch("yonyou_doc2skill.mcp.tools.packaging_tools.run_subprocess_with_streaming")
     @patch("builtins.open")
     async def test_enhancement_phase_failure(self, mock_open, mock_subprocess, mock_scrape):
         """Test handling of enhancement phase failure"""

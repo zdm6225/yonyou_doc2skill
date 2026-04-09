@@ -6,7 +6,7 @@ Tests the formal preset system for analyze command.
 """
 
 import pytest
-from skill_seekers.cli.presets import PresetManager, PRESETS, AnalysisPreset
+from yonyou_doc2skill.cli.presets import PresetManager, PRESETS, AnalysisPreset
 
 
 class TestPresetDefinitions:

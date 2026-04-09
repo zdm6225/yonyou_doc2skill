@@ -11,7 +11,7 @@ Tests the SourceDetector class's ability to identify and parse:
 import os
 import pytest
 
-from skill_seekers.cli.source_detector import SourceDetector, SourceInfo
+from yonyou_doc2skill.cli.source_detector import SourceDetector, SourceInfo
 
 
 class TestWebDetection:
@@ -159,6 +159,39 @@ class TestPDFDetection:
         assert info.suggested_name == "my-awesome-guide"
 
 
+class TestRemovedFileTypeDetection:
+    """Test that retired public file types are no longer auto-detected."""
+
+    @pytest.mark.parametrize(
+        "source",
+        [
+            "book.epub",
+            "analysis.ipynb",
+            "feed.rss",
+            "updates.atom",
+            "curl.1",
+            "curl.man",
+        ],
+    )
+    def test_removed_file_types_raise_value_error(self, source):
+        """Removed file types should no longer be classified by SourceDetector."""
+        with pytest.raises(ValueError, match="Cannot determine source type"):
+            SourceDetector.detect(source)
+
+    def test_openapi_yaml_content_is_no_longer_detected(self, tmp_path):
+        """OpenAPI-looking YAML should no longer be classified as openapi."""
+        spec = tmp_path / "petstore.yaml"
+        spec.write_text(
+            "openapi: '3.0.0'\n"
+            "info:\n"
+            "  title: Petstore\n"
+            "paths: {}\n"
+        )
+
+        with pytest.raises(ValueError, match="Cannot determine source type"):
+            SourceDetector.detect(str(spec))
+
+
 class TestConfigDetection:
     """Test config file detection."""
 
@@ -256,7 +289,7 @@ class TestAmbiguousCases:
         error_msg = str(exc_info.value)
         assert "Cannot determine source type" in error_msg
         assert "Examples:" in error_msg
-        assert "skill-seekers create" in error_msg
+        assert "yonyou-doc2skill create" in error_msg
 
     def test_github_takes_precedence_over_web(self):
         """GitHub URL should be detected as github, not web."""

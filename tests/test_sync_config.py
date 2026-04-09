@@ -17,7 +17,7 @@ import unittest
 from pathlib import Path
 from unittest.mock import MagicMock, patch
 
-from skill_seekers.cli.sync_config import (
+from yonyou_doc2skill.cli.sync_config import (
     _get_doc_source,
     _is_valid_url,
     _set_start_urls,
@@ -216,7 +216,7 @@ class TestDiscoverUrls(unittest.TestCase):
         hrefs = "".join(f'<a href="{u}">link</a>' for u in links)
         return f"<html><body>{hrefs}</body></html>"
 
-    @patch("skill_seekers.cli.sync_config.requests.get")
+    @patch("yonyou_doc2skill.cli.sync_config.requests.get")
     def test_basic_discovery(self, mock_get):
         """Discover links from a single seed page."""
         mock_resp = MagicMock()
@@ -242,7 +242,7 @@ class TestDiscoverUrls(unittest.TestCase):
         self.assertIn("https://docs.example.com/page-b", result)
         self.assertNotIn("https://other.com/external", result)
 
-    @patch("skill_seekers.cli.sync_config.requests.get")
+    @patch("yonyou_doc2skill.cli.sync_config.requests.get")
     def test_depth_limiting(self, mock_get):
         """URLs at depth > limit should be discovered but not followed."""
         # Seed returns one link
@@ -265,7 +265,7 @@ class TestDiscoverUrls(unittest.TestCase):
         # grandchild is at depth 2, which exceeds depth=1
         self.assertNotIn("https://docs.example.com/grandchild", result)
 
-    @patch("skill_seekers.cli.sync_config.requests.get")
+    @patch("yonyou_doc2skill.cli.sync_config.requests.get")
     def test_max_pages_limit(self, mock_get):
         """Stop after max_pages."""
         links = [f"https://docs.example.com/page-{i}" for i in range(20)]
@@ -284,7 +284,7 @@ class TestDiscoverUrls(unittest.TestCase):
 
         self.assertLessEqual(len(result), 5)
 
-    @patch("skill_seekers.cli.sync_config.requests.get")
+    @patch("yonyou_doc2skill.cli.sync_config.requests.get")
     def test_include_exclude_patterns(self, mock_get):
         """Include/exclude patterns are respected."""
         mock_resp = MagicMock()
@@ -311,7 +311,7 @@ class TestDiscoverUrls(unittest.TestCase):
         self.assertNotIn("https://docs.example.com/docs/fr/guide", result)
         self.assertNotIn("https://docs.example.com/blog/post", result)
 
-    @patch("skill_seekers.cli.sync_config.requests.get")
+    @patch("yonyou_doc2skill.cli.sync_config.requests.get")
     def test_http_error_handled_gracefully(self, mock_get):
         """HTTP errors should not crash the discovery."""
         mock_get.side_effect = ConnectionError("Network error")
@@ -327,7 +327,7 @@ class TestDiscoverUrls(unittest.TestCase):
         # have been removed from the live site).
         self.assertEqual(result, set())
 
-    @patch("skill_seekers.cli.sync_config.requests.get")
+    @patch("yonyou_doc2skill.cli.sync_config.requests.get")
     def test_fragments_stripped(self, mock_get):
         """URL fragments (#anchor) should be stripped."""
         mock_resp = MagicMock()
@@ -365,7 +365,7 @@ class TestSyncConfigIntegration(unittest.TestCase):
             json.dump(config, f, indent=2)
         return Path(tmp)
 
-    @patch("skill_seekers.cli.sync_config.discover_urls")
+    @patch("yonyou_doc2skill.cli.sync_config.discover_urls")
     def test_dry_run_does_not_modify_file(self, mock_discover):
         mock_discover.return_value = {
             "https://docs.example.com/a",
@@ -395,7 +395,7 @@ class TestSyncConfigIntegration(unittest.TestCase):
         self.assertEqual(len(saved["sources"][0]["start_urls"]), 1)
         path.unlink()
 
-    @patch("skill_seekers.cli.sync_config.discover_urls")
+    @patch("yonyou_doc2skill.cli.sync_config.discover_urls")
     def test_apply_writes_updated_urls(self, mock_discover):
         mock_discover.return_value = {
             "https://docs.example.com/a",
@@ -428,7 +428,7 @@ class TestSyncConfigIntegration(unittest.TestCase):
         self.assertNotIn("https://docs.example.com/old", urls)
         path.unlink()
 
-    @patch("skill_seekers.cli.sync_config.discover_urls")
+    @patch("yonyou_doc2skill.cli.sync_config.discover_urls")
     def test_no_changes_does_not_write(self, mock_discover):
         urls = ["https://docs.example.com/a", "https://docs.example.com/b"]
         mock_discover.return_value = set(urls)
@@ -459,7 +459,7 @@ class TestSyncConfigIntegration(unittest.TestCase):
         self.assertIn("error", result)
         path.unlink()
 
-    @patch("skill_seekers.cli.sync_config.discover_urls")
+    @patch("yonyou_doc2skill.cli.sync_config.discover_urls")
     def test_legacy_config_format(self, mock_discover):
         mock_discover.return_value = {"https://docs.example.com/a"}
 
@@ -479,7 +479,7 @@ class TestSyncConfigIntegration(unittest.TestCase):
         self.assertEqual(saved["start_urls"], ["https://docs.example.com/a"])
         path.unlink()
 
-    @patch("skill_seekers.cli.sync_config.discover_urls")
+    @patch("yonyou_doc2skill.cli.sync_config.discover_urls")
     def test_nav_seed_urls_used_over_start_urls(self, mock_discover):
         """When nav_seed_urls is present, it should be used as the seed."""
         mock_discover.return_value = {"https://docs.example.com/a"}
@@ -521,13 +521,13 @@ class TestSyncConfigCLI(unittest.TestCase):
 
     def test_sync_config_parser_registered(self):
         """sync-config should be a registered subcommand."""
-        from skill_seekers.cli.parsers import get_parser_names
+        from yonyou_doc2skill.cli.parsers import get_parser_names
 
         self.assertIn("sync-config", get_parser_names())
 
     def test_sync_config_in_command_modules(self):
         """sync-config should be in COMMAND_MODULES."""
-        from skill_seekers.cli.main import COMMAND_MODULES
+        from yonyou_doc2skill.cli.main import COMMAND_MODULES
 
         self.assertIn("sync-config", COMMAND_MODULES)
 
@@ -535,7 +535,7 @@ class TestSyncConfigCLI(unittest.TestCase):
         """Argument parser should accept all expected flags."""
         import argparse
 
-        from skill_seekers.cli.arguments.sync_config import add_sync_config_arguments
+        from yonyou_doc2skill.cli.arguments.sync_config import add_sync_config_arguments
 
         parser = argparse.ArgumentParser()
         add_sync_config_arguments(parser)
@@ -549,7 +549,7 @@ class TestSyncConfigCLI(unittest.TestCase):
         """Default values should be sensible."""
         import argparse
 
-        from skill_seekers.cli.arguments.sync_config import add_sync_config_arguments
+        from yonyou_doc2skill.cli.arguments.sync_config import add_sync_config_arguments
 
         parser = argparse.ArgumentParser()
         add_sync_config_arguments(parser)
@@ -572,7 +572,7 @@ class TestSyncConfigMCPTool(unittest.TestCase):
 
     def test_mcp_tool_importable(self):
         """The sync_config MCP tool should be importable."""
-        from skill_seekers.mcp.tools import sync_config_impl
+        from yonyou_doc2skill.mcp.tools import sync_config_impl
 
         self.assertTrue(callable(sync_config_impl))
 
@@ -580,7 +580,7 @@ class TestSyncConfigMCPTool(unittest.TestCase):
         """Missing config_path should return an error."""
         import asyncio
 
-        from skill_seekers.mcp.tools.sync_config_tools import sync_config_tool
+        from yonyou_doc2skill.mcp.tools.sync_config_tools import sync_config_tool
 
         result = asyncio.run(sync_config_tool({}))
         self.assertTrue(any("Error" in r.text for r in result))

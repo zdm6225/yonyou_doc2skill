@@ -20,16 +20,16 @@ from unittest.mock import patch
 
 import pytest
 
-from skill_seekers.cli.generate_router import RouterGenerator
-from skill_seekers.cli.github_fetcher import (
+from yonyou_doc2skill.cli.generate_router import RouterGenerator
+from yonyou_doc2skill.cli.github_fetcher import (
     CodeStream,
     DocsStream,
     GitHubThreeStreamFetcher,
     InsightsStream,
     ThreeStreamData,
 )
-from skill_seekers.cli.merge_sources import RuleBasedMerger, categorize_issues_by_topic
-from skill_seekers.cli.unified_codebase_analyzer import (
+from yonyou_doc2skill.cli.merge_sources import RuleBasedMerger, categorize_issues_by_topic
+from yonyou_doc2skill.cli.unified_codebase_analyzer import (
     AnalysisResult,
     UnifiedCodebaseAnalyzer,
 )
@@ -262,7 +262,7 @@ How to use async tools.
                 return_value=mock_github_api_data["issues"],
             ),
             patch(
-                "skill_seekers.cli.unified_codebase_analyzer.UnifiedCodebaseAnalyzer.c3x_analysis"
+                "yonyou_doc2skill.cli.unified_codebase_analyzer.UnifiedCodebaseAnalyzer.c3x_analysis"
             ) as mock_c3x,
         ):
             # Mock C3.x analysis to return sample data
@@ -744,7 +744,7 @@ def test_connection():
         analyzer = UnifiedCodebaseAnalyzer()
 
         with patch(
-            "skill_seekers.cli.unified_codebase_analyzer.UnifiedCodebaseAnalyzer.c3x_analysis"
+            "yonyou_doc2skill.cli.unified_codebase_analyzer.UnifiedCodebaseAnalyzer.c3x_analysis"
         ) as mock_c3x:
             # Mock C3.x to return sample data
             mock_c3x.return_value = {

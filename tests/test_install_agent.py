@@ -21,7 +21,7 @@ import pytest
 # Add src to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 
-from skill_seekers.cli.install_agent import (
+from yonyou_doc2skill.cli.install_agent import (
     get_agent_path,
     get_available_agents,
     install_to_agent,
@@ -217,7 +217,7 @@ class TestInstallToAgent:
             agent_path = Path(agent_tmpdir) / ".claude" / "skills"
 
             with patch(
-                "skill_seekers.cli.install_agent.get_agent_path",
+                "yonyou_doc2skill.cli.install_agent.get_agent_path",
                 return_value=agent_path,
             ):
                 success, message = install_to_agent(self.skill_dir, "claude", force=True)
@@ -233,7 +233,7 @@ class TestInstallToAgent:
             agent_path = Path(agent_tmpdir) / ".claude" / "skills"
 
             with patch(
-                "skill_seekers.cli.install_agent.get_agent_path",
+                "yonyou_doc2skill.cli.install_agent.get_agent_path",
                 return_value=agent_path,
             ):
                 success, message = install_to_agent(self.skill_dir, "claude", force=True)
@@ -258,7 +258,7 @@ class TestInstallToAgent:
             agent_path = Path(agent_tmpdir) / ".claude" / "skills"
 
             with patch(
-                "skill_seekers.cli.install_agent.get_agent_path",
+                "yonyou_doc2skill.cli.install_agent.get_agent_path",
                 return_value=agent_path,
             ):
                 success, message = install_to_agent(self.skill_dir, "claude", force=True)
@@ -279,7 +279,7 @@ class TestInstallToAgent:
             target_path.mkdir(parents=True)
 
             with patch(
-                "skill_seekers.cli.install_agent.get_agent_path",
+                "yonyou_doc2skill.cli.install_agent.get_agent_path",
                 return_value=agent_path,
             ):
                 success, message = install_to_agent(self.skill_dir, "claude", force=False)
@@ -297,7 +297,7 @@ class TestInstallToAgent:
             (target_path / "old_file.txt").write_text("old content")
 
             with patch(
-                "skill_seekers.cli.install_agent.get_agent_path",
+                "yonyou_doc2skill.cli.install_agent.get_agent_path",
                 return_value=agent_path,
             ):
                 success, message = install_to_agent(self.skill_dir, "claude", force=True)
@@ -334,7 +334,7 @@ class TestInstallToAgent:
             agent_path = Path(agent_tmpdir) / ".claude" / "skills"
 
             with patch(
-                "skill_seekers.cli.install_agent.get_agent_path",
+                "yonyou_doc2skill.cli.install_agent.get_agent_path",
                 return_value=agent_path,
             ):
                 success, message = install_to_agent(self.skill_dir, "claude", dry_run=True)
@@ -368,7 +368,7 @@ class TestInstallToAllAgents:
                 return Path(agent_tmpdir) / f".{agent_name}" / "skills"
 
             with patch(
-                "skill_seekers.cli.install_agent.get_agent_path",
+                "yonyou_doc2skill.cli.install_agent.get_agent_path",
                 side_effect=mock_get_agent_path,
             ):
                 results = install_to_all_agents(self.skill_dir, force=True)
@@ -400,7 +400,7 @@ class TestInstallToAllAgents:
                 return Path(agent_tmpdir) / f".{agent_name}" / "skills"
 
             with patch(
-                "skill_seekers.cli.install_agent.get_agent_path",
+                "yonyou_doc2skill.cli.install_agent.get_agent_path",
                 side_effect=mock_get_agent_path,
             ):
                 # Without force - should fail
@@ -474,7 +474,7 @@ class TestInstallAgentCLI:
 
             with (
                 patch(
-                    "skill_seekers.cli.install_agent.get_agent_path",
+                    "yonyou_doc2skill.cli.install_agent.get_agent_path",
                     side_effect=mock_get_agent_path,
                 ),
                 patch(
@@ -503,7 +503,7 @@ class TestInstallAgentCLI:
 
             with (
                 patch(
-                    "skill_seekers.cli.install_agent.get_agent_path",
+                    "yonyou_doc2skill.cli.install_agent.get_agent_path",
                     side_effect=mock_get_agent_path,
                 ),
                 patch(
@@ -534,7 +534,7 @@ class TestInstallAgentCLI:
 
             with (
                 patch(
-                    "skill_seekers.cli.install_agent.get_agent_path",
+                    "yonyou_doc2skill.cli.install_agent.get_agent_path",
                     side_effect=mock_get_agent_path,
                 ),
                 patch(

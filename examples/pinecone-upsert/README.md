@@ -1,11 +1,11 @@
 # Pinecone Upsert Example
 
-Complete example showing how to upsert Skill Seekers documents to Pinecone and perform semantic search.
+Complete example showing how to upsert Yonyou Doc2Skill documents to Pinecone and perform semantic search.
 
 ## What This Example Does
 
 1. **Creates** a Pinecone serverless index
-2. **Loads** Skill Seekers-generated documents (LangChain format)
+2. **Loads** Yonyou Doc2Skill-generated documents (LangChain format)
 3. **Generates** embeddings with OpenAI
 4. **Upserts** documents to Pinecone with metadata
 5. **Demonstrates** semantic search capabilities
@@ -24,16 +24,16 @@ export OPENAI_API_KEY=sk-...
 
 ## Generate Documents
 
-First, generate LangChain-format documents using Skill Seekers:
+First, generate LangChain-format documents using Yonyou Doc2Skill:
 
 ```bash
 # Option 1: Use preset config (e.g., Django)
-skill-seekers scrape --config configs/django.json
-skill-seekers package output/django --target langchain
+yonyou-doc2skill scrape --config configs/django.json
+yonyou-doc2skill package output/django --target langchain
 
 # Option 2: From GitHub repo
-skill-seekers github --repo django/django --name django
-skill-seekers package output/django --target langchain
+yonyou-doc2skill github --repo django/django --name django
+yonyou-doc2skill package output/django --target langchain
 
 # Output: output/django-langchain.json
 ```
@@ -63,7 +63,7 @@ PINECONE UPSERT QUICKSTART
 ============================================================
 
 Step 1: Creating Pinecone index...
-✅ Index created: skill-seekers-demo
+✅ Index created: yonyou-doc2skill-demo
 
 Step 2: Loading documents...
 ✅ Loaded 180 documents
@@ -190,7 +190,7 @@ create_index(pc, INDEX_NAME, dimension=1536)
 from pinecone import Pinecone
 
 pc = Pinecone(api_key="your-api-key")
-index = pc.Index("skill-seekers-demo")
+index = pc.Index("yonyou-doc2skill-demo")
 
 # Query immediately (no need to re-upsert)
 results = index.query(
@@ -245,4 +245,4 @@ results = index.query(
 
 ---
 
-**Need help?** [GitHub Discussions](https://github.com/yusufkaraaslan/Skill_Seekers/discussions)
+**Need help?** [GitHub Discussions](https://github.com/yonyou/yonyou-doc2skill/discussions)

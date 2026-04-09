@@ -30,12 +30,12 @@ jobs:
       fail-fast: false
       matrix:
         image:
-          - name: skill-seekers
+          - name: yonyou-doc2skill
             dockerfile: Dockerfile
-            description: "Skill Seekers CLI - Convert documentation to AI skills"
-          - name: skill-seekers-mcp
+            description: "Yonyou Doc2Skill CLI - Convert documentation to AI skills"
+          - name: yonyou-doc2skill-mcp
             dockerfile: Dockerfile.mcp
-            description: "Skill Seekers MCP Server - 25 tools for AI assistants"
+            description: "Yonyou Doc2Skill MCP Server - 25 tools for AI assistants"
 
     env:
       IMAGE_NAME: ${{ matrix.image.name }}
@@ -104,23 +104,23 @@ jobs:
 
     - name: Build CLI image
       run: |
-        docker build -t skill-seekers:test -f Dockerfile .
+        docker build -t yonyou-doc2skill:test -f Dockerfile .
 
     - name: Test CLI image
       run: |
         echo "🧪 Testing CLI image..."
-        docker run --rm skill-seekers:test skill-seekers --version
-        docker run --rm skill-seekers:test skill-seekers --help
+        docker run --rm yonyou-doc2skill:test yonyou-doc2skill --version
+        docker run --rm yonyou-doc2skill:test yonyou-doc2skill --help
 
     - name: Build MCP image
       run: |
-        docker build -t skill-seekers-mcp:test -f Dockerfile.mcp .
+        docker build -t yonyou-doc2skill-mcp:test -f Dockerfile.mcp .
 
     - name: Test MCP image
       run: |
         echo "🧪 Testing MCP server image..."
         # Start MCP server in background
-        docker run -d --name mcp-test -p 8765:8765 skill-seekers-mcp:test
+        docker run -d --name mcp-test -p 8765:8765 yonyou-doc2skill-mcp:test
 
         # Wait for server to start
         sleep 10

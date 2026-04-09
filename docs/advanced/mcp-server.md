@@ -1,13 +1,13 @@
 # MCP Server Setup Guide
 
-> **Skill Seekers v3.2.0**  
+> **Yonyou Doc2Skill v3.2.0**  
 > **Integrate with AI agents via Model Context Protocol**
 
 ---
 
 ## What is MCP?
 
-MCP (Model Context Protocol) lets AI agents like Claude Code control Skill Seekers through natural language:
+MCP (Model Context Protocol) lets AI agents like Claude Code control Yonyou Doc2Skill through natural language:
 
 ```
 You: "Scrape the React documentation"
@@ -21,10 +21,10 @@ Claude: ▶️ scrape_docs({"url": "https://react.dev/"})
 
 ```bash
 # Install with MCP support
-pip install skill-seekers[mcp]
+pip install yonyou-doc2skill[mcp]
 
 # Verify
-skill-seekers-mcp --version
+yonyou-doc2skill-mcp --version
 ```
 
 ---
@@ -36,7 +36,7 @@ skill-seekers-mcp --version
 For Claude Code, VS Code + Cline:
 
 ```bash
-skill-seekers-mcp
+yonyou-doc2skill-mcp
 ```
 
 **Use when:**
@@ -52,10 +52,10 @@ For Cursor, Windsurf, HTTP clients:
 
 ```bash
 # Start HTTP server
-skill-seekers-mcp --transport http --port 8765
+yonyou-doc2skill-mcp --transport http --port 8765
 
 # Custom host
-skill-seekers-mcp --transport http --host 0.0.0.0 --port 8765
+yonyou-doc2skill-mcp --transport http --host 0.0.0.0 --port 8765
 ```
 
 **Use when:**
@@ -71,7 +71,7 @@ skill-seekers-mcp --transport http --host 0.0.0.0 --port 8765
 
 ```bash
 # In Claude Code, run:
-/claude add-mcp-server skill-seekers
+/claude add-mcp-server yonyou-doc2skill
 ```
 
 Or manually add to `~/.claude/mcp.json`:
@@ -79,8 +79,8 @@ Or manually add to `~/.claude/mcp.json`:
 ```json
 {
   "mcpServers": {
-    "skill-seekers": {
-      "command": "skill-seekers-mcp",
+    "yonyou-doc2skill": {
+      "command": "yonyou-doc2skill-mcp",
       "env": {
         "ANTHROPIC_API_KEY": "sk-ant-...",
         "GITHUB_TOKEN": "ghp_..."
@@ -109,11 +109,11 @@ Once connected, ask Claude:
 
 1. Start MCP server:
 ```bash
-skill-seekers-mcp --transport http --port 8765
+yonyou-doc2skill-mcp --transport http --port 8765
 ```
 
 2. In Cursor Settings → MCP:
-   - Name: `skill-seekers`
+   - Name: `yonyou-doc2skill`
    - URL: `http://localhost:8765`
 
 ### Usage
@@ -133,7 +133,7 @@ In Cursor chat:
 
 1. Start MCP server:
 ```bash
-skill-seekers-mcp --transport http --port 8765
+yonyou-doc2skill-mcp --transport http --port 8765
 ```
 
 2. In Windsurf Settings:
@@ -276,13 +276,13 @@ export GITHUB_TOKEN=ghp_...
 
 ```bash
 # Debug mode
-skill-seekers-mcp --verbose
+yonyou-doc2skill-mcp --verbose
 
 # Custom port
-skill-seekers-mcp --port 8080
+yonyou-doc2skill-mcp --port 8080
 
 # Allow all origins (CORS)
-skill-seekers-mcp --cors
+yonyou-doc2skill-mcp --cors
 ```
 
 ---
@@ -293,7 +293,7 @@ skill-seekers-mcp --cors
 
 ```bash
 # Only accessible by local Claude Code
-skill-seekers-mcp
+yonyou-doc2skill-mcp
 ```
 
 ### HTTP with Auth
@@ -322,17 +322,17 @@ skill-seekers-mcp
 curl http://localhost:8765/health
 
 # Restart
-skill-seekers-mcp --transport http --port 8765
+yonyou-doc2skill-mcp --transport http --port 8765
 ```
 
 ### "Tool not available"
 
 ```bash
 # Check version
-skill-seekers-mcp --version
+yonyou-doc2skill-mcp --version
 
 # Update
-pip install --upgrade skill-seekers[mcp]
+pip install --upgrade yonyou-doc2skill[mcp]
 ```
 
 ### "Connection refused"
@@ -342,7 +342,7 @@ pip install --upgrade skill-seekers[mcp]
 lsof -i :8765
 
 # Use different port
-skill-seekers-mcp --port 8766
+yonyou-doc2skill-mcp --port 8766
 ```
 
 ---

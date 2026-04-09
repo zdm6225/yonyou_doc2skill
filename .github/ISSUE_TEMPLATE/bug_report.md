@@ -1,6 +1,6 @@
 ---
 name: Bug Report
-about: Report a bug or issue with Skill Seekers
+about: Report a bug or issue with Yonyou Doc2Skill
 title: '[BUG] '
 labels: 'type: bug'
 assignees: ''
@@ -28,7 +28,7 @@ What actually happened.
 
 - **OS:** [e.g., macOS 14.0, Ubuntu 22.04, Windows 11]
 - **Python Version:** [e.g., 3.10, 3.11]
-- **Skill Seekers Version:** [e.g., v1.0.0]
+- **Yonyou Doc2Skill Version:** [e.g., v1.0.0]
 - **Installation Method:** [pip, git clone, etc.]
 
 ## 📊 Error Output

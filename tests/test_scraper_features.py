@@ -7,13 +7,16 @@ Tests URL validation, language detection, pattern extraction, and categorization
 import os
 import sys
 import unittest
+import tempfile
+from pathlib import Path
+from unittest import mock
 
 from bs4 import BeautifulSoup
 
 # Add parent directory to path
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from skill_seekers.cli.doc_scraper import DocToSkillConverter
+from yonyou_doc2skill.cli.doc_scraper import DocToSkillConverter
 
 
 class TestURLValidation(unittest.TestCase):
@@ -71,6 +74,15 @@ class TestURLValidation(unittest.TestCase):
         # Should accept any URL under base_url
         self.assertTrue(converter.is_valid_url("https://docs.example.com/anything"))
         self.assertFalse(converter.is_valid_url("https://other.com/anything"))
+
+    def test_enqueue_url_deduplicates_trailing_slash_variants(self):
+        """Trailing slash variants should not be enqueued twice."""
+        self.converter._enqueue_url("https://docs.example.com/guide/getting-started/")
+        self.converter._enqueue_url("https://docs.example.com/guide/getting-started")
+
+        pending = list(self.converter.pending_urls)
+        matching = [u for u in pending if "getting-started" in u]
+        self.assertEqual(1, len(matching))
 
 
 class TestLanguageDetection(unittest.TestCase):
@@ -240,6 +252,153 @@ class TestLanguageDetection(unittest.TestCase):
         code = elem.get_text()
         lang = self.converter.detect_language(elem, code)
         self.assertEqual(lang, "csharp", "Should detect C# from language-csharp class")
+
+
+class TestTitleFallbacks(unittest.TestCase):
+    """Test title extraction fallbacks for HTML and markdown sources."""
+
+    def setUp(self):
+        config = {
+            "name": "test",
+            "base_url": "https://react.dev/",
+            "selectors": {"main_content": "article", "title": "title", "code_blocks": "pre"},
+            "rate_limit": 0.1,
+            "max_pages": 10,
+        }
+        self.converter = DocToSkillConverter(config, dry_run=True)
+
+    def test_extract_content_falls_back_to_first_heading_when_title_missing(self):
+        """Heading text should be used when the HTML title tag is empty."""
+        html = """
+        <html>
+          <head><title></title></head>
+          <body>
+            <article>
+              <h2>`&lt;style&gt;` {/*style*/}</h2>
+              <p>This is a long enough paragraph to count as extracted content for the page.</p>
+            </article>
+          </body>
+        </html>
+        """
+        page = self.converter.extract_content(
+            BeautifulSoup(html, "html.parser"),
+            "https://react.dev/reference/react-dom/components/style.md",
+        )
+
+        self.assertEqual("<style>", page["title"])
+
+    def test_extract_markdown_content_falls_back_to_first_heading(self):
+        """Markdown pages without an h1 should still get a title from the first heading."""
+        markdown = """
+## `<meta>` {/*meta*/}
+
+The built-in browser `<meta>` component lets you add metadata to the document.
+"""
+        page = self.converter._extract_markdown_content(
+            markdown,
+            "https://react.dev/reference/react-dom/components/meta.md",
+        )
+
+        self.assertEqual("<meta>", page["title"])
+
+
+class TestSkillProfiles(unittest.TestCase):
+    """Test profile-aware SKILL.md generation."""
+
+    def test_doc_scraper_falls_back_to_detected_profile_when_missing_override(self):
+        config = {
+            "name": "react",
+            "base_url": "https://react.dev",
+            "selectors": {"main_content": "article"},
+        }
+        converter = DocToSkillConverter(config, dry_run=True)
+        converter._detected_profile = type(
+            "ProfileDecision",
+            (),
+            {"profile": "reference", "confidence": 0.9, "reasons": ["reference"]},
+        )()
+
+        self.assertEqual("reference", converter._resolve_skill_profile())
+
+    def test_create_enhanced_skill_md_includes_profile_sections(self):
+        config = {
+            "name": "react",
+            "base_url": "https://react.dev",
+            "skill_profile": "reference",
+            "selectors": {"main_content": "article"},
+        }
+        converter = DocToSkillConverter(config, dry_run=True)
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            converter.skill_dir = tmpdir
+            converter.create_enhanced_skill_md({}, [])
+
+            content = Path(tmpdir, "SKILL.md").read_text(encoding="utf-8")
+
+        self.assertIn("Quick lookup", content)
+        self.assertIn("API", content)
+
+
+class TestProgressLogging(unittest.TestCase):
+    """Test user-facing progress messages for long-running jobs."""
+
+    def setUp(self):
+        config = {
+            "name": "nextjs",
+            "base_url": "https://nextjs.org/docs",
+            "selectors": {"main_content": "article"},
+            "rate_limit": 0,
+            "max_pages": 120,
+        }
+        self.converter = DocToSkillConverter(config, dry_run=True)
+
+    def test_log_scrape_plan_includes_stage_overview_and_runtime_window(self):
+        """Startup logs should explain scale, stages, and rough runtime."""
+        self.converter.pending_urls.clear()
+        self.converter._enqueued_urls.clear()
+        for index in range(80):
+            self.converter._enqueue_url(f"https://nextjs.org/docs/page-{index}")
+
+        with self.assertLogs("yonyou_doc2skill.cli.doc_scraper", level="INFO") as captured:
+            self.converter._log_scrape_plan()
+
+        output = "\n".join(captured.output)
+        self.assertIn("candidate pages queued", output)
+        self.assertIn("80", output)
+        self.assertIn("Estimated runtime: 3-10 minutes", output)
+        self.assertIn("extract content -> organize knowledge -> build references -> build SKILL.md", output)
+
+    def test_log_build_plan_includes_reference_outputs(self):
+        """Build phase logs should preview concrete output assets."""
+        categories = {
+            "app": [{"title": "App", "url": "https://nextjs.org/docs/app", "content": "x"}],
+            "api-reference": [{"title": "API", "url": "https://nextjs.org/docs/api", "content": "y"}],
+        }
+
+        with self.assertLogs("yonyou_doc2skill.cli.doc_scraper", level="INFO") as captured:
+            self.converter._log_build_plan(categories, quick_ref_count=7)
+
+        output = "\n".join(captured.output)
+        self.assertIn("Build plan: 2 reference files", output)
+        self.assertIn("app.md", output)
+        self.assertIn("api-reference.md", output)
+        self.assertIn("7 quick-reference patterns", output)
+
+    def test_maybe_log_heartbeat_reports_saved_pages_after_silence(self):
+        """Long silent periods should emit a heartbeat with saved-page progress."""
+        self.converter.pages_saved = 125
+        self.converter._last_progress_log_at = 10.0
+        self.converter._last_heartbeat_log_at = 10.0
+        self.converter._heartbeat_interval_seconds = 30.0
+
+        with mock.patch("yonyou_doc2skill.cli.doc_scraper.time.monotonic", return_value=45.0):
+            with self.assertLogs("yonyou_doc2skill.cli.doc_scraper", level="INFO") as captured:
+                self.converter._maybe_log_heartbeat("extracting documentation pages")
+
+        output = "\n".join(captured.output)
+        self.assertIn("Still working", output)
+        self.assertIn("extracting documentation pages", output)
+        self.assertIn("125 pages saved", output)
 
 
 class TestPatternExtraction(unittest.TestCase):
@@ -525,28 +684,28 @@ class TestSanitizeUrl(unittest.TestCase):
 
     def test_no_brackets_unchanged(self):
         """URLs without brackets should pass through unchanged."""
-        from skill_seekers.cli.utils import sanitize_url
+        from yonyou_doc2skill.cli.utils import sanitize_url
 
         url = "https://docs.example.com/api/v1/users"
         self.assertEqual(sanitize_url(url), url)
 
     def test_brackets_in_path_encoded(self):
         """Square brackets in path should be percent-encoded."""
-        from skill_seekers.cli.utils import sanitize_url
+        from yonyou_doc2skill.cli.utils import sanitize_url
 
         result = sanitize_url("https://example.com/api/[v1]/users")
         self.assertEqual(result, "https://example.com/api/%5Bv1%5D/users")
 
     def test_brackets_in_query_encoded(self):
         """Square brackets in query should be percent-encoded."""
-        from skill_seekers.cli.utils import sanitize_url
+        from yonyou_doc2skill.cli.utils import sanitize_url
 
         result = sanitize_url("https://example.com/search?filter=[active]&sort=[name]")
         self.assertEqual(result, "https://example.com/search?filter=%5Bactive%5D&sort=%5Bname%5D")
 
     def test_host_not_affected(self):
         """Host portion should never be modified (IPv6 literals are valid there)."""
-        from skill_seekers.cli.utils import sanitize_url
+        from yonyou_doc2skill.cli.utils import sanitize_url
 
         # URL with brackets only in path, host stays intact
         result = sanitize_url("https://example.com/[v1]/ref")
@@ -554,7 +713,7 @@ class TestSanitizeUrl(unittest.TestCase):
 
     def test_already_encoded_brackets(self):
         """Already-encoded brackets should not be double-encoded."""
-        from skill_seekers.cli.utils import sanitize_url
+        from yonyou_doc2skill.cli.utils import sanitize_url
 
         url = "https://example.com/api/%5Bv1%5D/users"
         # No raw brackets present, should pass through unchanged
@@ -562,7 +721,7 @@ class TestSanitizeUrl(unittest.TestCase):
 
     def test_empty_and_simple_urls(self):
         """Edge cases: empty string, simple URLs."""
-        from skill_seekers.cli.utils import sanitize_url
+        from yonyou_doc2skill.cli.utils import sanitize_url
 
         self.assertEqual(sanitize_url(""), "")
         self.assertEqual(sanitize_url("https://example.com"), "https://example.com")
@@ -574,7 +733,7 @@ class TestSanitizeUrl(unittest.TestCase):
         Python 3.14 raises ValueError from urlparse() on unencoded brackets
         that look like IPv6 but are malformed (e.g. from documentation examples).
         """
-        from skill_seekers.cli.utils import sanitize_url
+        from yonyou_doc2skill.cli.utils import sanitize_url
 
         # Incomplete IPv6 placeholder from docs.openclaw.ai llms-full.txt
         result = sanitize_url("http://[fdaa:x:x:x:x::x")
@@ -583,7 +742,7 @@ class TestSanitizeUrl(unittest.TestCase):
 
     def test_unmatched_bracket_no_crash(self):
         """Unmatched brackets should be encoded, not crash."""
-        from skill_seekers.cli.utils import sanitize_url
+        from yonyou_doc2skill.cli.utils import sanitize_url
 
         result = sanitize_url("https://example.com/api/[v1/users")
         self.assertNotIn("[", result)

@@ -230,56 +230,56 @@ class TestKotlinLanguageDetection:
     """Test that Kotlin code blocks are correctly detected."""
 
     def test_detect_data_class(self):
-        from skill_seekers.cli.language_detector import LanguageDetector
+        from yonyou_doc2skill.cli.language_detector import LanguageDetector
 
         detector = LanguageDetector()
         lang, confidence = detector.detect_from_code(KOTLIN_DATA_CLASS)
         assert lang == "kotlin"
 
     def test_detect_sealed_class(self):
-        from skill_seekers.cli.language_detector import LanguageDetector
+        from yonyou_doc2skill.cli.language_detector import LanguageDetector
 
         detector = LanguageDetector()
         lang, confidence = detector.detect_from_code(KOTLIN_SEALED_CLASS)
         assert lang == "kotlin"
 
     def test_detect_object_declaration(self):
-        from skill_seekers.cli.language_detector import LanguageDetector
+        from yonyou_doc2skill.cli.language_detector import LanguageDetector
 
         detector = LanguageDetector()
         lang, confidence = detector.detect_from_code(KOTLIN_OBJECT_DECLARATION)
         assert lang == "kotlin"
 
     def test_detect_coroutines(self):
-        from skill_seekers.cli.language_detector import LanguageDetector
+        from yonyou_doc2skill.cli.language_detector import LanguageDetector
 
         detector = LanguageDetector()
         lang, confidence = detector.detect_from_code(KOTLIN_COROUTINES)
         assert lang == "kotlin"
 
     def test_detect_companion_object(self):
-        from skill_seekers.cli.language_detector import LanguageDetector
+        from yonyou_doc2skill.cli.language_detector import LanguageDetector
 
         detector = LanguageDetector()
         lang, confidence = detector.detect_from_code(KOTLIN_COMPANION_FACTORY)
         assert lang == "kotlin"
 
     def test_detect_extension_functions(self):
-        from skill_seekers.cli.language_detector import LanguageDetector
+        from yonyou_doc2skill.cli.language_detector import LanguageDetector
 
         detector = LanguageDetector()
         lang, confidence = detector.detect_from_code(KOTLIN_EXTENSION_FUNCTIONS)
         assert lang == "kotlin"
 
     def test_detect_kmp_expect_actual(self):
-        from skill_seekers.cli.language_detector import LanguageDetector
+        from yonyou_doc2skill.cli.language_detector import LanguageDetector
 
         detector = LanguageDetector()
         lang, confidence = detector.detect_from_code(KOTLIN_KMP)
         assert lang == "kotlin"
 
     def test_kotlin_in_known_languages(self):
-        from skill_seekers.cli.language_detector import KNOWN_LANGUAGES
+        from yonyou_doc2skill.cli.language_detector import KNOWN_LANGUAGES
 
         assert "kotlin" in KNOWN_LANGUAGES
 
@@ -291,7 +291,7 @@ class TestKotlinCodeAnalyzer:
     """Test Kotlin AST parsing in code_analyzer.py."""
 
     def setup_method(self):
-        from skill_seekers.cli.code_analyzer import CodeAnalyzer
+        from yonyou_doc2skill.cli.code_analyzer import CodeAnalyzer
 
         self.analyzer = CodeAnalyzer(depth="deep")
 
@@ -371,7 +371,7 @@ class TestKotlinDependencyAnalyzer:
     """Test Kotlin import extraction in dependency_analyzer.py."""
 
     def test_extract_kotlin_imports(self):
-        from skill_seekers.cli.dependency_analyzer import DependencyAnalyzer
+        from yonyou_doc2skill.cli.dependency_analyzer import DependencyAnalyzer
 
         analyzer = DependencyAnalyzer()
         deps = analyzer.analyze_file("Coroutines.kt", KOTLIN_COROUTINES, "Kotlin")
@@ -379,7 +379,7 @@ class TestKotlinDependencyAnalyzer:
         assert any("kotlinx.coroutines" in m for m in imported)
 
     def test_extract_alias_import(self):
-        from skill_seekers.cli.dependency_analyzer import DependencyAnalyzer
+        from yonyou_doc2skill.cli.dependency_analyzer import DependencyAnalyzer
 
         analyzer = DependencyAnalyzer()
         deps = analyzer.analyze_file("User.kt", KOTLIN_DATA_CLASS, "Kotlin")
@@ -387,7 +387,7 @@ class TestKotlinDependencyAnalyzer:
         assert any("com.example" in m for m in imported)
 
     def test_import_type(self):
-        from skill_seekers.cli.dependency_analyzer import DependencyAnalyzer
+        from yonyou_doc2skill.cli.dependency_analyzer import DependencyAnalyzer
 
         analyzer = DependencyAnalyzer()
         deps = analyzer.analyze_file("User.kt", KOTLIN_DATA_CLASS, "Kotlin")
@@ -403,7 +403,7 @@ class TestKotlinPatternRecognition:
     """Test Kotlin-specific pattern adaptations."""
 
     def test_singleton_object_declaration(self):
-        from skill_seekers.cli.pattern_recognizer import PatternRecognizer
+        from yonyou_doc2skill.cli.pattern_recognizer import PatternRecognizer
 
         recognizer = PatternRecognizer(depth="deep", enhance_with_ai=False)
         report = recognizer.analyze_file("DatabaseManager.kt", KOTLIN_OBJECT_DECLARATION, "Kotlin")
@@ -411,7 +411,7 @@ class TestKotlinPatternRecognition:
         assert report.language == "Kotlin"
 
     def test_factory_companion_object(self):
-        from skill_seekers.cli.pattern_recognizer import PatternRecognizer
+        from yonyou_doc2skill.cli.pattern_recognizer import PatternRecognizer
 
         recognizer = PatternRecognizer(depth="deep", enhance_with_ai=False)
         report = recognizer.analyze_file("HttpClient.kt", KOTLIN_COMPANION_FACTORY, "Kotlin")
@@ -420,14 +420,14 @@ class TestKotlinPatternRecognition:
         assert report.total_classes >= 0
 
     def test_sealed_class_analysis(self):
-        from skill_seekers.cli.pattern_recognizer import PatternRecognizer
+        from yonyou_doc2skill.cli.pattern_recognizer import PatternRecognizer
 
         recognizer = PatternRecognizer(depth="deep", enhance_with_ai=False)
         report = recognizer.analyze_file("Result.kt", KOTLIN_SEALED_CLASS, "Kotlin")
         assert report.total_classes >= 1
 
     def test_language_adapter_kotlin(self):
-        from skill_seekers.cli.pattern_recognizer import LanguageAdapter, PatternInstance
+        from yonyou_doc2skill.cli.pattern_recognizer import LanguageAdapter, PatternInstance
 
         pattern = PatternInstance(
             pattern_type="Singleton",
@@ -441,7 +441,7 @@ class TestKotlinPatternRecognition:
         assert any("Kotlin" in e for e in adapted.evidence)
 
     def test_language_adapter_kotlin_factory(self):
-        from skill_seekers.cli.pattern_recognizer import LanguageAdapter, PatternInstance
+        from yonyou_doc2skill.cli.pattern_recognizer import LanguageAdapter, PatternInstance
 
         pattern = PatternInstance(
             pattern_type="Factory",
@@ -454,7 +454,7 @@ class TestKotlinPatternRecognition:
         assert adapted.confidence > 0.5
 
     def test_language_adapter_kotlin_strategy(self):
-        from skill_seekers.cli.pattern_recognizer import LanguageAdapter, PatternInstance
+        from yonyou_doc2skill.cli.pattern_recognizer import LanguageAdapter, PatternInstance
 
         pattern = PatternInstance(
             pattern_type="Strategy",
@@ -474,32 +474,32 @@ class TestKotlinTestExtraction:
     """Test Kotlin test file detection and extraction."""
 
     def test_language_map_has_kotlin(self):
-        from skill_seekers.cli.test_example_extractor import TestExampleExtractor
+        from yonyou_doc2skill.cli.test_example_extractor import TestExampleExtractor
 
         assert ".kt" in TestExampleExtractor.LANGUAGE_MAP
         assert ".kts" in TestExampleExtractor.LANGUAGE_MAP
         assert TestExampleExtractor.LANGUAGE_MAP[".kt"] == "Kotlin"
 
     def test_test_patterns_include_kotlin(self):
-        from skill_seekers.cli.test_example_extractor import TestExampleExtractor
+        from yonyou_doc2skill.cli.test_example_extractor import TestExampleExtractor
 
         patterns_str = " ".join(TestExampleExtractor.TEST_PATTERNS)
         assert ".kt" in patterns_str
 
     def test_generic_analyzer_has_kotlin(self):
-        from skill_seekers.cli.test_example_extractor import GenericTestAnalyzer
+        from yonyou_doc2skill.cli.test_example_extractor import GenericTestAnalyzer
 
         assert "kotlin" in GenericTestAnalyzer.PATTERNS
 
     def test_extract_junit_test(self):
-        from skill_seekers.cli.test_example_extractor import GenericTestAnalyzer
+        from yonyou_doc2skill.cli.test_example_extractor import GenericTestAnalyzer
 
         analyzer = GenericTestAnalyzer()
         examples = analyzer.extract("UserTest.kt", KOTLIN_TEST_JUNIT, "Kotlin")
         assert len(examples) > 0
 
     def test_extract_kotest_patterns(self):
-        from skill_seekers.cli.test_example_extractor import GenericTestAnalyzer
+        from yonyou_doc2skill.cli.test_example_extractor import GenericTestAnalyzer
 
         analyzer = GenericTestAnalyzer()
         examples = analyzer.extract("UserSpec.kt", KOTLIN_TEST_KOTEST, "Kotlin")
@@ -507,7 +507,7 @@ class TestKotlinTestExtraction:
         assert len(examples) >= 0  # Even 0 is OK if regex doesn't match the format
 
     def test_extract_mockk_patterns(self):
-        from skill_seekers.cli.test_example_extractor import GenericTestAnalyzer
+        from yonyou_doc2skill.cli.test_example_extractor import GenericTestAnalyzer
 
         analyzer = GenericTestAnalyzer()
         examples = analyzer.extract("RepoTest.kt", KOTLIN_TEST_MOCKK, "Kotlin")
@@ -523,7 +523,7 @@ class TestKotlinConfigExtractor:
     def test_detect_gradle_kts(self):
         from pathlib import Path
 
-        from skill_seekers.cli.config_extractor import ConfigFileDetector
+        from yonyou_doc2skill.cli.config_extractor import ConfigFileDetector
 
         detector = ConfigFileDetector()
         config_type = detector._detect_config_type(Path("build.gradle.kts"))
@@ -532,7 +532,7 @@ class TestKotlinConfigExtractor:
     def test_detect_settings_gradle_kts(self):
         from pathlib import Path
 
-        from skill_seekers.cli.config_extractor import ConfigFileDetector
+        from yonyou_doc2skill.cli.config_extractor import ConfigFileDetector
 
         detector = ConfigFileDetector()
         config_type = detector._detect_config_type(Path("settings.gradle.kts"))
@@ -541,7 +541,7 @@ class TestKotlinConfigExtractor:
     def test_infer_purpose_gradle(self):
         from pathlib import Path
 
-        from skill_seekers.cli.config_extractor import ConfigFileDetector
+        from yonyou_doc2skill.cli.config_extractor import ConfigFileDetector
 
         detector = ConfigFileDetector()
         purpose = detector._infer_purpose(Path("build.gradle.kts"), "kotlin-gradle")
@@ -555,14 +555,14 @@ class TestKotlinExtensionMaps:
     """Test that Kotlin is registered in all extension maps."""
 
     def test_codebase_scraper_extension_map(self):
-        from skill_seekers.cli.codebase_scraper import LANGUAGE_EXTENSIONS
+        from yonyou_doc2skill.cli.codebase_scraper import LANGUAGE_EXTENSIONS
 
         assert ".kt" in LANGUAGE_EXTENSIONS
         assert ".kts" in LANGUAGE_EXTENSIONS
         assert LANGUAGE_EXTENSIONS[".kt"] == "Kotlin"
 
     def test_github_fetcher_code_extensions(self):
-        from skill_seekers.cli.github_fetcher import GitHubThreeStreamFetcher
+        from yonyou_doc2skill.cli.github_fetcher import GitHubThreeStreamFetcher
 
         # .kt is already in github_fetcher.py code_extensions
         # Verify by checking the source has it

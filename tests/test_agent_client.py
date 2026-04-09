@@ -6,7 +6,7 @@ import subprocess
 from unittest.mock import MagicMock, patch
 
 
-from skill_seekers.cli.agent_client import (
+from yonyou_doc2skill.cli.agent_client import (
     DEFAULT_ENHANCE_TIMEOUT,
     DEFAULT_MODELS,
     UNLIMITED_TIMEOUT,

@@ -3,7 +3,7 @@
 Pinecone Upsert Quickstart
 
 This example shows how to:
-1. Load Skill Seekers documents (LangChain format)
+1. Load Yonyou Doc2Skill documents (LangChain format)
 2. Create embeddings with OpenAI
 3. Upsert to Pinecone with metadata
 4. Query with semantic search
@@ -58,10 +58,10 @@ def create_index(pc: Pinecone, index_name: str, dimension: int = 1536) -> None:
 
 def load_documents(json_path: str) -> List[Dict]:
     """
-    Load documents from Skill Seekers JSON output.
+    Load documents from Yonyou Doc2Skill JSON output.
 
     Args:
-        json_path: Path to skill-seekers generated JSON file
+        json_path: Path to yonyou-doc2skill generated JSON file
 
     Returns:
         List of document dictionaries
@@ -259,7 +259,7 @@ def main():
     print()
 
     # Configuration
-    INDEX_NAME = "skill-seekers-demo"
+    INDEX_NAME = "yonyou-doc2skill-demo"
     DOCS_PATH = "../../output/django-langchain.json"  # Adjust path as needed
 
     # Check API keys
@@ -279,8 +279,8 @@ def main():
     if not Path(DOCS_PATH).exists():
         print(f"❌ Documents not found at: {DOCS_PATH}")
         print("\nGenerate documents first:")
-        print("  1. skill-seekers scrape --config configs/django.json")
-        print("  2. skill-seekers package output/django --target langchain")
+        print("  1. yonyou-doc2skill scrape --config configs/django.json")
+        print("  2. yonyou-doc2skill package output/django --target langchain")
         print("\nOr adjust DOCS_PATH in the script to point to your documents.")
         return
 

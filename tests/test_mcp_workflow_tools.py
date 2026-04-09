@@ -52,7 +52,7 @@ def user_dir(tmp_path, monkeypatch):
     """Redirect USER_WORKFLOWS_DIR to a temp path for each test."""
     fake_dir = tmp_path / "user_workflows"
     monkeypatch.setattr(
-        "skill_seekers.mcp.tools.workflow_tools.USER_WORKFLOWS_DIR",
+        "yonyou_doc2skill.mcp.tools.workflow_tools.USER_WORKFLOWS_DIR",
         fake_dir,
     )
     return fake_dir
@@ -62,7 +62,7 @@ def user_dir(tmp_path, monkeypatch):
 def bundled_names_empty(monkeypatch):
     """Stub _bundled_names() to return an empty list."""
     monkeypatch.setattr(
-        "skill_seekers.mcp.tools.workflow_tools._bundled_names",
+        "yonyou_doc2skill.mcp.tools.workflow_tools._bundled_names",
         lambda: [],
     )
 
@@ -75,11 +75,11 @@ def bundled_fixture(monkeypatch):
         "minimal": "name: minimal\ndescription: Minimal workflow\nstages: []\n",
     }
     monkeypatch.setattr(
-        "skill_seekers.mcp.tools.workflow_tools._bundled_names",
+        "yonyou_doc2skill.mcp.tools.workflow_tools._bundled_names",
         lambda: sorted(bundled.keys()),
     )
     monkeypatch.setattr(
-        "skill_seekers.mcp.tools.workflow_tools._read_bundled",
+        "yonyou_doc2skill.mcp.tools.workflow_tools._read_bundled",
         lambda _name: bundled.get(_name),
     )
 
@@ -92,10 +92,10 @@ def bundled_fixture(monkeypatch):
 class TestListWorkflowsTool:
     def test_empty_returns_empty_list(self, user_dir, bundled_names_empty, monkeypatch):
         monkeypatch.setattr(
-            "skill_seekers.mcp.tools.workflow_tools._read_bundled",
+            "yonyou_doc2skill.mcp.tools.workflow_tools._read_bundled",
             lambda _name: None,
         )
-        from skill_seekers.mcp.tools.workflow_tools import list_workflows_tool
+        from yonyou_doc2skill.mcp.tools.workflow_tools import list_workflows_tool
 
         result = list_workflows_tool({})
         assert len(result) == 1
@@ -103,7 +103,7 @@ class TestListWorkflowsTool:
         assert parsed == []
 
     def test_returns_bundled_workflows(self, user_dir, bundled_fixture):
-        from skill_seekers.mcp.tools.workflow_tools import list_workflows_tool
+        from yonyou_doc2skill.mcp.tools.workflow_tools import list_workflows_tool
 
         result = list_workflows_tool({})
         parsed = yaml.safe_load(_text(result))
@@ -112,7 +112,7 @@ class TestListWorkflowsTool:
         assert "minimal" in names
 
     def test_bundled_source_label(self, user_dir, bundled_fixture):
-        from skill_seekers.mcp.tools.workflow_tools import list_workflows_tool
+        from yonyou_doc2skill.mcp.tools.workflow_tools import list_workflows_tool
 
         result = list_workflows_tool({})
         parsed = yaml.safe_load(_text(result))
@@ -121,13 +121,13 @@ class TestListWorkflowsTool:
 
     def test_returns_user_workflows(self, user_dir, bundled_names_empty, monkeypatch):
         monkeypatch.setattr(
-            "skill_seekers.mcp.tools.workflow_tools._read_bundled",
+            "yonyou_doc2skill.mcp.tools.workflow_tools._read_bundled",
             lambda _name: None,
         )
         user_dir.mkdir(parents=True)
         (user_dir / "my-workflow.yaml").write_text(VALID_WORKFLOW_YAML, encoding="utf-8")
 
-        from skill_seekers.mcp.tools.workflow_tools import list_workflows_tool
+        from yonyou_doc2skill.mcp.tools.workflow_tools import list_workflows_tool
 
         result = list_workflows_tool({})
         parsed = yaml.safe_load(_text(result))
@@ -137,7 +137,7 @@ class TestListWorkflowsTool:
         user_dir.mkdir(parents=True)
         (user_dir / "custom.yaml").write_text(VALID_WORKFLOW_YAML, encoding="utf-8")
 
-        from skill_seekers.mcp.tools.workflow_tools import list_workflows_tool
+        from yonyou_doc2skill.mcp.tools.workflow_tools import list_workflows_tool
 
         result = list_workflows_tool({})
         parsed = yaml.safe_load(_text(result))
@@ -146,7 +146,7 @@ class TestListWorkflowsTool:
         assert "user" in sources
 
     def test_descriptions_extracted(self, user_dir, bundled_fixture):
-        from skill_seekers.mcp.tools.workflow_tools import list_workflows_tool
+        from yonyou_doc2skill.mcp.tools.workflow_tools import list_workflows_tool
 
         result = list_workflows_tool({})
         parsed = yaml.safe_load(_text(result))
@@ -155,10 +155,10 @@ class TestListWorkflowsTool:
 
     def test_ignores_args_parameter(self, user_dir, bundled_names_empty, monkeypatch):
         monkeypatch.setattr(
-            "skill_seekers.mcp.tools.workflow_tools._read_bundled",
+            "yonyou_doc2skill.mcp.tools.workflow_tools._read_bundled",
             lambda _name: None,
         )
-        from skill_seekers.mcp.tools.workflow_tools import list_workflows_tool
+        from yonyou_doc2skill.mcp.tools.workflow_tools import list_workflows_tool
 
         # Tool accepts _args but ignores it
         result = list_workflows_tool({"extra": "ignored"})
@@ -173,10 +173,10 @@ class TestListWorkflowsTool:
 class TestGetWorkflowTool:
     def test_missing_name_returns_error(self, user_dir, bundled_names_empty, monkeypatch):
         monkeypatch.setattr(
-            "skill_seekers.mcp.tools.workflow_tools._read_bundled",
+            "yonyou_doc2skill.mcp.tools.workflow_tools._read_bundled",
             lambda _name: None,
         )
-        from skill_seekers.mcp.tools.workflow_tools import get_workflow_tool
+        from yonyou_doc2skill.mcp.tools.workflow_tools import get_workflow_tool
 
         result = get_workflow_tool({})
         assert "Error" in _text(result)
@@ -184,16 +184,16 @@ class TestGetWorkflowTool:
 
     def test_empty_name_returns_error(self, user_dir, bundled_names_empty, monkeypatch):
         monkeypatch.setattr(
-            "skill_seekers.mcp.tools.workflow_tools._read_bundled",
+            "yonyou_doc2skill.mcp.tools.workflow_tools._read_bundled",
             lambda _name: None,
         )
-        from skill_seekers.mcp.tools.workflow_tools import get_workflow_tool
+        from yonyou_doc2skill.mcp.tools.workflow_tools import get_workflow_tool
 
         result = get_workflow_tool({"name": "  "})
         assert "Error" in _text(result)
 
     def test_not_found_returns_error_with_available(self, user_dir, bundled_fixture):
-        from skill_seekers.mcp.tools.workflow_tools import get_workflow_tool
+        from yonyou_doc2skill.mcp.tools.workflow_tools import get_workflow_tool
 
         result = get_workflow_tool({"name": "nonexistent"})
         text = _text(result)
@@ -201,7 +201,7 @@ class TestGetWorkflowTool:
         assert "default" in text or "minimal" in text
 
     def test_returns_bundled_content(self, user_dir, bundled_fixture):
-        from skill_seekers.mcp.tools.workflow_tools import get_workflow_tool
+        from yonyou_doc2skill.mcp.tools.workflow_tools import get_workflow_tool
 
         result = get_workflow_tool({"name": "default"})
         text = _text(result)
@@ -209,13 +209,13 @@ class TestGetWorkflowTool:
 
     def test_returns_user_workflow_content(self, user_dir, bundled_names_empty, monkeypatch):
         monkeypatch.setattr(
-            "skill_seekers.mcp.tools.workflow_tools._read_bundled",
+            "yonyou_doc2skill.mcp.tools.workflow_tools._read_bundled",
             lambda _name: None,
         )
         user_dir.mkdir(parents=True)
         (user_dir / "my-wf.yaml").write_text(VALID_WORKFLOW_YAML, encoding="utf-8")
 
-        from skill_seekers.mcp.tools.workflow_tools import get_workflow_tool
+        from yonyou_doc2skill.mcp.tools.workflow_tools import get_workflow_tool
 
         result = get_workflow_tool({"name": "my-wf"})
         assert "stages" in _text(result)
@@ -226,17 +226,17 @@ class TestGetWorkflowTool:
         user_content = "name: default\ndescription: USER VERSION\nstages:\n  - name: x\n    type: builtin\n    target: y\n    enabled: true\n"
         (user_dir / "default.yaml").write_text(user_content, encoding="utf-8")
 
-        from skill_seekers.mcp.tools.workflow_tools import get_workflow_tool
+        from yonyou_doc2skill.mcp.tools.workflow_tools import get_workflow_tool
 
         result = get_workflow_tool({"name": "default"})
         assert "USER VERSION" in _text(result)
 
     def test_not_found_no_available_shows_none(self, user_dir, bundled_names_empty, monkeypatch):
         monkeypatch.setattr(
-            "skill_seekers.mcp.tools.workflow_tools._read_bundled",
+            "yonyou_doc2skill.mcp.tools.workflow_tools._read_bundled",
             lambda _name: None,
         )
-        from skill_seekers.mcp.tools.workflow_tools import get_workflow_tool
+        from yonyou_doc2skill.mcp.tools.workflow_tools import get_workflow_tool
 
         result = get_workflow_tool({"name": "missing"})
         assert "none" in _text(result).lower() or "not found" in _text(result).lower()
@@ -249,48 +249,48 @@ class TestGetWorkflowTool:
 
 class TestCreateWorkflowTool:
     def test_missing_name_returns_error(self, user_dir):
-        from skill_seekers.mcp.tools.workflow_tools import create_workflow_tool
+        from yonyou_doc2skill.mcp.tools.workflow_tools import create_workflow_tool
 
         result = create_workflow_tool({"content": VALID_WORKFLOW_YAML})
         assert "Error" in _text(result)
         assert "'name'" in _text(result)
 
     def test_missing_content_returns_error(self, user_dir):
-        from skill_seekers.mcp.tools.workflow_tools import create_workflow_tool
+        from yonyou_doc2skill.mcp.tools.workflow_tools import create_workflow_tool
 
         result = create_workflow_tool({"name": "new-wf"})
         assert "Error" in _text(result)
         assert "'content'" in _text(result)
 
     def test_invalid_yaml_returns_error(self, user_dir):
-        from skill_seekers.mcp.tools.workflow_tools import create_workflow_tool
+        from yonyou_doc2skill.mcp.tools.workflow_tools import create_workflow_tool
 
         result = create_workflow_tool({"name": "new-wf", "content": NOT_YAML})
         assert "Error" in _text(result)
 
     def test_missing_stages_returns_error(self, user_dir):
-        from skill_seekers.mcp.tools.workflow_tools import create_workflow_tool
+        from yonyou_doc2skill.mcp.tools.workflow_tools import create_workflow_tool
 
         result = create_workflow_tool({"name": "new-wf", "content": INVALID_WORKFLOW_YAML})
         assert "Error" in _text(result)
         assert "stages" in _text(result)
 
     def test_creates_file_in_user_dir(self, user_dir):
-        from skill_seekers.mcp.tools.workflow_tools import create_workflow_tool
+        from yonyou_doc2skill.mcp.tools.workflow_tools import create_workflow_tool
 
         result = create_workflow_tool({"name": "new-wf", "content": VALID_WORKFLOW_YAML})
         assert "Error" not in _text(result)
         assert (user_dir / "new-wf.yaml").exists()
 
     def test_created_file_contains_content(self, user_dir):
-        from skill_seekers.mcp.tools.workflow_tools import create_workflow_tool
+        from yonyou_doc2skill.mcp.tools.workflow_tools import create_workflow_tool
 
         create_workflow_tool({"name": "new-wf", "content": VALID_WORKFLOW_YAML})
         content = (user_dir / "new-wf.yaml").read_text(encoding="utf-8")
         assert "stages" in content
 
     def test_duplicate_name_returns_error(self, user_dir):
-        from skill_seekers.mcp.tools.workflow_tools import create_workflow_tool
+        from yonyou_doc2skill.mcp.tools.workflow_tools import create_workflow_tool
 
         create_workflow_tool({"name": "dup-wf", "content": VALID_WORKFLOW_YAML})
         result = create_workflow_tool({"name": "dup-wf", "content": VALID_WORKFLOW_YAML})
@@ -298,7 +298,7 @@ class TestCreateWorkflowTool:
         assert "already exists" in _text(result)
 
     def test_success_message_contains_name(self, user_dir):
-        from skill_seekers.mcp.tools.workflow_tools import create_workflow_tool
+        from yonyou_doc2skill.mcp.tools.workflow_tools import create_workflow_tool
 
         result = create_workflow_tool({"name": "my-new-wf", "content": VALID_WORKFLOW_YAML})
         assert "my-new-wf" in _text(result)
@@ -306,10 +306,10 @@ class TestCreateWorkflowTool:
     def test_creates_user_dir_if_missing(self, tmp_path, monkeypatch):
         fake_dir = tmp_path / "nonexistent_user_dir"
         monkeypatch.setattr(
-            "skill_seekers.mcp.tools.workflow_tools.USER_WORKFLOWS_DIR",
+            "yonyou_doc2skill.mcp.tools.workflow_tools.USER_WORKFLOWS_DIR",
             fake_dir,
         )
-        from skill_seekers.mcp.tools.workflow_tools import create_workflow_tool
+        from yonyou_doc2skill.mcp.tools.workflow_tools import create_workflow_tool
 
         result = create_workflow_tool({"name": "auto-dir", "content": VALID_WORKFLOW_YAML})
         assert "Error" not in _text(result)
@@ -323,34 +323,34 @@ class TestCreateWorkflowTool:
 
 class TestUpdateWorkflowTool:
     def test_missing_name_returns_error(self, user_dir):
-        from skill_seekers.mcp.tools.workflow_tools import update_workflow_tool
+        from yonyou_doc2skill.mcp.tools.workflow_tools import update_workflow_tool
 
         result = update_workflow_tool({"content": VALID_WORKFLOW_YAML})
         assert "Error" in _text(result)
         assert "'name'" in _text(result)
 
     def test_missing_content_returns_error(self, user_dir):
-        from skill_seekers.mcp.tools.workflow_tools import update_workflow_tool
+        from yonyou_doc2skill.mcp.tools.workflow_tools import update_workflow_tool
 
         result = update_workflow_tool({"name": "some-wf"})
         assert "Error" in _text(result)
         assert "'content'" in _text(result)
 
     def test_invalid_yaml_returns_error(self, user_dir):
-        from skill_seekers.mcp.tools.workflow_tools import update_workflow_tool
+        from yonyou_doc2skill.mcp.tools.workflow_tools import update_workflow_tool
 
         result = update_workflow_tool({"name": "some-wf", "content": NOT_YAML})
         assert "Error" in _text(result)
 
     def test_missing_stages_returns_error(self, user_dir):
-        from skill_seekers.mcp.tools.workflow_tools import update_workflow_tool
+        from yonyou_doc2skill.mcp.tools.workflow_tools import update_workflow_tool
 
         result = update_workflow_tool({"name": "some-wf", "content": INVALID_WORKFLOW_YAML})
         assert "Error" in _text(result)
 
     def test_cannot_update_bundled_only(self, user_dir, bundled_fixture):
         """Bundled-only workflow (not in user dir) cannot be updated."""
-        from skill_seekers.mcp.tools.workflow_tools import update_workflow_tool
+        from yonyou_doc2skill.mcp.tools.workflow_tools import update_workflow_tool
 
         result = update_workflow_tool({"name": "default", "content": VALID_WORKFLOW_YAML})
         assert "Error" in _text(result)
@@ -358,14 +358,14 @@ class TestUpdateWorkflowTool:
 
     def test_updates_existing_user_workflow(self, user_dir, bundled_names_empty, monkeypatch):
         monkeypatch.setattr(
-            "skill_seekers.mcp.tools.workflow_tools._read_bundled",
+            "yonyou_doc2skill.mcp.tools.workflow_tools._read_bundled",
             lambda _name: None,
         )
         user_dir.mkdir(parents=True)
         (user_dir / "existing.yaml").write_text(VALID_WORKFLOW_YAML, encoding="utf-8")
 
         updated_content = VALID_WORKFLOW_YAML.replace("A test workflow", "Updated description")
-        from skill_seekers.mcp.tools.workflow_tools import update_workflow_tool
+        from yonyou_doc2skill.mcp.tools.workflow_tools import update_workflow_tool
 
         result = update_workflow_tool({"name": "existing", "content": updated_content})
         assert "Error" not in _text(result)
@@ -378,20 +378,20 @@ class TestUpdateWorkflowTool:
         (user_dir / "default.yaml").write_text(VALID_WORKFLOW_YAML, encoding="utf-8")
 
         updated = VALID_WORKFLOW_YAML.replace("A test workflow", "My custom default")
-        from skill_seekers.mcp.tools.workflow_tools import update_workflow_tool
+        from yonyou_doc2skill.mcp.tools.workflow_tools import update_workflow_tool
 
         result = update_workflow_tool({"name": "default", "content": updated})
         assert "Error" not in _text(result)
 
     def test_success_message_contains_name(self, user_dir, bundled_names_empty, monkeypatch):
         monkeypatch.setattr(
-            "skill_seekers.mcp.tools.workflow_tools._read_bundled",
+            "yonyou_doc2skill.mcp.tools.workflow_tools._read_bundled",
             lambda _name: None,
         )
         user_dir.mkdir(parents=True)
         (user_dir / "my-wf.yaml").write_text(VALID_WORKFLOW_YAML, encoding="utf-8")
 
-        from skill_seekers.mcp.tools.workflow_tools import update_workflow_tool
+        from yonyou_doc2skill.mcp.tools.workflow_tools import update_workflow_tool
 
         result = update_workflow_tool({"name": "my-wf", "content": VALID_WORKFLOW_YAML})
         assert "my-wf" in _text(result)
@@ -404,20 +404,20 @@ class TestUpdateWorkflowTool:
 
 class TestDeleteWorkflowTool:
     def test_missing_name_returns_error(self, user_dir):
-        from skill_seekers.mcp.tools.workflow_tools import delete_workflow_tool
+        from yonyou_doc2skill.mcp.tools.workflow_tools import delete_workflow_tool
 
         result = delete_workflow_tool({})
         assert "Error" in _text(result)
         assert "'name'" in _text(result)
 
     def test_empty_name_returns_error(self, user_dir):
-        from skill_seekers.mcp.tools.workflow_tools import delete_workflow_tool
+        from yonyou_doc2skill.mcp.tools.workflow_tools import delete_workflow_tool
 
         result = delete_workflow_tool({"name": "   "})
         assert "Error" in _text(result)
 
     def test_cannot_delete_bundled(self, user_dir, bundled_fixture):
-        from skill_seekers.mcp.tools.workflow_tools import delete_workflow_tool
+        from yonyou_doc2skill.mcp.tools.workflow_tools import delete_workflow_tool
 
         result = delete_workflow_tool({"name": "default"})
         assert "Error" in _text(result)
@@ -427,10 +427,10 @@ class TestDeleteWorkflowTool:
         self, user_dir, bundled_names_empty, monkeypatch
     ):
         monkeypatch.setattr(
-            "skill_seekers.mcp.tools.workflow_tools._read_bundled",
+            "yonyou_doc2skill.mcp.tools.workflow_tools._read_bundled",
             lambda _name: None,
         )
-        from skill_seekers.mcp.tools.workflow_tools import delete_workflow_tool
+        from yonyou_doc2skill.mcp.tools.workflow_tools import delete_workflow_tool
 
         result = delete_workflow_tool({"name": "no-such-wf"})
         assert "Error" in _text(result)
@@ -438,14 +438,14 @@ class TestDeleteWorkflowTool:
 
     def test_deletes_user_yaml_file(self, user_dir, bundled_names_empty, monkeypatch):
         monkeypatch.setattr(
-            "skill_seekers.mcp.tools.workflow_tools._read_bundled",
+            "yonyou_doc2skill.mcp.tools.workflow_tools._read_bundled",
             lambda _name: None,
         )
         user_dir.mkdir(parents=True)
         wf_file = user_dir / "to-delete.yaml"
         wf_file.write_text(VALID_WORKFLOW_YAML, encoding="utf-8")
 
-        from skill_seekers.mcp.tools.workflow_tools import delete_workflow_tool
+        from yonyou_doc2skill.mcp.tools.workflow_tools import delete_workflow_tool
 
         result = delete_workflow_tool({"name": "to-delete"})
         assert "Error" not in _text(result)
@@ -453,14 +453,14 @@ class TestDeleteWorkflowTool:
 
     def test_deletes_user_yml_extension(self, user_dir, bundled_names_empty, monkeypatch):
         monkeypatch.setattr(
-            "skill_seekers.mcp.tools.workflow_tools._read_bundled",
+            "yonyou_doc2skill.mcp.tools.workflow_tools._read_bundled",
             lambda _name: None,
         )
         user_dir.mkdir(parents=True)
         wf_file = user_dir / "to-delete.yml"
         wf_file.write_text(VALID_WORKFLOW_YAML, encoding="utf-8")
 
-        from skill_seekers.mcp.tools.workflow_tools import delete_workflow_tool
+        from yonyou_doc2skill.mcp.tools.workflow_tools import delete_workflow_tool
 
         result = delete_workflow_tool({"name": "to-delete"})
         assert "Error" not in _text(result)
@@ -468,13 +468,13 @@ class TestDeleteWorkflowTool:
 
     def test_success_message_contains_path(self, user_dir, bundled_names_empty, monkeypatch):
         monkeypatch.setattr(
-            "skill_seekers.mcp.tools.workflow_tools._read_bundled",
+            "yonyou_doc2skill.mcp.tools.workflow_tools._read_bundled",
             lambda _name: None,
         )
         user_dir.mkdir(parents=True)
         (user_dir / "bye.yaml").write_text(VALID_WORKFLOW_YAML, encoding="utf-8")
 
-        from skill_seekers.mcp.tools.workflow_tools import delete_workflow_tool
+        from yonyou_doc2skill.mcp.tools.workflow_tools import delete_workflow_tool
 
         result = delete_workflow_tool({"name": "bye"})
         assert "bye" in _text(result)
@@ -489,10 +489,10 @@ class TestWorkflowRoundTrip:
     def test_full_lifecycle(self, user_dir, bundled_names_empty, monkeypatch):
         """Create → list → get → update → delete a workflow end-to-end."""
         monkeypatch.setattr(
-            "skill_seekers.mcp.tools.workflow_tools._read_bundled",
+            "yonyou_doc2skill.mcp.tools.workflow_tools._read_bundled",
             lambda _name: None,
         )
-        from skill_seekers.mcp.tools.workflow_tools import (
+        from yonyou_doc2skill.mcp.tools.workflow_tools import (
             create_workflow_tool,
             delete_workflow_tool,
             get_workflow_tool,
@@ -547,7 +547,7 @@ class TestPathTraversalProtection:
     ]
 
     def test_get_workflow_rejects_traversal(self, user_dir, bundled_names_empty):
-        from skill_seekers.mcp.tools.workflow_tools import get_workflow_tool
+        from yonyou_doc2skill.mcp.tools.workflow_tools import get_workflow_tool
 
         for name in self.MALICIOUS_NAMES:
             result = get_workflow_tool({"name": name})
@@ -556,7 +556,7 @@ class TestPathTraversalProtection:
             )
 
     def test_create_workflow_rejects_traversal(self, user_dir, bundled_names_empty):
-        from skill_seekers.mcp.tools.workflow_tools import create_workflow_tool
+        from yonyou_doc2skill.mcp.tools.workflow_tools import create_workflow_tool
 
         for name in self.MALICIOUS_NAMES:
             result = create_workflow_tool({"name": name, "content": VALID_WORKFLOW_YAML})
@@ -565,7 +565,7 @@ class TestPathTraversalProtection:
             )
 
     def test_update_workflow_rejects_traversal(self, user_dir, bundled_names_empty):
-        from skill_seekers.mcp.tools.workflow_tools import update_workflow_tool
+        from yonyou_doc2skill.mcp.tools.workflow_tools import update_workflow_tool
 
         for name in self.MALICIOUS_NAMES:
             result = update_workflow_tool({"name": name, "content": VALID_WORKFLOW_YAML})
@@ -574,7 +574,7 @@ class TestPathTraversalProtection:
             )
 
     def test_delete_workflow_rejects_traversal(self, user_dir, bundled_names_empty):
-        from skill_seekers.mcp.tools.workflow_tools import delete_workflow_tool
+        from yonyou_doc2skill.mcp.tools.workflow_tools import delete_workflow_tool
 
         for name in self.MALICIOUS_NAMES:
             result = delete_workflow_tool({"name": name})
@@ -583,7 +583,7 @@ class TestPathTraversalProtection:
             )
 
     def test_valid_names_still_work(self, user_dir, bundled_names_empty):
-        from skill_seekers.mcp.tools.workflow_tools import create_workflow_tool, get_workflow_tool
+        from yonyou_doc2skill.mcp.tools.workflow_tools import create_workflow_tool, get_workflow_tool
 
         result = create_workflow_tool({"name": "my-workflow", "content": VALID_WORKFLOW_YAML})
         assert "Error" not in _text(result)
@@ -592,7 +592,7 @@ class TestPathTraversalProtection:
         assert "Error" not in _text(result)
 
     def test_validate_name_rejects_empty(self):
-        from skill_seekers.mcp.tools.workflow_tools import _validate_name
+        from yonyou_doc2skill.mcp.tools.workflow_tools import _validate_name
 
         with pytest.raises(ValueError):
             _validate_name("")

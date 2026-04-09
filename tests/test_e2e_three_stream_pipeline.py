@@ -14,21 +14,21 @@ from unittest.mock import Mock, patch
 
 import pytest
 
-from skill_seekers.cli.generate_router import RouterGenerator
-from skill_seekers.cli.github_fetcher import (
+from yonyou_doc2skill.cli.generate_router import RouterGenerator
+from yonyou_doc2skill.cli.github_fetcher import (
     CodeStream,
     DocsStream,
     InsightsStream,
     ThreeStreamData,
 )
-from skill_seekers.cli.merge_sources import categorize_issues_by_topic
-from skill_seekers.cli.unified_codebase_analyzer import UnifiedCodebaseAnalyzer
+from yonyou_doc2skill.cli.merge_sources import categorize_issues_by_topic
+from yonyou_doc2skill.cli.unified_codebase_analyzer import UnifiedCodebaseAnalyzer
 
 
 class TestE2EBasicWorkflow:
     """Test E2E workflow with basic analysis (fast)."""
 
-    @patch("skill_seekers.cli.unified_codebase_analyzer.GitHubThreeStreamFetcher")
+    @patch("yonyou_doc2skill.cli.unified_codebase_analyzer.GitHubThreeStreamFetcher")
     def test_github_url_to_basic_analysis(self, mock_fetcher_class, tmp_path):
         """
         Test complete pipeline: GitHub URL → Basic analysis → Merged output
@@ -533,7 +533,7 @@ class TestE2EBackwardCompatibility:
         assert "Quick Start (from README)" not in skill_md
         assert "Common Issues (from GitHub)" not in skill_md
 
-    @patch("skill_seekers.cli.unified_codebase_analyzer.GitHubThreeStreamFetcher")
+    @patch("yonyou_doc2skill.cli.unified_codebase_analyzer.GitHubThreeStreamFetcher")
     def test_analyzer_without_github_metadata(self, mock_fetcher_class, tmp_path):
         """Test analyzer with fetch_github_metadata=False."""
         mock_fetcher = Mock()

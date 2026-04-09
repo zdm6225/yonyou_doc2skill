@@ -17,7 +17,7 @@ class TestInstallCLI(unittest.TestCase):
         import sys
 
         # Mock sys.path to import install_skill module
-        sys.path.insert(0, str(Path(__file__).parent.parent / "src" / "skill_seekers" / "cli"))
+        sys.path.insert(0, str(Path(__file__).parent.parent / "src" / "yonyou_doc2skill" / "cli"))
 
         try:
             # Create parser like install_skill.py does
@@ -59,7 +59,7 @@ class TestInstallToolMultiPlatform(unittest.IsolatedAsyncioTestCase):
 
     async def test_install_tool_accepts_target_parameter(self):
         """Test that install_skill_tool accepts target parameter"""
-        from skill_seekers.mcp.tools.packaging_tools import install_skill_tool
+        from yonyou_doc2skill.mcp.tools.packaging_tools import install_skill_tool
 
         # Just test dry_run mode which doesn't need mocking all internal tools
         # Test with each platform
@@ -88,7 +88,7 @@ class TestInstallToolMultiPlatform(unittest.IsolatedAsyncioTestCase):
 
     async def test_install_tool_uses_correct_adaptor(self):
         """Test that install_skill_tool uses the correct adaptor for each platform"""
-        from skill_seekers.cli.adaptors import get_adaptor
+        from yonyou_doc2skill.cli.adaptors import get_adaptor
 
         # Test that each platform creates the right adaptor
         for target in ["claude", "gemini", "openai", "markdown"]:
@@ -97,7 +97,7 @@ class TestInstallToolMultiPlatform(unittest.IsolatedAsyncioTestCase):
 
     async def test_install_tool_platform_specific_api_keys(self):
         """Test that install_tool checks for correct API key per platform"""
-        from skill_seekers.cli.adaptors import get_adaptor
+        from yonyou_doc2skill.cli.adaptors import get_adaptor
 
         # Test API key env var names
         claude_adaptor = get_adaptor("claude")
@@ -119,7 +119,7 @@ class TestInstallWorkflowIntegration(unittest.IsolatedAsyncioTestCase):
 
     async def test_dry_run_shows_correct_platform(self):
         """Test dry run shows correct platform in output"""
-        from skill_seekers.cli.adaptors import get_adaptor
+        from yonyou_doc2skill.cli.adaptors import get_adaptor
 
         # Test each platform shows correct platform name
         platforms = {

@@ -9,14 +9,14 @@ print("=" * 60)
 
 # Scrape
 subprocess.run([
-    "skill-seekers", "scrape",
+    "yonyou-doc2skill", "scrape",
     "--config", "configs/flask.json",
     "--max-pages", "20"
 ], check=True)
 
 # Package
 subprocess.run([
-    "skill-seekers", "package",
+    "yonyou-doc2skill", "package",
     "output/flask",
     "--target", "faiss"
 ], check=True)

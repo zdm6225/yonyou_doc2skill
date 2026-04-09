@@ -18,7 +18,7 @@ from pathlib import Path
 
 import pytest
 
-from skill_seekers.cli.sync_config import discover_urls, sync_config
+from yonyou_doc2skill.cli.sync_config import discover_urls, sync_config
 
 
 # ---------------------------------------------------------------------------
@@ -495,7 +495,7 @@ class TestSyncConfigCLIE2E(unittest.TestCase):
             [
                 sys.executable,
                 "-m",
-                "skill_seekers.cli.sync_config",
+                "yonyou_doc2skill.cli.sync_config",
                 "--config",
                 str(path),
                 "--depth",
@@ -533,7 +533,7 @@ class TestSyncConfigCLIE2E(unittest.TestCase):
             [
                 sys.executable,
                 "-m",
-                "skill_seekers.cli.sync_config",
+                "yonyou_doc2skill.cli.sync_config",
                 "--config",
                 str(path),
                 "--apply",
@@ -558,7 +558,7 @@ class TestSyncConfigCLIE2E(unittest.TestCase):
     def test_cli_help(self):
         """CLI --help should print usage and exit 0."""
         result = subprocess.run(
-            [sys.executable, "-m", "skill_seekers.cli.sync_config", "--help"],
+            [sys.executable, "-m", "yonyou_doc2skill.cli.sync_config", "--help"],
             capture_output=True,
             text=True,
             timeout=10,
@@ -576,7 +576,7 @@ class TestSyncConfigCLIE2E(unittest.TestCase):
             [
                 sys.executable,
                 "-m",
-                "skill_seekers.cli.sync_config",
+                "yonyou_doc2skill.cli.sync_config",
                 "--config",
                 "/nonexistent/path/config.json",
             ],

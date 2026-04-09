@@ -16,10 +16,10 @@ from pathlib import Path
 
 import pytest
 
-from skill_seekers.cli.config_validator import ConfigValidator, validate_config
-from skill_seekers.cli.conflict_detector import Conflict, ConflictDetector
-from skill_seekers.cli.merge_sources import RuleBasedMerger
-from skill_seekers.cli.unified_skill_builder import UnifiedSkillBuilder
+from yonyou_doc2skill.cli.config_validator import ConfigValidator, validate_config
+from yonyou_doc2skill.cli.conflict_detector import Conflict, ConflictDetector
+from yonyou_doc2skill.cli.merge_sources import RuleBasedMerger
+from yonyou_doc2skill.cli.unified_skill_builder import UnifiedSkillBuilder
 
 # ===========================
 # Config Validation Tests
@@ -584,7 +584,7 @@ class TestWorkflowJsonConfig:
 
     def _make_scraper(self, tmp_path, extra_config=None):
         """Build a minimal UnifiedScraper backed by a temp config file."""
-        from skill_seekers.cli.unified_scraper import UnifiedScraper
+        from yonyou_doc2skill.cli.unified_scraper import UnifiedScraper
 
         config = {
             "name": "test_workflow",
@@ -607,9 +607,9 @@ class TestWorkflowJsonConfig:
             captured["enhance_workflow"] = getattr(args, "enhance_workflow", None)
 
         monkeypatch.setattr(
-            "skill_seekers.cli.workflow_runner.run_workflows", fake_run_workflows, raising=False
+            "yonyou_doc2skill.cli.workflow_runner.run_workflows", fake_run_workflows, raising=False
         )
-        import skill_seekers.cli.unified_scraper as us_module
+        import yonyou_doc2skill.cli.unified_scraper as us_module
 
         monkeypatch.setattr(us_module, "run_workflows", fake_run_workflows, raising=False)
 
@@ -689,7 +689,7 @@ class TestWorkflowJsonConfig:
 
     def test_config_validator_accepts_workflow_fields(self, tmp_path):
         """ConfigValidator should not raise on workflow-related top-level fields."""
-        from skill_seekers.cli.config_validator import ConfigValidator
+        from yonyou_doc2skill.cli.config_validator import ConfigValidator
 
         config = {
             "name": "test",

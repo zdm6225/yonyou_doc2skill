@@ -6,8 +6,9 @@ Tests for parallel scraping, unlimited mode, and rate limiting features (PR #144
 import os
 import tempfile
 import unittest
+from unittest.mock import patch
 
-from skill_seekers.cli.doc_scraper import DocToSkillConverter
+from yonyou_doc2skill.cli.doc_scraper import DocToSkillConverter
 
 
 class TestParallelScrapingConfiguration(unittest.TestCase):
@@ -173,6 +174,113 @@ class TestRateLimiting(unittest.TestCase):
             os.chdir(tmpdir)
             converter = DocToSkillConverter(config, dry_run=True)
             self.assertEqual(converter.config.get("rate_limit"), 0)
+
+    @patch("yonyou_doc2skill.cli.doc_scraper.time.sleep")
+    @patch("yonyou_doc2skill.cli.doc_scraper.requests.get")
+    def test_none_rate_limit_uses_default_without_crashing(self, mock_get, mock_sleep):
+        """None rate_limit should fall back to the default delay instead of crashing."""
+        config = {
+            "name": "test",
+            "base_url": "https://example.com/",
+            "selectors": {"main_content": "article"},
+            "rate_limit": None,
+        }
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            os.chdir(tmpdir)
+            converter = DocToSkillConverter(config, dry_run=False)
+
+            class Response:
+                text = "<html><body><article>" + ("hello " * 20) + "</article></body></html>"
+                content = text.encode("utf-8")
+
+                def raise_for_status(self):
+                    return None
+
+            mock_get.return_value = Response()
+            converter.extract_content = lambda _soup, url: {
+                "url": url,
+                "title": "hello",
+                "content": "hello " * 20,
+                "links": [],
+            }
+
+            converter.scrape_page("https://example.com/page")
+
+            mock_sleep.assert_called_once_with(0.5)
+
+    @patch("yonyou_doc2skill.cli.doc_scraper.requests.get")
+    def test_scrape_page_logs_structured_progress(self, mock_get):
+        """Successful page scraping should emit a progress log agents can follow."""
+        config = {
+            "name": "test",
+            "base_url": "https://example.com/",
+            "selectors": {"main_content": "article"},
+            "rate_limit": 0,
+        }
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            os.chdir(tmpdir)
+            converter = DocToSkillConverter(config, dry_run=False)
+
+            class Response:
+                text = "<html><body><article>" + ("hello " * 20) + "</article></body></html>"
+                content = text.encode("utf-8")
+
+                def raise_for_status(self):
+                    return None
+
+            mock_get.return_value = Response()
+            converter.extract_content = lambda _soup, url: {
+                "url": url,
+                "title": "hello",
+                "content": "hello " * 20,
+                "links": [],
+            }
+
+            with self.assertLogs("yonyou_doc2skill.cli.doc_scraper", level="INFO") as logs:
+                converter.scrape_page("https://example.com/page")
+
+            joined = "\n".join(logs.output)
+            self.assertIn("Page 1 saved", joined)
+            self.assertIn("https://example.com/page", joined)
+
+    @patch("yonyou_doc2skill.cli.doc_scraper.requests.get")
+    def test_scrape_page_logs_periodic_progress_summary(self, mock_get):
+        """Long runs should emit periodic aggregate progress, not only per-page logs."""
+        config = {
+            "name": "test",
+            "base_url": "https://example.com/",
+            "selectors": {"main_content": "article"},
+            "rate_limit": 0,
+        }
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            os.chdir(tmpdir)
+            converter = DocToSkillConverter(config, dry_run=False)
+            converter.pages_saved = 24
+
+            class Response:
+                text = "<html><body><article>" + ("hello " * 20) + "</article></body></html>"
+                content = text.encode("utf-8")
+
+                def raise_for_status(self):
+                    return None
+
+            mock_get.return_value = Response()
+            converter.extract_content = lambda _soup, url: {
+                "url": url,
+                "title": "hello",
+                "content": "hello " * 20,
+                "links": [],
+            }
+
+            with self.assertLogs("yonyou_doc2skill.cli.doc_scraper", level="INFO") as logs:
+                converter.scrape_page("https://example.com/page-25")
+
+            joined = "\n".join(logs.output)
+            self.assertIn("Page 25 saved", joined)
+            self.assertIn("Progress: 25 pages saved", joined)
 
 
 class TestThreadSafety(unittest.TestCase):

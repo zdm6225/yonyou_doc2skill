@@ -18,11 +18,11 @@ from unittest.mock import patch
 
 import pytest
 
-from skill_seekers.cli.config_validator import ConfigValidator
+from yonyou_doc2skill.cli.config_validator import ConfigValidator
 
 # Import modules to test
-from skill_seekers.cli.unified_scraper import UnifiedScraper
-from skill_seekers.cli.unified_skill_builder import UnifiedSkillBuilder
+from yonyou_doc2skill.cli.unified_scraper import UnifiedScraper
+from yonyou_doc2skill.cli.unified_skill_builder import UnifiedSkillBuilder
 
 
 class TestC3Integration:
@@ -262,7 +262,7 @@ class TestC3Integration:
     def test_graceful_degradation_on_c3_failure(self, mock_config, temp_dir):
         """Test skill builds even if C3.x analysis fails."""
         # Mock _run_c3_analysis to raise exception
-        with patch("skill_seekers.cli.unified_scraper.UnifiedScraper._run_c3_analysis") as mock_c3:
+        with patch("yonyou_doc2skill.cli.unified_scraper.UnifiedScraper._run_c3_analysis") as mock_c3:
             mock_c3.side_effect = Exception("C3.x analysis failed")
 
             # Save config
@@ -271,7 +271,7 @@ class TestC3Integration:
                 json.dump(mock_config, f)
 
             # Mock GitHubScraper (correct module path for import)
-            with patch("skill_seekers.cli.github_scraper.GitHubScraper") as mock_github:
+            with patch("yonyou_doc2skill.cli.github_scraper.GitHubScraper") as mock_github:
                 mock_github.return_value.scrape.return_value = {
                     "readme": "Test README",
                     "issues": [],
@@ -387,7 +387,7 @@ class TestC3AnalyzeCodebaseSignature:
             captured_kwargs.update(kwargs)
             return {}
 
-        with patch("skill_seekers.cli.codebase_scraper.analyze_codebase", fake_analyze):
+        with patch("yonyou_doc2skill.cli.codebase_scraper.analyze_codebase", fake_analyze):
             scraper._run_c3_analysis(str(temp_dir), config["sources"][0])
 
         assert "enhance_with_ai" not in captured_kwargs, (

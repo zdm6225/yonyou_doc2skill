@@ -31,7 +31,7 @@ class TestPDFToSkillConverter(unittest.TestCase):
     def setUp(self):
         if not PYMUPDF_AVAILABLE:
             self.skipTest("PyMuPDF not installed")
-        from skill_seekers.cli.pdf_scraper import PDFToSkillConverter
+        from yonyou_doc2skill.cli.pdf_scraper import PDFToSkillConverter
 
         self.PDFToSkillConverter = PDFToSkillConverter
 
@@ -79,7 +79,7 @@ class TestCategorization(unittest.TestCase):
     def setUp(self):
         if not PYMUPDF_AVAILABLE:
             self.skipTest("PyMuPDF not installed")
-        from skill_seekers.cli.pdf_scraper import PDFToSkillConverter
+        from yonyou_doc2skill.cli.pdf_scraper import PDFToSkillConverter
 
         self.PDFToSkillConverter = PDFToSkillConverter
         self.temp_dir = tempfile.mkdtemp()
@@ -162,7 +162,7 @@ class TestSkillBuilding(unittest.TestCase):
     def setUp(self):
         if not PYMUPDF_AVAILABLE:
             self.skipTest("PyMuPDF not installed")
-        from skill_seekers.cli.pdf_scraper import PDFToSkillConverter
+        from yonyou_doc2skill.cli.pdf_scraper import PDFToSkillConverter
 
         self.PDFToSkillConverter = PDFToSkillConverter
         self.temp_dir = tempfile.mkdtemp()
@@ -251,7 +251,7 @@ class TestCodeBlockHandling(unittest.TestCase):
     def setUp(self):
         if not PYMUPDF_AVAILABLE:
             self.skipTest("PyMuPDF not installed")
-        from skill_seekers.cli.pdf_scraper import PDFToSkillConverter
+        from yonyou_doc2skill.cli.pdf_scraper import PDFToSkillConverter
 
         self.PDFToSkillConverter = PDFToSkillConverter
         self.temp_dir = tempfile.mkdtemp()
@@ -341,7 +341,7 @@ class TestImageHandling(unittest.TestCase):
     def setUp(self):
         if not PYMUPDF_AVAILABLE:
             self.skipTest("PyMuPDF not installed")
-        from skill_seekers.cli.pdf_scraper import PDFToSkillConverter
+        from yonyou_doc2skill.cli.pdf_scraper import PDFToSkillConverter
 
         self.PDFToSkillConverter = PDFToSkillConverter
         self.temp_dir = tempfile.mkdtemp()
@@ -435,7 +435,7 @@ class TestErrorHandling(unittest.TestCase):
     def setUp(self):
         if not PYMUPDF_AVAILABLE:
             self.skipTest("PyMuPDF not installed")
-        from skill_seekers.cli.pdf_scraper import PDFToSkillConverter
+        from yonyou_doc2skill.cli.pdf_scraper import PDFToSkillConverter
 
         self.PDFToSkillConverter = PDFToSkillConverter
         self.temp_dir = tempfile.mkdtemp()
@@ -473,7 +473,7 @@ class TestJSONWorkflow(unittest.TestCase):
     def setUp(self):
         if not PYMUPDF_AVAILABLE:
             self.skipTest("PyMuPDF not installed")
-        from skill_seekers.cli.pdf_scraper import PDFToSkillConverter
+        from yonyou_doc2skill.cli.pdf_scraper import PDFToSkillConverter
 
         self.PDFToSkillConverter = PDFToSkillConverter
         self.temp_dir = tempfile.mkdtemp()

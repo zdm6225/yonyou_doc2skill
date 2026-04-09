@@ -11,7 +11,7 @@ import unittest
 from pathlib import Path
 from unittest.mock import MagicMock, patch
 
-from skill_seekers.cli.enhance_skill_local import LocalSkillEnhancer, detect_terminal_app
+from yonyou_doc2skill.cli.enhance_skill_local import LocalSkillEnhancer, detect_terminal_app
 
 
 class TestDetectTerminalApp(unittest.TestCase):
@@ -135,7 +135,7 @@ class TestDetectTerminalApp(unittest.TestCase):
         self.assertEqual(terminal_app, "Ghostty")
         self.assertEqual(detection_method, "SKILL_SEEKER_TERMINAL")
 
-    @patch("skill_seekers.cli.enhance_skill_local.sys.platform", "darwin")
+    @patch("yonyou_doc2skill.cli.enhance_skill_local.sys.platform", "darwin")
     @patch("subprocess.Popen")
     def test_subprocess_popen_called_with_correct_args(self, mock_popen):
         """Test that subprocess.Popen is called with correct arguments on macOS."""
@@ -209,7 +209,7 @@ class TestDetectTerminalApp(unittest.TestCase):
         # Empty TERM_PROGRAM should be treated as not set
         self.assertEqual(detection_method, "default")
 
-    @patch("skill_seekers.cli.enhance_skill_local.sys.platform", "darwin")
+    @patch("yonyou_doc2skill.cli.enhance_skill_local.sys.platform", "darwin")
     @patch("subprocess.Popen")
     def test_terminal_launch_error_handling(self, mock_popen):
         """Test error handling when terminal launch fails."""
@@ -248,7 +248,7 @@ class TestDetectTerminalApp(unittest.TestCase):
             output = captured_output.getvalue()
             self.assertIn("Error launching", output)
 
-    @patch("skill_seekers.cli.enhance_skill_local.sys.platform", "darwin")
+    @patch("yonyou_doc2skill.cli.enhance_skill_local.sys.platform", "darwin")
     def test_output_message_unknown_terminal(self):
         """Test that unknown terminal prints warning message."""
 
@@ -297,7 +297,7 @@ class TestTerminalMapCompleteness(unittest.TestCase):
 
     def test_terminal_map_has_all_documented_terminals(self):
         """Verify TERMINAL_MAP contains all terminals mentioned in documentation."""
-        from skill_seekers.cli.enhance_skill_local import detect_terminal_app
+        from yonyou_doc2skill.cli.enhance_skill_local import detect_terminal_app
 
         # Get the TERMINAL_MAP from the function's scope
         # We need to test this indirectly by checking each known terminal

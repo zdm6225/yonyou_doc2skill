@@ -1,7 +1,7 @@
 services:
   # Config API Service
   - type: web
-    name: skill-seekers-api
+    name: yonyou-doc2skill-api
     runtime: python
     plan: free
     buildCommand: |

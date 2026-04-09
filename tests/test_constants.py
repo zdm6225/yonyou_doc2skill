@@ -8,7 +8,7 @@ from pathlib import Path
 # Add parent directory to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from skill_seekers.cli.constants import (
+from yonyou_doc2skill.cli.constants import (
     API_CONTENT_LIMIT,
     API_PREVIEW_LIMIT,
     CONTENT_MATCH_POINTS,
@@ -109,7 +109,7 @@ class TestConstantsUsage(unittest.TestCase):
 
     def test_doc_scraper_imports_constants(self):
         """Test that doc_scraper imports and uses constants."""
-        from skill_seekers.cli import doc_scraper
+        from yonyou_doc2skill.cli import doc_scraper
 
         # Check that doc_scraper can access the constants
         self.assertTrue(hasattr(doc_scraper, "DEFAULT_RATE_LIMIT"))
@@ -120,7 +120,7 @@ class TestConstantsUsage(unittest.TestCase):
         # Verify function signature uses constants
         import inspect
 
-        from skill_seekers.cli import estimate_pages
+        from yonyou_doc2skill.cli import estimate_pages
 
         sig = inspect.signature(estimate_pages.estimate_pages)
         self.assertIn("max_discovery", sig.parameters)
@@ -128,7 +128,7 @@ class TestConstantsUsage(unittest.TestCase):
     def test_enhance_skill_imports_constants(self):
         """Test that enhance_skill imports constants."""
         try:
-            from skill_seekers.cli import enhance_skill
+            from yonyou_doc2skill.cli import enhance_skill
 
             # Check module loads without errors
             self.assertIsNotNone(enhance_skill)
@@ -139,7 +139,7 @@ class TestConstantsUsage(unittest.TestCase):
 
     def test_enhance_skill_local_imports_constants(self):
         """Test that enhance_skill_local imports constants."""
-        from skill_seekers.cli import enhance_skill_local
+        from yonyou_doc2skill.cli import enhance_skill_local
 
         self.assertIsNotNone(enhance_skill_local)
 
@@ -149,7 +149,7 @@ class TestConstantsExports(unittest.TestCase):
 
     def test_all_exports_exist(self):
         """Test that all items in __all__ exist."""
-        from skill_seekers.cli import constants
+        from yonyou_doc2skill.cli import constants
 
         self.assertTrue(hasattr(constants, "__all__"))
         for name in constants.__all__:
@@ -159,7 +159,7 @@ class TestConstantsExports(unittest.TestCase):
 
     def test_all_exports_count(self):
         """Test that __all__ has expected number of exports."""
-        from skill_seekers.cli import constants
+        from yonyou_doc2skill.cli import constants
 
         # We defined 18 constants (added DEFAULT_ASYNC_MODE)
         self.assertEqual(len(constants.__all__), 18)

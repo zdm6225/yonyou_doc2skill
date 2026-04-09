@@ -1,12 +1,12 @@
-# Skill Seekers Documentation
+# Yonyou Doc2Skill Documentation
 
-> **Complete documentation for Skill Seekers v3.2.0**
+> **Complete documentation for Yonyou Doc2Skill v3.2.0**
 
 ---
 
 ## Welcome!
 
-This is the official documentation for **Skill Seekers** - the universal tool for converting **17 source types** (documentation sites, GitHub repos, PDFs, videos, Word docs, EPUB books, Jupyter notebooks, local HTML, OpenAPI specs, AsciiDoc, PowerPoint, RSS/Atom feeds, man pages, Confluence, Notion, Slack/Discord, and local codebases) into AI-ready skills for 30+ platforms.
+This is the official documentation for **Yonyou Doc2Skill** - the universal tool for converting **17 source types** (documentation sites, GitHub repos, PDFs, videos, Word docs, EPUB books, Jupyter notebooks, local HTML, OpenAPI specs, AsciiDoc, PowerPoint, RSS/Atom feeds, man pages, Confluence, Notion, Slack/Discord, and local codebases) into AI-ready skills for 30+ platforms.
 
 ---
 
@@ -16,7 +16,7 @@ This is the official documentation for **Skill Seekers** - the universal tool fo
 
 Start with our **Getting Started** guides:
 
-1. [Installation](getting-started/01-installation.md) - Install Skill Seekers
+1. [Installation](getting-started/01-installation.md) - Install Yonyou Doc2Skill
 2. [Quick Start](getting-started/02-quick-start.md) - Create your first skill in 3 commands
 3. [Your First Skill](getting-started/03-your-first-skill.md) - Complete walkthrough
 4. [Next Steps](getting-started/04-next-steps.md) - Where to go from here
@@ -25,7 +25,7 @@ Start with our **Getting Started** guides:
 
 Explore our **User Guides**:
 
-- [Core Concepts](user-guide/01-core-concepts.md) - How Skill Seekers works
+- [Core Concepts](user-guide/01-core-concepts.md) - How Yonyou Doc2Skill works
 - [Scraping Guide](user-guide/02-scraping.md) - All scraping options
 - [Enhancement Guide](user-guide/03-enhancement.md) - AI enhancement explained
 - [Packaging Guide](user-guide/04-packaging.md) - Export to platforms
@@ -58,60 +58,60 @@ Power user features:
 
 ```bash
 # 1. Install
-pip install skill-seekers
+pip install yonyou-doc2skill
 
 # 2. Create skill
-skill-seekers create https://docs.django.com/
+yonyou-doc2skill create https://docs.django.com/
 
 # 3. Package for Claude
-skill-seekers package output/django --target claude
+yonyou-doc2skill package output/django --target claude
 ```
 
 ### Common Commands
 
 ```bash
 # Auto-detect any source type
-skill-seekers create https://docs.django.com/
-skill-seekers create facebook/react
-skill-seekers create manual.pdf
-skill-seekers create notebook.ipynb
+yonyou-doc2skill create https://docs.django.com/
+yonyou-doc2skill create facebook/react
+yonyou-doc2skill create manual.pdf
+yonyou-doc2skill create notebook.ipynb
 
 # Scrape documentation
-skill-seekers scrape --config react
+yonyou-doc2skill scrape --config react
 
 # Analyze GitHub repo
-skill-seekers github --repo facebook/react
+yonyou-doc2skill github --repo facebook/react
 
 # Extract PDF
-skill-seekers pdf manual.pdf --name docs
+yonyou-doc2skill pdf manual.pdf --name docs
 
 # Convert other formats
-skill-seekers word report.docx --name report
-skill-seekers epub book.epub --name handbook
-skill-seekers jupyter analysis.ipynb --name analysis
-skill-seekers openapi spec.yaml --name my-api
-skill-seekers pptx slides.pptx --name deck
-skill-seekers video https://youtube.com/watch?v=... --name tutorial
+yonyou-doc2skill word report.docx --name report
+yonyou-doc2skill epub book.epub --name handbook
+yonyou-doc2skill jupyter analysis.ipynb --name analysis
+yonyou-doc2skill openapi spec.yaml --name my-api
+yonyou-doc2skill pptx slides.pptx --name deck
+yonyou-doc2skill video https://youtube.com/watch?v=... --name tutorial
 
 # Import from platforms
-skill-seekers confluence --space DOCS --name wiki
-skill-seekers notion --database DB_ID --name notes
-skill-seekers chat --platform slack --export-dir ./export
+yonyou-doc2skill confluence --space DOCS --name wiki
+yonyou-doc2skill notion --database DB_ID --name notes
+yonyou-doc2skill chat --platform slack --export-dir ./export
 
 # Analyze local code
-skill-seekers analyze --directory ./my-project
+yonyou-doc2skill analyze --directory ./my-project
 
 # Enhance skill
-skill-seekers enhance output/my-skill/
+yonyou-doc2skill enhance output/my-skill/
 
 # Package for platform
-skill-seekers package output/my-skill/ --target claude
+yonyou-doc2skill package output/my-skill/ --target claude
 
 # Upload
-skill-seekers upload output/my-skill-claude.zip
+yonyou-doc2skill upload output/my-skill-claude.zip
 
 # List workflows
-skill-seekers workflows list
+yonyou-doc2skill workflows list
 ```
 
 ---
@@ -176,7 +176,7 @@ For Cursor, Windsurf, Cline, Roo, Aider, Bolt, Kilo, Continue, Kimi Code:
 
 1. [Your First Skill](getting-started/03-your-first-skill.md)
 2. [Local Codebase Analysis](user-guide/02-scraping.md#local-codebase-analysis)
-3. `skill-seekers install-agent --agent cursor`
+3. `yonyou-doc2skill install-agent --agent cursor`
 
 ---
 
@@ -203,10 +203,10 @@ See [Contributing Guide](../CONTRIBUTING.md) for details.
 
 ## External Links
 
-- **Main Repository:** https://github.com/yusufkaraaslan/Skill_Seekers
-- **Website:** https://skillseekersweb.com/
-- **PyPI:** https://pypi.org/project/skill-seekers/
-- **Issues:** https://github.com/yusufkaraaslan/Skill_Seekers/issues
+- **Main Repository:** https://github.com/yonyou/yonyou-doc2skill
+- **Website:** https://docs.yonyou.example/yonyou-doc2skill/
+- **PyPI:** https://pypi.org/project/yonyou-doc2skill/
+- **Issues:** https://github.com/yonyou/yonyou-doc2skill/issues
 
 ---
 

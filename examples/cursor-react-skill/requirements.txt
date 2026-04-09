@@ -1,7 +1,7 @@
 # Cursor React Skill Example Requirements
 
-# Skill Seekers - documentation to AI skills converter
-skill-seekers>=2.10.0
+# Yonyou Doc2Skill - documentation to AI skills converter
+yonyou-doc2skill>=2.10.0
 
 # No additional Python dependencies needed
 # The example project uses Node.js/npm for React

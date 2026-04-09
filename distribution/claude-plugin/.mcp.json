@@ -1,6 +1,6 @@
 {
-  "skill-seekers": {
+  "yonyou-doc2skill": {
     "command": "python",
-    "args": ["-m", "skill_seekers.mcp.server_fastmcp"]
+    "args": ["-m", "yonyou_doc2skill.mcp.server_fastmcp"]
   }
 }

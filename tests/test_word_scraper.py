@@ -92,7 +92,7 @@ class TestWordToSkillConverterInit(unittest.TestCase):
     def setUp(self):
         if not WORD_AVAILABLE:
             self.skipTest("mammoth and python-docx not installed")
-        from skill_seekers.cli.word_scraper import WordToSkillConverter
+        from yonyou_doc2skill.cli.word_scraper import WordToSkillConverter
 
         self.WordToSkillConverter = WordToSkillConverter
         self.temp_dir = tempfile.mkdtemp()
@@ -138,7 +138,7 @@ class TestWordToSkillConverterInit(unittest.TestCase):
 
     def test_name_auto_detected_from_filename(self):
         """Test name can be extracted from filename via infer_description_from_word."""
-        from skill_seekers.cli.word_scraper import infer_description_from_word
+        from yonyou_doc2skill.cli.word_scraper import infer_description_from_word
 
         desc = infer_description_from_word({}, name="my_doc")
         self.assertIn("my_doc", desc)
@@ -150,7 +150,7 @@ class TestWordCategorization(unittest.TestCase):
     def setUp(self):
         if not WORD_AVAILABLE:
             self.skipTest("mammoth and python-docx not installed")
-        from skill_seekers.cli.word_scraper import WordToSkillConverter
+        from yonyou_doc2skill.cli.word_scraper import WordToSkillConverter
 
         self.WordToSkillConverter = WordToSkillConverter
         self.temp_dir = tempfile.mkdtemp()
@@ -226,7 +226,7 @@ class TestWordSkillBuilding(unittest.TestCase):
     def setUp(self):
         if not WORD_AVAILABLE:
             self.skipTest("mammoth and python-docx not installed")
-        from skill_seekers.cli.word_scraper import WordToSkillConverter
+        from yonyou_doc2skill.cli.word_scraper import WordToSkillConverter
 
         self.WordToSkillConverter = WordToSkillConverter
         self.temp_dir = tempfile.mkdtemp()
@@ -319,7 +319,7 @@ class TestWordCodeBlocks(unittest.TestCase):
     def setUp(self):
         if not WORD_AVAILABLE:
             self.skipTest("mammoth and python-docx not installed")
-        from skill_seekers.cli.word_scraper import WordToSkillConverter
+        from yonyou_doc2skill.cli.word_scraper import WordToSkillConverter
 
         self.WordToSkillConverter = WordToSkillConverter
         self.temp_dir = tempfile.mkdtemp()
@@ -374,7 +374,7 @@ class TestWordTables(unittest.TestCase):
     def setUp(self):
         if not WORD_AVAILABLE:
             self.skipTest("mammoth and python-docx not installed")
-        from skill_seekers.cli.word_scraper import WordToSkillConverter
+        from yonyou_doc2skill.cli.word_scraper import WordToSkillConverter
 
         self.WordToSkillConverter = WordToSkillConverter
         self.temp_dir = tempfile.mkdtemp()
@@ -417,7 +417,7 @@ class TestWordImages(unittest.TestCase):
     def setUp(self):
         if not WORD_AVAILABLE:
             self.skipTest("mammoth and python-docx not installed")
-        from skill_seekers.cli.word_scraper import WordToSkillConverter
+        from yonyou_doc2skill.cli.word_scraper import WordToSkillConverter
 
         self.WordToSkillConverter = WordToSkillConverter
         self.temp_dir = tempfile.mkdtemp()
@@ -459,7 +459,7 @@ class TestWordErrorHandling(unittest.TestCase):
     def setUp(self):
         if not WORD_AVAILABLE:
             self.skipTest("mammoth and python-docx not installed")
-        from skill_seekers.cli.word_scraper import WordToSkillConverter
+        from yonyou_doc2skill.cli.word_scraper import WordToSkillConverter
 
         self.WordToSkillConverter = WordToSkillConverter
         self.temp_dir = tempfile.mkdtemp()
@@ -522,7 +522,7 @@ class TestWordJSONWorkflow(unittest.TestCase):
     def setUp(self):
         if not WORD_AVAILABLE:
             self.skipTest("mammoth and python-docx not installed")
-        from skill_seekers.cli.word_scraper import WordToSkillConverter
+        from yonyou_doc2skill.cli.word_scraper import WordToSkillConverter
 
         self.WordToSkillConverter = WordToSkillConverter
         self.temp_dir = tempfile.mkdtemp()
@@ -581,7 +581,7 @@ class TestWordHelperFunctions(unittest.TestCase):
 
     def test_build_section_basic(self):
         """_build_section returns a well-formed dict."""
-        from skill_seekers.cli.word_scraper import _build_section
+        from yonyou_doc2skill.cli.word_scraper import _build_section
         from bs4 import BeautifulSoup
 
         html = "<p>Hello world.</p><p>Second paragraph.</p>"
@@ -597,7 +597,7 @@ class TestWordHelperFunctions(unittest.TestCase):
 
     def test_extract_table_from_html(self):
         """_extract_table_from_html extracts headers and rows."""
-        from skill_seekers.cli.word_scraper import _extract_table_from_html
+        from yonyou_doc2skill.cli.word_scraper import _extract_table_from_html
         from bs4 import BeautifulSoup
 
         html = """
@@ -620,7 +620,7 @@ class TestWordHelperFunctions(unittest.TestCase):
 
     def test_score_code_quality_basic(self):
         """_score_code_quality returns a score in [0, 10]."""
-        from skill_seekers.cli.word_scraper import _score_code_quality
+        from yonyou_doc2skill.cli.word_scraper import _score_code_quality
 
         score = _score_code_quality("def foo():\n    return 'bar'\n")
         self.assertGreaterEqual(score, 0.0)
@@ -628,13 +628,13 @@ class TestWordHelperFunctions(unittest.TestCase):
 
     def test_score_code_quality_empty(self):
         """_score_code_quality returns 0.0 for empty code."""
-        from skill_seekers.cli.word_scraper import _score_code_quality
+        from yonyou_doc2skill.cli.word_scraper import _score_code_quality
 
         self.assertEqual(_score_code_quality(""), 0.0)
 
     def test_infer_description_from_word_subject(self):
         """infer_description_from_word uses subject field when available."""
-        from skill_seekers.cli.word_scraper import infer_description_from_word
+        from yonyou_doc2skill.cli.word_scraper import infer_description_from_word
 
         metadata = {"title": "Some Doc", "subject": "Writing API documentation for REST services"}
         desc = infer_description_from_word(metadata, "api_docs")
@@ -642,7 +642,7 @@ class TestWordHelperFunctions(unittest.TestCase):
 
     def test_infer_description_from_word_fallback(self):
         """infer_description_from_word falls back to name."""
-        from skill_seekers.cli.word_scraper import infer_description_from_word
+        from yonyou_doc2skill.cli.word_scraper import infer_description_from_word
 
         desc = infer_description_from_word({}, name="myskill")
         self.assertIn("myskill", desc)
@@ -653,7 +653,7 @@ class TestWordSourceDetection(unittest.TestCase):
 
     def test_docx_detected_as_word_type(self):
         """SourceDetector.detect() returns type='word' for .docx files."""
-        from skill_seekers.cli.source_detector import SourceDetector
+        from yonyou_doc2skill.cli.source_detector import SourceDetector
 
         # Use a path that ends in .docx (doesn't need to exist for detection)
         source_info = SourceDetector.detect("/tmp/test_document.docx")
@@ -663,7 +663,7 @@ class TestWordSourceDetection(unittest.TestCase):
 
     def test_docx_validation_missing_file(self):
         """validate_source raises ValueError for missing .docx file."""
-        from skill_seekers.cli.source_detector import SourceDetector
+        from yonyou_doc2skill.cli.source_detector import SourceDetector
 
         source_info = SourceDetector.detect("/tmp/nonexistent_12345.docx")
         with self.assertRaises(ValueError) as ctx:
@@ -672,7 +672,7 @@ class TestWordSourceDetection(unittest.TestCase):
 
     def test_pdf_still_detected(self):
         """Existing PDF detection is unaffected by Word support."""
-        from skill_seekers.cli.source_detector import SourceDetector
+        from yonyou_doc2skill.cli.source_detector import SourceDetector
 
         source_info = SourceDetector.detect("/tmp/test.pdf")
         self.assertEqual(source_info.type, "pdf")

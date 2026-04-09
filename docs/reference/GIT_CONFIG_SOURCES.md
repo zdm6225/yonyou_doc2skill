@@ -37,11 +37,11 @@ Git-based config sources allow you to fetch config files from **private/team git
 ```
 User → fetch_config(source="team", config_name="react-custom")
     ↓
-SourceManager (~/.skill-seekers/sources.json)
+SourceManager (~/.yonyou-doc2skill/sources.json)
     ↓
 GitConfigRepo (clone/pull with GitPython)
     ↓
-Local cache (~/.skill-seekers/cache/team/)
+Local cache (~/.yonyou-doc2skill/cache/team/)
     ↓
 Config JSON returned
 ```
@@ -50,7 +50,7 @@ Config JSON returned
 
 1. **API Mode** (existing, unchanged)
    - `fetch_config(config_name="react")`
-   - Fetches from api.skillseekersweb.com
+   - Fetches from api.docs.yonyou.example/yonyou-doc2skill
 
 2. **Source Mode** (NEW - recommended)
    - `fetch_config(source="team", config_name="react-custom")`
@@ -108,7 +108,7 @@ remove_config_source(name="team")
 ### 4. Quick test with example repository
 
 ```bash
-cd /path/to/Skill_Seekers
+cd /path/to/yonyou_doc2skill
 
 # Run E2E test
 python3 configs/example-team/test_e2e.py
@@ -131,7 +131,7 @@ fetch_config(source="example", config_name="react-custom")
 
 **Sources Registry:**
 ```
-~/.skill-seekers/sources.json
+~/.yonyou-doc2skill/sources.json
 ```
 
 Example content:
@@ -156,12 +156,12 @@ Example content:
 
 **Cache Directory:**
 ```
-$SKILL_SEEKERS_CACHE_DIR  (default: ~/.skill-seekers/cache/)
+$SKILL_SEEKERS_CACHE_DIR  (default: ~/.yonyou-doc2skill/cache/)
 ```
 
 Structure:
 ```
-~/.skill-seekers/
+~/.yonyou-doc2skill/
 ├── sources.json       # Source registry
 └── cache/             # Git clones
     ├── team/          # One directory per source
@@ -284,7 +284,7 @@ Remove a registered config source.
 **Returns:**
 - Success/failure message
 
-**Note:** Does NOT delete cached git repository data. To free disk space, manually delete `~/.skill-seekers/cache/{source_name}/`
+**Note:** Does NOT delete cached git repository data. To free disk space, manually delete `~/.yonyou-doc2skill/cache/{source_name}/`
 
 **Example:**
 
@@ -410,7 +410,7 @@ gh repo create myteam/skill-configs --private
 
 # 2. Add configs
 cd myteam-skill-configs
-cp ../Skill_Seekers/configs/react.json ./react-internal.json
+cp ../yonyou_doc2skill/configs/react.json ./react-internal.json
 
 # Edit for internal docs:
 # - Change base_url to internal docs site
@@ -614,7 +614,7 @@ fetch_config(source="team", config_name="react-internal", refresh=true)
 remove_config_source(name="old-team")
 
 # Free disk space
-rm -rf ~/.skill-seekers/cache/old-team/
+rm -rf ~/.yonyou-doc2skill/cache/old-team/
 ```
 
 ---
@@ -694,12 +694,12 @@ rm -rf ~/.skill-seekers/cache/old-team/
 
 2. Manual cache clear:
    ```bash
-   rm -rf ~/.skill-seekers/cache/team/
+   rm -rf ~/.yonyou-doc2skill/cache/team/
    ```
 
 3. Check auto-pull worked:
    ```bash
-   cd ~/.skill-seekers/cache/team
+   cd ~/.yonyou-doc2skill/cache/team
    git log -1  # Shows latest commit
    ```
 
@@ -742,12 +742,12 @@ add_config_source(
 Set custom cache directory:
 
 ```bash
-export SKILL_SEEKERS_CACHE_DIR=/mnt/large-disk/skill-seekers-cache
+export SKILL_SEEKERS_CACHE_DIR=/mnt/large-disk/yonyou-doc2skill-cache
 ```
 
 Or pass to GitConfigRepo:
 ```python
-from skill_seekers.mcp.git_repo import GitConfigRepo
+from yonyou_doc2skill.mcp.git_repo import GitConfigRepo
 
 gr = GitConfigRepo(cache_dir="/custom/path/cache")
 ```
@@ -798,15 +798,15 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Install Skill Seekers
-        run: pip install skill-seekers
+      - name: Install Yonyou Doc2Skill
+        run: pip install yonyou-doc2skill
 
       - name: Register config source
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           python3 << EOF
-          from skill_seekers.mcp.source_manager import SourceManager
+          from yonyou_doc2skill.mcp.source_manager import SourceManager
           sm = SourceManager()
           sm.add_source(
               name="team",
@@ -819,7 +819,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           # Use MCP fetch_config or direct Python
-          skill-seekers scrape --config <fetched_config>
+          yonyou-doc2skill scrape --config <fetched_config>
 ```
 
 ---
@@ -828,7 +828,7 @@ jobs:
 
 ### GitConfigRepo Class
 
-**Location:** `src/skill_seekers/mcp/git_repo.py`
+**Location:** `src/yonyou_doc2skill/mcp/git_repo.py`
 
 **Methods:**
 
@@ -862,7 +862,7 @@ def validate_git_url(git_url: str) -> bool:
 
 ### SourceManager Class
 
-**Location:** `src/skill_seekers/mcp/source_manager.py`
+**Location:** `src/yonyou_doc2skill/mcp/source_manager.py`
 
 **Methods:**
 
@@ -918,4 +918,4 @@ def update_source(name: str, **kwargs) -> dict:
 
 ---
 
-**Questions?** Open an issue at https://github.com/yusufkaraaslan/Skill_Seekers/issues
+**Questions?** Open an issue at https://github.com/yonyou/yonyou-doc2skill/issues

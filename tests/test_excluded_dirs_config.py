@@ -6,13 +6,13 @@ Tests Issue #203: Make EXCLUDED_DIRS configurable
 import unittest
 from unittest.mock import patch
 
-from skill_seekers.cli.github_scraper import EXCLUDED_DIRS, GitHubScraper
+from yonyou_doc2skill.cli.github_scraper import EXCLUDED_DIRS, GitHubScraper
 
 
 class TestExcludedDirsDefaults(unittest.TestCase):
     """Test default EXCLUDED_DIRS behavior (backward compatibility)."""
 
-    @patch("skill_seekers.cli.github_scraper.Github")
+    @patch("yonyou_doc2skill.cli.github_scraper.Github")
     def test_defaults_when_no_config(self, _mock_github):
         """Test that default exclusions are used when no config provided."""
         config = {"repo": "owner/repo"}
@@ -22,7 +22,7 @@ class TestExcludedDirsDefaults(unittest.TestCase):
         # Should use default EXCLUDED_DIRS
         self.assertEqual(scraper.excluded_dirs, EXCLUDED_DIRS)
 
-    @patch("skill_seekers.cli.github_scraper.Github")
+    @patch("yonyou_doc2skill.cli.github_scraper.Github")
     def test_defaults_exclude_common_dirs(self, _mock_github):
         """Test that default exclusions work correctly."""
         config = {"repo": "owner/repo"}
@@ -41,7 +41,7 @@ class TestExcludedDirsDefaults(unittest.TestCase):
         self.assertFalse(scraper.should_exclude_dir("tests"))
         self.assertFalse(scraper.should_exclude_dir("docs"))
 
-    @patch("skill_seekers.cli.github_scraper.Github")
+    @patch("yonyou_doc2skill.cli.github_scraper.Github")
     def test_dot_directories_always_excluded(self, _mock_github):
         """Test that directories starting with '.' are always excluded."""
         config = {"repo": "owner/repo"}
@@ -57,7 +57,7 @@ class TestExcludedDirsDefaults(unittest.TestCase):
 class TestExcludedDirsAdditional(unittest.TestCase):
     """Test exclude_dirs_additional (extend mode)."""
 
-    @patch("skill_seekers.cli.github_scraper.Github")
+    @patch("yonyou_doc2skill.cli.github_scraper.Github")
     def test_extend_with_additional_dirs(self, _mock_github):
         """Test adding custom exclusions to defaults."""
         config = {
@@ -77,7 +77,7 @@ class TestExcludedDirsAdditional(unittest.TestCase):
         # Verify total count
         self.assertEqual(len(scraper.excluded_dirs), len(EXCLUDED_DIRS) + 3)
 
-    @patch("skill_seekers.cli.github_scraper.Github")
+    @patch("yonyou_doc2skill.cli.github_scraper.Github")
     def test_extend_excludes_additional_dirs(self, _mock_github):
         """Test that additional directories are actually excluded."""
         config = {"repo": "owner/repo", "exclude_dirs_additional": ["legacy", "deprecated"]}
@@ -95,7 +95,7 @@ class TestExcludedDirsAdditional(unittest.TestCase):
         # Normal dirs not excluded
         self.assertFalse(scraper.should_exclude_dir("src"))
 
-    @patch("skill_seekers.cli.github_scraper.Github")
+    @patch("yonyou_doc2skill.cli.github_scraper.Github")
     def test_extend_with_empty_list(self, _mock_github):
         """Test that empty additional list works correctly."""
         config = {"repo": "owner/repo", "exclude_dirs_additional": []}
@@ -109,7 +109,7 @@ class TestExcludedDirsAdditional(unittest.TestCase):
 class TestExcludedDirsReplace(unittest.TestCase):
     """Test exclude_dirs (replace mode)."""
 
-    @patch("skill_seekers.cli.github_scraper.Github")
+    @patch("yonyou_doc2skill.cli.github_scraper.Github")
     def test_replace_with_custom_list(self, _mock_github):
         """Test replacing default exclusions entirely."""
         config = {"repo": "owner/repo", "exclude_dirs": ["node_modules", "custom_vendor"]}
@@ -120,7 +120,7 @@ class TestExcludedDirsReplace(unittest.TestCase):
         self.assertEqual(scraper.excluded_dirs, {"node_modules", "custom_vendor"})
         self.assertEqual(len(scraper.excluded_dirs), 2)
 
-    @patch("skill_seekers.cli.github_scraper.Github")
+    @patch("yonyou_doc2skill.cli.github_scraper.Github")
     def test_replace_excludes_only_specified_dirs(self, _mock_github):
         """Test that only specified directories are excluded in replace mode."""
         config = {"repo": "owner/repo", "exclude_dirs": ["node_modules", ".git"]}
@@ -140,7 +140,7 @@ class TestExcludedDirsReplace(unittest.TestCase):
         # Normal dirs still not excluded
         self.assertFalse(scraper.should_exclude_dir("src"))
 
-    @patch("skill_seekers.cli.github_scraper.Github")
+    @patch("yonyou_doc2skill.cli.github_scraper.Github")
     def test_replace_with_empty_list(self, _mock_github):
         """Test that empty replace list allows all directories (except dot-prefixed)."""
         config = {"repo": "owner/repo", "exclude_dirs": []}
@@ -163,7 +163,7 @@ class TestExcludedDirsReplace(unittest.TestCase):
 class TestExcludedDirsPrecedence(unittest.TestCase):
     """Test precedence when both options provided."""
 
-    @patch("skill_seekers.cli.github_scraper.Github")
+    @patch("yonyou_doc2skill.cli.github_scraper.Github")
     def test_replace_takes_precedence_over_additional(self, _mock_github):
         """Test that exclude_dirs takes precedence over exclude_dirs_additional."""
         config = {
@@ -183,7 +183,7 @@ class TestExcludedDirsPrecedence(unittest.TestCase):
 class TestExcludedDirsEdgeCases(unittest.TestCase):
     """Test edge cases and error handling."""
 
-    @patch("skill_seekers.cli.github_scraper.Github")
+    @patch("yonyou_doc2skill.cli.github_scraper.Github")
     def test_duplicate_exclusions_in_additional(self, _mock_github):
         """Test that duplicates in additional list are handled (set deduplication)."""
         config = {
@@ -206,7 +206,7 @@ class TestExcludedDirsEdgeCases(unittest.TestCase):
             len(EXCLUDED_DIRS) + 1,  # Only 'custom' is truly additional
         )
 
-    @patch("skill_seekers.cli.github_scraper.Github")
+    @patch("yonyou_doc2skill.cli.github_scraper.Github")
     def test_case_sensitive_exclusions(self, _mock_github):
         """Test that exclusions are case-sensitive."""
         config = {"repo": "owner/repo", "exclude_dirs": ["Venv", "NODE_MODULES"]}
@@ -223,7 +223,7 @@ class TestExcludedDirsEdgeCases(unittest.TestCase):
 class TestExcludedDirsWithLocalRepo(unittest.TestCase):
     """Test exclude_dirs integration with local_repo_path."""
 
-    @patch("skill_seekers.cli.github_scraper.Github")
+    @patch("yonyou_doc2skill.cli.github_scraper.Github")
     def test_exclude_dirs_with_local_repo_path(self, _mock_github):
         """Test that exclude_dirs works when local_repo_path is provided."""
         config = {
@@ -244,7 +244,7 @@ class TestExcludedDirsWithLocalRepo(unittest.TestCase):
         self.assertTrue(scraper.should_exclude_dir("internal"))
         self.assertTrue(scraper.should_exclude_dir("venv"))
 
-    @patch("skill_seekers.cli.github_scraper.Github")
+    @patch("yonyou_doc2skill.cli.github_scraper.Github")
     def test_replace_mode_with_local_repo_path(self, _mock_github):
         """Test that replace mode works with local_repo_path."""
         config = {
@@ -264,8 +264,8 @@ class TestExcludedDirsWithLocalRepo(unittest.TestCase):
 class TestExcludedDirsLogging(unittest.TestCase):
     """Test logging output for exclude_dirs configuration."""
 
-    @patch("skill_seekers.cli.github_scraper.Github")
-    @patch("skill_seekers.cli.github_scraper.logger")
+    @patch("yonyou_doc2skill.cli.github_scraper.Github")
+    @patch("yonyou_doc2skill.cli.github_scraper.logger")
     def test_extend_mode_logs_info(self, mock_logger, _mock_github):
         """Test that extend mode logs INFO level message."""
         config = {"repo": "owner/repo", "exclude_dirs_additional": ["custom1", "custom2"]}
@@ -277,8 +277,8 @@ class TestExcludedDirsLogging(unittest.TestCase):
         info_calls = [str(call) for call in mock_logger.info.call_args_list]
         self.assertTrue(any("Added 2 custom directory exclusions" in call for call in info_calls))
 
-    @patch("skill_seekers.cli.github_scraper.Github")
-    @patch("skill_seekers.cli.github_scraper.logger")
+    @patch("yonyou_doc2skill.cli.github_scraper.Github")
+    @patch("yonyou_doc2skill.cli.github_scraper.logger")
     def test_replace_mode_logs_warning(self, mock_logger, _mock_github):
         """Test that replace mode logs WARNING level message."""
         config = {"repo": "owner/repo", "exclude_dirs": ["only", "these"]}
@@ -294,8 +294,8 @@ class TestExcludedDirsLogging(unittest.TestCase):
             )
         )
 
-    @patch("skill_seekers.cli.github_scraper.Github")
-    @patch("skill_seekers.cli.github_scraper.logger")
+    @patch("yonyou_doc2skill.cli.github_scraper.Github")
+    @patch("yonyou_doc2skill.cli.github_scraper.logger")
     def test_no_config_no_logging(self, mock_logger, _mock_github):
         """Test that default mode doesn't log exclude_dirs messages."""
         config = {"repo": "owner/repo"}
@@ -317,7 +317,7 @@ class TestExcludedDirsLogging(unittest.TestCase):
 class TestExcludedDirsTypeHandling(unittest.TestCase):
     """Test type handling for exclude_dirs configuration."""
 
-    @patch("skill_seekers.cli.github_scraper.Github")
+    @patch("yonyou_doc2skill.cli.github_scraper.Github")
     def test_exclude_dirs_with_tuple(self, _mock_github):
         """Test that tuples are converted to sets correctly."""
         config = {
@@ -330,7 +330,7 @@ class TestExcludedDirsTypeHandling(unittest.TestCase):
         # Should work with tuples (set() accepts tuples)
         self.assertEqual(scraper.excluded_dirs, {"node_modules", "build"})
 
-    @patch("skill_seekers.cli.github_scraper.Github")
+    @patch("yonyou_doc2skill.cli.github_scraper.Github")
     def test_exclude_dirs_additional_with_set(self, _mock_github):
         """Test that sets work correctly for exclude_dirs_additional."""
         config = {

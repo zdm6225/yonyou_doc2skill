@@ -32,7 +32,7 @@ finally:
 pytestmark = pytest.mark.anyio
 
 if MCP_AVAILABLE:
-    from skill_seekers.mcp.server import scrape_docs_tool, validate_config_tool
+    from yonyou_doc2skill.mcp.server import scrape_docs_tool, validate_config_tool
 else:
     validate_config_tool = None
     scrape_docs_tool = None

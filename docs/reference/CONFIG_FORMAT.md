@@ -1,4 +1,4 @@
-# Config Format Reference - Skill Seekers
+# Config Format Reference - Yonyou Doc2Skill
 
 > **Version:** 3.2.0
 > **Last Updated:** 2026-03-15
@@ -26,7 +26,7 @@
 
 ## Overview
 
-Skill Seekers uses JSON configuration files with a unified format. All configs use a `sources` array, even for single-source scraping.
+Yonyou Doc2Skill uses JSON configuration files with a unified format. All configs use a `sources` array, even for single-source scraping.
 
 > **Important:** Legacy configs without `sources` were removed in v2.11.0. All configs must use the unified format shown below.
 
@@ -839,7 +839,7 @@ Validate your config before scraping:
 
 ```bash
 # Using CLI
-skill-seekers scrape --config my-config.json --dry-run
+yonyou-doc2skill scrape --config my-config.json --dry-run
 
 # Using MCP tool
 validate_config({"config": "my-config.json"})

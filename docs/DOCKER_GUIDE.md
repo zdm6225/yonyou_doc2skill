@@ -1,6 +1,6 @@
 # Docker Deployment Guide
 
-Complete guide for deploying Skill Seekers using Docker and Docker Compose.
+Complete guide for deploying Yonyou Doc2Skill using Docker and Docker Compose.
 
 ## Quick Start
 
@@ -20,8 +20,8 @@ docker-compose --version
 ### 2. Clone Repository
 
 ```bash
-git clone https://github.com/your-org/skill-seekers.git
-cd skill-seekers
+git clone https://github.com/your-org/yonyou-doc2skill.git
+cd yonyou-doc2skill
 ```
 
 ### 3. Configure Environment
@@ -54,7 +54,7 @@ docker-compose up -d mcp-server weaviate
 docker-compose ps
 
 # Test CLI
-docker-compose run skill-seekers skill-seekers --version
+docker-compose run yonyou-doc2skill yonyou-doc2skill --version
 
 # Test MCP server
 curl http://localhost:8765/health
@@ -64,7 +64,7 @@ curl http://localhost:8765/health
 
 ## Available Images
 
-### 1. skill-seekers (CLI)
+### 1. yonyou-doc2skill (CLI)
 
 **Purpose:** Main CLI application for documentation scraping and skill generation
 
@@ -74,16 +74,16 @@ curl http://localhost:8765/health
 docker run --rm \
   -v $(pwd)/output:/output \
   -e ANTHROPIC_API_KEY=your-key \
-  skill-seekers skill-seekers scrape --config /configs/react.json
+  yonyou-doc2skill yonyou-doc2skill scrape --config /configs/react.json
 
 # Interactive shell
-docker run -it --rm skill-seekers bash
+docker run -it --rm yonyou-doc2skill bash
 ```
 
 **Image Size:** ~400MB
 **Platforms:** linux/amd64, linux/arm64
 
-### 2. skill-seekers-mcp (MCP Server)
+### 2. yonyou-doc2skill-mcp (MCP Server)
 
 **Purpose:** MCP server with 25 tools for AI assistants
 
@@ -92,13 +92,13 @@ docker run -it --rm skill-seekers bash
 # HTTP mode (default)
 docker run -d -p 8765:8765 \
   -e ANTHROPIC_API_KEY=your-key \
-  skill-seekers-mcp
+  yonyou-doc2skill-mcp
 
 # Stdio mode
 docker run -it \
   -e ANTHROPIC_API_KEY=your-key \
-  skill-seekers-mcp \
-  python -m skill_seekers.mcp.server_fastmcp --transport stdio
+  yonyou-doc2skill-mcp \
+  python -m yonyou_doc2skill.mcp.server_fastmcp --transport stdio
 ```
 
 **Image Size:** ~450MB
@@ -113,7 +113,7 @@ docker run -it \
 
 ```
 ┌─────────────────────┐
-│   skill-seekers     │  CLI Application
+│   yonyou-doc2skill     │  CLI Application
 └─────────────────────┘
 
 ┌─────────────────────┐
@@ -167,8 +167,8 @@ docker-compose up -d --scale mcp-server=3
 
 ```bash
 # Create skill from React documentation
-docker-compose run skill-seekers \
-  skill-seekers scrape --config /configs/react.json
+docker-compose run yonyou-doc2skill \
+  yonyou-doc2skill scrape --config /configs/react.json
 
 # Output will be in ./output/react/
 ```
@@ -177,13 +177,13 @@ docker-compose run skill-seekers \
 
 ```bash
 # Export React skill to all vector databases
-docker-compose run skill-seekers bash -c "
-  skill-seekers scrape --config /configs/react.json &&
+docker-compose run yonyou-doc2skill bash -c "
+  yonyou-doc2skill scrape --config /configs/react.json &&
   python -c '
 import sys
 from pathlib import Path
 sys.path.insert(0, \"/app/src\")
-from skill_seekers.cli.adaptors import get_adaptor
+from yonyou_doc2skill.cli.adaptors import get_adaptor
 
 for target in [\"weaviate\", \"chroma\", \"faiss\", \"qdrant\"]:
     adaptor = get_adaptor(target)
@@ -197,12 +197,12 @@ for target in [\"weaviate\", \"chroma\", \"faiss\", \"qdrant\"]:
 
 ```bash
 # Generate quality report for a skill
-docker-compose run skill-seekers bash -c "
+docker-compose run yonyou-doc2skill bash -c "
   python3 <<'EOF'
 import sys
 from pathlib import Path
 sys.path.insert(0, '/app/src')
-from skill_seekers.cli.quality_metrics import QualityAnalyzer
+from yonyou_doc2skill.cli.quality_metrics import QualityAnalyzer
 
 analyzer = QualityAnalyzer(Path('/output/react'))
 report = analyzer.generate_report()
@@ -221,7 +221,7 @@ docker-compose up -d mcp-server
 # Add to ~/Library/Application Support/Claude/claude_desktop_config.json:
 {
   "mcpServers": {
-    "skill-seekers": {
+    "yonyou-doc2skill": {
       "url": "http://localhost:8765/sse"
     }
   }
@@ -247,11 +247,11 @@ docker-compose up -d mcp-server
 
 ```bash
 # Backup vector database data
-docker run --rm -v skill-seekers_weaviate-data:/data -v $(pwd):/backup \
+docker run --rm -v yonyou-doc2skill_weaviate-data:/data -v $(pwd):/backup \
   alpine tar czf /backup/weaviate-backup.tar.gz -C /data .
 
 # Restore from backup
-docker run --rm -v skill-seekers_weaviate-data:/data -v $(pwd):/backup \
+docker run --rm -v yonyou-doc2skill_weaviate-data:/data -v $(pwd):/backup \
   alpine tar xzf /backup/weaviate-backup.tar.gz -C /data
 ```
 
@@ -262,7 +262,7 @@ docker run --rm -v skill-seekers_weaviate-data:/data -v $(pwd):/backup \
 docker-compose down -v
 
 # Remove specific volume
-docker volume rm skill-seekers_weaviate-data
+docker volume rm yonyou-doc2skill_weaviate-data
 ```
 
 ---
@@ -311,25 +311,25 @@ ANTHROPIC_API_KEY=sk-ant-your-key docker-compose up -d
 ### Build CLI Image
 
 ```bash
-docker build -t skill-seekers:local -f Dockerfile .
+docker build -t yonyou-doc2skill:local -f Dockerfile .
 ```
 
 ### Build MCP Server Image
 
 ```bash
-docker build -t skill-seekers-mcp:local -f Dockerfile.mcp .
+docker build -t yonyou-doc2skill-mcp:local -f Dockerfile.mcp .
 ```
 
 ### Build with Custom Base Image
 
 ```bash
 # Use slim base (smaller)
-docker build -t skill-seekers:slim \
+docker build -t yonyou-doc2skill:slim \
   --build-arg BASE_IMAGE=python:3.12-slim \
   -f Dockerfile .
 
 # Use alpine base (smallest)
-docker build -t skill-seekers:alpine \
+docker build -t yonyou-doc2skill:alpine \
   --build-arg BASE_IMAGE=python:3.12-alpine \
   -f Dockerfile .
 ```
@@ -368,7 +368,7 @@ docker-compose run mcp-server python -c "import mcp; print('OK')"
 chmod -R 777 data/ output/
 
 # Or use specific user ID
-docker-compose run -u $(id -u):$(id -g) skill-seekers ...
+docker-compose run -u $(id -u):$(id -g) yonyou-doc2skill ...
 ```
 
 ### Issue: Out of Memory
@@ -382,13 +382,13 @@ docker-compose run -u $(id -u):$(id -g) skill-seekers ...
 # Increase Docker memory limit
 # Edit docker-compose.yml, add:
 services:
-  skill-seekers:
+  yonyou-doc2skill:
     mem_limit: 4g
     memswap_limit: 4g
 
 # Or use streaming for large docs
-docker-compose run skill-seekers \
-  skill-seekers scrape --config /configs/react.json --streaming
+docker-compose run yonyou-doc2skill \
+  yonyou-doc2skill scrape --config /configs/react.json --streaming
 ```
 
 ### Issue: Vector Database Connection Failed
@@ -403,9 +403,9 @@ docker-compose run skill-seekers \
 docker-compose ps
 
 # Test connectivity
-docker-compose exec skill-seekers curl http://weaviate:8080
-docker-compose exec skill-seekers curl http://qdrant:6333
-docker-compose exec skill-seekers curl http://chroma:8000
+docker-compose exec yonyou-doc2skill curl http://weaviate:8080
+docker-compose exec yonyou-doc2skill curl http://qdrant:6333
+docker-compose exec yonyou-doc2skill curl http://chroma:8000
 
 # Restart services
 docker-compose restart weaviate qdrant chroma
@@ -420,14 +420,14 @@ docker-compose restart weaviate qdrant chroma
 **Solutions:**
 ```bash
 # Use smaller image
-docker pull skill-seekers:slim
+docker pull yonyou-doc2skill:slim
 
 # Enable BuildKit cache
 export DOCKER_BUILDKIT=1
-docker build -t skill-seekers:local .
+docker build -t yonyou-doc2skill:local .
 
 # Increase CPU allocation
-docker-compose up -d --scale skill-seekers=1 --cpu-shares=2048
+docker-compose up -d --scale yonyou-doc2skill=1 --cpu-shares=2048
 ```
 
 ---
@@ -442,7 +442,7 @@ docker-compose up -d --scale skill-seekers=1 --cpu-shares=2048
 echo "sk-ant-your-key" | docker secret create anthropic_key -
 
 # Kubernetes secrets
-kubectl create secret generic skill-seekers-secrets \
+kubectl create secret generic yonyou-doc2skill-secrets \
   --from-literal=anthropic-api-key=sk-ant-your-key
 ```
 
@@ -484,7 +484,7 @@ services:
 docker-compose ps
 
 # Detailed health status
-docker inspect --format='{{.State.Health.Status}}' skill-seekers-mcp
+docker inspect --format='{{.State.Health.Status}}' yonyou-doc2skill-mcp
 ```
 
 2. **Logs**
@@ -493,7 +493,7 @@ docker inspect --format='{{.State.Health.Status}}' skill-seekers-mcp
 docker-compose logs -f --tail=100
 
 # Export logs
-docker-compose logs > skill-seekers-logs.txt
+docker-compose logs > yonyou-doc2skill-logs.txt
 ```
 
 3. **Metrics**
@@ -564,9 +564,9 @@ services:
 
 - [Docker Documentation](https://docs.docker.com/)
 - [Docker Compose Reference](https://docs.docker.com/compose/compose-file/)
-- [Skill Seekers Documentation](https://skillseekersweb.com/)
+- [Yonyou Doc2Skill Documentation](https://docs.yonyou.example/yonyou-doc2skill/)
 - [MCP Server Setup](docs/MCP_SETUP.md)
-- [Vector Database Integration](docs/strategy/WEEK2_COMPLETE.md)
+- Vector database integration guidance now lives in the main documentation set.
 
 ---
 

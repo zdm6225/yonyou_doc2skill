@@ -1,0 +1,26 @@
+{
+  "name": "@yonyou/yonyou-doc2skill",
+  "version": "0.1.0",
+  "description": "Official Yonyou Doc2Skill wrapper skill for generating skills from documentation, repositories, local projects, files, Confluence, and chat exports.",
+  "license": "UNLICENSED",
+  "private": false,
+  "files": [
+    "SKILL.md",
+    "package.json",
+    "requirements.txt",
+    "scripts",
+    "runtime"
+  ],
+  "keywords": [
+    "yonyou",
+    "skill",
+    "doc2skill",
+    "knowledge",
+    "confluence"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yonyou/yonyou-doc2skill.git",
+    "directory": "skills/yonyou-doc2skill"
+  }
+}

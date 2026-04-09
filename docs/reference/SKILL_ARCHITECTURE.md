@@ -924,7 +924,7 @@ Keywords: order, purchase, payment, checkout, fulfillment
 ## Additional Resources
 
 - **Auto-Generated Routers:** See `docs/LARGE_DOCUMENTATION.md` for automated splitting of scraped documentation
-- **Router Implementation:** See `src/skill_seekers/cli/generate_router.py` for reference implementation
+- **Router Implementation:** See `src/yonyou_doc2skill/cli/generate_router.py` for reference implementation
 - **Examples:** See configs in `configs/` for real-world router patterns
 
 **Questions or feedback?** Open an issue on GitHub!

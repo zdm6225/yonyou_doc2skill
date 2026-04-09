@@ -1,13 +1,13 @@
 # Scraping Guide
 
-> **Skill Seekers v3.1.0**  
+> **Yonyou Doc2Skill v3.1.0**  
 > **Complete guide to all scraping options**
 
 ---
 
 ## Overview
 
-Skill Seekers can extract knowledge from four types of sources:
+Yonyou Doc2Skill can extract knowledge from four types of sources:
 
 | Source | Command | Best For |
 |--------|---------|----------|
@@ -24,13 +24,13 @@ Skill Seekers can extract knowledge from four types of sources:
 
 ```bash
 # Auto-detect and scrape
-skill-seekers create https://docs.react.dev/
+yonyou-doc2skill create https://docs.react.dev/
 
 # With custom name
-skill-seekers create https://docs.react.dev/ --name react-docs
+yonyou-doc2skill create https://docs.react.dev/ --name react-docs
 
 # With description
-skill-seekers create https://docs.react.dev/ \
+yonyou-doc2skill create https://docs.react.dev/ \
   --description "React JavaScript library documentation"
 ```
 
@@ -38,12 +38,12 @@ skill-seekers create https://docs.react.dev/ \
 
 ```bash
 # List available presets
-skill-seekers estimate --all
+yonyou-doc2skill estimate --all
 
 # Use preset
-skill-seekers create --config react
-skill-seekers create --config django
-skill-seekers create --config fastapi
+yonyou-doc2skill create --config react
+yonyou-doc2skill create --config django
+yonyou-doc2skill create --config fastapi
 ```
 
 **Available presets:** See `configs/` directory in repository.
@@ -71,7 +71,7 @@ cat > configs/my-docs.json << 'EOF'
 EOF
 
 # Use config
-skill-seekers create --config configs/my-docs.json
+yonyou-doc2skill create --config configs/my-docs.json
 ```
 
 See [Config Format](../reference/CONFIG_FORMAT.md) for all options.
@@ -80,22 +80,22 @@ See [Config Format](../reference/CONFIG_FORMAT.md) for all options.
 
 ```bash
 # Limit pages (for testing)
-skill-seekers create <url> --max-pages 50
+yonyou-doc2skill create <url> --max-pages 50
 
 # Adjust rate limit
-skill-seekers create <url> --rate-limit 1.0
+yonyou-doc2skill create <url> --rate-limit 1.0
 
 # Parallel workers (faster)
-skill-seekers create <url> --workers 5 --async
+yonyou-doc2skill create <url> --workers 5 --async
 
 # Dry run (preview)
-skill-seekers create <url> --dry-run
+yonyou-doc2skill create <url> --dry-run
 
 # Resume interrupted
-skill-seekers create <url> --resume
+yonyou-doc2skill create <url> --resume
 
 # Fresh start (ignore cache)
-skill-seekers create <url> --fresh
+yonyou-doc2skill create <url> --fresh
 ```
 
 ---
@@ -106,13 +106,13 @@ skill-seekers create <url> --fresh
 
 ```bash
 # By repo name
-skill-seekers create facebook/react
+yonyou-doc2skill create facebook/react
 
 # With explicit flag
-skill-seekers github --repo facebook/react
+yonyou-doc2skill github --repo facebook/react
 
 # With custom name
-skill-seekers github --repo facebook/react --name react-source
+yonyou-doc2skill github --repo facebook/react --name react-source
 ```
 
 ### With GitHub Token
@@ -122,7 +122,7 @@ skill-seekers github --repo facebook/react --name react-source
 export GITHUB_TOKEN=ghp_...
 
 # Use token
-skill-seekers github --repo facebook/react
+yonyou-doc2skill github --repo facebook/react
 ```
 
 **Benefits of token:**
@@ -144,16 +144,16 @@ skill-seekers github --repo facebook/react
 
 ```bash
 # Skip issues (faster)
-skill-seekers github --repo facebook/react --no-issues
+yonyou-doc2skill github --repo facebook/react --no-issues
 
 # Limit issues
-skill-seekers github --repo facebook/react --max-issues 50
+yonyou-doc2skill github --repo facebook/react --max-issues 50
 
 # Scrape only (no build)
-skill-seekers github --repo facebook/react --scrape-only
+yonyou-doc2skill github --repo facebook/react --scrape-only
 
 # Non-interactive (CI/CD)
-skill-seekers github --repo facebook/react --non-interactive
+yonyou-doc2skill github --repo facebook/react --non-interactive
 ```
 
 ---
@@ -164,22 +164,22 @@ skill-seekers github --repo facebook/react --non-interactive
 
 ```bash
 # Direct file
-skill-seekers create manual.pdf --name product-manual
+yonyou-doc2skill create manual.pdf --name product-manual
 
 # With explicit command
-skill-seekers pdf --pdf manual.pdf --name docs
+yonyou-doc2skill pdf --pdf manual.pdf --name docs
 ```
 
 ### OCR for Scanned PDFs
 
 ```bash
 # Enable OCR
-skill-seekers pdf --pdf scanned.pdf --enable-ocr
+yonyou-doc2skill pdf --pdf scanned.pdf --enable-ocr
 ```
 
 **Requirements:**
 ```bash
-pip install skill-seekers[pdf-ocr]
+pip install yonyou-doc2skill[pdf-ocr]
 # Also requires: tesseract-ocr (system package)
 ```
 
@@ -212,26 +212,26 @@ pip install skill-seekers[pdf-ocr]
 
 ```bash
 # Current directory
-skill-seekers create .
+yonyou-doc2skill create .
 
 # Specific directory
-skill-seekers create ./my-project
+yonyou-doc2skill create ./my-project
 
 # With explicit command
-skill-seekers analyze --directory ./my-project
+yonyou-doc2skill analyze --directory ./my-project
 ```
 
 ### Analysis Presets
 
 ```bash
 # Quick analysis (1-2 min)
-skill-seekers analyze --directory ./my-project --preset quick
+yonyou-doc2skill analyze --directory ./my-project --preset quick
 
 # Standard analysis (5-10 min) - default
-skill-seekers analyze --directory ./my-project --preset standard
+yonyou-doc2skill analyze --directory ./my-project --preset standard
 
 # Comprehensive (20-60 min)
-skill-seekers analyze --directory ./my-project --preset comprehensive
+yonyou-doc2skill analyze --directory ./my-project --preset comprehensive
 ```
 
 ### What Gets Analyzed
@@ -250,11 +250,11 @@ skill-seekers analyze --directory ./my-project --preset comprehensive
 
 ```bash
 # Specific languages
-skill-seekers analyze --directory ./my-project \
+yonyou-doc2skill analyze --directory ./my-project \
   --languages Python,JavaScript
 
 # File patterns
-skill-seekers analyze --directory ./my-project \
+yonyou-doc2skill analyze --directory ./my-project \
   --file-patterns "*.py,*.js"
 ```
 
@@ -262,7 +262,7 @@ skill-seekers analyze --directory ./my-project \
 
 ```bash
 # Skip heavy features
-skill-seekers analyze --directory ./my-project \
+yonyou-doc2skill analyze --directory ./my-project \
   --skip-dependency-graph \
   --skip-patterns \
   --skip-test-examples
@@ -276,49 +276,49 @@ skill-seekers analyze --directory ./my-project \
 
 ```bash
 # Dry run to preview
-skill-seekers create <source> --dry-run
+yonyou-doc2skill create <source> --dry-run
 
 # Small test scrape
-skill-seekers create <source> --max-pages 10
+yonyou-doc2skill create <source> --max-pages 10
 
 # Full scrape
-skill-seekers create <source>
+yonyou-doc2skill create <source>
 ```
 
 ### Pattern 2: Iterative Development
 
 ```bash
 # Scrape without enhancement (fast)
-skill-seekers create <source> --enhance-level 0
+yonyou-doc2skill create <source> --enhance-level 0
 
 # Review output
 ls output/my-skill/
 cat output/my-skill/SKILL.md
 
 # Enhance later
-skill-seekers enhance output/my-skill/
+yonyou-doc2skill enhance output/my-skill/
 ```
 
 ### Pattern 3: Parallel Processing
 
 ```bash
 # Fast async scraping
-skill-seekers create <url> --async --workers 5
+yonyou-doc2skill create <url> --async --workers 5
 
 # Even faster (be careful with rate limits)
-skill-seekers create <url> --async --workers 10 --rate-limit 0.2
+yonyou-doc2skill create <url> --async --workers 10 --rate-limit 0.2
 ```
 
 ### Pattern 4: Resume Capability
 
 ```bash
 # Start scraping
-skill-seekers create <source>
+yonyou-doc2skill create <source>
 # ...interrupted...
 
 # Resume later
-skill-seekers resume --list
-skill-seekers resume <job-id>
+yonyou-doc2skill resume --list
+yonyou-doc2skill resume <job-id>
 ```
 
 ---
@@ -349,7 +349,7 @@ curl -s <url> | grep -i 'article\|main\|content'
 **Solution:**
 ```bash
 # Slow down
-skill-seekers create <url> --rate-limit 2.0
+yonyou-doc2skill create <url> --rate-limit 2.0
 
 # Or use GitHub token for GitHub repos
 export GITHUB_TOKEN=ghp_...
@@ -362,10 +362,10 @@ export GITHUB_TOKEN=ghp_...
 **Solution:**
 ```bash
 # Estimate first
-skill-seekers estimate configs/my-config.json
+yonyou-doc2skill estimate configs/my-config.json
 
 # Limit pages
-skill-seekers create <url> --max-pages 100
+yonyou-doc2skill create <url> --max-pages 100
 
 # Adjust URL patterns
 {
@@ -382,10 +382,10 @@ skill-seekers create <url> --max-pages 100
 **Solution:**
 ```bash
 # Use streaming mode
-skill-seekers create <url> --streaming
+yonyou-doc2skill create <url> --streaming
 
 # Or smaller chunks
-skill-seekers create <url> --chunk-tokens 500
+yonyou-doc2skill create <url> --chunk-tokens 500
 ```
 
 ---

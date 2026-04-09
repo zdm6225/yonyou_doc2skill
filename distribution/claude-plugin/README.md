@@ -1,4 +1,4 @@
-# Skill Seekers — Claude Code Plugin
+# Yonyou Doc2Skill — Claude Code Plugin
 
 Transform 17 source types into AI-ready skills and RAG knowledge, directly from Claude Code.
 
@@ -7,7 +7,7 @@ Transform 17 source types into AI-ready skills and RAG knowledge, directly from 
 ### From the Official Plugin Directory
 
 ```
-/plugin install skill-seekers@claude-plugin-directory
+/plugin install yonyou-doc2skill@claude-plugin-directory
 ```
 
 Or browse for it in `/plugin > Discover`.
@@ -15,22 +15,22 @@ Or browse for it in `/plugin > Discover`.
 ### Local Installation (for development)
 
 ```bash
-claude --plugin-dir ./path/to/skill-seekers-plugin
+claude --plugin-dir ./path/to/yonyou-doc2skill-plugin
 ```
 
 ### Prerequisites
 
-The plugin requires `skill-seekers` to be installed:
+The plugin requires `yonyou-doc2skill` to be installed:
 
 ```bash
-pip install skill-seekers[mcp]
+pip install yonyou-doc2skill[mcp]
 ```
 
 ## What's Included
 
 ### MCP Server (35 tools)
 
-The plugin bundles the Skill Seekers MCP server providing tools for:
+The plugin bundles the Yonyou Doc2Skill MCP server providing tools for:
 - Scraping documentation, GitHub repos, PDFs, videos, and 13 other source types
 - Packaging skills for 16+ LLM platforms
 - Exporting to vector databases (Weaviate, Chroma, FAISS, Qdrant)
@@ -40,9 +40,9 @@ The plugin bundles the Skill Seekers MCP server providing tools for:
 
 | Command | Description |
 |---------|-------------|
-| `/skill-seekers:create-skill <source>` | Create a skill from any source (auto-detects type) |
-| `/skill-seekers:sync-config <config>` | Sync config URLs against live docs |
-| `/skill-seekers:install-skill <source>` | End-to-end: fetch, scrape, enhance, package, install |
+| `/yonyou-doc2skill:create-skill <source>` | Create a skill from any source (auto-detects type) |
+| `/yonyou-doc2skill:sync-config <config>` | Sync config URLs against live docs |
+| `/yonyou-doc2skill:install-skill <source>` | End-to-end: fetch, scrape, enhance, package, install |
 
 ### Agent Skill
 
@@ -52,16 +52,16 @@ The **skill-builder** skill is automatically available to Claude. It detects sou
 
 ```
 # Create a skill from a documentation site
-/skill-seekers:create-skill https://react.dev
+/yonyou-doc2skill:create-skill https://react.dev
 
 # Create from a GitHub repo, targeting LangChain
-/skill-seekers:create-skill pallets/flask --target langchain
+/yonyou-doc2skill:create-skill pallets/flask --target langchain
 
 # Full install workflow with AI enhancement
-/skill-seekers:install-skill https://fastapi.tiangolo.com --enhance
+/yonyou-doc2skill:install-skill https://fastapi.tiangolo.com --enhance
 
 # Sync an existing config
-/skill-seekers:sync-config react
+/yonyou-doc2skill:sync-config react
 ```
 
 Or just ask Claude naturally:
@@ -73,11 +73,11 @@ The skill-builder agent skill will automatically detect the intent and use the r
 
 ## Remote MCP Alternative
 
-By default, the plugin runs the MCP server locally via `python -m skill_seekers.mcp.server_fastmcp`. To use a remote server instead, edit `.mcp.json`:
+By default, the plugin runs the MCP server locally via `python -m yonyou_doc2skill.mcp.server_fastmcp`. To use a remote server instead, edit `.mcp.json`:
 
 ```json
 {
-  "skill-seekers": {
+  "yonyou-doc2skill": {
     "type": "http",
     "url": "https://your-hosted-server.com/mcp"
   }
@@ -90,4 +90,4 @@ Documentation (web), GitHub repos, PDFs, Word docs, EPUBs, videos, local codebas
 
 ## License
 
-MIT — https://github.com/yusufkaraaslan/Skill_Seekers
+MIT — https://github.com/yonyou/yonyou-doc2skill

@@ -11,7 +11,7 @@ import tempfile
 import unittest
 from unittest.mock import AsyncMock, patch
 
-from skill_seekers.cli.doc_scraper import DocToSkillConverter
+from yonyou_doc2skill.cli.doc_scraper import DocToSkillConverter
 
 
 class TestAsyncConfiguration(unittest.TestCase):

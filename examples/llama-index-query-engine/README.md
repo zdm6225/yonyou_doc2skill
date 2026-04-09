@@ -1,10 +1,10 @@
 # LlamaIndex Query Engine Example
 
-Complete example showing how to build a query engine using Skill Seekers nodes with LlamaIndex.
+Complete example showing how to build a query engine using Yonyou Doc2Skill nodes with LlamaIndex.
 
 ## What This Example Does
 
-1. **Loads** Skill Seekers-generated LlamaIndex Nodes
+1. **Loads** Yonyou Doc2Skill-generated LlamaIndex Nodes
 2. **Creates** a persistent VectorStoreIndex
 3. **Demonstrates** query engine capabilities
 4. **Provides** interactive chat mode with memory
@@ -21,16 +21,16 @@ export OPENAI_API_KEY=sk-...
 
 ## Generate Nodes
 
-First, generate LlamaIndex nodes using Skill Seekers:
+First, generate LlamaIndex nodes using Yonyou Doc2Skill:
 
 ```bash
 # Option 1: Use preset config (e.g., Django)
-skill-seekers scrape --config configs/django.json
-skill-seekers package output/django --target llama-index
+yonyou-doc2skill scrape --config configs/django.json
+yonyou-doc2skill package output/django --target llama-index
 
 # Option 2: From GitHub repo
-skill-seekers github --repo django/django --name django
-skill-seekers package output/django --target llama-index
+yonyou-doc2skill github --repo django/django --name django
+yonyou-doc2skill package output/django --target llama-index
 
 # Output: output/django-llama-index.json
 ```
@@ -163,4 +163,4 @@ for text in response.response_gen:
 
 ---
 
-**Need help?** [GitHub Discussions](https://github.com/yusufkaraaslan/Skill_Seekers/discussions)
+**Need help?** [GitHub Discussions](https://github.com/yonyou/yonyou-doc2skill/discussions)

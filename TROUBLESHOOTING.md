@@ -93,10 +93,10 @@ FileNotFoundError: [Errno 2] No such file or directory: 'cli/doc_scraper.py'
 ```
 
 **Solutions:**
-1. **Check you're in the Skill_Seekers directory:**
+1. **Check you're in the yonyou_doc2skill directory:**
    ```bash
    pwd
-   # Should show: .../Skill_Seekers
+   # Should show: .../yonyou_doc2skill
 
    ls
    # Should show: README.md, cli/, mcp/, configs/
@@ -104,7 +104,7 @@ FileNotFoundError: [Errno 2] No such file or directory: 'cli/doc_scraper.py'
 
 2. **Change to the correct directory:**
    ```bash
-   cd ~/Projects/Skill_Seekers  # Adjust path
+   cd ~/Projects/yonyou_doc2skill  # Adjust path
    ```
 
 ### Config File Not Found
@@ -119,18 +119,18 @@ FileNotFoundError: [Errno 2] No such file or directory: 'cli/doc_scraper.py'
 The tool searches for configs in this order:
 1. Exact path as provided
 2. `./configs/` (current directory)
-3. `~/.config/skill-seekers/configs/` (user config directory)
-4. SkillSeekersWeb.com API (preset configs)
+3. `~/.config/yonyou-doc2skill/configs/` (user config directory)
+4. docs.yonyou.example API (preset configs)
 
 **Solutions:**
 
 1. **Place config in user directory (recommended for custom configs):**
    ```bash
-   mkdir -p ~/.config/skill-seekers/configs
-   cp myconfig.json ~/.config/skill-seekers/configs/
+   mkdir -p ~/.config/yonyou-doc2skill/configs
+   cp myconfig.json ~/.config/yonyou-doc2skill/configs/
 
    # Now you can use it from anywhere
-   skill-seekers scrape --config myconfig.json
+   yonyou-doc2skill scrape --config myconfig.json
    ```
 
 2. **Place config in current directory (project-specific):**
@@ -138,26 +138,26 @@ The tool searches for configs in this order:
    mkdir -p configs
    cp myconfig.json configs/
 
-   skill-seekers scrape --config configs/myconfig.json
+   yonyou-doc2skill scrape --config configs/myconfig.json
    ```
 
 3. **Use absolute path:**
    ```bash
-   skill-seekers scrape --config /full/path/to/myconfig.json
+   yonyou-doc2skill scrape --config /full/path/to/myconfig.json
    ```
 
 4. **Check if it's a preset config (auto-downloads):**
    ```bash
    # List all available presets
-   skill-seekers estimate --all
+   yonyou-doc2skill estimate --all
 
    # Use preset (auto-fetched from API)
-   skill-seekers scrape --config react.json
+   yonyou-doc2skill scrape --config react.json
    ```
 
 5. **Create new config interactively:**
    ```bash
-   skill-seekers scrape --interactive
+   yonyou-doc2skill scrape --interactive
    ```
 
 ---
@@ -183,18 +183,18 @@ The tool searches for configs in this order:
      "mcpServers": {
        "skill-seeker": {
          "args": [
-           "/Users/yourname/Projects/Skill_Seekers/mcp/server.py"
+           "/Users/yourname/Projects/yonyou_doc2skill/mcp/server.py"
          ]
        }
      }
    }
    ```
-   ❌ **Bad:** `$REPO_PATH` or `/path/to/Skill_Seekers`
-   ✅ **Good:** `/Users/john/Projects/Skill_Seekers`
+   ❌ **Bad:** `$REPO_PATH` or `/path/to/yonyou_doc2skill`
+   ✅ **Good:** `/Users/john/Projects/yonyou_doc2skill`
 
 3. **Test server manually:**
    ```bash
-   cd ~/Projects/Skill_Seekers
+   cd ~/Projects/yonyou_doc2skill
    python3 mcp/server.py
    # Should start without errors (Ctrl+C to stop)
    ```
@@ -216,7 +216,7 @@ The tool searches for configs in this order:
 **Solution:**
 ```bash
 # Get your actual path
-cd ~/Projects/Skill_Seekers
+cd ~/Projects/yonyou_doc2skill
 pwd
 # Copy this path
 
@@ -240,7 +240,7 @@ nano ~/.config/claude-code/mcp.json
 1. **Check working directory:**
    ```json
    {
-     "cwd": "/FULL/PATH/TO/Skill_Seekers"
+     "cwd": "/FULL/PATH/TO/yonyou_doc2skill"
    }
    ```
 
@@ -252,7 +252,7 @@ nano ~/.config/claude-code/mcp.json
 
 3. **Test CLI tools directly:**
    ```bash
-   skill-seekers scrape --help
+   yonyou-doc2skill scrape --help
    ```
 
 ---
@@ -271,7 +271,7 @@ nano ~/.config/claude-code/mcp.json
 
 2. **Use smaller max_pages for testing:**
    ```bash
-   skill-seekers scrape --config configs/test.json --max-pages 5
+   yonyou-doc2skill scrape --config configs/test.json --max-pages 5
    ```
 
 3. **Increase rate_limit in config:**
@@ -415,7 +415,7 @@ ls configs/
 cat ~/.config/claude-code/mcp.json
 
 # 5. Test scraper
-skill-seekers scrape --help
+yonyou-doc2skill scrape --help
 
 # 6. Test MCP server
 timeout 3 python3 mcp/server.py || echo "Server OK"
@@ -432,7 +432,7 @@ git log --oneline -5
 If none of these solutions work:
 
 1. **Check existing issues:**
-   https://github.com/yusufkaraaslan/Skill_Seekers/issues
+   https://github.com/yonyou/yonyou-doc2skill/issues
 
 2. **Open a new issue with:**
    - Your OS (macOS 13, Ubuntu 22.04, etc.)
@@ -449,7 +449,7 @@ If none of these solutions work:
    pip3 --version
 
    # Skill Seeker info
-   cd ~/Projects/Skill_Seekers  # Your path
+   cd ~/Projects/yonyou_doc2skill  # Your path
    pwd
    git log --oneline -1
    ls -la cli/ mcp/ configs/
@@ -462,7 +462,7 @@ If none of these solutions work:
 
 ## Quick Fixes Checklist
 
-- [ ] In the Skill_Seekers directory? (`pwd`)
+- [ ] In the yonyou_doc2skill directory? (`pwd`)
 - [ ] Python 3.10+ installed? (`python3 --version`)
 - [ ] Dependencies installed? (`pip3 list | grep requests`)
 - [ ] Config file exists? (`ls configs/yourconfig.json`)
@@ -472,4 +472,4 @@ If none of these solutions work:
 
 ---
 
-**Still stuck?** Open an issue: https://github.com/yusufkaraaslan/Skill_Seekers/issues/new
+**Still stuck?** Open an issue: https://github.com/yonyou/yonyou-doc2skill/issues/new

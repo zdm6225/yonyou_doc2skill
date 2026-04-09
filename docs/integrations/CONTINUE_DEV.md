@@ -1,4 +1,4 @@
-# Using Skill Seekers with Continue.dev
+# Using Yonyou Doc2Skill with Continue.dev
 
 **Last Updated:** February 7, 2026
 **Status:** Production Ready
@@ -22,7 +22,7 @@ Continue.dev is a powerful IDE-agnostic AI coding assistant, but:
 
 ## ✨ The Solution
 
-Use Skill Seekers to create **custom context providers** for Continue.dev:
+Use Yonyou Doc2Skill to create **custom context providers** for Continue.dev:
 
 1. **Generate structured docs** from any framework or codebase
 2. **Package as HTTP context provider** - Continue's universal format
@@ -41,26 +41,26 @@ Continue becomes an expert in your frameworks across all IDEs with consistent, a
 - Continue.dev installed in your IDE:
   - **VS Code:** https://marketplace.visualstudio.com/items?itemName=Continue.continue
   - **JetBrains:** Settings → Plugins → Search "Continue"
-- Python 3.10+ (for Skill Seekers)
+- Python 3.10+ (for Yonyou Doc2Skill)
 
 ### Installation
 
 ```bash
-# Install Skill Seekers with MCP support
-pip install skill-seekers[mcp]
+# Install Yonyou Doc2Skill with MCP support
+pip install yonyou-doc2skill[mcp]
 
 # Verify installation
-skill-seekers --version
+yonyou-doc2skill --version
 ```
 
 ### Generate Documentation
 
 ```bash
 # Example: Vue.js framework
-skill-seekers scrape --config configs/vue.json
+yonyou-doc2skill scrape --config configs/vue.json
 
 # Package for Continue (markdown format)
-skill-seekers package output/vue --target markdown
+yonyou-doc2skill package output/vue --target markdown
 
 # Extract documentation
 # output/vue-markdown/SKILL.md
@@ -91,12 +91,12 @@ Edit `~/.continue/config.json`:
 **Option 2: MCP Server** (for dynamic access)
 
 ```bash
-# Start Skill Seekers MCP server
-skill-seekers mcp-server --port 8765
+# Start Yonyou Doc2Skill MCP server
+yonyou-doc2skill mcp-server --port 8765
 
 # Or as systemd service (Linux)
-sudo systemctl enable skill-seekers-mcp
-sudo systemctl start skill-seekers-mcp
+sudo systemctl enable yonyou-doc2skill-mcp
+sudo systemctl start yonyou-doc2skill-mcp
 ```
 
 Add to `~/.continue/config.json`:
@@ -104,9 +104,9 @@ Add to `~/.continue/config.json`:
 ```json
 {
   "mcpServers": {
-    "skill-seekers": {
+    "yonyou-doc2skill": {
       "command": "python",
-      "args": ["-m", "skill_seekers.mcp.server_fastmcp", "--transport", "stdio"]
+      "args": ["-m", "yonyou_doc2skill.mcp.server_fastmcp", "--transport", "stdio"]
     }
   }
 }
@@ -188,10 +188,10 @@ Create `myframework-config.json`:
 
 ```bash
 # Analyze codebase patterns
-skill-seekers github --repo facebook/react
+yonyou-doc2skill github --repo facebook/react
 
 # Or local codebase
-skill-seekers analyze --directory /path/to/repo --comprehensive
+yonyou-doc2skill analyze --directory /path/to/repo --comprehensive
 ```
 
 ### Step 2: Optimize for Continue.dev
@@ -203,7 +203,7 @@ Continue supports HTTP-based context providers for maximum flexibility:
 ```python
 # custom_context_server.py
 from fastapi import FastAPI
-from skill_seekers.cli.doc_scraper import load_skill
+from yonyou_doc2skill.cli.doc_scraper import load_skill
 
 app = FastAPI()
 
@@ -253,7 +253,7 @@ For advanced users, expose via MCP:
     {
       "name": "mcp",
       "params": {
-        "serverName": "skill-seekers",
+        "serverName": "yonyou-doc2skill",
         "contextItem": {
           "type": "docs",
           "name": "Framework Documentation"
@@ -262,9 +262,9 @@ For advanced users, expose via MCP:
     }
   ],
   "mcpServers": {
-    "skill-seekers": {
+    "yonyou-doc2skill": {
       "command": "python",
-      "args": ["-m", "skill_seekers.mcp.server_fastmcp", "--transport", "stdio"]
+      "args": ["-m", "yonyou_doc2skill.mcp.server_fastmcp", "--transport", "stdio"]
     }
   }
 }
@@ -432,9 +432,9 @@ Tools → Continue → Show Logs
 
 ```bash
 # Generate frontend context
-skill-seekers scrape --config configs/vue.json
+yonyou-doc2skill scrape --config configs/vue.json
 # Generate backend context
-skill-seekers scrape --config configs/fastapi.json
+yonyou-doc2skill scrape --config configs/fastapi.json
 
 # Start context server with both
 python custom_multi_context_server.py
@@ -444,7 +444,7 @@ python custom_multi_context_server.py
 
 ```python
 from fastapi import FastAPI
-from skill_seekers.cli.doc_scraper import load_skill
+from yonyou_doc2skill.cli.doc_scraper import load_skill
 
 app = FastAPI()
 
@@ -516,7 +516,7 @@ Now use both:
 from fastapi import FastAPI
 from langchain_community.vectorstores import Chroma
 from langchain_openai import OpenAIEmbeddings
-from skill_seekers.cli.package_skill import main as package
+from yonyou_doc2skill.cli.package_skill import main as package
 
 app = FastAPI()
 
@@ -619,16 +619,16 @@ Register in `config.json`:
 }
 ```
 
-### Continue + Skill Seekers MCP Integration
+### Continue + Yonyou Doc2Skill MCP Integration
 
 **Full MCP Setup**
 
 ```bash
-# Install Skill Seekers with MCP
-pip install skill-seekers[mcp]
+# Install Yonyou Doc2Skill with MCP
+pip install yonyou-doc2skill[mcp]
 
 # Start MCP server
-python -m skill_seekers.mcp.server_fastmcp --transport stdio
+python -m yonyou_doc2skill.mcp.server_fastmcp --transport stdio
 ```
 
 **Continue config with MCP:**
@@ -636,11 +636,11 @@ python -m skill_seekers.mcp.server_fastmcp --transport stdio
 ```json
 {
   "mcpServers": {
-    "skill-seekers": {
+    "yonyou-doc2skill": {
       "command": "python",
       "args": [
         "-m",
-        "skill_seekers.mcp.server_fastmcp",
+        "yonyou_doc2skill.mcp.server_fastmcp",
         "--transport",
         "stdio"
       ],
@@ -653,7 +653,7 @@ python -m skill_seekers.mcp.server_fastmcp --transport stdio
     {
       "name": "mcp",
       "params": {
-        "serverName": "skill-seekers",
+        "serverName": "yonyou-doc2skill",
         "contextItem": {
           "type": "docs",
           "name": "Framework Documentation"
@@ -791,15 +791,15 @@ async def get_docs(framework: str):
 #!/bin/bash
 
 # Update Vue docs
-skill-seekers scrape --config configs/vue.json
-skill-seekers package output/vue --target markdown
+yonyou-doc2skill scrape --config configs/vue.json
+yonyou-doc2skill package output/vue --target markdown
 
 # Update FastAPI docs
-skill-seekers scrape --config configs/fastapi.json
-skill-seekers package output/fastapi --target markdown
+yonyou-doc2skill scrape --config configs/fastapi.json
+yonyou-doc2skill package output/fastapi --target markdown
 
 # Restart context server
-systemctl restart skill-seekers-context-server
+systemctl restart yonyou-doc2skill-context-server
 
 echo "✅ Documentation updated!"
 ```
@@ -907,8 +907,8 @@ Continue will:
 
 ```bash
 # 1. Generate documentation
-skill-seekers scrape --config configs/django.json
-skill-seekers package output/django --target markdown
+yonyou-doc2skill scrape --config configs/django.json
+yonyou-doc2skill package output/django --target markdown
 
 # 2. Start context server (team server)
 python context_server.py --host 0.0.0.0 --port 8765
@@ -990,19 +990,19 @@ git push
 ### Issue: MCP Server Not Connecting
 
 **Error:**
-> "Failed to start MCP server: skill-seekers"
+> "Failed to start MCP server: yonyou-doc2skill"
 
 **Solutions:**
 
 1. **Verify installation**
    ```bash
-   pip show skill-seekers
+   pip show yonyou-doc2skill
    # Check [mcp] extra is installed
    ```
 
 2. **Test MCP server directly**
    ```bash
-   python -m skill_seekers.mcp.server_fastmcp --transport stdio
+   python -m yonyou_doc2skill.mcp.server_fastmcp --transport stdio
    # Should start without errors
    # Ctrl+C to exit
    ```
@@ -1011,9 +1011,9 @@ git push
    ```json
    {
      "mcpServers": {
-       "skill-seekers": {
+       "yonyou-doc2skill": {
          "command": "/usr/local/bin/python3",  // Absolute path
-         "args": ["-m", "skill_seekers.mcp.server_fastmcp", "--transport", "stdio"]
+         "args": ["-m", "yonyou_doc2skill.mcp.server_fastmcp", "--transport", "stdio"]
        }
      }
    }
@@ -1066,7 +1066,7 @@ git push
 
 ## 📊 Before vs After Comparison
 
-| Aspect | Before Skill Seekers | After Skill Seekers |
+| Aspect | Before Yonyou Doc2Skill | After Yonyou Doc2Skill |
 |--------|---------------------|---------------------|
 | **Context Source** | Manual @-mentions | Automatic context providers |
 | **IDE Consistency** | Different across IDEs | Same config, all IDEs |
@@ -1081,9 +1081,9 @@ git push
 
 ## 🤝 Community & Support
 
-- **Questions:** [GitHub Discussions](https://github.com/yusufkaraaslan/Skill_Seekers/discussions)
-- **Issues:** [GitHub Issues](https://github.com/yusufkaraaslan/Skill_Seekers/issues)
-- **Website:** [skillseekersweb.com](https://skillseekersweb.com/)
+- **Questions:** [GitHub Discussions](https://github.com/yonyou/yonyou-doc2skill/discussions)
+- **Issues:** [GitHub Issues](https://github.com/yonyou/yonyou-doc2skill/issues)
+- **Website:** [docs.yonyou.example/yonyou-doc2skill](https://docs.yonyou.example/yonyou-doc2skill/)
 - **Continue.dev Docs:** [docs.continue.dev](https://docs.continue.dev/)
 - **Continue.dev GitHub:** [github.com/continuedev/continue](https://github.com/continuedev/continue)
 
@@ -1101,7 +1101,7 @@ git push
 
 ## 📖 Next Steps
 
-1. **Try another framework:** `skill-seekers scrape --config configs/react.json`
+1. **Try another framework:** `yonyou-doc2skill scrape --config configs/react.json`
 2. **Set up team server:** Share context across team
 3. **Build RAG pipeline:** Deep search with `--target langchain`
 4. **Create custom TypeScript provider:** Advanced customization

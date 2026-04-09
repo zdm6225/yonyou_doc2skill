@@ -1,14 +1,14 @@
-# Skill Seekers: The Universal Preprocessor for RAG Systems
+# Yonyou Doc2Skill: The Universal Preprocessor for RAG Systems
 
 **Published:** February 5, 2026
-**Author:** Skill Seekers Team
+**Author:** Yonyou Doc2Skill Team
 **Reading Time:** 8 minutes
 
 ---
 
 ## TL;DR
 
-**Skill Seekers is now the universal preprocessing layer for RAG pipelines.** Generate production-ready documentation from any source (websites, GitHub, PDFs, codebases) and export to LangChain, LlamaIndex, Pinecone, or any RAG framework in minutes—not hours.
+**Yonyou Doc2Skill is now the universal preprocessing layer for RAG pipelines.** Generate production-ready documentation from any source (websites, GitHub, PDFs, codebases) and export to LangChain, LlamaIndex, Pinecone, or any RAG framework in minutes—not hours.
 
 **New Integrations:**
 - ✅ LangChain Documents
@@ -18,9 +18,9 @@
 
 **Try it now:**
 ```bash
-pip install skill-seekers
-skill-seekers scrape --config configs/django.json
-skill-seekers package output/django --target langchain
+pip install yonyou-doc2skill
+yonyou-doc2skill scrape --config configs/django.json
+yonyou-doc2skill package output/django --target langchain
 ```
 
 ---
@@ -79,12 +79,12 @@ for url in all_urls:  # How do you even get all URLs?
 
 ---
 
-## The Skill Seekers Approach (New Reality)
+## The Yonyou Doc2Skill Approach (New Reality)
 
 ```bash
 # 15 minutes total:
-skill-seekers scrape --config configs/django.json
-skill-seekers package output/django --target langchain
+yonyou-doc2skill scrape --config configs/django.json
+yonyou-doc2skill package output/django --target langchain
 
 # That's it. You're done with preprocessing.
 ```
@@ -105,7 +105,7 @@ skill-seekers package output/django --target langchain
 
 ## The Universal Preprocessor Architecture
 
-Skill Seekers sits between your documentation sources and your RAG stack:
+Yonyou Doc2Skill sits between your documentation sources and your RAG stack:
 
 ```
 ┌────────────────────────────────────────────────────────────┐
@@ -120,7 +120,7 @@ Skill Seekers sits between your documentation sources and your RAG stack:
                    │
                    ▼
 ┌────────────────────────────────────────────────────────────┐
-│ Skill Seekers (Universal Preprocessor)                     │
+│ Yonyou Doc2Skill (Universal Preprocessor)                     │
 │                                                            │
 │ Smart Scraping:                                            │
 │ • BFS traversal with rate limiting                        │
@@ -161,7 +161,7 @@ Skill Seekers sits between your documentation sources and your RAG stack:
 └────────────────────────────────────────────────────────────┘
 ```
 
-**Key insight:** Preprocessing is the same regardless of your RAG stack. Skill Seekers handles it once, exports everywhere.
+**Key insight:** Preprocessing is the same regardless of your RAG stack. Yonyou Doc2Skill handles it once, exports everywhere.
 
 ---
 
@@ -169,17 +169,17 @@ Skill Seekers sits between your documentation sources and your RAG stack:
 
 ### Example 1: Developer Documentation Chatbot
 
-**Before Skill Seekers:**
+**Before Yonyou Doc2Skill:**
 - ⏱️ 5 days preprocessing Django docs manually
 - 🐛 Multiple scraping failures, manual fixes
 - 📊 Inconsistent metadata, poor retrieval accuracy
 - 🔄 Every docs update = start over
 - 💰 $2000 developer time wasted on preprocessing
 
-**After Skill Seekers:**
+**After Yonyou Doc2Skill:**
 ```bash
-skill-seekers scrape --config configs/django.json  # 15 minutes
-skill-seekers package output/django --target langchain
+yonyou-doc2skill scrape --config configs/django.json  # 15 minutes
+yonyou-doc2skill package output/django --target langchain
 
 # Load and deploy
 python deploy_rag.py  # Your RAG pipeline
@@ -197,21 +197,21 @@ python deploy_rag.py  # Your RAG pipeline
 
 ### Example 2: Internal Knowledge Base (500-Person Eng Org)
 
-**Before Skill Seekers:**
+**Before Yonyou Doc2Skill:**
 - ⏱️ 2 weeks building custom scraper for internal wikis
 - 🔐 Compliance issues with external APIs
 - 📚 3 separate systems (docs, code, Slack)
 - 👥 Full-time maintenance needed
 
-**After Skill Seekers:**
+**After Yonyou Doc2Skill:**
 ```bash
 # Combine all sources
-skill-seekers unified \
+yonyou-doc2skill unified \
   --docs-config configs/internal-docs.json \
   --github internal/repos \
   --name knowledge-base
 
-skill-seekers package output/knowledge-base --target llama-index
+yonyou-doc2skill package output/knowledge-base --target llama-index
 
 # Deploy with local models (no external APIs)
 python deploy_private_rag.py
@@ -228,17 +228,17 @@ python deploy_private_rag.py
 
 ### Example 3: AI Coding Assistant (Cursor IDE)
 
-**Before Skill Seekers:**
+**Before Yonyou Doc2Skill:**
 - 💬 AI gives generic, outdated answers
 - 📋 Manual copy-paste of framework docs
 - 🎯 Context lost between sessions
 - 😤 Frustrating developer experience
 
-**After Skill Seekers:**
+**After Yonyou Doc2Skill:**
 ```bash
 # Generate .cursorrules file
-skill-seekers scrape --config configs/fastapi.json
-skill-seekers package output/fastapi --target markdown
+yonyou-doc2skill scrape --config configs/fastapi.json
+yonyou-doc2skill package output/fastapi --target markdown
 cp output/fastapi-markdown/SKILL.md .cursorrules
 
 # Now Cursor AI is a FastAPI expert!
@@ -255,10 +255,10 @@ cp output/fastapi-markdown/SKILL.md .cursorrules
 
 ## The Platform Adaptor Architecture
 
-Under the hood, Skill Seekers uses a **platform adaptor pattern** (Strategy Pattern) to support multiple RAG frameworks:
+Under the hood, Yonyou Doc2Skill uses a **platform adaptor pattern** (Strategy Pattern) to support multiple RAG frameworks:
 
 ```python
-# src/skill_seekers/cli/adaptors/
+# src/yonyou_doc2skill/cli/adaptors/
 
 from abc import ABC, abstractmethod
 
@@ -297,7 +297,7 @@ class MarkdownAdaptor(BaseAdaptor): ...    # Generic Markdown
 
 ### Preprocessing Time Impact
 
-| Task | Manual | Skill Seekers | Time Saved |
+| Task | Manual | Yonyou Doc2Skill | Time Saved |
 |------|--------|---------------|------------|
 | **Scraping** | 2-3 days | 5-15 min | 99.5% |
 | **Cleaning** | 1-2 days | Automatic | 100% |
@@ -307,7 +307,7 @@ class MarkdownAdaptor(BaseAdaptor): ...    # Generic Markdown
 
 ### Quality Impact
 
-| Metric | Manual | Skill Seekers | Improvement |
+| Metric | Manual | Yonyou Doc2Skill | Improvement |
 |--------|--------|---------------|-------------|
 | **Retrieval Accuracy** | 60-70% | 90-95% | +40% |
 | **Source Attribution** | 50% | 95% | +90% |
@@ -319,7 +319,7 @@ class MarkdownAdaptor(BaseAdaptor): ...    # Generic Markdown
 | Approach | One-Time | Monthly | Annual |
 |----------|----------|---------|--------|
 | **Manual (Dev Time)** | $2000 | $500 | $8000 |
-| **Skill Seekers** | $0 | $0 | $0 |
+| **Yonyou Doc2Skill** | $0 | $0 | $0 |
 | **Savings** | 100% | 100% | 100% |
 
 *Assumes $100/hr developer rate, 2 hours/month maintenance*
@@ -334,11 +334,11 @@ Use a preset configuration for popular frameworks:
 
 ```bash
 # Install
-pip install skill-seekers
+pip install yonyou-doc2skill
 
 # Generate LangChain documents
-skill-seekers scrape --config configs/react.json
-skill-seekers package output/react --target langchain
+yonyou-doc2skill scrape --config configs/react.json
+yonyou-doc2skill package output/react --target langchain
 
 # Load into your RAG pipeline
 python your_rag_pipeline.py
@@ -368,8 +368,8 @@ cat > configs/my-docs.json << 'EOF'
 EOF
 
 # Scrape
-skill-seekers scrape --config configs/my-docs.json
-skill-seekers package output/my-framework --target llama-index
+yonyou-doc2skill scrape --config configs/my-docs.json
+yonyou-doc2skill package output/my-framework --target llama-index
 ```
 
 ### Path 3: Full Power (30 Minutes)
@@ -378,19 +378,19 @@ Combine multiple sources with AI enhancement:
 
 ```bash
 # Combine docs + GitHub + local code
-skill-seekers unified \
+yonyou-doc2skill unified \
   --docs-config configs/fastapi.json \
   --github fastapi/fastapi \
   --directory ./my-fastapi-project \
   --name fastapi-complete
 
 # AI enhancement (optional, makes it even better)
-skill-seekers enhance output/fastapi-complete
+yonyou-doc2skill enhance output/fastapi-complete
 
 # Package for multiple platforms
-skill-seekers package output/fastapi-complete --target langchain
-skill-seekers package output/fastapi-complete --target llama-index
-skill-seekers package output/fastapi-complete --target markdown
+yonyou-doc2skill package output/fastapi-complete --target langchain
+yonyou-doc2skill package output/fastapi-complete --target llama-index
+yonyou-doc2skill package output/fastapi-complete --target markdown
 ```
 
 **Result:** Enterprise-grade, multi-source knowledge base in 30 minutes.
@@ -409,7 +409,7 @@ from langchain.llms import OpenAI
 from langchain.schema import Document
 import json
 
-# Load Skill Seekers output
+# Load Yonyou Doc2Skill output
 with open("output/react-langchain.json") as f:
     docs_data = json.load(f)
 
@@ -431,7 +431,7 @@ from llama_index.core import VectorStoreIndex
 from llama_index.core.schema import TextNode
 import json
 
-# Load Skill Seekers output
+# Load Yonyou Doc2Skill output
 with open("output/django-llama-index.json") as f:
     nodes_data = json.load(f)
 
@@ -452,7 +452,7 @@ from pinecone import Pinecone
 from openai import OpenAI
 import json
 
-# Load Skill Seekers output
+# Load Yonyou Doc2Skill output
 with open("output/fastapi-langchain.json") as f:
     documents = json.load(f)
 
@@ -470,7 +470,7 @@ for i, doc in enumerate(documents):
     index.upsert(vectors=[{
         "id": f"doc_{i}",
         "values": embedding,
-        "metadata": doc["metadata"]  # Skill Seekers metadata preserved!
+        "metadata": doc["metadata"]  # Yonyou Doc2Skill metadata preserved!
     }])
 ```
 
@@ -480,7 +480,7 @@ for i, doc in enumerate(documents):
 
 ## What's Next?
 
-Skill Seekers is evolving from "Claude Code skill generator" to **universal RAG infrastructure**. Here's what's coming:
+Yonyou Doc2Skill is evolving from "Claude Code skill generator" to **universal RAG infrastructure**. Here's what's coming:
 
 ### Week 2-4 Roadmap (February 2026)
 
@@ -504,10 +504,10 @@ Skill Seekers is evolving from "Claude Code skill generator" to **universal RAG 
 
 ### Long-Term Vision
 
-**Skill Seekers will become the data layer for AI systems:**
+**Yonyou Doc2Skill will become the data layer for AI systems:**
 
 ```
-Documentation → [Skill Seekers] → RAG Systems
+Documentation → [Yonyou Doc2Skill] → RAG Systems
                                 → AI Coding Assistants
                                 → LLM Fine-tuning Data
                                 → Custom GPTs
@@ -520,21 +520,21 @@ Documentation → [Skill Seekers] → RAG Systems
 
 ## Join the Movement
 
-Skill Seekers is **open source** and **community-driven**. We're building the infrastructure layer for the AI age.
+Yonyou Doc2Skill is **open source** and **community-driven**. We're building the infrastructure layer for the AI age.
 
 **Get Involved:**
 
-- ⭐ **Star on GitHub:** [github.com/yusufkaraaslan/Skill_Seekers](https://github.com/yusufkaraaslan/Skill_Seekers)
+- ⭐ **Star on GitHub:** [github.com/yonyou/yonyou_doc2skill](https://github.com/yonyou/yonyou-doc2skill)
 - 💬 **Join Discussions:** Share your RAG use cases
 - 🐛 **Report Issues:** Help us improve
 - 🎉 **Contribute:** Add new adaptors, presets, features
-- 📚 **Share Configs:** Submit your configs to SkillSeekersWeb.com
+- 📚 **Share Configs:** Submit your configs to Yonyou Doc2Skill documentation
 
 **Stay Updated:**
 
-- 📰 **Website:** [skillseekersweb.com](https://skillseekersweb.com/)
+- 📰 **Website:** [docs.yonyou.example/yonyou-doc2skill](https://docs.yonyou.example/yonyou-doc2skill/)
 - 🐦 **Twitter:** [@_yUSyUS_](https://x.com/_yUSyUS_)
-- 📦 **PyPI:** `pip install skill-seekers`
+- 📦 **PyPI:** `pip install yonyou-doc2skill`
 
 ---
 
@@ -548,7 +548,7 @@ RAG systems are powerful, but they're only as good as their data. Until now, dat
 - 😤 Frustrating (repetitive, tedious)
 - 🔄 Unmaintainable (docs update → start over)
 
-**Skill Seekers changes the game:**
+**Yonyou Doc2Skill changes the game:**
 
 - ⚡ Fast (15-45 minutes)
 - ✅ Reliable (1,880+ tests, battle-tested)
@@ -563,9 +563,9 @@ RAG systems are powerful, but they're only as good as their data. Until now, dat
 **Try it now:**
 
 ```bash
-pip install skill-seekers
-skill-seekers scrape --config configs/django.json
-skill-seekers package output/django --target langchain
+pip install yonyou-doc2skill
+yonyou-doc2skill scrape --config configs/django.json
+yonyou-doc2skill package output/django --target langchain
 
 # You're 15 minutes away from production-ready RAG data.
 ```
@@ -573,6 +573,6 @@ skill-seekers package output/django --target langchain
 ---
 
 *Published: February 5, 2026*
-*Author: Skill Seekers Team*
+*Author: Yonyou Doc2Skill Team*
 *License: MIT*
-*Questions? [GitHub Discussions](https://github.com/yusufkaraaslan/Skill_Seekers/discussions)*
+*Questions? [GitHub Discussions](https://github.com/yonyou/yonyou-doc2skill/discussions)*

@@ -14,7 +14,7 @@ import json
 from pathlib import Path
 from unittest.mock import MagicMock, patch
 
-from skill_seekers.cli.unified_scraper import UnifiedScraper
+from yonyou_doc2skill.cli.unified_scraper import UnifiedScraper
 
 
 # ---------------------------------------------------------------------------
@@ -175,7 +175,7 @@ class TestScrapeDocumentation:
         scraper = _make_scraper(tmp_path=tmp_path)
         source = {"base_url": "https://docs.example.com/", "type": "documentation"}
 
-        with patch("skill_seekers.cli.doc_scraper.scrape_documentation") as mock_scrape:
+        with patch("yonyou_doc2skill.cli.doc_scraper.scrape_documentation") as mock_scrape:
             mock_scrape.return_value = 1  # simulate failure
             scraper._scrape_documentation(source)
 
@@ -186,7 +186,7 @@ class TestScrapeDocumentation:
         scraper = _make_scraper(tmp_path=tmp_path)
         source = {"base_url": "https://docs.example.com/", "type": "documentation"}
 
-        with patch("skill_seekers.cli.doc_scraper.scrape_documentation") as mock_scrape:
+        with patch("yonyou_doc2skill.cli.doc_scraper.scrape_documentation") as mock_scrape:
             mock_scrape.return_value = 1
             scraper._scrape_documentation(source)
 
@@ -207,7 +207,7 @@ class TestScrapeDocumentation:
             captured_config.update(config)
             return 1  # fail so we don't need to set up output files
 
-        with patch("skill_seekers.cli.doc_scraper.scrape_documentation", side_effect=fake_scrape):
+        with patch("yonyou_doc2skill.cli.doc_scraper.scrape_documentation", side_effect=fake_scrape):
             scraper._scrape_documentation(source)
 
         # The llms_txt_url should be in the sources list of the doc config
@@ -229,7 +229,7 @@ class TestScrapeDocumentation:
             captured_config.update(config)
             return 1
 
-        with patch("skill_seekers.cli.doc_scraper.scrape_documentation", side_effect=fake_scrape):
+        with patch("yonyou_doc2skill.cli.doc_scraper.scrape_documentation", side_effect=fake_scrape):
             scraper._scrape_documentation(source)
 
         sources = captured_config.get("sources", [])
@@ -255,7 +255,7 @@ class TestScrapeGithub:
         mock_scraper_cls.return_value = mock_instance
 
         monkeypatch.setattr(
-            "skill_seekers.cli.github_scraper.GitHubScraper",
+            "yonyou_doc2skill.cli.github_scraper.GitHubScraper",
             mock_scraper_cls,
         )
         return mock_scraper_cls, mock_instance
@@ -268,8 +268,8 @@ class TestScrapeGithub:
 
         (tmp_path / "output").mkdir(parents=True, exist_ok=True)
         with (
-            patch("skill_seekers.cli.unified_scraper.json.dump"),
-            patch("skill_seekers.cli.unified_scraper.json.dumps", return_value="{}"),
+            patch("yonyou_doc2skill.cli.unified_scraper.json.dump"),
+            patch("yonyou_doc2skill.cli.unified_scraper.json.dumps", return_value="{}"),
             patch("builtins.open", MagicMock()),
         ):
             scraper._scrape_github(source)
@@ -354,7 +354,7 @@ class TestScrapePdf:
         mock_cls.return_value = mock_instance
 
         monkeypatch.setattr(
-            "skill_seekers.cli.pdf_scraper.PDFToSkillConverter",
+            "yonyou_doc2skill.cli.pdf_scraper.PDFToSkillConverter",
             mock_cls,
         )
         return mock_cls, mock_instance
@@ -366,7 +366,7 @@ class TestScrapePdf:
 
         mock_cls, _ = self._mock_pdf_converter(monkeypatch, tmp_path)
 
-        with patch("skill_seekers.cli.unified_scraper.shutil.copy"):
+        with patch("yonyou_doc2skill.cli.unified_scraper.shutil.copy"):
             scraper._scrape_pdf(source)
 
         mock_cls.assert_called_once()
@@ -379,7 +379,7 @@ class TestScrapePdf:
 
         _, mock_inst = self._mock_pdf_converter(monkeypatch, tmp_path)
 
-        with patch("skill_seekers.cli.unified_scraper.shutil.copy"):
+        with patch("yonyou_doc2skill.cli.unified_scraper.shutil.copy"):
             scraper._scrape_pdf(source)
 
         mock_inst.extract_pdf.assert_called_once()
@@ -392,7 +392,7 @@ class TestScrapePdf:
         pages = [{"page": 1, "content": "Hello"}, {"page": 2, "content": "World"}]
         self._mock_pdf_converter(monkeypatch, tmp_path, pages=pages)
 
-        with patch("skill_seekers.cli.unified_scraper.shutil.copy"):
+        with patch("yonyou_doc2skill.cli.unified_scraper.shutil.copy"):
             scraper._scrape_pdf(source)
 
         assert len(scraper.scraped_data["pdf"]) == 1
@@ -407,7 +407,7 @@ class TestScrapePdf:
         source = {"type": "pdf", "path": str(tmp_path / "a.pdf")}
         self._mock_pdf_converter(monkeypatch, tmp_path)
 
-        with patch("skill_seekers.cli.unified_scraper.shutil.copy"):
+        with patch("yonyou_doc2skill.cli.unified_scraper.shutil.copy"):
             scraper._scrape_pdf(source)
 
         assert scraper._source_counters["pdf"] == 1
@@ -428,7 +428,7 @@ class TestScrapeLocal:
         assert scraper._source_counters["local"] == 0
 
         monkeypatch.setattr(
-            "skill_seekers.cli.codebase_scraper.analyze_codebase",
+            "yonyou_doc2skill.cli.codebase_scraper.analyze_codebase",
             MagicMock(),
         )
 
@@ -450,7 +450,7 @@ class TestScrapeLocal:
             captured_kwargs.update(kwargs)
 
         monkeypatch.setattr(
-            "skill_seekers.cli.codebase_scraper.analyze_codebase",
+            "yonyou_doc2skill.cli.codebase_scraper.analyze_codebase",
             fake_analyze,
         )
 
@@ -469,7 +469,7 @@ class TestScrapeLocal:
             captured_kwargs.update(kwargs)
 
         monkeypatch.setattr(
-            "skill_seekers.cli.codebase_scraper.analyze_codebase",
+            "yonyou_doc2skill.cli.codebase_scraper.analyze_codebase",
             fake_analyze,
         )
 
@@ -505,7 +505,7 @@ class TestRunOrchestration:
         """scrape_all_sources, detect_conflicts, build_skill are always called."""
         scraper = self._make_run_scraper()
 
-        with patch("skill_seekers.cli.unified_scraper.run_workflows", create=True):
+        with patch("yonyou_doc2skill.cli.unified_scraper.run_workflows", create=True):
             scraper.run()
 
         scraper.scrape_all_sources.assert_called_once()
@@ -535,7 +535,7 @@ class TestRunOrchestration:
         """When args=None and config has no workflow fields, run_workflows is never called."""
         scraper = self._make_run_scraper()  # sources=[], no workflow fields
 
-        with patch("skill_seekers.cli.unified_scraper.run_workflows", create=True) as mock_wf:
+        with patch("yonyou_doc2skill.cli.unified_scraper.run_workflows", create=True) as mock_wf:
             scraper.run(args=None)
 
         mock_wf.assert_not_called()
@@ -554,7 +554,7 @@ class TestRunOrchestration:
 
         # run_workflows is imported dynamically inside run() from workflow_runner.
         # Patch at the source module so the local `from ... import` picks it up.
-        with patch("skill_seekers.cli.workflow_runner.run_workflows") as mock_wf:
+        with patch("yonyou_doc2skill.cli.workflow_runner.run_workflows") as mock_wf:
             scraper.run(args=cli_args)
 
         mock_wf.assert_called_once()
@@ -570,8 +570,8 @@ class TestRunOrchestration:
 
         import contextlib
 
-        import skill_seekers.cli.unified_scraper as us_mod
-        import skill_seekers.cli.workflow_runner as wr_mod
+        import yonyou_doc2skill.cli.unified_scraper as us_mod
+        import yonyou_doc2skill.cli.workflow_runner as wr_mod
 
         orig_us = getattr(us_mod, "run_workflows", None)
         orig_wr = getattr(wr_mod, "run_workflows", None)

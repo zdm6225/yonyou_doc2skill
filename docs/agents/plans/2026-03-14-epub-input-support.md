@@ -11,7 +11,7 @@ status: complete
 
 ## Overview
 
-Add `.epub` as an input format for Skill Seekers, enabling `skill-seekers create book.epub` and `skill-seekers epub --epub book.epub`. Follows the established Word/PDF scraper pattern: source detection → routing → extraction → categorize → build skill.
+Add `.epub` as an input format for Yonyou Doc2Skill, enabling `yonyou-doc2skill create book.epub` and `yonyou-doc2skill epub --epub book.epub`. Follows the established Word/PDF scraper pattern: source detection → routing → extraction → categorize → build skill.
 
 **Authoritative reference**: [W3C EPUB 3.3 Specification](https://www.w3.org/TR/epub-33/) (also covers EPUB 2 backward compatibility).
 
@@ -30,7 +30,7 @@ The codebase has a consistent multi-layer architecture for document input format
 
 ## Desired End State
 
-Running `skill-seekers create book.epub` produces:
+Running `yonyou-doc2skill create book.epub` produces:
 ```
 output/book/
 ├── SKILL.md              # Main skill file with metadata, concepts, code examples
@@ -45,7 +45,7 @@ output/book/
 ### CLI Output Mockup
 
 ```
-$ skill-seekers create programming-rust.epub
+$ yonyou-doc2skill create programming-rust.epub
 
 ℹ️  Detected source type: epub
 ℹ️  Routing to epub scraper...
@@ -80,13 +80,13 @@ $ skill-seekers create programming-rust.epub
 
 ✅ Skill built successfully: output/programming-rust/
 
-📦 Next step: Package with: skill-seekers package output/programming-rust/
+📦 Next step: Package with: yonyou-doc2skill package output/programming-rust/
 ```
 
 ### Verification:
-- [x] `skill-seekers create book.epub` produces valid output directory
-- [x] `skill-seekers epub --epub book.epub --name mybook` works standalone
-- [x] `skill-seekers create book.epub --dry-run` shows config without processing
+- [x] `yonyou-doc2skill create book.epub` produces valid output directory
+- [x] `yonyou-doc2skill epub --epub book.epub --name mybook` works standalone
+- [x] `yonyou-doc2skill create book.epub --dry-run` shows config without processing
 - [x] All ~2,540+ existing tests still pass (982 passed, 1 pre-existing failure)
 - [x] New test suite has 100+ tests covering happy path, errors, and edge cases (107 tests, 14 classes)
 
@@ -132,8 +132,8 @@ epub = [
 
 Add `"ebooklib>=0.18",` to the `all` group (~line 178).
 
-#### [x] 2. Create `src/skill_seekers/cli/epub_scraper.py`
-**File**: `src/skill_seekers/cli/epub_scraper.py` (new)
+#### [x] 2. Create `src/yonyou_doc2skill/cli/epub_scraper.py`
+**File**: `src/yonyou_doc2skill/cli/epub_scraper.py` (new)
 **Changes**: Full EPUB scraper module
 
 **Structure** (following `word_scraper.py` pattern):
@@ -146,8 +146,8 @@ Converts EPUB e-books into skills.
 Uses ebooklib for EPUB parsing, BeautifulSoup for XHTML content extraction.
 
 Usage:
-    skill-seekers epub --epub book.epub --name myskill
-    skill-seekers epub --from-json book_extracted.json
+    yonyou-doc2skill epub --epub book.epub --name myskill
+    yonyou-doc2skill epub --from-json book_extracted.json
 """
 
 import argparse
@@ -177,7 +177,7 @@ def _check_epub_deps():
     if not EPUB_AVAILABLE:
         raise RuntimeError(
             "ebooklib is required for EPUB support.\n"
-            'Install with: pip install "skill-seekers[epub]"\n'
+            'Install with: pip install "yonyou-doc2skill[epub]"\n'
             "Or: pip install ebooklib"
         )
 
@@ -407,7 +407,7 @@ def main():
         converter.build_skill()
 
         # Enhancement workflow integration
-        from skill_seekers.cli.workflow_runner import run_workflows
+        from yonyou_doc2skill.cli.workflow_runner import run_workflows
         run_workflows(args)
 
         # Traditional enhancement
@@ -423,9 +423,9 @@ def main():
 ### Success Criteria:
 
 #### Automated Verification:
-- [x] `ruff check src/skill_seekers/cli/epub_scraper.py` passes
-- [x] `ruff format --check src/skill_seekers/cli/epub_scraper.py` passes
-- [ ] `mypy src/skill_seekers/cli/epub_scraper.py` passes (continue-on-error)
+- [x] `ruff check src/yonyou_doc2skill/cli/epub_scraper.py` passes
+- [x] `ruff format --check src/yonyou_doc2skill/cli/epub_scraper.py` passes
+- [ ] `mypy src/yonyou_doc2skill/cli/epub_scraper.py` passes (continue-on-error)
 - [x] `pip install -e ".[epub]"` installs successfully
 
 #### Manual Verification:
@@ -444,7 +444,7 @@ Wire the EPUB scraper into the CLI: source detection, argument definitions, pars
 ### Changes Required:
 
 #### [x] 1. Source detection
-**File**: `src/skill_seekers/cli/source_detector.py`
+**File**: `src/yonyou_doc2skill/cli/source_detector.py`
 **Changes**: Add `.epub` extension detection, `_detect_epub()` method, validation, and error message update
 
 Add after the `.docx` check (line 64):
@@ -476,11 +476,11 @@ elif source_info.type == "epub":
 
 Add EPUB example to the ValueError message (line 94):
 ```python
-"  EPUB:  skill-seekers create ebook.epub\n"
+"  EPUB:  yonyou-doc2skill create ebook.epub\n"
 ```
 
 #### [x] 2. Argument definitions
-**File**: `src/skill_seekers/cli/arguments/epub.py` (new)
+**File**: `src/yonyou_doc2skill/cli/arguments/epub.py` (new)
 **Changes**: EPUB-specific argument definitions
 
 ```python
@@ -532,7 +532,7 @@ def add_epub_arguments(parser: argparse.ArgumentParser) -> None:
 ```
 
 #### [x] 3. Create command argument integration
-**File**: `src/skill_seekers/cli/arguments/create.py`
+**File**: `src/yonyou_doc2skill/cli/arguments/create.py`
 **Changes**: Add EPUB_ARGUMENTS dict, register in helper functions, add mode handling
 
 Add after WORD_ARGUMENTS (~line 411):
@@ -563,14 +563,14 @@ if mode in ["epub", "all"]:
 ```
 
 #### [x] 4. Parser class
-**File**: `src/skill_seekers/cli/parsers/epub_parser.py` (new)
-**Changes**: Subcommand parser for standalone `skill-seekers epub` command
+**File**: `src/yonyou_doc2skill/cli/parsers/epub_parser.py` (new)
+**Changes**: Subcommand parser for standalone `yonyou-doc2skill epub` command
 
 ```python
 """Parser for epub subcommand."""
 
 from .base import SubcommandParser
-from skill_seekers.cli.arguments.epub import add_epub_arguments
+from yonyou_doc2skill.cli.arguments.epub import add_epub_arguments
 
 
 class EpubParser(SubcommandParser):
@@ -593,7 +593,7 @@ class EpubParser(SubcommandParser):
 ```
 
 #### [x] 5. Parser registration
-**File**: `src/skill_seekers/cli/parsers/__init__.py`
+**File**: `src/yonyou_doc2skill/cli/parsers/__init__.py`
 **Changes**: Import and register EpubParser
 
 Add import (after WordParser import, line 15):
@@ -607,12 +607,12 @@ EpubParser(),
 ```
 
 #### [x] 6. CLI dispatcher
-**File**: `src/skill_seekers/cli/main.py`
+**File**: `src/yonyou_doc2skill/cli/main.py`
 **Changes**: Add epub to COMMAND_MODULES dict and module docstring
 
 Add to COMMAND_MODULES (after "word" entry, line 52):
 ```python
-"epub": "skill_seekers.cli.epub_scraper",
+"epub": "yonyou_doc2skill.cli.epub_scraper",
 ```
 
 Add to module docstring (after "word" line, line 15):
@@ -621,7 +621,7 @@ Add to module docstring (after "word" line, line 15):
 ```
 
 #### [x] 7. Create command routing
-**File**: `src/skill_seekers/cli/create_command.py`
+**File**: `src/yonyou_doc2skill/cli/create_command.py`
 **Changes**: Add `_route_epub()` method, routing case, help flag, and epilog example
 
 Add to `_route_to_scraper()` (after word case, line 136):
@@ -634,7 +634,7 @@ Add `_route_epub()` method (after `_route_word()`, line 352):
 ```python
 def _route_epub(self) -> int:
     """Route to EPUB scraper (epub_scraper.py)."""
-    from skill_seekers.cli import epub_scraper
+    from yonyou_doc2skill.cli import epub_scraper
 
     argv = ["epub_scraper"]
     file_path = self.source_info.parsed["file_path"]
@@ -652,7 +652,7 @@ def _route_epub(self) -> int:
 
 Add to epilog (line 543, after DOCX example):
 ```python
-  EPUB:     skill-seekers create ebook.epub
+  EPUB:     yonyou-doc2skill create ebook.epub
 ```
 
 Add to Source Auto-Detection section:
@@ -671,7 +671,7 @@ Add handler block (after `_help_word` block at line 654):
 ```python
 elif args._help_epub:
     parser_epub = argparse.ArgumentParser(
-        prog="skill-seekers create",
+        prog="yonyou-doc2skill create",
         description="Create skill from EPUB e-book (.epub)",
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
@@ -684,29 +684,29 @@ elif args._help_epub:
 **File**: `pyproject.toml`
 **Changes**: Add standalone entry point
 
-Add after `skill-seekers-word` (line 224):
+Add after `yonyou-doc2skill-word` (line 224):
 ```toml
-skill-seekers-epub = "skill_seekers.cli.epub_scraper:main"
+yonyou-doc2skill-epub = "yonyou_doc2skill.cli.epub_scraper:main"
 ```
 
 #### [x] 9. Positional argument handling in main.py
-**File**: `src/skill_seekers/cli/main.py`
+**File**: `src/yonyou_doc2skill/cli/main.py`
 **Changes**: Add "input_file" is already in the positional list at line 153, so no change needed. Verify `_reconstruct_argv` handles epub correctly through the standard delegation path.
 
 ### Success Criteria:
 
 #### Automated Verification:
-- [x] `ruff check src/skill_seekers/cli/source_detector.py src/skill_seekers/cli/arguments/epub.py src/skill_seekers/cli/parsers/epub_parser.py src/skill_seekers/cli/create_command.py` passes
-- [x] `ruff format --check src/skill_seekers/cli/` passes
+- [x] `ruff check src/yonyou_doc2skill/cli/source_detector.py src/yonyou_doc2skill/cli/arguments/epub.py src/yonyou_doc2skill/cli/parsers/epub_parser.py src/yonyou_doc2skill/cli/create_command.py` passes
+- [x] `ruff format --check src/yonyou_doc2skill/cli/` passes
 - [x] `pip install -e ".[epub]"` installs with all entry points
-- [x] `skill-seekers epub --help` shows EPUB-specific help
-- [x] `skill-seekers create --help-epub` shows EPUB arguments (via standalone entry point `skill-seekers-create`)
-- [x] `skill-seekers create nonexistent.epub` gives clear error about missing file
+- [x] `yonyou-doc2skill epub --help` shows EPUB-specific help
+- [x] `yonyou-doc2skill create --help-epub` shows EPUB arguments (via standalone entry point `yonyou-doc2skill-create`)
+- [x] `yonyou-doc2skill create nonexistent.epub` gives clear error about missing file
 - [x] Existing tests still pass: `pytest tests/ -v -x -m "not slow and not integration"` (875 passed, 1 pre-existing unrelated failure in test_git_sources_e2e)
 
 #### Manual Verification:
-- [x] `skill-seekers --help` lists `epub` command
-- [x] `skill-seekers create book.epub --dry-run` shows dry run output
+- [x] `yonyou-doc2skill --help` lists `epub` command
+- [x] `yonyou-doc2skill create book.epub --dry-run` shows dry run output
 
 **Implementation Note**: After completing this phase and all automated verification passes, pause here for manual confirmation from the human before proceeding to the next phase.
 
@@ -745,7 +745,7 @@ from unittest.mock import MagicMock, patch, PropertyMock
 
 # Conditional import (same pattern as test_word_scraper.py)
 try:
-    from skill_seekers.cli.epub_scraper import (
+    from yonyou_doc2skill.cli.epub_scraper import (
         EpubToSkillConverter,
         infer_description_from_epub,
         _score_code_quality,
@@ -1059,12 +1059,12 @@ Update CLAUDE.md and CHANGELOG.md to reflect the new EPUB support.
 
 Add to Commands section (after pdf line):
 ```
-skill-seekers epub --epub book.epub --name myskill
+yonyou-doc2skill epub --epub book.epub --name myskill
 ```
 
 Add to "Unified create" examples:
 ```
-skill-seekers create book.epub
+yonyou-doc2skill create book.epub
 ```
 
 Add to Key source files table:
@@ -1083,10 +1083,10 @@ Add to "Adding things → New create command flags" section:
 
 ```markdown
 ### Added
-- EPUB (.epub) input support via `skill-seekers create book.epub` or `skill-seekers epub --epub book.epub`
+- EPUB (.epub) input support via `yonyou-doc2skill create book.epub` or `yonyou-doc2skill epub --epub book.epub`
 - Extracts chapters, metadata, code blocks, images, and tables from EPUB 2 and EPUB 3 files
 - DRM detection with clear error messages
-- Optional dependency: `pip install "skill-seekers[epub]"`
+- Optional dependency: `pip install "yonyou-doc2skill[epub]"`
 ```
 
 ### Success Criteria:
@@ -1131,10 +1131,10 @@ Add to "Adding things → New create command flags" section:
 
 ### Manual Testing Steps:
 1. `pip install -e ".[epub]"` — verify install
-2. `skill-seekers create book.epub` with a real EPUB file — verify output directory structure
-3. `skill-seekers epub --epub book.epub --dry-run` — verify dry run output
-4. `skill-seekers create drm-book.epub` — verify DRM error message
-5. `skill-seekers create nonexistent.epub` — verify file-not-found error
+2. `yonyou-doc2skill create book.epub` with a real EPUB file — verify output directory structure
+3. `yonyou-doc2skill epub --epub book.epub --dry-run` — verify dry run output
+4. `yonyou-doc2skill create drm-book.epub` — verify DRM error message
+5. `yonyou-doc2skill create nonexistent.epub` — verify file-not-found error
 6. Open generated `SKILL.md` — verify content quality and structure
 
 ## Performance Considerations
@@ -1156,5 +1156,5 @@ Add to "Adding things → New create command flags" section:
 - [ebooklib GitHub](https://github.com/aerkalov/ebooklib) — Python EPUB library
 - [ebooklib PyPI](https://pypi.org/project/EbookLib/) — v0.20, Python 3.9-3.13
 - [Research document](../research/2026-03-14-epub-input-support-affected-files.md) — affected files analysis
-- Similar implementation: `src/skill_seekers/cli/word_scraper.py` — closest analog
+- Similar implementation: `src/yonyou_doc2skill/cli/word_scraper.py` — closest analog
 - Similar tests: `tests/test_word_scraper.py` — test pattern template

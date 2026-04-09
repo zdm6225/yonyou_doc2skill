@@ -3,7 +3,7 @@
 HTTP Context Provider Server for Continue.dev
 
 Serves framework documentation as Continue.dev context items.
-Supports multiple frameworks from Skill Seekers output.
+Supports multiple frameworks from Yonyou Doc2Skill output.
 
 Usage:
     python context_server.py
@@ -22,7 +22,7 @@ import uvicorn
 
 
 app = FastAPI(
-    title="Skill Seekers Context Server",
+    title="Yonyou Doc2Skill Context Server",
     description="HTTP context provider for Continue.dev",
     version="1.0.0"
 )
@@ -40,7 +40,7 @@ app.add_middleware(
 @lru_cache(maxsize=100)
 def load_framework_docs(framework: str) -> str:
     """
-    Load framework documentation from Skill Seekers output.
+    Load framework documentation from Yonyou Doc2Skill output.
 
     Args:
         framework: Framework name (vue, react, django, etc.)
@@ -66,7 +66,7 @@ def load_framework_docs(framework: str) -> str:
     raise FileNotFoundError(
         f"Documentation not found for framework: {framework}\n"
         f"Tried paths: {[str(p) for p in possible_paths]}\n"
-        f"Run: skill-seekers scrape --config configs/{framework}.json"
+        f"Run: yonyou-doc2skill scrape --config configs/{framework}.json"
     )
 
 
@@ -74,7 +74,7 @@ def load_framework_docs(framework: str) -> str:
 async def root():
     """Root endpoint with server information."""
     return {
-        "name": "Skill Seekers Context Server",
+        "name": "Yonyou Doc2Skill Context Server",
         "description": "HTTP context provider for Continue.dev",
         "version": "1.0.0",
         "endpoints": {
@@ -109,7 +109,7 @@ async def list_frameworks() -> Dict[str, List[str]]:
     if not output_dir.exists():
         return {
             "available": [],
-            "message": "No output directory found. Run skill-seekers to generate documentation."
+            "message": "No output directory found. Run yonyou-doc2skill to generate documentation."
         }
 
     # Find all *-markdown directories
@@ -242,7 +242,7 @@ def main():
     args = parser.parse_args()
 
     print("=" * 60)
-    print("Skill Seekers Context Server for Continue.dev")
+    print("Yonyou Doc2Skill Context Server for Continue.dev")
     print("=" * 60)
     print(f"Server: http://{args.host}:{args.port}")
     print(f"Endpoints:")

@@ -8,7 +8,7 @@ from pathlib import Path
 
 import pytest
 
-from skill_seekers.mcp.source_manager import SourceManager
+from yonyou_doc2skill.mcp.source_manager import SourceManager
 
 
 @pytest.fixture
@@ -72,7 +72,7 @@ class TestSourceManagerInit:
         """Test initialization with default config directory."""
         manager = SourceManager()
 
-        expected = Path.home() / ".skill-seekers"
+        expected = Path.home() / ".yonyou-doc2skill"
         assert manager.config_dir == expected
 
 

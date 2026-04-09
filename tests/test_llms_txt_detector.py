@@ -1,13 +1,13 @@
 from unittest.mock import Mock, patch
 
-from skill_seekers.cli.llms_txt_detector import LlmsTxtDetector
+from yonyou_doc2skill.cli.llms_txt_detector import LlmsTxtDetector
 
 
 def test_detect_llms_txt_variants():
     """Test detection of llms.txt file variants"""
     detector = LlmsTxtDetector("https://hono.dev/docs")
 
-    with patch("skill_seekers.cli.llms_txt_detector.requests.head") as mock_head:
+    with patch("yonyou_doc2skill.cli.llms_txt_detector.requests.head") as mock_head:
         mock_response = Mock()
         mock_response.status_code = 200
         mock_head.return_value = mock_response
@@ -24,7 +24,7 @@ def test_detect_no_llms_txt():
     """Test detection when no llms.txt file exists"""
     detector = LlmsTxtDetector("https://example.com/docs")
 
-    with patch("skill_seekers.cli.llms_txt_detector.requests.head") as mock_head:
+    with patch("yonyou_doc2skill.cli.llms_txt_detector.requests.head") as mock_head:
         mock_response = Mock()
         mock_response.status_code = 404
         mock_head.return_value = mock_response
@@ -39,7 +39,7 @@ def test_url_parsing_with_complex_paths():
     """Test URL parsing handles non-standard paths correctly"""
     detector = LlmsTxtDetector("https://example.com/docs/v2/guide")
 
-    with patch("skill_seekers.cli.llms_txt_detector.requests.head") as mock_head:
+    with patch("yonyou_doc2skill.cli.llms_txt_detector.requests.head") as mock_head:
         mock_response = Mock()
         mock_response.status_code = 200
         mock_head.return_value = mock_response
@@ -57,7 +57,7 @@ def test_detect_all_variants():
     """Test detecting all llms.txt variants"""
     detector = LlmsTxtDetector("https://hono.dev/docs")
 
-    with patch("skill_seekers.cli.llms_txt_detector.requests.head") as mock_head:
+    with patch("yonyou_doc2skill.cli.llms_txt_detector.requests.head") as mock_head:
         # Mock responses for different variants
         def mock_response(url, **_kwargs):
             response = Mock()

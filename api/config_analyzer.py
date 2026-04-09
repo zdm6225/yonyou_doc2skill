@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Config Analyzer - Extract metadata from Skill Seekers config files
+Config Analyzer - Extract metadata from Yonyou Doc2Skill config files
 """
 
 import json
@@ -11,7 +11,7 @@ from typing import Any
 
 
 class ConfigAnalyzer:
-    """Analyzes Skill Seekers config files and extracts metadata"""
+    """Analyzes Yonyou Doc2Skill config files and extracts metadata"""
 
     # Category mapping based on config content
     CATEGORY_MAPPING = {
@@ -38,7 +38,7 @@ class ConfigAnalyzer:
         "testing": ["test", "testing", "pytest", "jest"],
     }
 
-    def __init__(self, config_dir: Path, base_url: str = "https://api.skillseekersweb.com"):
+    def __init__(self, config_dir: Path, base_url: str = "https://api.docs.yonyou.example"):
         """
         Initialize config analyzer
 

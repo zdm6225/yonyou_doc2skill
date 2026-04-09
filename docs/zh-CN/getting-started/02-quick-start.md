@@ -1,6 +1,6 @@
 # Quick Start Guide
 
-> **Skill Seekers v3.2.0**  
+> **Yonyou Doc2Skill v3.2.0**  
 > **Create your first skill in 3 commands**
 
 ---
@@ -8,14 +8,14 @@
 ## The 3 Commands
 
 ```bash
-# 1. Install Skill Seekers
-pip install skill-seekers
+# 1. Install Yonyou Doc2Skill
+pip install yonyou-doc2skill
 
 # 2. Create a skill from any source
-skill-seekers create https://docs.django.com/
+yonyou-doc2skill create https://docs.django.com/
 
 # 3. Package it for your AI platform
-skill-seekers package output/django --target claude
+yonyou-doc2skill package output/django --target claude
 ```
 
 **That's it!** You now have `output/django-claude.zip` ready to upload.
@@ -28,20 +28,20 @@ The `create` command auto-detects your source (17 source types supported):
 
 | Source Type | Example Command |
 |-------------|-----------------|
-| **Documentation** | `skill-seekers create https://docs.react.dev/` |
-| **GitHub Repo** | `skill-seekers create facebook/react` |
-| **Local Code** | `skill-seekers create ./my-project` |
-| **PDF File** | `skill-seekers create manual.pdf` |
-| **Word Document** | `skill-seekers create report.docx` |
-| **EPUB Book** | `skill-seekers create book.epub` |
-| **Jupyter Notebook** | `skill-seekers create analysis.ipynb` |
-| **Local HTML** | `skill-seekers create page.html` |
-| **OpenAPI/Swagger** | `skill-seekers create api-spec.yaml` |
-| **AsciiDoc** | `skill-seekers create guide.adoc` |
-| **PowerPoint** | `skill-seekers create slides.pptx` |
-| **RSS/Atom Feed** | `skill-seekers create feed.rss` |
-| **Man Page** | `skill-seekers create curl.1` |
-| **Config File** | `skill-seekers create configs/custom.json` |
+| **Documentation** | `yonyou-doc2skill create https://docs.react.dev/` |
+| **GitHub Repo** | `yonyou-doc2skill create facebook/react` |
+| **Local Code** | `yonyou-doc2skill create ./my-project` |
+| **PDF File** | `yonyou-doc2skill create manual.pdf` |
+| **Word Document** | `yonyou-doc2skill create report.docx` |
+| **EPUB Book** | `yonyou-doc2skill create book.epub` |
+| **Jupyter Notebook** | `yonyou-doc2skill create analysis.ipynb` |
+| **Local HTML** | `yonyou-doc2skill create page.html` |
+| **OpenAPI/Swagger** | `yonyou-doc2skill create api-spec.yaml` |
+| **AsciiDoc** | `yonyou-doc2skill create guide.adoc` |
+| **PowerPoint** | `yonyou-doc2skill create slides.pptx` |
+| **RSS/Atom Feed** | `yonyou-doc2skill create feed.rss` |
+| **Man Page** | `yonyou-doc2skill create curl.1` |
+| **Config File** | `yonyou-doc2skill create configs/custom.json` |
 
 ---
 
@@ -51,92 +51,92 @@ The `create` command auto-detects your source (17 source types supported):
 
 ```bash
 # React documentation
-skill-seekers create https://react.dev/
-skill-seekers package output/react --target claude
+yonyou-doc2skill create https://react.dev/
+yonyou-doc2skill package output/react --target claude
 
 # Django documentation  
-skill-seekers create https://docs.djangoproject.com/
-skill-seekers package output/django --target claude
+yonyou-doc2skill create https://docs.djangoproject.com/
+yonyou-doc2skill package output/django --target claude
 ```
 
 ### GitHub Repository
 
 ```bash
 # React source code
-skill-seekers create facebook/react
-skill-seekers package output/react --target claude
+yonyou-doc2skill create facebook/react
+yonyou-doc2skill package output/react --target claude
 
 # Your own repo
-skill-seekers create yourusername/yourrepo
-skill-seekers package output/yourrepo --target claude
+yonyou-doc2skill create yourusername/yourrepo
+yonyou-doc2skill package output/yourrepo --target claude
 ```
 
 ### Local Project
 
 ```bash
 # Your codebase
-skill-seekers create ./my-project
-skill-seekers package output/my-project --target claude
+yonyou-doc2skill create ./my-project
+yonyou-doc2skill package output/my-project --target claude
 
 # Specific directory
 cd ~/projects/my-api
-skill-seekers create .
-skill-seekers package output/my-api --target claude
+yonyou-doc2skill create .
+yonyou-doc2skill package output/my-api --target claude
 ```
 
 ### PDF Document
 
 ```bash
 # Technical manual
-skill-seekers create manual.pdf --name product-docs
-skill-seekers package output/product-docs --target claude
+yonyou-doc2skill create manual.pdf --name product-docs
+yonyou-doc2skill package output/product-docs --target claude
 
 # Research paper
-skill-seekers create paper.pdf --name research
-skill-seekers package output/research --target claude
+yonyou-doc2skill create paper.pdf --name research
+yonyou-doc2skill package output/research --target claude
 ```
 
 ### Jupyter Notebook
 
 ```bash
 # Data analysis notebook
-skill-seekers create analysis.ipynb --name data-analysis
-skill-seekers package output/data-analysis --target claude
+yonyou-doc2skill create analysis.ipynb --name data-analysis
+yonyou-doc2skill package output/data-analysis --target claude
 ```
 
 ### OpenAPI/Swagger Spec
 
 ```bash
 # API specification
-skill-seekers create api-spec.yaml --name my-api
-skill-seekers package output/my-api --target claude
+yonyou-doc2skill create api-spec.yaml --name my-api
+yonyou-doc2skill package output/my-api --target claude
 ```
 
 ### PowerPoint Presentation
 
 ```bash
 # Slide deck
-skill-seekers create slides.pptx --name presentation
-skill-seekers package output/presentation --target claude
+yonyou-doc2skill create slides.pptx --name presentation
+yonyou-doc2skill package output/presentation --target claude
 ```
 
 ### Other Source Types
 
 ```bash
 # Confluence wiki
-skill-seekers confluence --space-key DEV --name team-wiki
+yonyou-doc2skill confluence --space-key DEV --name team-wiki
 
 # Notion pages
-skill-seekers notion --database-id abc123 --name my-notes
+yonyou-doc2skill notion --database-id abc123 --name my-notes
 
 # RSS/Atom feed
-skill-seekers rss --feed-url https://blog.example.com/feed --name blog
+yonyou-doc2skill rss --feed-url https://blog.example.com/feed --name blog
 
 # Man pages
-skill-seekers manpage --man-path curl.1 --name curl-docs
+yonyou-doc2skill manpage --man-path curl.1 --name curl-docs
 
 # Slack/Discord export
-skill-seekers chat --export-path ./slack-export/ --name team-chat
+yonyou-doc2skill chat --export-path ./slack-export/ --name team-chat
 ```
 
 ---
@@ -146,35 +146,35 @@ skill-seekers chat --export-path ./slack-export/ --name team-chat
 ### Specify a Name
 
 ```bash
-skill-seekers create https://docs.example.com/ --name my-docs
+yonyou-doc2skill create https://docs.example.com/ --name my-docs
 ```
 
 ### Add Description
 
 ```bash
-skill-seekers create facebook/react --description "React source code analysis"
+yonyou-doc2skill create facebook/react --description "React source code analysis"
 ```
 
 ### Dry Run (Preview)
 
 ```bash
-skill-seekers create https://docs.react.dev/ --dry-run
+yonyou-doc2skill create https://docs.react.dev/ --dry-run
 ```
 
 ### Skip Enhancement (Faster)
 
 ```bash
-skill-seekers create https://docs.react.dev/ --enhance-level 0
+yonyou-doc2skill create https://docs.react.dev/ --enhance-level 0
 ```
 
 ### Use a Preset
 
 ```bash
 # Quick analysis (1-2 min)
-skill-seekers create ./my-project --preset quick
+yonyou-doc2skill create ./my-project --preset quick
 
 # Comprehensive analysis (20-60 min)
-skill-seekers create ./my-project --preset comprehensive
+yonyou-doc2skill create ./my-project --preset comprehensive
 ```
 
 ---
@@ -184,28 +184,28 @@ skill-seekers create ./my-project --preset comprehensive
 ### Claude AI (Default)
 
 ```bash
-skill-seekers package output/my-skill/
+yonyou-doc2skill package output/my-skill/
 # Creates: output/my-skill-claude.zip
 ```
 
 ### Google Gemini
 
 ```bash
-skill-seekers package output/my-skill/ --target gemini
+yonyou-doc2skill package output/my-skill/ --target gemini
 # Creates: output/my-skill-gemini.tar.gz
 ```
 
 ### OpenAI ChatGPT
 
 ```bash
-skill-seekers package output/my-skill/ --target openai
+yonyou-doc2skill package output/my-skill/ --target openai
 # Creates: output/my-skill-openai.zip
 ```
 
 ### LangChain
 
 ```bash
-skill-seekers package output/my-skill/ --target langchain
+yonyou-doc2skill package output/my-skill/ --target langchain
 # Creates: output/my-skill-langchain/ directory
 ```
 
@@ -213,7 +213,7 @@ skill-seekers package output/my-skill/ --target langchain
 
 ```bash
 for platform in claude gemini openai; do
-  skill-seekers package output/my-skill/ --target $platform
+  yonyou-doc2skill package output/my-skill/ --target $platform
 done
 ```
 
@@ -225,21 +225,21 @@ done
 
 ```bash
 export ANTHROPIC_API_KEY=sk-ant-...
-skill-seekers upload output/my-skill-claude.zip --target claude
+yonyou-doc2skill upload output/my-skill-claude.zip --target claude
 ```
 
 ### Upload to Gemini
 
 ```bash
 export GOOGLE_API_KEY=AIza...
-skill-seekers upload output/my-skill-gemini.tar.gz --target gemini
+yonyou-doc2skill upload output/my-skill-gemini.tar.gz --target gemini
 ```
 
 ### Auto-Upload After Package
 
 ```bash
 export ANTHROPIC_API_KEY=sk-ant-...
-skill-seekers package output/my-skill/ --target claude --upload
+yonyou-doc2skill package output/my-skill/ --target claude --upload
 ```
 
 ---
@@ -251,10 +251,10 @@ Use `install` for everything in one step:
 ```bash
 # Complete: scrape → enhance → package → upload
 export ANTHROPIC_API_KEY=sk-ant-...
-skill-seekers install --config react --target claude
+yonyou-doc2skill install --config react --target claude
 
 # Skip upload
-skill-seekers install --config react --target claude --no-upload
+yonyou-doc2skill install --config react --target claude --no-upload
 ```
 
 ---
@@ -271,7 +271,7 @@ output/
 │   │   ├── index.md
 │   │   ├── getting_started.md
 │   │   └── api_reference.md
-│   └── .skill-seekers/       # Metadata
+│   └── .yonyou-doc2skill/       # Metadata
 │
 └── django-claude.zip         # Packaged skill (after package)
 ```
@@ -298,34 +298,34 @@ output/
 ### Test First with Dry Run
 
 ```bash
-skill-seekers create https://docs.example.com/ --dry-run
+yonyou-doc2skill create https://docs.example.com/ --dry-run
 ```
 
 ### Use Presets for Faster Results
 
 ```bash
 # Quick mode for testing
-skill-seekers create https://docs.react.dev/ --preset quick
+yonyou-doc2skill create https://docs.react.dev/ --preset quick
 ```
 
 ### Skip Enhancement for Speed
 
 ```bash
-skill-seekers create https://docs.react.dev/ --enhance-level 0
-skill-seekers enhance output/react/  # Enhance later
+yonyou-doc2skill create https://docs.react.dev/ --enhance-level 0
+yonyou-doc2skill enhance output/react/  # Enhance later
 ```
 
 ### Check Available Configs
 
 ```bash
-skill-seekers estimate --all
+yonyou-doc2skill estimate --all
 ```
 
 ### Resume Interrupted Jobs
 
 ```bash
-skill-seekers resume --list
-skill-seekers resume <job-id>
+yonyou-doc2skill resume --list
+yonyou-doc2skill resume <job-id>
 ```
 
 ---
@@ -347,25 +347,25 @@ skill-seekers resume <job-id>
 export PATH="$HOME/.local/bin:$PATH"
 ```
 
-### "No module named 'skill_seekers'"
+### "No module named 'yonyou_doc2skill'"
 
 ```bash
 # Reinstall
-pip install --force-reinstall skill-seekers
+pip install --force-reinstall yonyou-doc2skill
 ```
 
 ### Scraping too slow
 
 ```bash
 # Use async mode
-skill-seekers create https://docs.react.dev/ --async --workers 5
+yonyou-doc2skill create https://docs.react.dev/ --async --workers 5
 ```
 
 ### Out of memory
 
 ```bash
 # Use streaming mode
-skill-seekers package output/large-skill/ --streaming
+yonyou-doc2skill package output/large-skill/ --streaming
 ```
 
 ---

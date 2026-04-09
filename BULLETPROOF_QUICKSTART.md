@@ -127,16 +127,16 @@ Pick a location for the project. Good choices:
 mkdir -p ~/Projects
 cd ~/Projects
 
-# Clone Skill Seeker
-git clone https://github.com/yusufkaraaslan/Skill_Seekers.git
+# Clone Yonyou Doc2Skill
+git clone https://github.com/yonyou/yonyou-doc2skill.git
 
 # Enter the directory
-cd Skill_Seekers
+cd yonyou_doc2skill
 ```
 
 **✅ Success looks like:**
 ```
-Cloning into 'Skill_Seekers'...
+Cloning into 'yonyou_doc2skill'...
 remote: Enumerating objects: 245, done.
 remote: Counting objects: 100% (245/245), done.
 ```
@@ -145,8 +145,8 @@ remote: Counting objects: 100% (245/245), done.
 ```bash
 pwd
 # Should show something like:
-#   macOS: /Users/yourname/Projects/Skill_Seekers
-#   Linux: /home/yourname/Projects/Skill_Seekers
+#   macOS: /Users/yourname/Projects/yonyou_doc2skill
+#   Linux: /home/yourname/Projects/yonyou_doc2skill
 # (Replace 'yourname' with YOUR actual username)
 
 ls
@@ -159,19 +159,19 @@ ls
 ping google.com
 
 # Or download ZIP manually:
-# https://github.com/yusufkaraaslan/Skill_Seekers/archive/refs/heads/main.zip
+# https://github.com/yonyou/yonyou-doc2skill/archive/refs/heads/main.zip
 # Then unzip and cd into it
 ```
 
 ---
 
-## Step 4: Setup Virtual Environment & Install Skill Seekers (3 minutes)
+## Step 4: Setup Virtual Environment & Install Yonyou Doc2Skill (3 minutes)
 
 A virtual environment keeps Skill Seeker's dependencies isolated and prevents conflicts.
 
 ```bash
-# Make sure you're in the Skill_Seekers directory
-cd ~/Projects/Skill_Seekers  # ~ means your home directory ($HOME)
+# Make sure you're in the yonyou_doc2skill directory
+cd ~/Projects/yonyou_doc2skill  # ~ means your home directory ($HOME)
                              # Adjust if you chose a different location
 
 # Create virtual environment
@@ -184,28 +184,28 @@ source venv/bin/activate  # macOS/Linux
 
 **✅ Success looks like:**
 ```
-(venv) username@computer Skill_Seekers %
+(venv) username@computer yonyou_doc2skill %
 ```
 Notice `(venv)` appears in your prompt - this means the virtual environment is active!
 
 ```bash
-# Now install Skill Seekers package (this installs all dependencies automatically)
+# Now install Yonyou Doc2Skill package (this installs all dependencies automatically)
 pip install -e .
 ```
 
 **✅ Success looks like:**
 ```
-Successfully installed skill-seekers-2.7.4 requests-2.32.5 beautifulsoup4-4.14.2 anthropic-0.76.0 ...
-Obtaining file:///path/to/Skill_Seekers
-Installing collected packages: skill-seekers
-Successfully installed skill-seekers
+Successfully installed yonyou-doc2skill-2.7.4 requests-2.32.5 beautifulsoup4-4.14.2 anthropic-0.76.0 ...
+Obtaining file:///path/to/yonyou_doc2skill
+Installing collected packages: yonyou-doc2skill
+Successfully installed yonyou-doc2skill
 ```
 
 **What just happened?**
 - `pip install -e .` installs the package in "editable" mode
 - The `.` means "current directory" (where pyproject.toml is)
 - This automatically installs ALL required dependencies
-- This registers the `skill-seekers` command so you can use it from anywhere
+- This registers the `yonyou-doc2skill` command so you can use it from anywhere
 - The `-e` flag means changes to the code take effect immediately (useful for development)
 
 **Important Notes:**
@@ -222,11 +222,11 @@ python -m venv venv
 **❌ If permission denied:**
 ```bash
 # Virtual environment approach doesn't need sudo - you might have the wrong path
-# Make sure you're in the Skill_Seekers directory:
+# Make sure you're in the yonyou_doc2skill directory:
 pwd
 # Should show something like:
-#   macOS: /Users/yourname/Projects/Skill_Seekers
-#   Linux: /home/yourname/Projects/Skill_Seekers
+#   macOS: /Users/yourname/Projects/yonyou_doc2skill
+#   Linux: /home/yourname/Projects/yonyou_doc2skill
 # (Replace 'yourname' with YOUR actual username)
 ```
 
@@ -244,7 +244,7 @@ Let's make sure everything works:
 
 ```bash
 # Test the main script can run
-skill-seekers scrape --help
+yonyou-doc2skill scrape --help
 ```
 
 **✅ Success looks like:**
@@ -256,7 +256,7 @@ usage: doc_scraper.py [-h] [--config CONFIG] [--interactive] ...
 ```bash
 # Check you're in the right directory
 pwd
-# Should show path ending in /Skill_Seekers
+# Should show path ending in /yonyou_doc2skill
 
 # List files
 ls cli/
@@ -289,7 +289,7 @@ cat > configs/test.json << 'EOF'
 EOF
 
 # Run the scraper
-skill-seekers scrape --config configs/test.json
+yonyou-doc2skill scrape --config configs/test.json
 ```
 
 **Note for Windows users:** The `cat > file << 'EOF'` syntax doesn't work in PowerShell. Instead, create the file manually:
@@ -312,7 +312,7 @@ skill-seekers scrape --config configs/test.json
 "@ | Out-File -FilePath configs/test.json -Encoding utf8
 
 # Then run the scraper
-skill-seekers scrape --config configs/test.json
+yonyou-doc2skill scrape --config configs/test.json
 ```
 
 **What happens:**
@@ -335,7 +335,7 @@ Page 2/5: Editor Setup
 
 ```bash
 # Use the React preset
-skill-seekers scrape --config configs/react.json --max-pages 50
+yonyou-doc2skill scrape --config configs/react.json --max-pages 50
 ```
 
 **⏱️ Time:** ~5 minutes
@@ -361,7 +361,7 @@ head output/test-skill/SKILL.md
 
 ```bash
 # Package the skill
-skill-seekers package output/test-skill/
+yonyou-doc2skill package output/test-skill/
 ```
 
 **✅ Success looks like:**
@@ -399,42 +399,42 @@ You now have a working Skill Seeker installation! Here's what you can do:
 ls configs/
 
 # Try Vue.js
-skill-seekers scrape --config configs/vue.json --max-pages 50
+yonyou-doc2skill scrape --config configs/vue.json --max-pages 50
 
 # Try Django
-skill-seekers scrape --config configs/django.json --max-pages 50
+yonyou-doc2skill scrape --config configs/django.json --max-pages 50
 ```
 
 ### Try Other Source Types (17 Supported!)
 
 ```bash
 # Auto-detect source type with the `create` command
-skill-seekers create https://docs.example.com   # Documentation
-skill-seekers create facebook/react              # GitHub repo
-skill-seekers create manual.pdf                  # PDF
-skill-seekers create report.docx                 # Word document
-skill-seekers create book.epub                   # EPUB book
-skill-seekers create analysis.ipynb              # Jupyter Notebook
-skill-seekers create spec.yaml                   # OpenAPI/Swagger spec
-skill-seekers create slides.pptx                 # PowerPoint
+yonyou-doc2skill create https://docs.example.com   # Documentation
+yonyou-doc2skill create facebook/react              # GitHub repo
+yonyou-doc2skill create manual.pdf                  # PDF
+yonyou-doc2skill create report.docx                 # Word document
+yonyou-doc2skill create book.epub                   # EPUB book
+yonyou-doc2skill create analysis.ipynb              # Jupyter Notebook
+yonyou-doc2skill create spec.yaml                   # OpenAPI/Swagger spec
+yonyou-doc2skill create slides.pptx                 # PowerPoint
 
 # Or use specific subcommands
-skill-seekers video https://youtube.com/watch?v=abc  # Video
-skill-seekers confluence --space DOCS                 # Confluence wiki
-skill-seekers notion --database DB_ID                 # Notion
-skill-seekers rss https://blog.example.com/feed.xml   # RSS feed
-skill-seekers manpage grep.1                          # Man page
-skill-seekers chat --platform slack --export-dir ./export  # Slack/Discord
+yonyou-doc2skill video https://youtube.com/watch?v=abc  # Video
+yonyou-doc2skill confluence --space DOCS                 # Confluence wiki
+yonyou-doc2skill notion --database DB_ID                 # Notion
+yonyou-doc2skill rss https://blog.example.com/feed.xml   # RSS feed
+yonyou-doc2skill manpage grep.1                          # Man page
+yonyou-doc2skill chat --platform slack --export-dir ./export  # Slack/Discord
 ```
 
 ### Create Custom Skills
 
 ```bash
 # Interactive mode - answer questions
-skill-seekers scrape --interactive
+yonyou-doc2skill scrape --interactive
 
 # Or create config for any website
-skill-seekers scrape \
+yonyou-doc2skill scrape \
   --name myframework \
   --url https://docs.myframework.com/ \
   --description "My favorite framework"
@@ -448,8 +448,8 @@ You have three options for placing your custom config files:
 
 ```bash
 # Create config in your home directory
-mkdir -p ~/.config/skill-seekers/configs
-cat > ~/.config/skill-seekers/configs/myproject.json << 'EOF'
+mkdir -p ~/.config/yonyou-doc2skill/configs
+cat > ~/.config/yonyou-doc2skill/configs/myproject.json << 'EOF'
 {
   "name": "myproject",
   "base_url": "https://docs.myproject.com/",
@@ -458,7 +458,7 @@ cat > ~/.config/skill-seekers/configs/myproject.json << 'EOF'
 EOF
 
 # Use it
-skill-seekers scrape --config myproject.json
+yonyou-doc2skill scrape --config myproject.json
 ```
 
 **Option 2: Current Directory (Project-Specific)**
@@ -469,17 +469,17 @@ mkdir -p configs
 nano configs/myproject.json
 
 # Use it
-skill-seekers scrape --config configs/myproject.json
+yonyou-doc2skill scrape --config configs/myproject.json
 ```
 
 **Option 3: Absolute Path**
 
 ```bash
 # Use any file path
-skill-seekers scrape --config /full/path/to/config.json
+yonyou-doc2skill scrape --config /full/path/to/config.json
 ```
 
-The tool searches in this order: exact path → `./configs/` → `~/.config/skill-seekers/configs/` → API presets
+The tool searches in this order: exact path → `./configs/` → `~/.config/yonyou-doc2skill/configs/` → API presets
 
 ### Use with Claude Code (Advanced)
 
@@ -528,15 +528,15 @@ chmod +x cli/doc_scraper.py
 
 **Solution:** You're not in the right directory
 ```bash
-# Go to the Skill_Seekers directory
-cd ~/Projects/Skill_Seekers  # Adjust your path
+# Go to the yonyou_doc2skill directory
+cd ~/Projects/yonyou_doc2skill  # Adjust your path
 
 # Verify
 ls cli/
 # Should show doc_scraper.py
 ```
 
-### "ModuleNotFoundError" or "command not found: skill-seekers"
+### "ModuleNotFoundError" or "command not found: yonyou-doc2skill"
 
 **Problem:** Package not installed or virtual environment not activated
 
@@ -560,7 +560,7 @@ python3 -m pip install -e .
 **Solution:**
 ```bash
 # Use smaller max_pages for testing
-skill-seekers scrape --config configs/react.json --max-pages 10
+yonyou-doc2skill scrape --config configs/react.json --max-pages 10
 
 # Check internet connection
 ping google.com
@@ -572,7 +572,7 @@ curl -I https://docs.yoursite.com
 ### Still stuck?
 
 1. **Check our detailed troubleshooting guide:** [TROUBLESHOOTING.md](TROUBLESHOOTING.md)
-2. **Open an issue:** https://github.com/yusufkaraaslan/Skill_Seekers/issues
+2. **Open an issue:** https://github.com/yonyou/yonyou-doc2skill/issues
 3. **Include this info:**
    - Operating system (macOS 13, Ubuntu 22.04, Windows 11, etc.)
    - Python version (`python3 --version`)
@@ -596,10 +596,10 @@ curl -I https://docs.yoursite.com
 # Your typical workflow:
 
 # 1. Create/use a config
-skill-seekers scrape --config configs/react.json --max-pages 50
+yonyou-doc2skill scrape --config configs/react.json --max-pages 50
 
 # 2. Package it
-skill-seekers package output/react/
+yonyou-doc2skill package output/react/
 
 # 3. Upload output/react.zip to Claude
 
@@ -618,4 +618,4 @@ skill-seekers package output/react/
 
 ---
 
-**Still confused?** That's okay! Open an issue and we'll help you get started: https://github.com/yusufkaraaslan/Skill_Seekers/issues/new
+**Still confused?** That's okay! Open an issue and we'll help you get started: https://github.com/yonyou/yonyou-doc2skill/issues/new

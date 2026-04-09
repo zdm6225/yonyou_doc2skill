@@ -8,7 +8,7 @@ It now strips anchors, deduplicates, and preserves original URLs as-is.
 
 import unittest
 
-from skill_seekers.cli.doc_scraper import DocToSkillConverter
+from yonyou_doc2skill.cli.doc_scraper import DocToSkillConverter
 
 
 class TestConvertToMdUrls(unittest.TestCase):

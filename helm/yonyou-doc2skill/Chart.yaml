@@ -1,0 +1,32 @@
+apiVersion: v2
+name: yonyou-doc2skill
+description: A Helm chart for Yonyou Doc2Skill - Convert documentation to AI skills
+type: application
+version: 1.0.0
+appVersion: "2.9.0"
+
+keywords:
+  - ai
+  - documentation
+  - skills
+  - mcp
+  - vector-database
+  - claude
+  - gemini
+  - openai
+
+home: https://docs.yonyou.example
+sources:
+  - https://github.com/your-org/yonyou-doc2skill
+
+maintainers:
+  - name: Yonyou Doc2Skill Team
+    email: noreply@yonyoudoc2skill.dev
+
+icon: https://docs.yonyou.example/icon.png
+
+dependencies: []
+
+annotations:
+  category: AI/ML
+  licenses: MIT

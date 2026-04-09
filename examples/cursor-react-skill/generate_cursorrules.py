@@ -52,7 +52,7 @@ def main():
     print("Starting workflow...")
     if not run_command(
         [
-            "skill-seekers",
+            "yonyou-doc2skill",
             "scrape",
             "--config",
             "../../configs/react.json",
@@ -62,12 +62,12 @@ def main():
         "Scraping React documentation",
     ):
         print("\n❌ Failed to scrape React documentation")
-        print("   Make sure skill-seekers is installed: pip install skill-seekers")
+        print("   Make sure yonyou-doc2skill is installed: pip install yonyou-doc2skill")
         sys.exit(1)
 
     # Step 2: Package for Cursor
     if not run_command(
-        ["skill-seekers", "package", "../../output/react", "--target", "claude"],
+        ["yonyou-doc2skill", "package", "../../output/react", "--target", "claude"],
         "Packaging for Cursor",
     ):
         print("\n❌ Failed to package for Cursor")

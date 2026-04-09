@@ -1,6 +1,6 @@
 # Docker Deployment Guide
 
-Complete guide for deploying Skill Seekers using Docker.
+Complete guide for deploying Yonyou Doc2Skill using Docker.
 
 ## Table of Contents
 
@@ -20,20 +20,20 @@ Complete guide for deploying Skill Seekers using Docker.
 
 ```bash
 # Pull pre-built image (when available)
-docker pull skillseekers/skillseekers:latest
+docker pull yonyoudoc2skill/yonyoudoc2skill:latest
 
 # Or build locally
-docker build -t skillseekers:latest .
+docker build -t yonyoudoc2skill:latest .
 
 # Run MCP server
 docker run -d \
-  --name skillseekers-mcp \
+  --name yonyoudoc2skill-mcp \
   -p 8765:8765 \
   -e ANTHROPIC_API_KEY=$ANTHROPIC_API_KEY \
   -e GITHUB_TOKEN=$GITHUB_TOKEN \
-  -v skillseekers-data:/app/data \
+  -v yonyoudoc2skill-data:/app/data \
   --restart unless-stopped \
-  skillseekers:latest
+  yonyoudoc2skill:latest
 ```
 
 ### Multi-Service Deployment
@@ -68,25 +68,25 @@ WORKDIR /app
 COPY --from=builder /root/.local /root/.local
 COPY . .
 ENV PATH=/root/.local/bin:$PATH
-CMD ["python", "-m", "skill_seekers.mcp.server_fastmcp"]
+CMD ["python", "-m", "yonyou_doc2skill.mcp.server_fastmcp"]
 ```
 
 **Build the image:**
 
 ```bash
 # Standard build
-docker build -t skillseekers:latest .
+docker build -t yonyoudoc2skill:latest .
 
 # Build with specific features
 docker build \
   --build-arg INSTALL_EXTRAS="all-llms,embedding" \
-  -t skillseekers:full \
+  -t yonyoudoc2skill:full \
   .
 
 # Build with cache
 docker build \
-  --cache-from skillseekers:latest \
-  -t skillseekers:v2.9.0 \
+  --cache-from yonyoudoc2skill:latest \
+  -t yonyoudoc2skill:v2.9.0 \
   .
 ```
 
@@ -98,19 +98,19 @@ FROM python:3.12
 WORKDIR /app
 RUN pip install -e ".[dev]"
 COPY . .
-CMD ["python", "-m", "skill_seekers.mcp.server_fastmcp", "--reload"]
+CMD ["python", "-m", "yonyou_doc2skill.mcp.server_fastmcp", "--reload"]
 ```
 
 **Build and run:**
 
 ```bash
-docker build -f Dockerfile.dev -t skillseekers:dev .
+docker build -f Dockerfile.dev -t yonyoudoc2skill:dev .
 
 docker run -it \
-  --name skillseekers-dev \
+  --name yonyoudoc2skill-dev \
   -p 8765:8765 \
   -v $(pwd):/app \
-  skillseekers:dev
+  yonyoudoc2skill:dev
 ```
 
 ### 3. Image Optimization
@@ -151,46 +151,46 @@ COPY . .
 ```bash
 # HTTP transport (recommended for production)
 docker run -d \
-  --name skillseekers-mcp \
+  --name yonyoudoc2skill-mcp \
   -p 8765:8765 \
   -e MCP_TRANSPORT=http \
   -e MCP_PORT=8765 \
   -e ANTHROPIC_API_KEY=$ANTHROPIC_API_KEY \
-  -v skillseekers-data:/app/data \
+  -v yonyoudoc2skill-data:/app/data \
   --restart unless-stopped \
-  skillseekers:latest
+  yonyoudoc2skill:latest
 
 # stdio transport (for local tools)
 docker run -it \
-  --name skillseekers-stdio \
+  --name yonyoudoc2skill-stdio \
   -e MCP_TRANSPORT=stdio \
-  skillseekers:latest
+  yonyoudoc2skill:latest
 ```
 
 ### 2. Embedding Server
 
 ```bash
 docker run -d \
-  --name skillseekers-embed \
+  --name yonyoudoc2skill-embed \
   -p 8000:8000 \
   -e OPENAI_API_KEY=$OPENAI_API_KEY \
   -e VOYAGE_API_KEY=$VOYAGE_API_KEY \
-  -v skillseekers-cache:/app/cache \
+  -v yonyoudoc2skill-cache:/app/cache \
   --restart unless-stopped \
-  skillseekers:latest \
-  python -m skill_seekers.embedding.server --host 0.0.0.0 --port 8000
+  yonyoudoc2skill:latest \
+  python -m yonyou_doc2skill.embedding.server --host 0.0.0.0 --port 8000
 ```
 
 ### 3. Sync Monitor
 
 ```bash
 docker run -d \
-  --name skillseekers-sync \
+  --name yonyoudoc2skill-sync \
   -e SYNC_WEBHOOK_URL=$SYNC_WEBHOOK_URL \
-  -v skillseekers-configs:/app/configs \
+  -v yonyoudoc2skill-configs:/app/configs \
   --restart unless-stopped \
-  skillseekers:latest \
-  skill-seekers-sync start --config configs/react.json
+  yonyoudoc2skill:latest \
+  yonyou-doc2skill-sync start --config configs/react.json
 ```
 
 ### 4. Interactive Commands
@@ -200,18 +200,18 @@ docker run -d \
 docker run --rm \
   -e GITHUB_TOKEN=$GITHUB_TOKEN \
   -v $(pwd)/output:/app/output \
-  skillseekers:latest \
-  skill-seekers scrape --config configs/react.json
+  yonyoudoc2skill:latest \
+  yonyou-doc2skill scrape --config configs/react.json
 
 # Generate skill
 docker run --rm \
   -v $(pwd)/output:/app/output \
-  skillseekers:latest \
-  skill-seekers package output/react/
+  yonyoudoc2skill:latest \
+  yonyou-doc2skill package output/react/
 
 # Interactive shell
 docker run --rm -it \
-  skillseekers:latest \
+  yonyoudoc2skill:latest \
   /bin/bash
 ```
 
@@ -226,8 +226,8 @@ version: '3.8'
 
 services:
   mcp-server:
-    image: skillseekers:latest
-    container_name: skillseekers-mcp
+    image: yonyoudoc2skill:latest
+    container_name: yonyoudoc2skill-mcp
     ports:
       - "8765:8765"
     environment:
@@ -237,8 +237,8 @@ services:
       - GITHUB_TOKEN=${GITHUB_TOKEN}
       - LOG_LEVEL=INFO
     volumes:
-      - skillseekers-data:/app/data
-      - skillseekers-logs:/app/logs
+      - yonyoudoc2skill-data:/app/data
+      - yonyoudoc2skill-logs:/app/logs
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8765/health"]
@@ -248,16 +248,16 @@ services:
       start_period: 40s
 
   embedding-server:
-    image: skillseekers:latest
-    container_name: skillseekers-embed
+    image: yonyoudoc2skill:latest
+    container_name: yonyoudoc2skill-embed
     ports:
       - "8000:8000"
     environment:
       - OPENAI_API_KEY=${OPENAI_API_KEY}
       - VOYAGE_API_KEY=${VOYAGE_API_KEY}
     volumes:
-      - skillseekers-cache:/app/cache
-    command: ["python", "-m", "skill_seekers.embedding.server", "--host", "0.0.0.0"]
+      - yonyoudoc2skill-cache:/app/cache
+    command: ["python", "-m", "yonyou_doc2skill.embedding.server", "--host", "0.0.0.0"]
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
@@ -265,7 +265,7 @@ services:
 
   nginx:
     image: nginx:alpine
-    container_name: skillseekers-nginx
+    container_name: yonyoudoc2skill-nginx
     ports:
       - "80:80"
       - "443:443"
@@ -278,9 +278,9 @@ services:
     restart: unless-stopped
 
 volumes:
-  skillseekers-data:
-  skillseekers-logs:
-  skillseekers-cache:
+  yonyoudoc2skill-data:
+  yonyoudoc2skill-logs:
+  yonyoudoc2skill-cache:
 ```
 
 ### 2. With Monitoring Stack
@@ -295,7 +295,7 @@ services:
 
   prometheus:
     image: prom/prometheus:latest
-    container_name: skillseekers-prometheus
+    container_name: yonyoudoc2skill-prometheus
     ports:
       - "9090:9090"
     volumes:
@@ -308,7 +308,7 @@ services:
 
   grafana:
     image: grafana/grafana:latest
-    container_name: skillseekers-grafana
+    container_name: yonyoudoc2skill-grafana
     ports:
       - "3000:3000"
     environment:
@@ -320,7 +320,7 @@ services:
 
   loki:
     image: grafana/loki:latest
-    container_name: skillseekers-loki
+    container_name: yonyoudoc2skill-loki
     ports:
       - "3100:3100"
     volumes:
@@ -390,7 +390,7 @@ services:
 ```bash
 docker run -d \
   -v $(pwd)/configs:/app/configs:ro \
-  skillseekers:latest
+  yonyoudoc2skill:latest
 ```
 
 **docker-compose.yml:**
@@ -413,10 +413,10 @@ echo $GITHUB_TOKEN | docker secret create github_token -
 
 # Use in service
 docker service create \
-  --name skillseekers-mcp \
+  --name yonyoudoc2skill-mcp \
   --secret anthropic_key \
   --secret github_token \
-  skillseekers:latest
+  yonyoudoc2skill:latest
 ```
 
 **docker-compose.yml (Swarm):**
@@ -445,21 +445,21 @@ services:
 
 ```bash
 # Create volume
-docker volume create skillseekers-data
+docker volume create yonyoudoc2skill-data
 
 # Use in container
-docker run -v skillseekers-data:/app/data skillseekers:latest
+docker run -v yonyoudoc2skill-data:/app/data yonyoudoc2skill:latest
 
 # Backup volume
 docker run --rm \
-  -v skillseekers-data:/data \
+  -v yonyoudoc2skill-data:/data \
   -v $(pwd):/backup \
   alpine \
   tar czf /backup/backup.tar.gz /data
 
 # Restore volume
 docker run --rm \
-  -v skillseekers-data:/data \
+  -v yonyoudoc2skill-data:/data \
   -v $(pwd):/backup \
   alpine \
   sh -c "cd /data && tar xzf /backup/backup.tar.gz --strip 1"
@@ -469,17 +469,17 @@ docker run --rm \
 
 ```bash
 # Mount host directory
-docker run -v /opt/skillseekers/output:/app/output skillseekers:latest
+docker run -v /opt/yonyoudoc2skill/output:/app/output yonyoudoc2skill:latest
 
 # Read-only mount
-docker run -v $(pwd)/configs:/app/configs:ro skillseekers:latest
+docker run -v $(pwd)/configs:/app/configs:ro yonyoudoc2skill:latest
 ```
 
 ### 3. Data Migration
 
 ```bash
 # Export from container
-docker cp skillseekers-mcp:/app/data ./data-backup
+docker cp yonyoudoc2skill-mcp:/app/data ./data-backup
 
 # Import to new container
 docker cp ./data-backup new-container:/app/data
@@ -491,16 +491,16 @@ docker cp ./data-backup new-container:/app/data
 
 ```bash
 # Containers can communicate by name
-docker network create skillseekers-net
+docker network create yonyoudoc2skill-net
 
-docker run --network skillseekers-net skillseekers:latest
+docker run --network yonyoudoc2skill-net yonyoudoc2skill:latest
 ```
 
 ### 2. Host Network
 
 ```bash
 # Use host network stack
-docker run --network host skillseekers:latest
+docker run --network host yonyoudoc2skill:latest
 ```
 
 ### 3. Custom Network
@@ -583,7 +583,7 @@ services:
 
 ```bash
 # Docker stats
-docker stats skillseekers-mcp
+docker stats yonyoudoc2skill-mcp
 
 # cAdvisor for metrics
 docker run -d \
@@ -604,13 +604,13 @@ docker run -d \
 
 ```bash
 # Check logs
-docker logs skillseekers-mcp
+docker logs yonyoudoc2skill-mcp
 
 # Inspect container
-docker inspect skillseekers-mcp
+docker inspect yonyoudoc2skill-mcp
 
 # Run with interactive shell
-docker run -it --entrypoint /bin/bash skillseekers:latest
+docker run -it --entrypoint /bin/bash yonyoudoc2skill:latest
 ```
 
 #### 2. Port Already in Use
@@ -623,18 +623,18 @@ sudo lsof -i :8765
 kill -9 <PID>
 
 # Or use different port
-docker run -p 8766:8765 skillseekers:latest
+docker run -p 8766:8765 yonyoudoc2skill:latest
 ```
 
 #### 3. Volume Permission Issues
 
 ```bash
 # Run as specific user
-docker run --user $(id -u):$(id -g) skillseekers:latest
+docker run --user $(id -u):$(id -g) yonyoudoc2skill:latest
 
 # Fix permissions
 docker run --rm \
-  -v skillseekers-data:/data \
+  -v yonyoudoc2skill-data:/data \
   alpine chown -R 1000:1000 /data
 ```
 
@@ -642,48 +642,48 @@ docker run --rm \
 
 ```bash
 # Test connectivity
-docker exec skillseekers-mcp ping google.com
+docker exec yonyoudoc2skill-mcp ping google.com
 
 # Check DNS
-docker exec skillseekers-mcp cat /etc/resolv.conf
+docker exec yonyoudoc2skill-mcp cat /etc/resolv.conf
 
 # Use custom DNS
-docker run --dns 8.8.8.8 skillseekers:latest
+docker run --dns 8.8.8.8 yonyoudoc2skill:latest
 ```
 
 #### 5. High Memory Usage
 
 ```bash
 # Set memory limit
-docker run --memory=4g skillseekers:latest
+docker run --memory=4g yonyoudoc2skill:latest
 
 # Check memory usage
-docker stats skillseekers-mcp
+docker stats yonyoudoc2skill-mcp
 
 # Enable memory swappiness
-docker run --memory=4g --memory-swap=8g skillseekers:latest
+docker run --memory=4g --memory-swap=8g yonyoudoc2skill:latest
 ```
 
 ### Debug Commands
 
 ```bash
 # Enter running container
-docker exec -it skillseekers-mcp /bin/bash
+docker exec -it yonyoudoc2skill-mcp /bin/bash
 
 # View environment variables
-docker exec skillseekers-mcp env
+docker exec yonyoudoc2skill-mcp env
 
 # Check processes
-docker exec skillseekers-mcp ps aux
+docker exec yonyoudoc2skill-mcp ps aux
 
 # View logs in real-time
-docker logs -f --tail 100 skillseekers-mcp
+docker logs -f --tail 100 yonyoudoc2skill-mcp
 
 # Inspect container details
-docker inspect skillseekers-mcp | jq '.[]'
+docker inspect yonyoudoc2skill-mcp | jq '.[]'
 
 # Export container filesystem
-docker export skillseekers-mcp > container.tar
+docker export yonyoudoc2skill-mcp > container.tar
 ```
 
 ## Production Best Practices
@@ -692,32 +692,32 @@ docker export skillseekers-mcp > container.tar
 
 ```bash
 # Tag images with versions
-docker build -t skillseekers:2.9.0 .
-docker tag skillseekers:2.9.0 skillseekers:latest
+docker build -t yonyoudoc2skill:2.9.0 .
+docker tag yonyoudoc2skill:2.9.0 yonyoudoc2skill:latest
 
 # Use private registry
-docker tag skillseekers:latest registry.example.com/skillseekers:latest
-docker push registry.example.com/skillseekers:latest
+docker tag yonyoudoc2skill:latest registry.example.com/yonyoudoc2skill:latest
+docker push registry.example.com/yonyoudoc2skill:latest
 
 # Scan for vulnerabilities
-docker scan skillseekers:latest
+docker scan yonyoudoc2skill:latest
 ```
 
 ### 2. Security
 
 ```bash
 # Run as non-root user
-RUN useradd -m -s /bin/bash skillseekers
-USER skillseekers
+RUN useradd -m -s /bin/bash yonyoudoc2skill
+USER yonyoudoc2skill
 
 # Read-only root filesystem
-docker run --read-only --tmpfs /tmp skillseekers:latest
+docker run --read-only --tmpfs /tmp yonyoudoc2skill:latest
 
 # Drop capabilities
-docker run --cap-drop=ALL --cap-add=NET_BIND_SERVICE skillseekers:latest
+docker run --cap-drop=ALL --cap-add=NET_BIND_SERVICE yonyoudoc2skill:latest
 
 # Use security scanning
-trivy image skillseekers:latest
+trivy image yonyoudoc2skill:latest
 ```
 
 ### 3. Resource Management
@@ -748,7 +748,7 @@ tar czf backup-$(date +%Y%m%d).tar.gz volumes/
 docker-compose up -d
 
 # Automated backups
-0 2 * * * /opt/skillseekers/backup.sh
+0 2 * * * /opt/yonyoudoc2skill/backup.sh
 ```
 
 ## Next Steps
@@ -759,4 +759,4 @@ docker-compose up -d
 
 ---
 
-**Need help?** Open an issue on [GitHub](https://github.com/yusufkaraaslan/Skill_Seekers/issues).
+**Need help?** Open an issue on [GitHub](https://github.com/yonyou/yonyou-doc2skill/issues).

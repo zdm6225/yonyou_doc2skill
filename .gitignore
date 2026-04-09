@@ -34,7 +34,7 @@ env/
 output/
 *.zip
 
-# Skill Seekers cache (intermediate files)
+# Yonyou Doc2Skill cache (intermediate files)
 .skillseeker-cache/
 
 # IDE
@@ -63,7 +63,7 @@ htmlcov/
 
 # Build artifacts
 .build/
-skill-seekers-configs/
+yonyou-doc2skill-configs/
 .claude/skills
 .mcp.json
 !/.mcp.json

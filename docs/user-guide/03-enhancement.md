@@ -1,6 +1,6 @@
 # Enhancement Guide
 
-> **Skill Seekers v3.1.0**  
+> **Yonyou Doc2Skill v3.1.0**  
 > **AI-powered quality improvement for skills**
 
 ---
@@ -53,10 +53,10 @@ export OPENAI_API_KEY=...             # OpenAI
 **Usage:**
 ```bash
 # Auto-detects API mode
-skill-seekers create <source>
+yonyou-doc2skill create <source>
 
 # Explicit
-skill-seekers enhance output/my-skill/ --agent api
+yonyou-doc2skill enhance output/my-skill/ --agent api
 ```
 
 **Pros:**
@@ -79,16 +79,16 @@ Uses a local AI coding agent via `AgentClient`. Supports Claude Code, Kimi Code,
 **Usage:**
 ```bash
 # Auto-detects LOCAL mode (no API key), defaults to Claude Code
-skill-seekers create <source>
+yonyou-doc2skill create <source>
 
 # Use a different local agent
-skill-seekers enhance output/my-skill/ --agent codex
-skill-seekers enhance output/my-skill/ --agent copilot
-skill-seekers enhance output/my-skill/ --agent kimi
-skill-seekers enhance output/my-skill/ --agent opencode
+yonyou-doc2skill enhance output/my-skill/ --agent codex
+yonyou-doc2skill enhance output/my-skill/ --agent copilot
+yonyou-doc2skill enhance output/my-skill/ --agent kimi
+yonyou-doc2skill enhance output/my-skill/ --agent opencode
 
 # Custom agent
-skill-seekers enhance output/my-skill/ --agent custom --agent-cmd "my-agent {prompt_file}"
+yonyou-doc2skill enhance output/my-skill/ --agent custom --agent-cmd "my-agent {prompt_file}"
 ```
 
 **Pros:**
@@ -108,39 +108,39 @@ skill-seekers enhance output/my-skill/ --agent custom --agent-cmd "my-agent {pro
 
 ```bash
 # Default enhancement (level 2)
-skill-seekers create <source>
+yonyou-doc2skill create <source>
 
 # No enhancement (fastest)
-skill-seekers create <source> --enhance-level 0
+yonyou-doc2skill create <source> --enhance-level 0
 
 # Maximum enhancement
-skill-seekers create <source> --enhance-level 3
+yonyou-doc2skill create <source> --enhance-level 3
 ```
 
 ### After Creation
 
 ```bash
 # Enhance existing skill
-skill-seekers enhance output/my-skill/
+yonyou-doc2skill enhance output/my-skill/
 
 # With specific agent
-skill-seekers enhance output/my-skill/ --agent local
+yonyou-doc2skill enhance output/my-skill/ --agent local
 
 # With timeout
-skill-seekers enhance output/my-skill/ --timeout 1200
+yonyou-doc2skill enhance output/my-skill/ --timeout 1200
 ```
 
 ### Background Mode
 
 ```bash
 # Run in background
-skill-seekers enhance output/my-skill/ --background
+yonyou-doc2skill enhance output/my-skill/ --background
 
 # Check status
-skill-seekers enhance-status output/my-skill/
+yonyou-doc2skill enhance-status output/my-skill/
 
 # Watch in real-time
-skill-seekers enhance-status output/my-skill/ --watch
+yonyou-doc2skill enhance-status output/my-skill/ --watch
 ```
 
 ---
@@ -163,18 +163,18 @@ Apply specialized AI analysis with preset workflows.
 
 ```bash
 # Apply workflow
-skill-seekers create <source> --enhance-workflow security-focus
+yonyou-doc2skill create <source> --enhance-workflow security-focus
 
 # Chain multiple workflows
-skill-seekers create <source> \
+yonyou-doc2skill create <source> \
   --enhance-workflow security-focus \
   --enhance-workflow api-documentation
 
 # List available
-skill-seekers workflows list
+yonyou-doc2skill workflows list
 
 # Show workflow content
-skill-seekers workflows show security-focus
+yonyou-doc2skill workflows show security-focus
 ```
 
 ### Custom Workflows
@@ -193,10 +193,10 @@ stages:
 
 ```bash
 # Add workflow
-skill-seekers workflows add my-workflow.yaml
+yonyou-doc2skill workflows add my-workflow.yaml
 
 # Use it
-skill-seekers create <source> --enhance-workflow my-custom
+yonyou-doc2skill create <source> --enhance-workflow my-custom
 ```
 
 ---
@@ -266,13 +266,13 @@ Everything in Level 2, plus:
 
 ```bash
 # Current status
-skill-seekers enhance-status output/my-skill/
+yonyou-doc2skill enhance-status output/my-skill/
 
 # JSON output (for scripting)
-skill-seekers enhance-status output/my-skill/ --json
+yonyou-doc2skill enhance-status output/my-skill/ --json
 
 # Watch mode
-skill-seekers enhance-status output/my-skill/ --watch --interval 10
+yonyou-doc2skill enhance-status output/my-skill/ --watch --interval 10
 ```
 
 ### Process Status Values
@@ -297,10 +297,10 @@ Skip enhancement when:
 
 ```bash
 # Skip during creation
-skill-seekers create <source> --enhance-level 0
+yonyou-doc2skill create <source> --enhance-level 0
 
 # Enhance best ones later
-skill-seekers enhance output/best-skill/
+yonyou-doc2skill enhance output/best-skill/
 ```
 
 ---
@@ -311,24 +311,24 @@ skill-seekers enhance output/best-skill/
 
 ```bash
 # Default is usually perfect
-skill-seekers create <source>
+yonyou-doc2skill create <source>
 ```
 
 ### 2. Apply Domain-Specific Workflows
 
 ```bash
 # Security review
-skill-seekers create <source> --enhance-workflow security-focus
+yonyou-doc2skill create <source> --enhance-workflow security-focus
 
 # API focus
-skill-seekers create <source> --enhance-workflow api-documentation
+yonyou-doc2skill create <source> --enhance-workflow api-documentation
 ```
 
 ### 3. Chain for Comprehensive Analysis
 
 ```bash
 # Multiple perspectives
-skill-seekers create <source> \
+yonyou-doc2skill create <source> \
   --enhance-workflow security-focus \
   --enhance-workflow architecture-comprehensive
 ```
@@ -338,19 +338,19 @@ skill-seekers create <source> \
 ```bash
 # Better results with Claude Code
 export ANTHROPIC_API_KEY=""  # Unset to force LOCAL
-skill-seekers enhance output/my-skill/
+yonyou-doc2skill enhance output/my-skill/
 ```
 
 ### 5. Enhance Iteratively
 
 ```bash
 # Create without enhancement
-skill-seekers create <source> --enhance-level 0
+yonyou-doc2skill create <source> --enhance-level 0
 
 # Review and enhance
-skill-seekers enhance output/my-skill/
+yonyou-doc2skill enhance output/my-skill/
 # Review again...
-skill-seekers enhance output/my-skill/  # Run again for more polish
+yonyou-doc2skill enhance output/my-skill/  # Run again for more polish
 ```
 
 ---
@@ -365,7 +365,7 @@ skill-seekers enhance output/my-skill/  # Run again for more polish
 export ANTHROPIC_API_KEY=sk-ant-...
 
 # Or use LOCAL mode
-skill-seekers enhance output/my-skill/ --agent local
+yonyou-doc2skill enhance output/my-skill/ --agent local
 ```
 
 ### "Enhancement timeout"
@@ -373,10 +373,10 @@ skill-seekers enhance output/my-skill/ --agent local
 **Solution:**
 ```bash
 # Increase timeout
-skill-seekers enhance output/my-skill/ --timeout 1200
+yonyou-doc2skill enhance output/my-skill/ --timeout 1200
 
 # Or use background mode
-skill-seekers enhance output/my-skill/ --background
+yonyou-doc2skill enhance output/my-skill/ --background
 ```
 
 ### "Claude Code not found" (LOCAL mode)
@@ -388,7 +388,7 @@ skill-seekers enhance output/my-skill/ --background
 
 # Or switch to API mode
 export ANTHROPIC_API_KEY=sk-ant-...
-skill-seekers enhance output/my-skill/ --agent api
+yonyou-doc2skill enhance output/my-skill/ --agent api
 ```
 
 ### "Workflow not found"
@@ -396,10 +396,10 @@ skill-seekers enhance output/my-skill/ --agent api
 **Solution:**
 ```bash
 # List available workflows
-skill-seekers workflows list
+yonyou-doc2skill workflows list
 
 # Check spelling
-skill-seekers create <source> --enhance-workflow security-focus
+yonyou-doc2skill create <source> --enhance-workflow security-focus
 ```
 
 ---

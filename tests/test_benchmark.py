@@ -10,14 +10,14 @@ from datetime import datetime
 # Skip all tests if psutil is not installed
 pytest.importorskip("psutil")
 
-from skill_seekers.benchmark import (
+from yonyou_doc2skill.benchmark import (
     Benchmark,
     BenchmarkResult,
     BenchmarkRunner,
     BenchmarkReport,
     Metric,
 )
-from skill_seekers.benchmark.models import TimingResult, MemoryUsage
+from yonyou_doc2skill.benchmark.models import TimingResult, MemoryUsage
 
 
 class TestBenchmarkResult:
@@ -386,7 +386,7 @@ class TestBenchmarkRunner:
         improved_path = list(tmp_path.glob("improved_*.json"))[0]
 
         # Compare
-        from skill_seekers.benchmark.models import ComparisonReport
+        from yonyou_doc2skill.benchmark.models import ComparisonReport
 
         comparison = runner.compare(baseline_path, improved_path)
 
@@ -545,7 +545,7 @@ class TestBenchmarkModels:
 
     def test_comparison_report_has_regressions(self):
         """Test ComparisonReport has_regressions property."""
-        from skill_seekers.benchmark.models import ComparisonReport
+        from yonyou_doc2skill.benchmark.models import ComparisonReport
 
         baseline = BenchmarkReport(
             name="baseline",
@@ -585,7 +585,7 @@ class TestBenchmarkModels:
 
     def test_comparison_report_overall_improvement(self):
         """Test ComparisonReport overall_improvement property."""
-        from skill_seekers.benchmark.models import ComparisonReport
+        from yonyou_doc2skill.benchmark.models import ComparisonReport
 
         baseline = BenchmarkReport(
             name="baseline",

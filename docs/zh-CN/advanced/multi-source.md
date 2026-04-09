@@ -1,6 +1,6 @@
 # Multi-Source Scraping Guide
 
-> **Skill Seekers v3.1.0**  
+> **Yonyou Doc2Skill v3.1.0**  
 > **Combine documentation, code, and PDFs into one skill**
 
 ---
@@ -195,20 +195,20 @@ Combine multiple sources into a single, comprehensive skill:
 ### Basic Command
 
 ```bash
-skill-seekers unified --config react-complete.json
+yonyou-doc2skill unified --config react-complete.json
 ```
 
 ### With Options
 
 ```bash
 # Fresh start (ignore cache)
-skill-seekers unified --config react-complete.json --fresh
+yonyou-doc2skill unified --config react-complete.json --fresh
 
 # Dry run
-skill-seekers unified --config react-complete.json --dry-run
+yonyou-doc2skill unified --config react-complete.json --dry-run
 
 # Rule-based merging
-skill-seekers unified --config react-complete.json --merge-mode rule-based
+yonyou-doc2skill unified --config react-complete.json --merge-mode rule-based
 ```
 
 ---
@@ -225,7 +225,7 @@ Uses AI to intelligently merge sources:
 - Best quality, slower
 
 ```bash
-skill-seekers unified --config my-config.json --merge-mode claude-enhanced
+yonyou-doc2skill unified --config my-config.json --merge-mode claude-enhanced
 ```
 
 ### rule-based
@@ -237,7 +237,7 @@ Uses defined rules for merging:
 - Less sophisticated
 
 ```bash
-skill-seekers unified --config my-config.json --merge-mode rule-based
+yonyou-doc2skill unified --config my-config.json --merge-mode rule-based
 ```
 
 ---
@@ -301,7 +301,7 @@ output/react-complete/
 │   ├── source_overview.md     # From GitHub
 │   ├── code_examples.md       # From GitHub
 │   └── patterns.md            # From PDF
-├── .skill-seekers/
+├── .yonyou-doc2skill/
 │   ├── manifest.json          # Metadata
 │   ├── sources.json           # Source list
 │   └── conflicts.json         # Detected conflicts
@@ -355,10 +355,10 @@ output/react-complete/
 
 ```bash
 # Test with one source first
-skill-seekers create <source1>
+yonyou-doc2skill create <source1>
 
 # Then add sources
-skill-seekers unified --config my-config.json --dry-run
+yonyou-doc2skill unified --config my-config.json --dry-run
 ```
 
 ---
@@ -380,7 +380,7 @@ ls downloads/manual.pdf
 cat output/my-skill/conflicts.json
 
 # Adjust merge_mode
-skill-seekers unified --config my-config.json --merge-mode rule-based
+yonyou-doc2skill unified --config my-config.json --merge-mode rule-based
 ```
 
 ### "Out of memory"

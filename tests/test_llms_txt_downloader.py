@@ -2,7 +2,7 @@ from unittest.mock import Mock, patch
 
 import requests
 
-from skill_seekers.cli.llms_txt_downloader import LlmsTxtDownloader
+from yonyou_doc2skill.cli.llms_txt_downloader import LlmsTxtDownloader
 
 
 def test_successful_download():
@@ -164,7 +164,7 @@ def test_user_agent_header():
     assert content is not None
     # Verify custom user agent was passed
     call_kwargs = mock_get.call_args[1]
-    assert call_kwargs["headers"]["User-Agent"] == "Skill-Seekers-llms.txt-Reader/1.0"
+    assert call_kwargs["headers"]["User-Agent"] == "Yonyou-Doc2Skill-llms.txt-Reader/1.0"
 
 
 def test_get_proper_filename():

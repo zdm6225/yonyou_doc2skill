@@ -11,7 +11,7 @@ Tests that RAGChunker is properly integrated into:
 import pytest
 import json
 from pathlib import Path
-from skill_seekers.cli.adaptors import get_adaptor
+from yonyou_doc2skill.cli.adaptors import get_adaptor
 
 
 def create_test_skill(tmp_path: Path, large_doc: bool = False) -> Path:
@@ -194,7 +194,7 @@ class TestAutoChunkingForRAGPlatforms:
         skill_dir = create_test_skill(tmp_path, large_doc=True)
 
         # Import package_skill function
-        from skill_seekers.cli.package_skill import package_skill
+        from yonyou_doc2skill.cli.package_skill import package_skill
 
         # Package with RAG platform (should auto-enable chunking)
         success, package_path = package_skill(
@@ -224,7 +224,7 @@ class TestBaseAdaptorChunkingHelper:
 
     def test_maybe_chunk_content_disabled(self):
         """Test that _maybe_chunk_content returns single chunk when disabled."""
-        from skill_seekers.cli.adaptors.langchain import LangChainAdaptor
+        from yonyou_doc2skill.cli.adaptors.langchain import LangChainAdaptor
 
         adaptor = LangChainAdaptor()
 
@@ -240,7 +240,7 @@ class TestBaseAdaptorChunkingHelper:
 
     def test_maybe_chunk_content_small_doc(self):
         """Test that small docs are not chunked even when enabled."""
-        from skill_seekers.cli.adaptors.langchain import LangChainAdaptor
+        from yonyou_doc2skill.cli.adaptors.langchain import LangChainAdaptor
 
         adaptor = LangChainAdaptor()
 
@@ -256,7 +256,7 @@ class TestBaseAdaptorChunkingHelper:
 
     def test_maybe_chunk_content_large_doc(self):
         """Test that large docs are chunked when enabled."""
-        from skill_seekers.cli.adaptors.langchain import LangChainAdaptor
+        from yonyou_doc2skill.cli.adaptors.langchain import LangChainAdaptor
 
         adaptor = LangChainAdaptor()
 
@@ -292,7 +292,7 @@ class TestChunkingCLIIntegration:
 
     def test_chunk_flag(self, tmp_path):
         """Test --chunk-for-rag flag enables chunking."""
-        from skill_seekers.cli.package_skill import package_skill
+        from yonyou_doc2skill.cli.package_skill import package_skill
 
         skill_dir = create_test_skill(tmp_path, large_doc=True)
 
@@ -317,7 +317,7 @@ class TestChunkingCLIIntegration:
 
     def test_chunk_tokens_parameter(self, tmp_path):
         """Test --chunk-tokens parameter controls chunk size."""
-        from skill_seekers.cli.package_skill import package_skill
+        from yonyou_doc2skill.cli.package_skill import package_skill
 
         skill_dir = create_test_skill(tmp_path, large_doc=True)
 
@@ -360,7 +360,7 @@ class TestChunkingCLIIntegration:
 
     def test_chunk_overlap_tokens_parameter(self, tmp_path):
         """Test --chunk-overlap-tokens controls RAGChunker overlap."""
-        from skill_seekers.cli.package_skill import package_skill
+        from yonyou_doc2skill.cli.package_skill import package_skill
 
         skill_dir = create_test_skill(tmp_path, large_doc=True)
 
@@ -405,7 +405,7 @@ class TestChunkingCLIIntegration:
 
     def test_chunk_overlap_scales_with_chunk_size(self, tmp_path):
         """Test that overlap auto-scales when chunk_tokens is non-default but overlap is default."""
-        from skill_seekers.cli.adaptors.base import (
+        from yonyou_doc2skill.cli.adaptors.base import (
             DEFAULT_CHUNK_TOKENS,
             DEFAULT_CHUNK_OVERLAP_TOKENS,
         )
@@ -441,7 +441,7 @@ class TestChunkingCLIIntegration:
 
     def test_preserve_code_blocks_flag(self, tmp_path):
         """Test --no-preserve-code-blocks parameter is accepted."""
-        from skill_seekers.cli.package_skill import package_skill
+        from yonyou_doc2skill.cli.package_skill import package_skill
 
         skill_dir = create_test_skill(tmp_path, large_doc=True)
 

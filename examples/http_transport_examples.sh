@@ -9,60 +9,60 @@
 # =============================================================================
 
 # Default stdio transport (backward compatible)
-python -m skill_seekers.mcp.server_fastmcp
+python -m yonyou_doc2skill.mcp.server_fastmcp
 
 # HTTP transport on default port 8000
-python -m skill_seekers.mcp.server_fastmcp --transport http
+python -m yonyou_doc2skill.mcp.server_fastmcp --transport http
 
 # =============================================================================
 # CUSTOM PORT
 # =============================================================================
 
 # HTTP transport on port 3000
-python -m skill_seekers.mcp.server_fastmcp --transport http --port 3000
+python -m yonyou_doc2skill.mcp.server_fastmcp --transport http --port 3000
 
 # HTTP transport on port 8080
-python -m skill_seekers.mcp.server_fastmcp --transport http --port 8080
+python -m yonyou_doc2skill.mcp.server_fastmcp --transport http --port 8080
 
 # =============================================================================
 # CUSTOM HOST
 # =============================================================================
 
 # Listen on all interfaces (⚠️ use with caution in production!)
-python -m skill_seekers.mcp.server_fastmcp --transport http --host 0.0.0.0
+python -m yonyou_doc2skill.mcp.server_fastmcp --transport http --host 0.0.0.0
 
 # Listen on specific interface
-python -m skill_seekers.mcp.server_fastmcp --transport http --host 192.168.1.100
+python -m yonyou_doc2skill.mcp.server_fastmcp --transport http --host 192.168.1.100
 
 # =============================================================================
 # LOGGING
 # =============================================================================
 
 # Debug logging
-python -m skill_seekers.mcp.server_fastmcp --transport http --log-level DEBUG
+python -m yonyou_doc2skill.mcp.server_fastmcp --transport http --log-level DEBUG
 
 # Warning level only
-python -m skill_seekers.mcp.server_fastmcp --transport http --log-level WARNING
+python -m yonyou_doc2skill.mcp.server_fastmcp --transport http --log-level WARNING
 
 # Error level only
-python -m skill_seekers.mcp.server_fastmcp --transport http --log-level ERROR
+python -m yonyou_doc2skill.mcp.server_fastmcp --transport http --log-level ERROR
 
 # =============================================================================
 # COMBINED OPTIONS
 # =============================================================================
 
 # HTTP on port 8080 with debug logging
-python -m skill_seekers.mcp.server_fastmcp --transport http --port 8080 --log-level DEBUG
+python -m yonyou_doc2skill.mcp.server_fastmcp --transport http --port 8080 --log-level DEBUG
 
 # HTTP on all interfaces with custom port and warning level
-python -m skill_seekers.mcp.server_fastmcp --transport http --host 0.0.0.0 --port 9000 --log-level WARNING
+python -m yonyou_doc2skill.mcp.server_fastmcp --transport http --host 0.0.0.0 --port 9000 --log-level WARNING
 
 # =============================================================================
 # TESTING
 # =============================================================================
 
 # Start server in background and test health endpoint
-python -m skill_seekers.mcp.server_fastmcp --transport http --port 8765 &
+python -m yonyou_doc2skill.mcp.server_fastmcp --transport http --port 8765 &
 SERVER_PID=$!
 sleep 2
 curl http://localhost:8765/health | python -m json.tool
@@ -77,7 +77,7 @@ kill $SERVER_PID
 #   "mcpServers": {
 #     "skill-seeker": {
 #       "command": "python",
-#       "args": ["-m", "skill_seekers.mcp.server_fastmcp"]
+#       "args": ["-m", "yonyou_doc2skill.mcp.server_fastmcp"]
 #     }
 #   }
 # }
@@ -117,4 +117,4 @@ curl http://localhost:8000/health
 curl -v http://localhost:8000/health
 
 # Follow server logs
-python -m skill_seekers.mcp.server_fastmcp --transport http --log-level DEBUG 2>&1 | tee server.log
+python -m yonyou_doc2skill.mcp.server_fastmcp --transport http --log-level DEBUG 2>&1 | tee server.log

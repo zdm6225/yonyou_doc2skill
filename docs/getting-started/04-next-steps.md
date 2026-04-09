@@ -1,13 +1,13 @@
 # Next Steps
 
-> **Skill Seekers v3.1.0**  
+> **Yonyou Doc2Skill v3.1.0**  
 > **Where to go after creating your first skill**
 
 ---
 
 ## You've Created Your First Skill! 🎉
 
-Now what? Here's your roadmap to becoming a Skill Seekers power user.
+Now what? Here's your roadmap to becoming a Yonyou Doc2Skill power user.
 
 ---
 
@@ -19,13 +19,13 @@ You've done documentation. Now try:
 
 ```bash
 # GitHub repository
-skill-seekers create facebook/react --name react
+yonyou-doc2skill create facebook/react --name react
 
 # Local project
-skill-seekers create ./my-project --name my-project
+yonyou-doc2skill create ./my-project --name my-project
 
 # PDF document
-skill-seekers create manual.pdf --name manual
+yonyou-doc2skill create manual.pdf --name manual
 ```
 
 ### 2. Package for Multiple Platforms
@@ -34,11 +34,11 @@ Your skill works everywhere:
 
 ```bash
 # Create once
-skill-seekers create https://docs.djangoproject.com/ --name django
+yonyou-doc2skill create https://docs.djangoproject.com/ --name django
 
 # Package for all platforms
 for platform in claude gemini openai langchain; do
-  skill-seekers package output/django/ --target $platform
+  yonyou-doc2skill package output/django/ --target $platform
 done
 ```
 
@@ -46,13 +46,13 @@ done
 
 ```bash
 # See available workflows
-skill-seekers workflows list
+yonyou-doc2skill workflows list
 
 # Apply security-focused analysis
-skill-seekers create ./my-project --enhance-workflow security-focus
+yonyou-doc2skill create ./my-project --enhance-workflow security-focus
 
 # Chain multiple workflows
-skill-seekers create ./my-project \
+yonyou-doc2skill create ./my-project \
   --enhance-workflow security-focus \
   --enhance-workflow api-documentation
 ```
@@ -112,7 +112,7 @@ skill-seekers create ./my-project \
 # Create a script
 for framework in django react vue fastapi; do
   echo "Processing $framework..."
-  skill-seekers install --config $framework --target claude
+  yonyou-doc2skill install --config $framework --target claude
 done
 ```
 
@@ -122,10 +122,10 @@ done
 
 ```bash
 # Analyze your repo
-skill-seekers create your-org/your-repo --preset comprehensive
+yonyou-doc2skill create your-org/your-repo --preset comprehensive
 
 # Install to Cursor for coding assistance
-skill-seekers install-agent output/your-repo/ --agent cursor
+yonyou-doc2skill install-agent output/your-repo/ --agent cursor
 ```
 
 ### Use Case 3: RAG Pipeline
@@ -134,10 +134,10 @@ skill-seekers install-agent output/your-repo/ --agent cursor
 
 ```bash
 # Create skill
-skill-seekers create https://docs.djangoproject.com/ --name django
+yonyou-doc2skill create https://docs.djangoproject.com/ --name django
 
 # Export to ChromaDB
-skill-seekers package output/django/ --target chroma
+yonyou-doc2skill package output/django/ --target chroma
 
 # Or export directly
 export_to_chroma(skill_directory="output/django/")
@@ -149,10 +149,10 @@ export_to_chroma(skill_directory="output/django/")
 
 ```bash
 # Check for updates
-skill-seekers update --config django --check-only
+yonyou-doc2skill update --config django --check-only
 
 # Update if changed
-skill-seekers update --config django
+yonyou-doc2skill update --config django
 ```
 
 ---
@@ -170,8 +170,8 @@ Building skills for Claude, Gemini, or ChatGPT?
 
 **Commands:**
 ```bash
-skill-seekers quality output/my-skill/ --report
-skill-seekers create ./my-project --enhance-workflow architecture-comprehensive
+yonyou-doc2skill quality output/my-skill/ --report
+yonyou-doc2skill create ./my-project --enhance-workflow architecture-comprehensive
 ```
 
 ### For RAG Engineers
@@ -185,9 +185,9 @@ Building retrieval-augmented generation systems?
 
 **Commands:**
 ```bash
-skill-seekers package output/my-skill/ --target chroma
-skill-seekers package output/my-skill/ --target weaviate
-skill-seekers package output/my-skill/ --target langchain
+yonyou-doc2skill package output/my-skill/ --target chroma
+yonyou-doc2skill package output/my-skill/ --target weaviate
+yonyou-doc2skill package output/my-skill/ --target langchain
 ```
 
 ### For AI Coding Assistant Users
@@ -201,8 +201,8 @@ Using Cursor, Windsurf, Cline, Roo, Aider, Bolt, Kilo, Continue, or Kimi Code?
 
 **Commands:**
 ```bash
-skill-seekers create ./my-project --preset comprehensive
-skill-seekers install-agent output/my-project/ --agent cursor
+yonyou-doc2skill create ./my-project --preset comprehensive
+yonyou-doc2skill install-agent output/my-project/ --agent cursor
 ```
 
 ### For DevOps/SRE
@@ -217,10 +217,10 @@ Automating documentation workflows?
 **Commands:**
 ```bash
 # Start MCP server
-skill-seekers-mcp --transport http --port 8765
+yonyou-doc2skill-mcp --transport http --port 8765
 
 # Add config source
-skill-seekers workflows add-config-source my-org https://github.com/my-org/configs
+yonyou-doc2skill workflows add-config-source my-org https://github.com/my-org/configs
 ```
 
 ---
@@ -254,7 +254,7 @@ skill-seekers workflows add-config-source my-org https://github.com/my-org/confi
 
 ### Get Help
 
-- **GitHub Issues:** https://github.com/yusufkaraaslan/Skill_Seekers/issues
+- **GitHub Issues:** https://github.com/yonyou/yonyou-doc2skill/issues
 - **Discussions:** Share use cases and get advice
 - **Discord:** [Link in README]
 
@@ -279,23 +279,23 @@ See [Contributing Guide](../../CONTRIBUTING.md)
 
 ```bash
 # Core workflow
-skill-seekers create <source>              # Create skill
-skill-seekers package <dir> --target <p>   # Package
-skill-seekers upload <file> --target <p>   # Upload
+yonyou-doc2skill create <source>              # Create skill
+yonyou-doc2skill package <dir> --target <p>   # Package
+yonyou-doc2skill upload <file> --target <p>   # Upload
 
 # Analysis
-skill-seekers analyze --directory <dir>    # Local codebase
-skill-seekers github --repo <owner/repo>   # GitHub repo
-skill-seekers pdf --pdf <file>             # PDF
+yonyou-doc2skill analyze --directory <dir>    # Local codebase
+yonyou-doc2skill github --repo <owner/repo>   # GitHub repo
+yonyou-doc2skill pdf --pdf <file>             # PDF
 
 # Utilities
-skill-seekers estimate <config>            # Page estimation
-skill-seekers quality <dir>                # Quality check
-skill-seekers resume                       # Resume job
-skill-seekers workflows list               # List workflows
+yonyou-doc2skill estimate <config>            # Page estimation
+yonyou-doc2skill quality <dir>                # Quality check
+yonyou-doc2skill resume                       # Resume job
+yonyou-doc2skill workflows list               # List workflows
 
 # MCP server
-skill-seekers-mcp                          # Start MCP server
+yonyou-doc2skill-mcp                          # Start MCP server
 ```
 
 ---
@@ -316,5 +316,5 @@ Go build something amazing. The documentation is your oyster. 🦪
 
 ```bash
 # Your next skill awaits
-skill-seekers create <your-source-here>
+yonyou-doc2skill create <your-source-here>
 ```

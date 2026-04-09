@@ -75,7 +75,7 @@ def main():
     if not args.skip_scrape:
         if not run_command(
             [
-                "skill-seekers",
+                "yonyou-doc2skill",
                 "scrape",
                 "--config",
                 "configs/fastapi.json",
@@ -94,7 +94,7 @@ def main():
     # Step 2: Package with split rules
     if not run_command(
         [
-            "skill-seekers",
+            "yonyou-doc2skill",
             "package",
             str(output_dir),
             "--target",

@@ -7,7 +7,7 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from skill_seekers.mcp.config_publisher import ConfigPublisher, detect_category
+from yonyou_doc2skill.mcp.config_publisher import ConfigPublisher, detect_category
 
 
 def _get_default_branch(repo_path):
@@ -147,8 +147,8 @@ class TestPublishErrors:
         publisher.git_repo = MagicMock()
 
         with (
-            patch("skill_seekers.mcp.source_manager.SourceManager", return_value=mock_manager),
-            patch("skill_seekers.cli.config_validator.validate_config", return_value=None),
+            patch("yonyou_doc2skill.mcp.source_manager.SourceManager", return_value=mock_manager),
+            patch("yonyou_doc2skill.cli.config_validator.validate_config", return_value=None),
             pytest.raises(RuntimeError, match="NONEXISTENT_TOKEN"),
         ):
             publisher.publish(config_path=config_file, source_name="test-source")
@@ -165,8 +165,8 @@ class TestPublishErrors:
         publisher.git_repo = MagicMock()
 
         with (
-            patch("skill_seekers.mcp.source_manager.SourceManager", return_value=mock_manager),
-            patch("skill_seekers.cli.config_validator.validate_config", return_value=None),
+            patch("yonyou_doc2skill.mcp.source_manager.SourceManager", return_value=mock_manager),
+            patch("yonyou_doc2skill.cli.config_validator.validate_config", return_value=None),
             pytest.raises(ValueError, match="not found"),
         ):
             publisher.publish(config_path=config_file, source_name="nonexistent")
@@ -209,14 +209,14 @@ class TestPublishErrors:
         cache_dir.mkdir()
 
         publisher = ConfigPublisher.__new__(ConfigPublisher)
-        from skill_seekers.mcp.git_repo import GitConfigRepo
+        from yonyou_doc2skill.mcp.git_repo import GitConfigRepo
 
         publisher.git_repo = GitConfigRepo(cache_dir=str(cache_dir))
 
         with (
             patch.dict(os.environ, {"DUMMY_TOKEN": "fake-token"}),
-            patch("skill_seekers.mcp.source_manager.SourceManager", return_value=mock_manager),
-            patch("skill_seekers.cli.config_validator.validate_config", return_value=None),
+            patch("yonyou_doc2skill.mcp.source_manager.SourceManager", return_value=mock_manager),
+            patch("yonyou_doc2skill.cli.config_validator.validate_config", return_value=None),
             pytest.raises(ValueError, match="already exists"),
         ):
             publisher.publish(
@@ -261,14 +261,14 @@ class TestPublishSuccess:
         cache_dir = tmp_path / "cache"
         cache_dir.mkdir()
         publisher = ConfigPublisher.__new__(ConfigPublisher)
-        from skill_seekers.mcp.git_repo import GitConfigRepo
+        from yonyou_doc2skill.mcp.git_repo import GitConfigRepo
 
         publisher.git_repo = GitConfigRepo(cache_dir=str(cache_dir))
 
         with (
             patch.dict(os.environ, {"DUMMY_TOKEN": "not-needed-for-file-protocol"}),
-            patch("skill_seekers.mcp.source_manager.SourceManager", return_value=mock_manager),
-            patch("skill_seekers.cli.config_validator.validate_config", return_value=None),
+            patch("yonyou_doc2skill.mcp.source_manager.SourceManager", return_value=mock_manager),
+            patch("yonyou_doc2skill.cli.config_validator.validate_config", return_value=None),
         ):
             result = publisher.publish(
                 config_path=config_file,
@@ -331,14 +331,14 @@ class TestPublishSuccess:
         cache_dir = tmp_path / "cache"
         cache_dir.mkdir()
         publisher = ConfigPublisher.__new__(ConfigPublisher)
-        from skill_seekers.mcp.git_repo import GitConfigRepo
+        from yonyou_doc2skill.mcp.git_repo import GitConfigRepo
 
         publisher.git_repo = GitConfigRepo(cache_dir=str(cache_dir))
 
         with (
             patch.dict(os.environ, {"DUMMY_TOKEN": "x"}),
-            patch("skill_seekers.mcp.source_manager.SourceManager", return_value=mock_manager),
-            patch("skill_seekers.cli.config_validator.validate_config", return_value=None),
+            patch("yonyou_doc2skill.mcp.source_manager.SourceManager", return_value=mock_manager),
+            patch("yonyou_doc2skill.cli.config_validator.validate_config", return_value=None),
         ):
             result = publisher.publish(
                 config_path=config_file,
@@ -383,14 +383,14 @@ class TestPublishSuccess:
         cache_dir = tmp_path / "cache"
         cache_dir.mkdir()
         publisher = ConfigPublisher.__new__(ConfigPublisher)
-        from skill_seekers.mcp.git_repo import GitConfigRepo
+        from yonyou_doc2skill.mcp.git_repo import GitConfigRepo
 
         publisher.git_repo = GitConfigRepo(cache_dir=str(cache_dir))
 
         with (
             patch.dict(os.environ, {"DUMMY_TOKEN": "x"}),
-            patch("skill_seekers.mcp.source_manager.SourceManager", return_value=mock_manager),
-            patch("skill_seekers.cli.config_validator.validate_config", return_value=None),
+            patch("yonyou_doc2skill.mcp.source_manager.SourceManager", return_value=mock_manager),
+            patch("yonyou_doc2skill.cli.config_validator.validate_config", return_value=None),
         ):
             result = publisher.publish(
                 config_path=config_file,

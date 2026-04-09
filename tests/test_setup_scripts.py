@@ -37,14 +37,14 @@ class TestSetupMCPScript:
         assert result.returncode == 0, f"Bash syntax error: {result.stderr}"
 
     def test_references_correct_mcp_directory(self, script_content):
-        """Test that script references src/skill_seekers/mcp/ (v2.4.0 MCP 2025 upgrade)"""
+        """Test that script references src/yonyou_doc2skill/mcp/ (v2.4.0 MCP 2025 upgrade)"""
         # Should NOT reference old mcp/ or skill_seeker_mcp/ directories
         old_mcp_refs = re.findall(
             r"(?:^|[^a-z_])(?<!/)mcp/(?!\.json)", script_content, re.MULTILINE
         )
         old_skill_seeker_refs = re.findall(r"skill_seeker_mcp/", script_content)
 
-        # Allow /mcp/ (as in src/skill_seekers/mcp/) but not standalone mcp/
+        # Allow /mcp/ (as in src/yonyou_doc2skill/mcp/) but not standalone mcp/
         assert len(old_mcp_refs) == 0, (
             f"Found {len(old_mcp_refs)} references to old 'mcp/' directory: {old_mcp_refs}"
         )
@@ -52,11 +52,11 @@ class TestSetupMCPScript:
             f"Found {len(old_skill_seeker_refs)} references to old 'skill_seeker_mcp/': {old_skill_seeker_refs}"
         )
 
-        # SHOULD reference skill_seekers.mcp module (via -m flag) or src/skill_seekers/mcp/
-        # MCP 2025 uses: python3 -m skill_seekers.mcp.server_fastmcp
-        new_refs = re.findall(r"skill_seekers\.mcp", script_content)
+        # SHOULD reference yonyou_doc2skill.mcp module (via -m flag) or src/yonyou_doc2skill/mcp/
+        # MCP 2025 uses: python3 -m yonyou_doc2skill.mcp.server_fastmcp
+        new_refs = re.findall(r"yonyou_doc2skill\.mcp", script_content)
         assert len(new_refs) >= 2, (
-            f"Expected at least 2 references to 'skill_seekers.mcp' module, found {len(new_refs)}"
+            f"Expected at least 2 references to 'yonyou_doc2skill.mcp' module, found {len(new_refs)}"
         )
 
     def test_requirements_txt_path(self, script_content):
@@ -88,13 +88,13 @@ class TestSetupMCPScript:
         """Test that server_fastmcp.py module is referenced (v2.4.0 MCP 2025 upgrade)"""
         import re
 
-        # MCP 2025 uses: python3 -m skill_seekers.mcp.server_fastmcp
-        assert "skill_seekers.mcp.server_fastmcp" in script_content, (
-            "Should reference skill_seekers.mcp.server_fastmcp module"
+        # MCP 2025 uses: python3 -m yonyou_doc2skill.mcp.server_fastmcp
+        assert "yonyou_doc2skill.mcp.server_fastmcp" in script_content, (
+            "Should reference yonyou_doc2skill.mcp.server_fastmcp module"
         )
 
         # Should NOT reference old server.py directly
-        old_server_refs = re.findall(r"src/skill_seekers/mcp/server\.py", script_content)
+        old_server_refs = re.findall(r"src/yonyou_doc2skill/mcp/server\.py", script_content)
         assert len(old_server_refs) == 0, (
             f"Should use module import (-m) instead of direct path (found {len(old_server_refs)} refs to server.py)"
         )
@@ -102,13 +102,13 @@ class TestSetupMCPScript:
     def test_referenced_files_exist(self):
         """Test that all files referenced in setup_mcp.sh actually exist"""
         # Check critical paths (v2.4.0 MCP 2025 upgrade)
-        assert Path("src/skill_seekers/mcp/server_fastmcp.py").exists(), (
-            "src/skill_seekers/mcp/server_fastmcp.py should exist (MCP 2025)"
+        assert Path("src/yonyou_doc2skill/mcp/server_fastmcp.py").exists(), (
+            "src/yonyou_doc2skill/mcp/server_fastmcp.py should exist (MCP 2025)"
         )
         assert Path("requirements.txt").exists(), "requirements.txt should exist (root level)"
         # Legacy server.py should still exist as compatibility shim
-        assert Path("src/skill_seekers/mcp/server.py").exists(), (
-            "src/skill_seekers/mcp/server.py should exist (compatibility shim)"
+        assert Path("src/yonyou_doc2skill/mcp/server.py").exists(), (
+            "src/yonyou_doc2skill/mcp/server.py should exist (compatibility shim)"
         )
 
     def test_config_directory_exists(self):
@@ -124,11 +124,11 @@ class TestSetupMCPScript:
 
     def test_json_config_path_format(self, script_content):
         """Test that JSON config examples use correct format (v2.4.0 MCP 2025 upgrade)"""
-        # MCP 2025 uses module import: python3 -m skill_seekers.mcp.server_fastmcp
+        # MCP 2025 uses module import: python3 -m yonyou_doc2skill.mcp.server_fastmcp
         # v2.7.0 PR #252 uses module reference format, not file path
-        # Config should show the module reference: skill_seekers.mcp.server_fastmcp
-        assert "skill_seekers.mcp.server_fastmcp" in script_content, (
-            "Config should reference skill_seekers.mcp.server_fastmcp module (MCP 2025 upgrade)"
+        # Config should show the module reference: yonyou_doc2skill.mcp.server_fastmcp
+        assert "yonyou_doc2skill.mcp.server_fastmcp" in script_content, (
+            "Config should reference yonyou_doc2skill.mcp.server_fastmcp module (MCP 2025 upgrade)"
         )
 
     def test_no_hardcoded_paths(self, script_content):
@@ -239,11 +239,11 @@ class TestMCPServerPaths:
 
 def test_mcp_directory_structure():
     """Test that MCP directory structure is correct (new src/ layout)"""
-    mcp_dir = Path("src/skill_seekers/mcp")
-    assert mcp_dir.exists(), "src/skill_seekers/mcp/ directory should exist"
-    assert mcp_dir.is_dir(), "src/skill_seekers/mcp should be a directory"
-    assert (mcp_dir / "server.py").exists(), "src/skill_seekers/mcp/server.py should exist"
-    assert (mcp_dir / "__init__.py").exists(), "src/skill_seekers/mcp/__init__.py should exist"
+    mcp_dir = Path("src/yonyou_doc2skill/mcp")
+    assert mcp_dir.exists(), "src/yonyou_doc2skill/mcp/ directory should exist"
+    assert mcp_dir.is_dir(), "src/yonyou_doc2skill/mcp should be a directory"
+    assert (mcp_dir / "server.py").exists(), "src/yonyou_doc2skill/mcp/server.py should exist"
+    assert (mcp_dir / "__init__.py").exists(), "src/yonyou_doc2skill/mcp/__init__.py should exist"
 
     # Old directories should NOT exist
     old_mcp = Path("mcp")
@@ -251,11 +251,11 @@ def test_mcp_directory_structure():
     if old_mcp.exists():
         # If it exists, it should not contain server.py (might be leftover empty dir)
         assert not (old_mcp / "server.py").exists(), (
-            "Old mcp/server.py should not exist - migrated to src/skill_seekers/mcp/"
+            "Old mcp/server.py should not exist - migrated to src/yonyou_doc2skill/mcp/"
         )
     if old_skill_seeker_mcp.exists():
         assert not (old_skill_seeker_mcp / "server.py").exists(), (
-            "Old skill_seeker_mcp/server.py should not exist - migrated to src/skill_seekers/mcp/"
+            "Old skill_seeker_mcp/server.py should not exist - migrated to src/yonyou_doc2skill/mcp/"
         )
 
 

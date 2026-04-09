@@ -6,7 +6,7 @@ from unittest.mock import Mock, patch
 import httpx
 import pytest
 
-from skill_seekers.cli.config_fetcher import (
+from yonyou_doc2skill.cli.config_fetcher import (
     fetch_config_from_api,
     list_available_configs,
     resolve_config_path,
@@ -16,7 +16,7 @@ from skill_seekers.cli.config_fetcher import (
 class TestFetchConfigFromApi:
     """Tests for fetch_config_from_api function."""
 
-    @patch("skill_seekers.cli.config_fetcher.httpx.Client")
+    @patch("yonyou_doc2skill.cli.config_fetcher.httpx.Client")
     def test_successful_fetch(self, mock_client_class, tmp_path):
         """Test successful config download from API."""
         # Mock API responses
@@ -28,7 +28,7 @@ class TestFetchConfigFromApi:
         detail_response.status_code = 200
         detail_response.json.return_value = {
             "name": "react",
-            "download_url": "https://api.skillseekersweb.com/api/configs/react/download",
+            "download_url": "https://api.docs.yonyou.example/yonyou-doc2skill/api/configs/react/download",
             "category": "web-frameworks",
             "type": "unified",
         }
@@ -66,7 +66,7 @@ class TestFetchConfigFromApi:
         assert config["name"] == "react"
         assert "description" in config
 
-    @patch("skill_seekers.cli.config_fetcher.httpx.Client")
+    @patch("yonyou_doc2skill.cli.config_fetcher.httpx.Client")
     def test_config_not_found(self, mock_client_class):
         """Test handling of 404 response."""
         mock_client = Mock()
@@ -80,7 +80,7 @@ class TestFetchConfigFromApi:
         result = fetch_config_from_api("nonexistent")
         assert result is None
 
-    @patch("skill_seekers.cli.config_fetcher.httpx.Client")
+    @patch("yonyou_doc2skill.cli.config_fetcher.httpx.Client")
     def test_no_download_url(self, mock_client_class):
         """Test handling of missing download_url."""
         mock_client = Mock()
@@ -96,7 +96,7 @@ class TestFetchConfigFromApi:
         result = fetch_config_from_api("test")
         assert result is None
 
-    @patch("skill_seekers.cli.config_fetcher.httpx.Client")
+    @patch("yonyou_doc2skill.cli.config_fetcher.httpx.Client")
     def test_http_error(self, mock_client_class):
         """Test handling of HTTP errors."""
         mock_client = Mock()
@@ -108,7 +108,7 @@ class TestFetchConfigFromApi:
         result = fetch_config_from_api("react")
         assert result is None
 
-    @patch("skill_seekers.cli.config_fetcher.httpx.Client")
+    @patch("yonyou_doc2skill.cli.config_fetcher.httpx.Client")
     def test_json_decode_error(self, mock_client_class):
         """Test handling of invalid JSON response."""
         mock_client = Mock()
@@ -126,7 +126,7 @@ class TestFetchConfigFromApi:
 
     def test_normalize_config_name(self, tmp_path):
         """Test config name normalization (remove .json, remove configs/ prefix)."""
-        with patch("skill_seekers.cli.config_fetcher.httpx.Client") as mock_client_class:
+        with patch("yonyou_doc2skill.cli.config_fetcher.httpx.Client") as mock_client_class:
             mock_client = Mock()
             mock_client_class.return_value.__enter__.return_value = mock_client
 
@@ -161,7 +161,7 @@ class TestFetchConfigFromApi:
 class TestListAvailableConfigs:
     """Tests for list_available_configs function."""
 
-    @patch("skill_seekers.cli.config_fetcher.httpx.Client")
+    @patch("yonyou_doc2skill.cli.config_fetcher.httpx.Client")
     def test_successful_list(self, mock_client_class):
         """Test successful config listing."""
         mock_client = Mock()
@@ -186,7 +186,7 @@ class TestListAvailableConfigs:
         assert "vue" in result
         assert "godot" in result
 
-    @patch("skill_seekers.cli.config_fetcher.httpx.Client")
+    @patch("yonyou_doc2skill.cli.config_fetcher.httpx.Client")
     def test_category_filter(self, mock_client_class):
         """Test listing with category filter."""
         mock_client = Mock()
@@ -209,7 +209,7 @@ class TestListAvailableConfigs:
         assert "params" in call_args.kwargs
         assert call_args.kwargs["params"]["category"] == "web-frameworks"
 
-    @patch("skill_seekers.cli.config_fetcher.httpx.Client")
+    @patch("yonyou_doc2skill.cli.config_fetcher.httpx.Client")
     def test_api_error(self, mock_client_class):
         """Test handling of API errors."""
         mock_client = Mock()
@@ -262,7 +262,7 @@ class TestResolveConfigPath:
         result = resolve_config_path("nonexistent.json", auto_fetch=False)
         assert result is None
 
-    @patch("skill_seekers.cli.config_fetcher.fetch_config_from_api")
+    @patch("yonyou_doc2skill.cli.config_fetcher.fetch_config_from_api")
     def test_auto_fetch_enabled(self, mock_fetch, tmp_path):
         """Test that auto-fetch runs when enabled."""
         # Use a name that does NOT exist locally (react.json exists in configs/)
@@ -278,7 +278,7 @@ class TestResolveConfigPath:
         assert result is not None
         assert result.exists()
 
-    @patch("skill_seekers.cli.config_fetcher.fetch_config_from_api")
+    @patch("yonyou_doc2skill.cli.config_fetcher.fetch_config_from_api")
     def test_auto_fetch_failed(self, mock_fetch):
         """Test handling when auto-fetch fails."""
         # Mock fetch to return None (failed)

@@ -32,22 +32,22 @@ The Test Example Extractor analyzes test files to automatically extract meaningf
 
 ```bash
 # Extract from directory
-skill-seekers extract-test-examples tests/ --language python
+yonyou-doc2skill extract-test-examples tests/ --language python
 
 # Extract from single file
-skill-seekers extract-test-examples --file tests/test_scraper.py
+yonyou-doc2skill extract-test-examples --file tests/test_scraper.py
 
 # JSON output
-skill-seekers extract-test-examples tests/ --json > examples.json
+yonyou-doc2skill extract-test-examples tests/ --json > examples.json
 
 # Markdown output
-skill-seekers extract-test-examples tests/ --markdown > examples.md
+yonyou-doc2skill extract-test-examples tests/ --markdown > examples.md
 
 # Filter by confidence
-skill-seekers extract-test-examples tests/ --min-confidence 0.7
+yonyou-doc2skill extract-test-examples tests/ --min-confidence 0.7
 
 # Limit examples per file
-skill-seekers extract-test-examples tests/ --max-per-file 5
+yonyou-doc2skill extract-test-examples tests/ --max-per-file 5
 ```
 
 ### MCP Tool Usage
@@ -67,7 +67,7 @@ extract_test_examples(directory="tests/", min_confidence=0.7)
 
 ```bash
 # Combine with codebase analysis
-skill-seekers analyze --directory . --extract-test-examples
+yonyou-doc2skill analyze --directory . --extract-test-examples
 ```
 
 ## Output Formats
@@ -253,7 +253,7 @@ assert session.is_active
 
 ```bash
 # Generate examples for SKILL.md
-skill-seekers extract-test-examples tests/ --markdown >> SKILL.md
+yonyou-doc2skill extract-test-examples tests/ --markdown >> SKILL.md
 ```
 
 ### 2. API Understanding
@@ -463,7 +463,7 @@ func TestAdd(t *testing.T) {
 ### 1. Standalone CLI
 
 ```bash
-skill-seekers extract-test-examples tests/
+yonyou-doc2skill extract-test-examples tests/
 ```
 
 ### 2. Codebase Analysis
@@ -482,7 +482,7 @@ extract_test_examples(directory="tests/")
 ### 4. Python API
 
 ```python
-from skill_seekers.cli.test_example_extractor import TestExampleExtractor
+from yonyou_doc2skill.cli.test_example_extractor import TestExampleExtractor
 
 extractor = TestExampleExtractor(min_confidence=0.6)
 report = extractor.extract_from_directory("tests/")
@@ -494,8 +494,8 @@ for example in report.examples:
 
 ## See Also
 
-- [Pattern Detection (C3.1)](../src/skill_seekers/cli/pattern_recognizer.py) - Detect design patterns
-- [Codebase Scraper](../src/skill_seekers/cli/codebase_scraper.py) - Analyze local repositories
+- [Pattern Detection (C3.1)](../src/yonyou_doc2skill/cli/pattern_recognizer.py) - Detect design patterns
+- [Codebase Scraper](../src/yonyou_doc2skill/cli/codebase_scraper.py) - Analyze local repositories
 - [Unified Scraping](UNIFIED_SCRAPING.md) - Multi-source documentation
 
 ---

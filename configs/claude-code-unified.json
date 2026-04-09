@@ -174,7 +174,7 @@
     },
     {
       "type": "local",
-      "path": "/Users/yusufkaraaslan/Github/cli-template",
+      "path": "/Users/yonyou/Github/cli-template",
       "name": "claude-code-source",
       "description": "Leaked Claude Code CLI TypeScript source code (main.tsx, tools, commands, components, Ink renderer, bridge, coordinator, plugins, skills, MCP, vim, voice, remote, server, memdir, tasks, state, schemas, entrypoints)",
       "weight": 0.6,

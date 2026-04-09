@@ -20,17 +20,17 @@ def main():
     print("Step 1: Generating Skill for Weaviate")
     print("=" * 60)
 
-    # Check if skill-seekers is installed
+    # Check if yonyou-doc2skill is installed
     try:
         result = subprocess.run(
-            ["skill-seekers", "--version"],
+            ["yonyou-doc2skill", "--version"],
             capture_output=True,
             text=True
         )
-        print(f"\n✅ skill-seekers found: {result.stdout.strip()}")
+        print(f"\n✅ yonyou-doc2skill found: {result.stdout.strip()}")
     except FileNotFoundError:
-        print("\n❌ skill-seekers not found!")
-        print("Install it with: pip install skill-seekers")
+        print("\n❌ yonyou-doc2skill not found!")
+        print("Install it with: pip install yonyou-doc2skill")
         sys.exit(1)
 
     # Step 1: Scrape React docs (small sample for demo)
@@ -39,7 +39,7 @@ def main():
 
     scrape_result = subprocess.run(
         [
-            "skill-seekers", "scrape",
+            "yonyou-doc2skill", "scrape",
             "--config", "configs/react.json",
             "--max-pages", "20",
         ],
@@ -58,7 +58,7 @@ def main():
 
     package_result = subprocess.run(
         [
-            "skill-seekers", "package",
+            "yonyou-doc2skill", "package",
             "output/react",
             "--target", "weaviate",
         ],

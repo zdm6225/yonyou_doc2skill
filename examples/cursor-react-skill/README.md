@@ -1,6 +1,6 @@
 # Cursor + React Skill Example
 
-Complete example showing how to use Skill Seekers to generate Cursor rules for React development.
+Complete example showing how to use Yonyou Doc2Skill to generate Cursor rules for React development.
 
 ## What This Example Does
 
@@ -14,14 +14,14 @@ Complete example showing how to use Skill Seekers to generate Cursor rules for R
 ### 1. Generate React Skill
 
 ```bash
-# Install Skill Seekers
-pip install skill-seekers
+# Install Yonyou Doc2Skill
+pip install yonyou-doc2skill
 
 # Generate React documentation skill
-skill-seekers scrape --config configs/react.json --max-pages 100
+yonyou-doc2skill scrape --config configs/react.json --max-pages 100
 
 # Package for Cursor
-skill-seekers package output/react --target claude
+yonyou-doc2skill package output/react --target claude
 ```
 
 This creates `output/react-claude.zip` containing `SKILL.md` (the Cursor rules file).
@@ -115,14 +115,14 @@ def main():
 
     # Step 1: Scrape React docs
     if not run_command(
-        ["skill-seekers", "scrape", "--config", "configs/react.json", "--max-pages", "100"],
+        ["yonyou-doc2skill", "scrape", "--config", "configs/react.json", "--max-pages", "100"],
         "Scraping React documentation"
     ):
         sys.exit(1)
 
     # Step 2: Package for Cursor
     if not run_command(
-        ["skill-seekers", "package", "output/react", "--target", "claude"],
+        ["yonyou-doc2skill", "package", "output/react", "--target", "claude"],
         "Packaging for Cursor"
     ):
         sys.exit(1)
@@ -315,7 +315,7 @@ export function useFormValidation(rules: ValidationRules) {
 - `generate_cursorrules.py` - Automation script
 - `.cursorrules.example` - Sample generated rules
 - `example-project/` - Minimal React + TypeScript project
-- `requirements.txt` - Python dependencies (skill-seekers)
+- `requirements.txt` - Python dependencies (yonyou-doc2skill)
 
 ## Troubleshooting
 
@@ -327,12 +327,12 @@ export function useFormValidation(rules: ValidationRules) {
 
 **Solution:** Check `.cursorrules` is at project root. Verify with AI: "Are you aware of .cursorrules?"
 
-### Issue: skill-seekers not found
+### Issue: yonyou-doc2skill not found
 
-**Solution:** Install Skill Seekers
+**Solution:** Install Yonyou Doc2Skill
 
 ```bash
-pip install skill-seekers
+pip install yonyou-doc2skill
 ```
 
 ### Issue: Scraping fails
@@ -340,7 +340,7 @@ pip install skill-seekers
 **Solution:** Check internet connection, or use smaller --max-pages value
 
 ```bash
-skill-seekers scrape --config configs/react.json --max-pages 50
+yonyou-doc2skill scrape --config configs/react.json --max-pages 50
 ```
 
 ## Next Steps
@@ -362,5 +362,5 @@ skill-seekers scrape --config configs/react.json --max-pages 50
 
 - [Cursor Documentation](https://cursor.sh/docs)
 - [Cursor Rules Guide](https://cursor.sh/docs/cursorrules)
-- [Skill Seekers Documentation](https://github.com/yusufkaraaslan/Skill_Seekers)
+- [Yonyou Doc2Skill Documentation](https://github.com/yonyou/yonyou-doc2skill)
 - [React Documentation](https://react.dev/)

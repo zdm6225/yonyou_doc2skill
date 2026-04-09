@@ -1,4 +1,4 @@
-# Using Skill Seekers with LangChain
+# Using Yonyou Doc2Skill with LangChain
 
 **Last Updated:** February 5, 2026
 **Status:** Production Ready
@@ -21,7 +21,7 @@ Building RAG (Retrieval-Augmented Generation) applications with LangChain requir
 
 ## ✨ The Solution
 
-Use Skill Seekers as **essential preprocessing** before LangChain:
+Use Yonyou Doc2Skill as **essential preprocessing** before LangChain:
 
 1. **Generate LangChain Documents** from any documentation source
 2. **Pre-chunked and structured** with proper metadata
@@ -29,7 +29,7 @@ Use Skill Seekers as **essential preprocessing** before LangChain:
 4. **One command** - scrape, chunk, format in minutes
 
 **Result:**
-Skill Seekers outputs JSON files with LangChain Document format, ready to load directly into your RAG pipeline.
+Yonyou Doc2Skill outputs JSON files with LangChain Document format, ready to load directly into your RAG pipeline.
 
 ---
 
@@ -43,21 +43,21 @@ Skill Seekers outputs JSON files with LangChain Document format, ready to load d
 ### Installation
 
 ```bash
-# Install Skill Seekers
-pip install skill-seekers
+# Install Yonyou Doc2Skill
+pip install yonyou-doc2skill
 
 # Verify installation
-skill-seekers --version
+yonyou-doc2skill --version
 ```
 
 ### Generate LangChain Documents
 
 ```bash
 # Example: React framework documentation
-skill-seekers scrape --config configs/react.json
+yonyou-doc2skill scrape --config configs/react.json
 
 # Package as LangChain Documents
-skill-seekers package output/react --target langchain
+yonyou-doc2skill package output/react --target langchain
 
 # Output: output/react-langchain.json
 ```
@@ -101,26 +101,26 @@ for doc in results:
 **Option A: Use Preset Config (Fastest)**
 ```bash
 # Available presets: react, vue, django, fastapi, etc.
-skill-seekers scrape --config configs/react.json
+yonyou-doc2skill scrape --config configs/react.json
 ```
 
 **Option B: From GitHub Repository**
 ```bash
 # Scrape from GitHub repo (includes code + docs)
-skill-seekers github --repo facebook/react --name react-skill
+yonyou-doc2skill github --repo facebook/react --name react-skill
 ```
 
 **Option C: Custom Documentation**
 ```bash
 # Create custom config for your docs
-skill-seekers scrape --config configs/my-docs.json
+yonyou-doc2skill scrape --config configs/my-docs.json
 ```
 
 ### Step 2: Generate LangChain Format
 
 ```bash
 # Convert to LangChain Documents
-skill-seekers package output/react --target langchain
+yonyou-doc2skill package output/react --target langchain
 
 # Output structure:
 # output/react-langchain.json
@@ -323,7 +323,7 @@ print(f"✅ Loaded {len(all_documents)} documents from {len(sources)} sources")
 Use tested configurations to avoid scraping issues:
 ```bash
 ls configs/  # See available presets
-skill-seekers scrape --config configs/django.json
+yonyou-doc2skill scrape --config configs/django.json
 ```
 
 ### 2. Test Queries Before Full Pipeline
@@ -366,10 +366,10 @@ print(f"Estimated tokens: {total_tokens * 1.3:.0f}")  # Rough estimate
 **Step 1: Generate Documents**
 ```bash
 # Scrape React docs
-skill-seekers scrape --config configs/react.json
+yonyou-doc2skill scrape --config configs/react.json
 
 # Convert to LangChain format
-skill-seekers package output/react --target langchain
+yonyou-doc2skill package output/react --target langchain
 ```
 
 **Step 2: Create Vector Store**
@@ -476,7 +476,7 @@ pip install faiss-cpu  # For FAISS
 
 ## 📊 Before vs After Comparison
 
-| Aspect | Manual Process | With Skill Seekers |
+| Aspect | Manual Process | With Yonyou Doc2Skill |
 |--------|---------------|-------------------|
 | **Time to Setup** | 4-6 hours | 5 minutes |
 | **Documentation Coverage** | 50-70% (cherry-picked) | 95-100% (comprehensive) |
@@ -489,9 +489,9 @@ pip install faiss-cpu  # For FAISS
 
 ## 🤝 Community & Support
 
-- **Questions:** [GitHub Discussions](https://github.com/yusufkaraaslan/Skill_Seekers/discussions)
-- **Issues:** [GitHub Issues](https://github.com/yusufkaraaslan/Skill_Seekers/issues)
-- **Documentation:** [https://skillseekersweb.com/](https://skillseekersweb.com/)
+- **Questions:** [GitHub Discussions](https://github.com/yonyou/yonyou-doc2skill/discussions)
+- **Issues:** [GitHub Issues](https://github.com/yonyou/yonyou-doc2skill/issues)
+- **Documentation:** [https://docs.yonyou.example/yonyou-doc2skill/](https://docs.yonyou.example/yonyou-doc2skill/)
 - **Twitter:** [@_yUSyUS_](https://x.com/_yUSyUS_)
 
 ---
@@ -515,4 +515,4 @@ pip install faiss-cpu  # For FAISS
 
 **Last Updated:** February 5, 2026
 **Tested With:** LangChain v0.1.0+, OpenAI Embeddings
-**Skill Seekers Version:** v2.9.0+
+**Yonyou Doc2Skill Version:** v2.9.0+

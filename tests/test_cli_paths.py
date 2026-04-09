@@ -18,26 +18,26 @@ class TestModernCLICommands(unittest.TestCase):
     """Test that all CLI scripts use modern unified CLI commands"""
 
     def test_doc_scraper_uses_modern_commands(self):
-        """Test doc_scraper.py uses skill-seekers commands"""
+        """Test doc_scraper.py uses yonyou-doc2skill commands"""
         script_path = (
-            Path(__file__).parent.parent / "src" / "skill_seekers" / "cli" / "doc_scraper.py"
+            Path(__file__).parent.parent / "src" / "yonyou_doc2skill" / "cli" / "doc_scraper.py"
         )
 
         with open(script_path) as f:
             content = f.read()
 
         # Should use modern commands
-        self.assertIn("skill-seekers scrape", content)
+        self.assertIn("yonyou-doc2skill scrape", content)
 
         # Should NOT use old python3 cli/ pattern
         self.assertNotIn("python3 cli/doc_scraper.py", content)
 
     def test_enhance_skill_local_uses_modern_commands(self):
-        """Test enhance_skill_local.py uses skill-seekers commands"""
+        """Test enhance_skill_local.py uses yonyou-doc2skill commands"""
         script_path = (
             Path(__file__).parent.parent
             / "src"
-            / "skill_seekers"
+            / "yonyou_doc2skill"
             / "cli"
             / "enhance_skill_local.py"
         )
@@ -46,52 +46,52 @@ class TestModernCLICommands(unittest.TestCase):
             content = f.read()
 
         # Should use modern commands
-        self.assertIn("skill-seekers", content)
+        self.assertIn("yonyou-doc2skill", content)
 
         # Should NOT use old python3 cli/ pattern
         self.assertNotIn("python3 cli/enhance_skill_local.py", content)
 
     def test_estimate_pages_uses_modern_commands(self):
-        """Test estimate_pages.py uses skill-seekers commands"""
+        """Test estimate_pages.py uses yonyou-doc2skill commands"""
         script_path = (
-            Path(__file__).parent.parent / "src" / "skill_seekers" / "cli" / "estimate_pages.py"
+            Path(__file__).parent.parent / "src" / "yonyou_doc2skill" / "cli" / "estimate_pages.py"
         )
 
         with open(script_path) as f:
             content = f.read()
 
         # Should use modern commands
-        self.assertIn("skill-seekers estimate", content)
+        self.assertIn("yonyou-doc2skill estimate", content)
 
         # Should NOT use old python3 cli/ pattern
         self.assertNotIn("python3 cli/estimate_pages.py", content)
 
     def test_package_skill_uses_modern_commands(self):
-        """Test package_skill.py uses skill-seekers commands"""
+        """Test package_skill.py uses yonyou-doc2skill commands"""
         script_path = (
-            Path(__file__).parent.parent / "src" / "skill_seekers" / "cli" / "package_skill.py"
+            Path(__file__).parent.parent / "src" / "yonyou_doc2skill" / "cli" / "package_skill.py"
         )
 
         with open(script_path) as f:
             content = f.read()
 
         # Should use modern commands
-        self.assertIn("skill-seekers package", content)
+        self.assertIn("yonyou-doc2skill package", content)
 
         # Should NOT use old python3 cli/ pattern
         self.assertNotIn("python3 cli/package_skill.py", content)
 
     def test_github_scraper_uses_modern_commands(self):
-        """Test github_scraper.py uses skill-seekers commands"""
+        """Test github_scraper.py uses yonyou-doc2skill commands"""
         script_path = (
-            Path(__file__).parent.parent / "src" / "skill_seekers" / "cli" / "github_scraper.py"
+            Path(__file__).parent.parent / "src" / "yonyou_doc2skill" / "cli" / "github_scraper.py"
         )
 
         with open(script_path) as f:
             content = f.read()
 
         # Should use modern commands
-        self.assertIn("skill-seekers", content)
+        self.assertIn("yonyou-doc2skill", content)
 
         # Should NOT use old python3 cli/ pattern
         self.assertNotIn("python3 cli/github_scraper.py", content)
@@ -101,17 +101,17 @@ class TestUnifiedCLIEntryPoints(unittest.TestCase):
     """Test that unified CLI entry points work correctly"""
 
     def test_main_cli_help_output(self):
-        """Test skill-seekers --help works"""
+        """Test yonyou-doc2skill --help works"""
         try:
             result = subprocess.run(
-                ["skill-seekers", "--help"], capture_output=True, text=True, timeout=5
+                ["yonyou-doc2skill", "--help"], capture_output=True, text=True, timeout=5
             )
 
             # Should return successfully
             self.assertIn(
                 result.returncode,
                 [0, 2],
-                f"skill-seekers --help failed with code {result.returncode}",
+                f"yonyou-doc2skill --help failed with code {result.returncode}",
             )
 
             # Should show subcommands
@@ -121,19 +121,19 @@ class TestUnifiedCLIEntryPoints(unittest.TestCase):
             self.assertIn("package", output)
 
         except FileNotFoundError:
-            # If skill-seekers is not installed, skip this test
-            self.skipTest("skill-seekers command not found - install package first")
+            # If yonyou-doc2skill is not installed, skip this test
+            self.skipTest("yonyou-doc2skill command not found - install package first")
 
     def test_main_cli_version_output(self):
-        """Test skill-seekers --version works"""
+        """Test yonyou-doc2skill --version works"""
         try:
             result = subprocess.run(
-                ["skill-seekers", "--version"], capture_output=True, text=True, timeout=5
+                ["yonyou-doc2skill", "--version"], capture_output=True, text=True, timeout=5
             )
 
             # Should return successfully
             self.assertEqual(
-                result.returncode, 0, f"skill-seekers --version failed: {result.stderr}"
+                result.returncode, 0, f"yonyou-doc2skill --version failed: {result.stderr}"
             )
 
             # Should show version
@@ -141,8 +141,8 @@ class TestUnifiedCLIEntryPoints(unittest.TestCase):
             self.assertIn("3.4.0", output)
 
         except FileNotFoundError:
-            # If skill-seekers is not installed, skip this test
-            self.skipTest("skill-seekers command not found - install package first")
+            # If yonyou-doc2skill is not installed, skip this test
+            self.skipTest("yonyou-doc2skill command not found - install package first")
 
 
 class TestNoHardcodedPaths(unittest.TestCase):
@@ -150,7 +150,7 @@ class TestNoHardcodedPaths(unittest.TestCase):
 
     def test_no_hardcoded_paths_in_cli_scripts(self):
         """Test that CLI scripts don't have hardcoded paths"""
-        cli_dir = Path(__file__).parent.parent / "src" / "skill_seekers" / "cli"
+        cli_dir = Path(__file__).parent.parent / "src" / "yonyou_doc2skill" / "cli"
 
         hardcoded_paths = [
             "/mnt/skills/examples/skill-creator/scripts/",
@@ -175,29 +175,29 @@ class TestPackageStructure(unittest.TestCase):
 
     def test_src_layout_exists(self):
         """Test that src/ layout directory exists"""
-        src_dir = Path(__file__).parent.parent / "src" / "skill_seekers"
-        self.assertTrue(src_dir.exists(), "src/skill_seekers/ directory should exist")
+        src_dir = Path(__file__).parent.parent / "src" / "yonyou_doc2skill"
+        self.assertTrue(src_dir.exists(), "src/yonyou_doc2skill/ directory should exist")
 
     def test_cli_package_exists(self):
         """Test that CLI package exists in src/"""
-        cli_dir = Path(__file__).parent.parent / "src" / "skill_seekers" / "cli"
-        self.assertTrue(cli_dir.exists(), "src/skill_seekers/cli/ directory should exist")
+        cli_dir = Path(__file__).parent.parent / "src" / "yonyou_doc2skill" / "cli"
+        self.assertTrue(cli_dir.exists(), "src/yonyou_doc2skill/cli/ directory should exist")
 
         init_file = cli_dir / "__init__.py"
-        self.assertTrue(init_file.exists(), "src/skill_seekers/cli/__init__.py should exist")
+        self.assertTrue(init_file.exists(), "src/yonyou_doc2skill/cli/__init__.py should exist")
 
     def test_mcp_package_exists(self):
         """Test that MCP package exists in src/"""
-        mcp_dir = Path(__file__).parent.parent / "src" / "skill_seekers" / "mcp"
-        self.assertTrue(mcp_dir.exists(), "src/skill_seekers/mcp/ directory should exist")
+        mcp_dir = Path(__file__).parent.parent / "src" / "yonyou_doc2skill" / "mcp"
+        self.assertTrue(mcp_dir.exists(), "src/yonyou_doc2skill/mcp/ directory should exist")
 
         init_file = mcp_dir / "__init__.py"
-        self.assertTrue(init_file.exists(), "src/skill_seekers/mcp/__init__.py should exist")
+        self.assertTrue(init_file.exists(), "src/yonyou_doc2skill/mcp/__init__.py should exist")
 
     def test_main_cli_file_exists(self):
         """Test that main.py unified CLI exists"""
-        main_file = Path(__file__).parent.parent / "src" / "skill_seekers" / "cli" / "main.py"
-        self.assertTrue(main_file.exists(), "src/skill_seekers/cli/main.py should exist")
+        main_file = Path(__file__).parent.parent / "src" / "yonyou_doc2skill" / "cli" / "main.py"
+        self.assertTrue(main_file.exists(), "src/yonyou_doc2skill/cli/main.py should exist")
 
 
 if __name__ == "__main__":

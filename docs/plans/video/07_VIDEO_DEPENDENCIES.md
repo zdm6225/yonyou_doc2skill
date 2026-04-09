@@ -4,7 +4,7 @@
 **Document:** 07 of 07
 **Status:** Planning
 
-> **Status: IMPLEMENTED** — `skill-seekers video --setup` (see `video_setup.py`, 835 lines, 60 tests)
+> **Status: IMPLEMENTED** — `yonyou-doc2skill video --setup` (see `video_setup.py`, 835 lines, 60 tests)
 > - GPU auto-detection: NVIDIA (nvidia-smi/CUDA), AMD (rocminfo/ROCm), CPU fallback
 > - Correct PyTorch index URL selection per GPU vendor
 > - EasyOCR removed from pip extras, installed at runtime via --setup
@@ -117,20 +117,20 @@ all = [
 
 [project.scripts]
 # ... existing entry points ...
-skill-seekers-video = "skill_seekers.cli.video_scraper:main"      # NEW
+yonyou-doc2skill-video = "yonyou_doc2skill.cli.video_scraper:main"      # NEW
 ```
 
 ### Installation Commands
 
 ```bash
 # Lightweight video (YouTube transcripts + metadata)
-pip install skill-seekers[video]
+pip install yonyou-doc2skill[video]
 
 # Full video (+ Whisper + visual extraction)
-pip install skill-seekers[video-full]
+pip install yonyou-doc2skill[video-full]
 
 # Everything
-pip install skill-seekers[all]
+pip install yonyou-doc2skill[all]
 
 # Development (editable)
 pip install -e ".[video]"
@@ -261,7 +261,7 @@ def check_video_dependencies(require_full: bool = False) -> None:
     if missing:
         raise ImportError(
             f"Video processing requires: {', '.join(missing)}\n"
-            f"Install with: pip install skill-seekers[video]"
+            f"Install with: pip install yonyou-doc2skill[video]"
         )
 
     if require_full:
@@ -286,7 +286,7 @@ def check_video_dependencies(require_full: bool = False) -> None:
         if full_missing:
             raise ImportError(
                 f"Visual extraction requires: {', '.join(full_missing)}\n"
-                f"Install with: pip install skill-seekers[video-full]"
+                f"Install with: pip install yonyou-doc2skill[video-full]"
             )
 ```
 
@@ -329,7 +329,7 @@ def get_transcript(video_info, config):
         logger.warning(
             f"No transcript for {video_info.video_id}. "
             "Install faster-whisper for speech-to-text: "
-            "pip install skill-seekers[video-full]"
+            "pip install yonyou-doc2skill[video-full]"
         )
     return [], TranscriptSource.NONE
 ```
@@ -371,7 +371,7 @@ def check_visual_dependencies() -> None:
     if missing:
         raise ImportError(
             f"Visual extraction requires: {', '.join(missing)}\n"
-            f"Install with: pip install skill-seekers[video-full]"
+            f"Install with: pip install yonyou-doc2skill[video-full]"
         )
 
 
@@ -389,13 +389,13 @@ Add a dependency check to the `config` command:
 
 ```bash
 # Check all video dependencies
-skill-seekers config --check-video
+yonyou-doc2skill config --check-video
 
 # Output:
 # Video Dependencies:
 #   yt-dlp              ✅ 2025.01.15
 #   youtube-transcript-api ✅ 1.2.3
-#   faster-whisper      ❌ Not installed (pip install skill-seekers[video-full])
+#   faster-whisper      ❌ Not installed (pip install yonyou-doc2skill[video-full])
 #   opencv-python-headless ❌ Not installed
 #   scenedetect         ❌ Not installed
 #   easyocr             ❌ Not installed
@@ -460,11 +460,11 @@ python -c "import easyocr; easyocr.Reader(['en'])"
 
 ```dockerfile
 # Tier 1 (lightweight)
-RUN pip install skill-seekers[video]
+RUN pip install yonyou-doc2skill[video]
 
 # Tier 2 (full)
 RUN apt-get update && apt-get install -y ffmpeg
-RUN pip install skill-seekers[video-full]
+RUN pip install yonyou-doc2skill[video-full]
 
 # Pre-download Whisper model (avoids first-run download)
 RUN python -c "from faster_whisper import WhisperModel; WhisperModel('base')"

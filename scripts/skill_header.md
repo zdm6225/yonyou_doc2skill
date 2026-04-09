@@ -1,34 +1,34 @@
 ---
-name: skill-seekers
+name: yonyou-doc2skill
 description: Generate LLM skills from documentation, codebases, and GitHub repositories
 ---
 
-# Skill Seekers
+# Yonyou Doc2Skill
 
 ## Prerequisites
 
 ```bash
-pip install skill-seekers
-# Or: uv pip install skill-seekers
+pip install yonyou-doc2skill
+# Or: uv pip install yonyou-doc2skill
 ```
 
 ## Commands
 
 | Source | Command |
 |--------|---------|
-| Local code | `skill-seekers create ./path` |
-| Docs URL | `skill-seekers create https://docs.example.com` |
-| GitHub | `skill-seekers create owner/repo` |
-| PDF | `skill-seekers create document.pdf` |
+| Local code | `yonyou-doc2skill create ./path` |
+| Docs URL | `yonyou-doc2skill create https://docs.example.com` |
+| GitHub | `yonyou-doc2skill create owner/repo` |
+| PDF | `yonyou-doc2skill create document.pdf` |
 
 ## Quick Start
 
 ```bash
 # Analyze local codebase
-skill-seekers create /path/to/project --name my-skill
+yonyou-doc2skill create /path/to/project --name my-skill
 
 # Package for Claude
-yes | skill-seekers package output/my-skill/ --no-open
+yes | yonyou-doc2skill package output/my-skill/ --no-open
 ```
 
 ## Options

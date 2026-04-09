@@ -7,7 +7,7 @@ import json
 
 import pytest
 
-from skill_seekers.cli.adaptors.base import SkillMetadata
+from yonyou_doc2skill.cli.adaptors.base import SkillMetadata
 
 
 # ---------------------------------------------------------------------------
@@ -81,13 +81,13 @@ class TestPineconeAdaptor:
 
     def test_import(self):
         """PineconeAdaptor can be imported."""
-        from skill_seekers.cli.adaptors.pinecone_adaptor import PineconeAdaptor
+        from yonyou_doc2skill.cli.adaptors.pinecone_adaptor import PineconeAdaptor
 
         assert PineconeAdaptor is not None
 
     def test_platform_constants(self):
         """Platform constants are set correctly."""
-        from skill_seekers.cli.adaptors.pinecone_adaptor import PineconeAdaptor
+        from yonyou_doc2skill.cli.adaptors.pinecone_adaptor import PineconeAdaptor
 
         adaptor = PineconeAdaptor()
         assert adaptor.PLATFORM == "pinecone"
@@ -96,21 +96,21 @@ class TestPineconeAdaptor:
 
     def test_registered_in_factory(self):
         """PineconeAdaptor is registered in the adaptor factory."""
-        from skill_seekers.cli.adaptors import ADAPTORS
+        from yonyou_doc2skill.cli.adaptors import ADAPTORS
 
         assert "pinecone" in ADAPTORS
 
     def test_get_adaptor(self):
         """get_adaptor('pinecone') returns PineconeAdaptor instance."""
-        from skill_seekers.cli.adaptors import get_adaptor
-        from skill_seekers.cli.adaptors.pinecone_adaptor import PineconeAdaptor
+        from yonyou_doc2skill.cli.adaptors import get_adaptor
+        from yonyou_doc2skill.cli.adaptors.pinecone_adaptor import PineconeAdaptor
 
         adaptor = get_adaptor("pinecone")
         assert isinstance(adaptor, PineconeAdaptor)
 
     def test_format_skill_md_structure(self, sample_skill_dir):
         """format_skill_md returns valid JSON with expected structure."""
-        from skill_seekers.cli.adaptors.pinecone_adaptor import PineconeAdaptor
+        from yonyou_doc2skill.cli.adaptors.pinecone_adaptor import PineconeAdaptor
 
         adaptor = PineconeAdaptor()
         metadata = SkillMetadata(
@@ -132,7 +132,7 @@ class TestPineconeAdaptor:
 
     def test_format_skill_md_vectors_have_metadata(self, sample_skill_dir):
         """Each vector has id and metadata fields."""
-        from skill_seekers.cli.adaptors.pinecone_adaptor import PineconeAdaptor
+        from yonyou_doc2skill.cli.adaptors.pinecone_adaptor import PineconeAdaptor
 
         adaptor = PineconeAdaptor()
         metadata = SkillMetadata(
@@ -157,7 +157,7 @@ class TestPineconeAdaptor:
 
     def test_format_skill_md_doc_version_propagates(self, sample_skill_dir):
         """doc_version flows into every vector's metadata."""
-        from skill_seekers.cli.adaptors.pinecone_adaptor import PineconeAdaptor
+        from yonyou_doc2skill.cli.adaptors.pinecone_adaptor import PineconeAdaptor
 
         adaptor = PineconeAdaptor()
         metadata = SkillMetadata(
@@ -173,7 +173,7 @@ class TestPineconeAdaptor:
 
     def test_format_skill_md_empty_doc_version(self, sample_skill_dir):
         """Empty doc_version is preserved as empty string."""
-        from skill_seekers.cli.adaptors.pinecone_adaptor import PineconeAdaptor
+        from yonyou_doc2skill.cli.adaptors.pinecone_adaptor import PineconeAdaptor
 
         adaptor = PineconeAdaptor()
         metadata = SkillMetadata(name="test-skill", description="Test", doc_version="")
@@ -185,7 +185,7 @@ class TestPineconeAdaptor:
 
     def test_format_skill_md_has_overview_and_references(self, sample_skill_dir):
         """Output includes overview (SKILL.md) and reference documents."""
-        from skill_seekers.cli.adaptors.pinecone_adaptor import PineconeAdaptor
+        from yonyou_doc2skill.cli.adaptors.pinecone_adaptor import PineconeAdaptor
 
         adaptor = PineconeAdaptor()
         metadata = SkillMetadata(name="test-skill", description="Test")
@@ -200,7 +200,7 @@ class TestPineconeAdaptor:
 
     def test_package_creates_file(self, sample_skill_dir, tmp_path):
         """package() creates a JSON file at expected path."""
-        from skill_seekers.cli.adaptors.pinecone_adaptor import PineconeAdaptor
+        from yonyou_doc2skill.cli.adaptors.pinecone_adaptor import PineconeAdaptor
 
         adaptor = PineconeAdaptor()
         output_path = adaptor.package(sample_skill_dir, tmp_path)
@@ -214,7 +214,7 @@ class TestPineconeAdaptor:
 
     def test_package_reads_frontmatter_metadata(self, sample_skill_dir, tmp_path):
         """package() reads doc_version from SKILL.md frontmatter."""
-        from skill_seekers.cli.adaptors.pinecone_adaptor import PineconeAdaptor
+        from yonyou_doc2skill.cli.adaptors.pinecone_adaptor import PineconeAdaptor
 
         adaptor = PineconeAdaptor()
         output_path = adaptor.package(sample_skill_dir, tmp_path)
@@ -225,7 +225,7 @@ class TestPineconeAdaptor:
 
     def test_package_with_chunking(self, sample_skill_dir, tmp_path):
         """package() with chunking enabled produces valid output."""
-        from skill_seekers.cli.adaptors.pinecone_adaptor import PineconeAdaptor
+        from yonyou_doc2skill.cli.adaptors.pinecone_adaptor import PineconeAdaptor
 
         adaptor = PineconeAdaptor()
         output_path = adaptor.package(
@@ -238,7 +238,7 @@ class TestPineconeAdaptor:
 
     def test_index_name_derived_from_skill_name(self, sample_skill_dir, tmp_path):
         """index_name and namespace are derived from skill directory name."""
-        from skill_seekers.cli.adaptors.pinecone_adaptor import PineconeAdaptor
+        from yonyou_doc2skill.cli.adaptors.pinecone_adaptor import PineconeAdaptor
 
         adaptor = PineconeAdaptor()
         output_path = adaptor.package(sample_skill_dir, tmp_path)
@@ -249,7 +249,7 @@ class TestPineconeAdaptor:
 
     def test_no_values_field_in_vectors(self, sample_skill_dir, tmp_path):
         """Vectors have no 'values' field — embeddings are added at upload time."""
-        from skill_seekers.cli.adaptors.pinecone_adaptor import PineconeAdaptor
+        from yonyou_doc2skill.cli.adaptors.pinecone_adaptor import PineconeAdaptor
 
         adaptor = PineconeAdaptor()
         output_path = adaptor.package(sample_skill_dir, tmp_path)
@@ -260,7 +260,7 @@ class TestPineconeAdaptor:
 
     def test_text_truncation(self):
         """_truncate_text_for_metadata respects byte limit."""
-        from skill_seekers.cli.adaptors.pinecone_adaptor import PineconeAdaptor
+        from yonyou_doc2skill.cli.adaptors.pinecone_adaptor import PineconeAdaptor
 
         adaptor = PineconeAdaptor()
         # Short text should not be truncated
@@ -273,28 +273,28 @@ class TestPineconeAdaptor:
 
     def test_validate_api_key_returns_false(self):
         """validate_api_key returns False (no key needed for packaging)."""
-        from skill_seekers.cli.adaptors.pinecone_adaptor import PineconeAdaptor
+        from yonyou_doc2skill.cli.adaptors.pinecone_adaptor import PineconeAdaptor
 
         adaptor = PineconeAdaptor()
         assert adaptor.validate_api_key("some-key") is False
 
     def test_get_env_var_name(self):
         """get_env_var_name returns PINECONE_API_KEY."""
-        from skill_seekers.cli.adaptors.pinecone_adaptor import PineconeAdaptor
+        from yonyou_doc2skill.cli.adaptors.pinecone_adaptor import PineconeAdaptor
 
         adaptor = PineconeAdaptor()
         assert adaptor.get_env_var_name() == "PINECONE_API_KEY"
 
     def test_supports_enhancement_false(self):
         """Pinecone doesn't support enhancement."""
-        from skill_seekers.cli.adaptors.pinecone_adaptor import PineconeAdaptor
+        from yonyou_doc2skill.cli.adaptors.pinecone_adaptor import PineconeAdaptor
 
         adaptor = PineconeAdaptor()
         assert adaptor.supports_enhancement() is False
 
     def test_upload_without_pinecone_installed(self, tmp_path):
         """upload() returns helpful error when pinecone not installed."""
-        from skill_seekers.cli.adaptors.pinecone_adaptor import PineconeAdaptor
+        from yonyou_doc2skill.cli.adaptors.pinecone_adaptor import PineconeAdaptor
 
         adaptor = PineconeAdaptor()
         # Create a dummy package file
@@ -342,7 +342,7 @@ class TestPineconeAdaptor:
 
     def test_upload_success_has_url_key(self, tmp_path, monkeypatch):
         """upload() success return dict includes 'url' key (prevents KeyError in package_skill.py)."""
-        from skill_seekers.cli.adaptors.pinecone_adaptor import PineconeAdaptor
+        from yonyou_doc2skill.cli.adaptors.pinecone_adaptor import PineconeAdaptor
 
         adaptor = PineconeAdaptor()
         mock_pc, _mock_index = self._make_mock_pinecone(monkeypatch)
@@ -361,7 +361,7 @@ class TestPineconeAdaptor:
 
     def test_embedding_dimension_autodetect_st(self, tmp_path, monkeypatch):
         """sentence-transformers upload creates index with dimension=384."""
-        from skill_seekers.cli.adaptors.pinecone_adaptor import PineconeAdaptor
+        from yonyou_doc2skill.cli.adaptors.pinecone_adaptor import PineconeAdaptor
 
         adaptor = PineconeAdaptor()
         mock_pc, _mock_index = self._make_mock_pinecone(monkeypatch)
@@ -385,7 +385,7 @@ class TestPineconeAdaptor:
 
     def test_embedding_dimension_autodetect_openai(self, tmp_path, monkeypatch):
         """openai upload creates index with dimension=1536."""
-        from skill_seekers.cli.adaptors.pinecone_adaptor import PineconeAdaptor
+        from yonyou_doc2skill.cli.adaptors.pinecone_adaptor import PineconeAdaptor
 
         adaptor = PineconeAdaptor()
         mock_pc, _mock_index = self._make_mock_pinecone(monkeypatch)
@@ -408,7 +408,7 @@ class TestPineconeAdaptor:
 
     def test_embedding_before_index_creation(self, tmp_path, monkeypatch):
         """If embedding generation fails, index is never created (no side-effects)."""
-        from skill_seekers.cli.adaptors.pinecone_adaptor import PineconeAdaptor
+        from yonyou_doc2skill.cli.adaptors.pinecone_adaptor import PineconeAdaptor
 
         adaptor = PineconeAdaptor()
         mock_pc, _mock_index = self._make_mock_pinecone(monkeypatch)
@@ -426,7 +426,7 @@ class TestPineconeAdaptor:
 
     def test_embedding_dimension_explicit_override(self, tmp_path, monkeypatch):
         """Explicit dimension kwarg overrides both auto-detect and JSON file value."""
-        from skill_seekers.cli.adaptors.pinecone_adaptor import PineconeAdaptor
+        from yonyou_doc2skill.cli.adaptors.pinecone_adaptor import PineconeAdaptor
 
         adaptor = PineconeAdaptor()
         mock_pc, _mock_index = self._make_mock_pinecone(monkeypatch)
@@ -450,7 +450,7 @@ class TestPineconeAdaptor:
 
     def test_deterministic_ids(self, sample_skill_dir):
         """IDs are deterministic — same input produces same ID."""
-        from skill_seekers.cli.adaptors.pinecone_adaptor import PineconeAdaptor
+        from yonyou_doc2skill.cli.adaptors.pinecone_adaptor import PineconeAdaptor
 
         adaptor = PineconeAdaptor()
         metadata = SkillMetadata(name="test-skill", description="Test")
@@ -486,7 +486,7 @@ class TestDocVersionMetadata:
 
     def test_read_frontmatter(self, sample_skill_dir):
         """_read_frontmatter reads doc_version from SKILL.md."""
-        from skill_seekers.cli.adaptors.pinecone_adaptor import PineconeAdaptor
+        from yonyou_doc2skill.cli.adaptors.pinecone_adaptor import PineconeAdaptor
 
         adaptor = PineconeAdaptor()
         fm = adaptor._read_frontmatter(sample_skill_dir)
@@ -495,7 +495,7 @@ class TestDocVersionMetadata:
 
     def test_read_frontmatter_missing(self, sample_skill_dir_no_doc_version):
         """_read_frontmatter returns empty string when doc_version is absent."""
-        from skill_seekers.cli.adaptors.pinecone_adaptor import PineconeAdaptor
+        from yonyou_doc2skill.cli.adaptors.pinecone_adaptor import PineconeAdaptor
 
         adaptor = PineconeAdaptor()
         fm = adaptor._read_frontmatter(sample_skill_dir_no_doc_version)
@@ -503,7 +503,7 @@ class TestDocVersionMetadata:
 
     def test_build_skill_metadata_reads_doc_version(self, sample_skill_dir):
         """_build_skill_metadata populates doc_version from frontmatter."""
-        from skill_seekers.cli.adaptors.pinecone_adaptor import PineconeAdaptor
+        from yonyou_doc2skill.cli.adaptors.pinecone_adaptor import PineconeAdaptor
 
         adaptor = PineconeAdaptor()
         meta = adaptor._build_skill_metadata(sample_skill_dir)
@@ -512,7 +512,7 @@ class TestDocVersionMetadata:
 
     def test_build_skill_metadata_no_doc_version(self, sample_skill_dir_no_doc_version):
         """_build_skill_metadata defaults to empty string when frontmatter has no doc_version."""
-        from skill_seekers.cli.adaptors.pinecone_adaptor import PineconeAdaptor
+        from yonyou_doc2skill.cli.adaptors.pinecone_adaptor import PineconeAdaptor
 
         adaptor = PineconeAdaptor()
         meta = adaptor._build_skill_metadata(sample_skill_dir_no_doc_version)
@@ -520,7 +520,7 @@ class TestDocVersionMetadata:
 
     def test_build_metadata_dict_includes_doc_version(self):
         """_build_metadata_dict includes doc_version in output."""
-        from skill_seekers.cli.adaptors.pinecone_adaptor import PineconeAdaptor
+        from yonyou_doc2skill.cli.adaptors.pinecone_adaptor import PineconeAdaptor
 
         adaptor = PineconeAdaptor()
         meta = SkillMetadata(name="test", description="desc", doc_version="3.0")
@@ -530,7 +530,7 @@ class TestDocVersionMetadata:
 
     def test_build_metadata_dict_empty_doc_version(self):
         """_build_metadata_dict preserves empty doc_version."""
-        from skill_seekers.cli.adaptors.pinecone_adaptor import PineconeAdaptor
+        from yonyou_doc2skill.cli.adaptors.pinecone_adaptor import PineconeAdaptor
 
         adaptor = PineconeAdaptor()
         meta = SkillMetadata(name="test", description="desc")
@@ -544,7 +544,7 @@ class TestDocVersionMetadata:
     )
     def test_doc_version_in_package_output(self, platform, sample_skill_dir, tmp_path):
         """doc_version appears in package output for all RAG adaptors."""
-        from skill_seekers.cli.adaptors import get_adaptor
+        from yonyou_doc2skill.cli.adaptors import get_adaptor
 
         adaptor = get_adaptor(platform)
         output_path = adaptor.package(sample_skill_dir, tmp_path)
@@ -569,7 +569,7 @@ class TestDocVersionMetadata:
         self, platform, sample_skill_dir_no_doc_version, tmp_path
     ):
         """Empty doc_version is preserved (not omitted) in all adaptors."""
-        from skill_seekers.cli.adaptors import get_adaptor
+        from yonyou_doc2skill.cli.adaptors import get_adaptor
 
         adaptor = get_adaptor(platform)
         output_path = adaptor.package(sample_skill_dir_no_doc_version, tmp_path)
@@ -587,11 +587,11 @@ class TestDocVersionQdrant:
     """Test doc_version in Qdrant adaptor (may require qdrant client)."""
 
     def test_qdrant_doc_version(self, sample_skill_dir, tmp_path):
-        from skill_seekers.cli.adaptors import ADAPTORS
+        from yonyou_doc2skill.cli.adaptors import ADAPTORS
 
         if "qdrant" not in ADAPTORS:
             pytest.skip("Qdrant adaptor not available")
-        from skill_seekers.cli.adaptors import get_adaptor
+        from yonyou_doc2skill.cli.adaptors import get_adaptor
 
         adaptor = get_adaptor("qdrant")
         output_path = adaptor.package(sample_skill_dir, tmp_path)
@@ -611,12 +611,12 @@ class TestWeaviateUploadReturnKeys:
         import types
         from unittest.mock import MagicMock
 
-        from skill_seekers.cli.adaptors import ADAPTORS
+        from yonyou_doc2skill.cli.adaptors import ADAPTORS
 
         if "weaviate" not in ADAPTORS:
             pytest.skip("Weaviate adaptor not available")
 
-        from skill_seekers.cli.adaptors.weaviate import WeaviateAdaptor
+        from yonyou_doc2skill.cli.adaptors.weaviate import WeaviateAdaptor
 
         adaptor = WeaviateAdaptor()
 
@@ -641,11 +641,11 @@ class TestDocVersionWeaviate:
     """Test doc_version in Weaviate adaptor (may require weaviate client)."""
 
     def test_weaviate_doc_version(self, sample_skill_dir, tmp_path):
-        from skill_seekers.cli.adaptors import ADAPTORS
+        from yonyou_doc2skill.cli.adaptors import ADAPTORS
 
         if "weaviate" not in ADAPTORS:
             pytest.skip("Weaviate adaptor not available")
-        from skill_seekers.cli.adaptors import get_adaptor
+        from yonyou_doc2skill.cli.adaptors import get_adaptor
 
         adaptor = get_adaptor("weaviate")
         output_path = adaptor.package(sample_skill_dir, tmp_path)
@@ -656,11 +656,11 @@ class TestDocVersionWeaviate:
             assert obj["properties"]["doc_version"] == "16.2"
 
     def test_weaviate_schema_includes_doc_version(self, sample_skill_dir, tmp_path):
-        from skill_seekers.cli.adaptors import ADAPTORS
+        from yonyou_doc2skill.cli.adaptors import ADAPTORS
 
         if "weaviate" not in ADAPTORS:
             pytest.skip("Weaviate adaptor not available")
-        from skill_seekers.cli.adaptors import get_adaptor
+        from yonyou_doc2skill.cli.adaptors import get_adaptor
 
         adaptor = get_adaptor("weaviate")
         output_path = adaptor.package(sample_skill_dir, tmp_path)
@@ -680,20 +680,20 @@ class TestDocVersionCLIFlag:
 
     def test_common_arguments_has_doc_version(self):
         """COMMON_ARGUMENTS includes doc_version."""
-        from skill_seekers.cli.arguments.common import COMMON_ARGUMENTS
+        from yonyou_doc2skill.cli.arguments.common import COMMON_ARGUMENTS
 
         assert "doc_version" in COMMON_ARGUMENTS
 
     def test_create_arguments_has_doc_version(self):
         """UNIVERSAL_ARGUMENTS includes doc_version."""
-        from skill_seekers.cli.arguments.create import UNIVERSAL_ARGUMENTS
+        from yonyou_doc2skill.cli.arguments.create import UNIVERSAL_ARGUMENTS
 
         assert "doc_version" in UNIVERSAL_ARGUMENTS
 
     def test_doc_version_flag_parsed(self):
         """--doc-version is parsed correctly by argparse."""
         import argparse
-        from skill_seekers.cli.arguments.common import add_common_arguments
+        from yonyou_doc2skill.cli.arguments.common import add_common_arguments
 
         parser = argparse.ArgumentParser()
         add_common_arguments(parser)
@@ -703,7 +703,7 @@ class TestDocVersionCLIFlag:
     def test_doc_version_default_empty(self):
         """--doc-version defaults to empty string."""
         import argparse
-        from skill_seekers.cli.arguments.common import add_common_arguments
+        from yonyou_doc2skill.cli.arguments.common import add_common_arguments
 
         parser = argparse.ArgumentParser()
         add_common_arguments(parser)
@@ -721,7 +721,7 @@ class TestPineconeInPackageChoices:
 
     def test_pinecone_in_package_arguments(self):
         """pinecone is listed in package --target choices."""
-        from skill_seekers.cli.arguments.package import PACKAGE_ARGUMENTS
+        from yonyou_doc2skill.cli.arguments.package import PACKAGE_ARGUMENTS
 
         choices = PACKAGE_ARGUMENTS["target"]["kwargs"]["choices"]
         assert "pinecone" in choices

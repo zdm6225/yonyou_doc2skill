@@ -1,6 +1,6 @@
 # Production Deployment Guide
 
-Complete guide for deploying Skill Seekers in production environments.
+Complete guide for deploying Yonyou Doc2Skill in production environments.
 
 ## Table of Contents
 
@@ -62,34 +62,34 @@ sudo apt install -y tesseract-ocr
 
 ```bash
 # Create dedicated user
-sudo useradd -m -s /bin/bash skillseekers
-sudo su - skillseekers
+sudo useradd -m -s /bin/bash yonyoudoc2skill
+sudo su - yonyoudoc2skill
 
 # Create virtual environment
-python3.12 -m venv /opt/skillseekers/venv
-source /opt/skillseekers/venv/bin/activate
+python3.12 -m venv /opt/yonyoudoc2skill/venv
+source /opt/yonyoudoc2skill/venv/bin/activate
 
 # Install package
 pip install --upgrade pip
-pip install skill-seekers[all]
+pip install yonyou-doc2skill[all]
 
 # Verify installation
-skill-seekers --version
+yonyou-doc2skill --version
 ```
 
 ### 2. Configuration Directory
 
 ```bash
 # Create config directory
-mkdir -p ~/.config/skill-seekers/{configs,output,logs,cache}
+mkdir -p ~/.config/yonyou-doc2skill/{configs,output,logs,cache}
 
 # Set permissions
-chmod 700 ~/.config/skill-seekers
+chmod 700 ~/.config/yonyou-doc2skill
 ```
 
 ### 3. Environment Variables
 
-Create `/opt/skillseekers/.env`:
+Create `/opt/yonyoudoc2skill/.env`:
 
 ```bash
 # API Keys
@@ -98,7 +98,7 @@ GOOGLE_API_KEY=AIza...
 OPENAI_API_KEY=sk-...
 VOYAGE_API_KEY=...
 
-# GitHub Tokens (use skill-seekers config --github for multiple)
+# GitHub Tokens (use yonyou-doc2skill config --github for multiple)
 GITHUB_TOKEN=ghp_...
 
 # Cloud Storage (optional)
@@ -117,14 +117,14 @@ SLACK_WEBHOOK_URL=https://hooks.slack.com/...
 
 # Logging
 LOG_LEVEL=INFO
-LOG_FILE=/var/log/skillseekers/app.log
+LOG_FILE=/var/log/yonyoudoc2skill/app.log
 ```
 
 **Security Note:** Never commit `.env` files to version control!
 
 ```bash
 # Secure the env file
-chmod 600 /opt/skillseekers/.env
+chmod 600 /opt/yonyoudoc2skill/.env
 ```
 
 ## Configuration
@@ -134,7 +134,7 @@ chmod 600 /opt/skillseekers/.env
 Use the interactive configuration wizard:
 
 ```bash
-skill-seekers config --github
+yonyou-doc2skill config --github
 ```
 
 This will:
@@ -146,7 +146,7 @@ This will:
 ### 2. API Keys Configuration
 
 ```bash
-skill-seekers config --api-keys
+yonyou-doc2skill config --api-keys
 ```
 
 Configure:
@@ -158,7 +158,7 @@ Configure:
 ### 3. Connection Testing
 
 ```bash
-skill-seekers config --test
+yonyou-doc2skill config --test
 ```
 
 Verifies:
@@ -172,32 +172,32 @@ Verifies:
 
 ### Option 1: Systemd Service (Recommended)
 
-Create `/etc/systemd/system/skillseekers-mcp.service`:
+Create `/etc/systemd/system/yonyoudoc2skill-mcp.service`:
 
 ```ini
 [Unit]
-Description=Skill Seekers MCP Server
+Description=Yonyou Doc2Skill MCP Server
 After=network.target
 
 [Service]
 Type=simple
-User=skillseekers
-Group=skillseekers
-WorkingDirectory=/opt/skillseekers
-EnvironmentFile=/opt/skillseekers/.env
-ExecStart=/opt/skillseekers/venv/bin/python -m skill_seekers.mcp.server_fastmcp --transport http --port 8765
+User=yonyoudoc2skill
+Group=yonyoudoc2skill
+WorkingDirectory=/opt/yonyoudoc2skill
+EnvironmentFile=/opt/yonyoudoc2skill/.env
+ExecStart=/opt/yonyoudoc2skill/venv/bin/python -m yonyou_doc2skill.mcp.server_fastmcp --transport http --port 8765
 Restart=always
 RestartSec=10
 StandardOutput=journal
 StandardError=journal
-SyslogIdentifier=skillseekers-mcp
+SyslogIdentifier=yonyoudoc2skill-mcp
 
 # Security
 NoNewPrivileges=true
 PrivateTmp=true
 ProtectSystem=strict
 ProtectHome=true
-ReadWritePaths=/opt/skillseekers /var/log/skillseekers
+ReadWritePaths=/opt/yonyoudoc2skill /var/log/yonyoudoc2skill
 
 [Install]
 WantedBy=multi-user.target
@@ -207,9 +207,9 @@ WantedBy=multi-user.target
 
 ```bash
 sudo systemctl daemon-reload
-sudo systemctl enable skillseekers-mcp
-sudo systemctl start skillseekers-mcp
-sudo systemctl status skillseekers-mcp
+sudo systemctl enable yonyoudoc2skill-mcp
+sudo systemctl start yonyoudoc2skill-mcp
+sudo systemctl status yonyoudoc2skill-mcp
 ```
 
 ### Option 2: Docker Deployment
@@ -220,17 +220,17 @@ See [Docker Deployment Guide](./DOCKER_DEPLOYMENT.md) for detailed instructions.
 
 ```bash
 # Build image
-docker build -t skillseekers:latest .
+docker build -t yonyoudoc2skill:latest .
 
 # Run container
 docker run -d \
-  --name skillseekers-mcp \
+  --name yonyoudoc2skill-mcp \
   -p 8765:8765 \
   -e ANTHROPIC_API_KEY=$ANTHROPIC_API_KEY \
   -e GITHUB_TOKEN=$GITHUB_TOKEN \
-  -v /opt/skillseekers/data:/app/data \
+  -v /opt/yonyoudoc2skill/data:/app/data \
   --restart unless-stopped \
-  skillseekers:latest
+  yonyoudoc2skill:latest
 ```
 
 ### Option 3: Kubernetes Deployment
@@ -241,8 +241,8 @@ See [Kubernetes Deployment Guide](./KUBERNETES_DEPLOYMENT.md) for detailed instr
 
 ```bash
 # Install with Helm
-helm install skillseekers ./helm/skillseekers \
-  --namespace skillseekers \
+helm install yonyoudoc2skill ./helm/yonyoudoc2skill \
+  --namespace yonyoudoc2skill \
   --create-namespace \
   --set secrets.anthropicApiKey=$ANTHROPIC_API_KEY \
   --set secrets.githubToken=$GITHUB_TOKEN
@@ -295,12 +295,12 @@ formatters:
 handlers:
   file:
     class: logging.handlers.RotatingFileHandler
-    filename: /var/log/skillseekers/app.log
+    filename: /var/log/yonyoudoc2skill/app.log
     maxBytes: 10485760  # 10MB
     backupCount: 5
     formatter: json
 loggers:
-  skill_seekers:
+  yonyou_doc2skill:
     level: INFO
     handlers: [file]
 ```
@@ -343,7 +343,7 @@ start_http_server(9090)
 
 ```yaml
 groups:
-  - name: skillseekers
+  - name: yonyoudoc2skill
     rules:
       - alert: HighErrorRate
         expr: rate(http_requests_total{status=~"5.."}[5m]) > 0.05
@@ -406,10 +406,10 @@ sudo ufw allow outgoing
 **Reverse Proxy (Nginx):**
 
 ```nginx
-# /etc/nginx/sites-available/skillseekers
+# /etc/nginx/sites-available/yonyoudoc2skill
 server {
     listen 80;
-    server_name api.skillseekers.example.com;
+    server_name api.yonyoudoc2skill.example.com;
 
     # Redirect to HTTPS
     return 301 https://$server_name$request_uri;
@@ -417,10 +417,10 @@ server {
 
 server {
     listen 443 ssl http2;
-    server_name api.skillseekers.example.com;
+    server_name api.yonyoudoc2skill.example.com;
 
-    ssl_certificate /etc/letsencrypt/live/api.skillseekers.example.com/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/api.skillseekers.example.com/privkey.pem;
+    ssl_certificate /etc/letsencrypt/live/api.yonyoudoc2skill.example.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/api.yonyoudoc2skill.example.com/privkey.pem;
 
     # Security headers
     add_header Strict-Transport-Security "max-age=31536000" always;
@@ -455,7 +455,7 @@ server {
 sudo apt install certbot python3-certbot-nginx
 
 # Obtain certificate
-sudo certbot --nginx -d api.skillseekers.example.com
+sudo certbot --nginx -d api.yonyoudoc2skill.example.com
 
 # Auto-renewal (cron)
 0 12 * * * /usr/bin/certbot renew --quiet
@@ -502,7 +502,7 @@ resources:
 
 ```bash
 # Kubernetes HPA (Horizontal Pod Autoscaler)
-kubectl autoscale deployment skillseekers-mcp \
+kubectl autoscale deployment yonyoudoc2skill-mcp \
   --cpu-percent=70 \
   --min=2 \
   --max=10
@@ -512,7 +512,7 @@ kubectl autoscale deployment skillseekers-mcp \
 
 ```nginx
 # Nginx load balancer
-upstream skillseekers {
+upstream yonyoudoc2skill {
     least_conn;
     server 10.0.0.1:8765;
     server 10.0.0.2:8765;
@@ -522,7 +522,7 @@ upstream skillseekers {
 server {
     listen 80;
     location / {
-        proxy_pass http://skillseekers;
+        proxy_pass http://yonyoudoc2skill;
     }
 }
 ```
@@ -549,7 +549,7 @@ cache = redis.Redis(host='redis.example.com', port=6379, db=0)
 
 ```bash
 # Configure multiple profiles
-skill-seekers config --github
+yonyou-doc2skill config --github
 
 # Automatic token rotation on rate limit
 # (handled by rate_limit_handler.py)
@@ -560,7 +560,7 @@ skill-seekers config --github
 ### 1. Data Backup
 
 **What to backup:**
-- Configuration files (`~/.config/skill-seekers/`)
+- Configuration files (`~/.config/yonyou-doc2skill/`)
 - Generated skills (`output/`)
 - Database/cache (if applicable)
 - Logs (for forensics)
@@ -569,30 +569,30 @@ skill-seekers config --github
 
 ```bash
 #!/bin/bash
-# /opt/skillseekers/scripts/backup.sh
+# /opt/yonyoudoc2skill/scripts/backup.sh
 
-BACKUP_DIR="/backups/skillseekers"
+BACKUP_DIR="/backups/yonyoudoc2skill"
 TIMESTAMP=$(date +%Y%m%d_%H%M%S)
 
 # Create backup
 tar -czf "$BACKUP_DIR/backup_$TIMESTAMP.tar.gz" \
-  ~/.config/skill-seekers \
-  /opt/skillseekers/output \
-  /opt/skillseekers/.env
+  ~/.config/yonyou-doc2skill \
+  /opt/yonyoudoc2skill/output \
+  /opt/yonyoudoc2skill/.env
 
 # Retain last 30 days
 find "$BACKUP_DIR" -name "backup_*.tar.gz" -mtime +30 -delete
 
 # Upload to S3 (optional)
 aws s3 cp "$BACKUP_DIR/backup_$TIMESTAMP.tar.gz" \
-  s3://backups/skillseekers/
+  s3://backups/yonyoudoc2skill/
 ```
 
 **Schedule backups:**
 
 ```bash
 # Crontab
-0 2 * * * /opt/skillseekers/scripts/backup.sh
+0 2 * * * /opt/yonyoudoc2skill/scripts/backup.sh
 ```
 
 ### 2. Disaster Recovery Plan
@@ -612,13 +612,13 @@ aws s3 cp "$BACKUP_DIR/backup_$TIMESTAMP.tar.gz" \
 
 3. **Verify services**
    ```bash
-   skill-seekers config --test
-   systemctl status skillseekers-mcp
+   yonyou-doc2skill config --test
+   systemctl status yonyoudoc2skill-mcp
    ```
 
 4. **Test functionality**
    ```bash
-   skill-seekers scrape --config configs/test.json --max-pages 10
+   yonyou-doc2skill scrape --config configs/test.json --max-pages 10
    ```
 
 **RTO/RPO targets:**
@@ -643,10 +643,10 @@ aws s3 cp "$BACKUP_DIR/backup_$TIMESTAMP.tar.gz" \
 ps aux --sort=-%mem | head -10
 
 # Reduce batch size
-skill-seekers scrape --config config.json --batch-size 10
+yonyou-doc2skill scrape --config config.json --batch-size 10
 
 # Enable memory limits
-docker run --memory=4g skillseekers:latest
+docker run --memory=4g yonyoudoc2skill:latest
 ```
 
 #### 2. GitHub Rate Limits
@@ -663,7 +663,7 @@ curl -H "Authorization: token $GITHUB_TOKEN" \
   https://api.github.com/rate_limit
 
 # Add more tokens
-skill-seekers config --github
+yonyou-doc2skill config --github
 
 # Use rate limit strategy
 # (automatic with multi-token config)
@@ -679,13 +679,13 @@ skill-seekers config --github
 
 ```bash
 # Enable async scraping (2-3x faster)
-skill-seekers scrape --config config.json --async
+yonyou-doc2skill scrape --config config.json --async
 
 # Increase concurrency
 # (adjust in config: "concurrency": 10)
 
 # Use caching
-skill-seekers scrape --config config.json --use-cache
+yonyou-doc2skill scrape --config config.json --use-cache
 ```
 
 #### 4. API Errors
@@ -698,7 +698,7 @@ skill-seekers scrape --config config.json --use-cache
 
 ```bash
 # Verify API keys
-skill-seekers config --test
+yonyou-doc2skill config --test
 
 # Check API key validity
 # Claude API: https://console.anthropic.com/
@@ -718,10 +718,10 @@ skill-seekers config --test
 
 ```bash
 # Check logs
-journalctl -u skillseekers-mcp -n 100
+journalctl -u yonyoudoc2skill-mcp -n 100
 
 # Or for Docker
-docker logs skillseekers-mcp
+docker logs yonyoudoc2skill-mcp
 
 # Common causes:
 # - Missing environment variables
@@ -729,7 +729,7 @@ docker logs skillseekers-mcp
 # - Permission issues
 
 # Verify config
-skill-seekers config --show
+yonyou-doc2skill config --show
 ```
 
 ### Debug Mode
@@ -741,23 +741,23 @@ Enable detailed logging:
 export LOG_LEVEL=DEBUG
 
 # Run with verbose output
-skill-seekers scrape --config config.json --verbose
+yonyou-doc2skill scrape --config config.json --verbose
 ```
 
 ### Getting Help
 
 **Community Support:**
-- GitHub Issues: https://github.com/yusufkaraaslan/Skill_Seekers/issues
-- Documentation: https://skillseekersweb.com/
+- GitHub Issues: https://github.com/yonyou/yonyou-doc2skill/issues
+- Documentation: https://docs.yonyou.example/yonyou-doc2skill/
 
 **Log Collection:**
 
 ```bash
 # Collect diagnostic info
-tar -czf skillseekers-debug.tar.gz \
-  /var/log/skillseekers/ \
-  ~/.config/skill-seekers/configs/ \
-  /opt/skillseekers/.env
+tar -czf yonyoudoc2skill-debug.tar.gz \
+  /var/log/yonyoudoc2skill/ \
+  ~/.config/yonyou-doc2skill/configs/ \
+  /opt/yonyoudoc2skill/.env
 ```
 
 ## Performance Tuning

@@ -12,7 +12,7 @@ from unittest.mock import Mock, patch
 
 import pytest
 
-from skill_seekers.cli.github_fetcher import (
+from yonyou_doc2skill.cli.github_fetcher import (
     CodeStream,
     DocsStream,
     GitHubThreeStreamFetcher,

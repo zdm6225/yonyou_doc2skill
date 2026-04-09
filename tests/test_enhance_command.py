@@ -44,7 +44,7 @@ def _make_skill_dir(tmp_path):
 
 class TestIsRoot:
     def test_returns_bool(self):
-        from skill_seekers.cli.enhance_command import _is_root
+        from yonyou_doc2skill.cli.enhance_command import _is_root
 
         assert isinstance(_is_root(), bool)
 
@@ -52,7 +52,7 @@ class TestIsRoot:
         import os
 
         monkeypatch.setattr(os, "getuid", lambda: 1000)
-        from skill_seekers.cli.enhance_command import _is_root
+        from yonyou_doc2skill.cli.enhance_command import _is_root
 
         assert _is_root() is False
 
@@ -60,7 +60,7 @@ class TestIsRoot:
         import os
 
         monkeypatch.setattr(os, "getuid", lambda: 0)
-        from skill_seekers.cli.enhance_command import _is_root
+        from yonyou_doc2skill.cli.enhance_command import _is_root
 
         assert _is_root() is True
 
@@ -70,7 +70,7 @@ class TestIsRoot:
 
         if hasattr(os, "getuid"):
             monkeypatch.delattr(os, "getuid")
-        from skill_seekers.cli.enhance_command import _is_root
+        from yonyou_doc2skill.cli.enhance_command import _is_root
 
         assert _is_root() is False
 
@@ -86,7 +86,7 @@ class TestPickModeExplicitTarget:
         monkeypatch.delenv("GOOGLE_API_KEY", raising=False)
         monkeypatch.delenv("OPENAI_API_KEY", raising=False)
 
-        from skill_seekers.cli.enhance_command import _pick_mode
+        from yonyou_doc2skill.cli.enhance_command import _pick_mode
 
         args = _make_args(target="gemini")
         mode, target = _pick_mode(args)
@@ -96,7 +96,7 @@ class TestPickModeExplicitTarget:
     def test_target_openai_forces_api(self, monkeypatch):
         monkeypatch.delenv("ANTHROPIC_API_KEY", raising=False)
 
-        from skill_seekers.cli.enhance_command import _pick_mode
+        from yonyou_doc2skill.cli.enhance_command import _pick_mode
 
         args = _make_args(target="openai")
         mode, target = _pick_mode(args)
@@ -106,7 +106,7 @@ class TestPickModeExplicitTarget:
     def test_target_claude_forces_api(self, monkeypatch):
         monkeypatch.delenv("ANTHROPIC_API_KEY", raising=False)
 
-        from skill_seekers.cli.enhance_command import _pick_mode
+        from yonyou_doc2skill.cli.enhance_command import _pick_mode
 
         args = _make_args(target="claude")
         mode, target = _pick_mode(args)
@@ -125,7 +125,7 @@ class TestPickModeAutoDetect:
         monkeypatch.delenv("GOOGLE_API_KEY", raising=False)
         monkeypatch.delenv("OPENAI_API_KEY", raising=False)
 
-        from skill_seekers.cli.enhance_command import _pick_mode
+        from yonyou_doc2skill.cli.enhance_command import _pick_mode
 
         mode, target = _pick_mode(_make_args())
         assert mode == "api"
@@ -137,7 +137,7 @@ class TestPickModeAutoDetect:
         monkeypatch.setenv("GOOGLE_API_KEY", "AIza-test")
         monkeypatch.delenv("OPENAI_API_KEY", raising=False)
 
-        from skill_seekers.cli.enhance_command import _pick_mode
+        from yonyou_doc2skill.cli.enhance_command import _pick_mode
 
         mode, target = _pick_mode(_make_args())
         assert mode == "api"
@@ -149,7 +149,7 @@ class TestPickModeAutoDetect:
         monkeypatch.delenv("GOOGLE_API_KEY", raising=False)
         monkeypatch.setenv("OPENAI_API_KEY", "sk-proj-test")
 
-        from skill_seekers.cli.enhance_command import _pick_mode
+        from yonyou_doc2skill.cli.enhance_command import _pick_mode
 
         mode, target = _pick_mode(_make_args())
         assert mode == "api"
@@ -161,7 +161,7 @@ class TestPickModeAutoDetect:
         monkeypatch.delenv("GOOGLE_API_KEY", raising=False)
         monkeypatch.delenv("OPENAI_API_KEY", raising=False)
 
-        from skill_seekers.cli.enhance_command import _pick_mode
+        from yonyou_doc2skill.cli.enhance_command import _pick_mode
 
         mode, target = _pick_mode(_make_args())
         assert mode == "local"
@@ -173,7 +173,7 @@ class TestPickModeAutoDetect:
         monkeypatch.setenv("GOOGLE_API_KEY", "AIza-test")
         monkeypatch.delenv("OPENAI_API_KEY", raising=False)
 
-        from skill_seekers.cli.enhance_command import _pick_mode
+        from yonyou_doc2skill.cli.enhance_command import _pick_mode
 
         mode, target = _pick_mode(_make_args())
         assert mode == "api"
@@ -189,7 +189,7 @@ class TestPickModeConfigAgent:
     def _patch_config(self, monkeypatch, agent: str | None):
         """Patch get_config_manager to return a stub with get_default_agent()."""
         monkeypatch.setattr(
-            "skill_seekers.cli.enhance_command._get_config_default_agent",
+            "yonyou_doc2skill.cli.enhance_command._get_config_default_agent",
             lambda: agent,
         )
 
@@ -199,7 +199,7 @@ class TestPickModeConfigAgent:
         monkeypatch.delenv("ANTHROPIC_AUTH_TOKEN", raising=False)
         monkeypatch.setenv("GOOGLE_API_KEY", "AIza-test")
 
-        from skill_seekers.cli.enhance_command import _pick_mode
+        from yonyou_doc2skill.cli.enhance_command import _pick_mode
 
         mode, target = _pick_mode(_make_args())
         assert mode == "api"
@@ -213,7 +213,7 @@ class TestPickModeConfigAgent:
         monkeypatch.delenv("GOOGLE_API_KEY", raising=False)
         monkeypatch.delenv("OPENAI_API_KEY", raising=False)
 
-        from skill_seekers.cli.enhance_command import _pick_mode
+        from yonyou_doc2skill.cli.enhance_command import _pick_mode
 
         mode, target = _pick_mode(_make_args())
         assert mode == "local"
@@ -223,7 +223,7 @@ class TestPickModeConfigAgent:
         self._patch_config(monkeypatch, "gemini")
         monkeypatch.delenv("ANTHROPIC_API_KEY", raising=False)
 
-        from skill_seekers.cli.enhance_command import _pick_mode
+        from yonyou_doc2skill.cli.enhance_command import _pick_mode
 
         args = _make_args(target="openai")
         mode, target = _pick_mode(args)
@@ -241,7 +241,7 @@ class TestEnhanceArgumentParsing:
 
     def _parse(self, argv, tmp_path):
         import argparse as _ap
-        from skill_seekers.cli.arguments.enhance import add_enhance_arguments
+        from yonyou_doc2skill.cli.arguments.enhance import add_enhance_arguments
 
         parser = _ap.ArgumentParser()
         add_enhance_arguments(parser)
@@ -269,7 +269,7 @@ class TestEnhanceArgumentParsing:
 
     def test_invalid_target_rejected(self, tmp_path):
         import argparse as _ap
-        from skill_seekers.cli.arguments.enhance import add_enhance_arguments
+        from yonyou_doc2skill.cli.arguments.enhance import add_enhance_arguments
 
         parser = _ap.ArgumentParser()
         add_enhance_arguments(parser)
@@ -288,7 +288,7 @@ class TestEnhanceCommandMain:
         sys_argv_backup = sys.argv.copy()
         sys.argv = ["enhance_command.py", str(skill_dir), "--dry-run"]
         try:
-            from skill_seekers.cli.enhance_command import main
+            from yonyou_doc2skill.cli.enhance_command import main
 
             rc = main()
             assert rc == 0
@@ -299,7 +299,7 @@ class TestEnhanceCommandMain:
         sys_argv_backup = sys.argv.copy()
         sys.argv = ["enhance_command.py", str(tmp_path / "nonexistent")]
         try:
-            from skill_seekers.cli.enhance_command import main
+            from yonyou_doc2skill.cli.enhance_command import main
 
             rc = main()
             assert rc == 1
@@ -319,7 +319,7 @@ class TestEnhanceCommandMain:
         sys_argv_backup = sys.argv.copy()
         sys.argv = ["enhance_command.py", str(skill_dir)]
         try:
-            from skill_seekers.cli.enhance_command import main
+            from yonyou_doc2skill.cli.enhance_command import main
 
             rc = main()
             assert rc == 1
@@ -336,14 +336,14 @@ class TestEnhanceCommandMain:
 
         # Patch _run_api_mode to avoid real API call
         monkeypatch.setattr(
-            "skill_seekers.cli.enhance_command._run_api_mode",
+            "yonyou_doc2skill.cli.enhance_command._run_api_mode",
             lambda *_: 0,
         )
 
         sys_argv_backup = sys.argv.copy()
         sys.argv = ["enhance_command.py", str(skill_dir)]
         try:
-            from skill_seekers.cli.enhance_command import main
+            from yonyou_doc2skill.cli.enhance_command import main
 
             rc = main()
             assert rc == 0
@@ -358,7 +358,7 @@ class TestEnhanceCommandMain:
 
 class TestConfigManagerDefaultAgent:
     def test_get_default_agent_none_by_default(self, tmp_path, monkeypatch):
-        from skill_seekers.cli.config_manager import ConfigManager
+        from yonyou_doc2skill.cli.config_manager import ConfigManager
 
         monkeypatch.setattr(ConfigManager, "CONFIG_DIR", tmp_path / "cfg")
         monkeypatch.setattr(ConfigManager, "CONFIG_FILE", tmp_path / "cfg" / "config.json")
@@ -368,7 +368,7 @@ class TestConfigManagerDefaultAgent:
         assert mgr.get_default_agent() is None
 
     def test_set_and_get_default_agent(self, tmp_path, monkeypatch):
-        from skill_seekers.cli.config_manager import ConfigManager
+        from yonyou_doc2skill.cli.config_manager import ConfigManager
 
         monkeypatch.setattr(ConfigManager, "CONFIG_DIR", tmp_path / "cfg")
         monkeypatch.setattr(ConfigManager, "CONFIG_FILE", tmp_path / "cfg" / "config.json")
@@ -379,7 +379,7 @@ class TestConfigManagerDefaultAgent:
         assert mgr.get_default_agent() == "gemini"
 
     def test_set_default_agent_persisted(self, tmp_path, monkeypatch):
-        from skill_seekers.cli.config_manager import ConfigManager
+        from yonyou_doc2skill.cli.config_manager import ConfigManager
 
         monkeypatch.setattr(ConfigManager, "CONFIG_DIR", tmp_path / "cfg")
         config_file = tmp_path / "cfg" / "config.json"

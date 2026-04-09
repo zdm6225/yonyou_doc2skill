@@ -1,8 +1,8 @@
 # Installation Guide
 
-> **Skill Seekers v3.2.0**
+> **Yonyou Doc2Skill v3.2.0**
 
-Get Skill Seekers installed and running in under 5 minutes.
+Get Yonyou Doc2Skill installed and running in under 5 minutes.
 
 ---
 
@@ -23,13 +23,13 @@ Get Skill Seekers installed and running in under 5 minutes.
 
 ```bash
 # Basic installation
-pip install skill-seekers
+pip install yonyou-doc2skill
 
 # With all platform support
-pip install skill-seekers[all-llms]
+pip install yonyou-doc2skill[all-llms]
 
 # Verify installation
-skill-seekers --version
+yonyou-doc2skill --version
 ```
 
 ### Option 2: pipx (Isolated)
@@ -39,22 +39,22 @@ skill-seekers --version
 pip install pipx
 pipx ensurepath
 
-# Install skill-seekers
-pipx install skill-seekers[all-llms]
+# Install yonyou-doc2skill
+pipx install yonyou-doc2skill[all-llms]
 ```
 
 ### Option 3: Development (from source)
 
 ```bash
 # Clone repository
-git clone https://github.com/yusufkaraaslan/Skill_Seekers.git
-cd Skill_Seekers
+git clone https://github.com/yonyou/yonyou-doc2skill.git
+cd yonyou_doc2skill
 
 # Install in editable mode
 pip install -e ".[all-llms,dev]"
 
 # Verify
-skill-seekers --version
+yonyou-doc2skill --version
 ```
 
 ---
@@ -66,7 +66,7 @@ skill-seekers --version
 Just the core functionality:
 
 ```bash
-pip install skill-seekers
+pip install yonyou-doc2skill
 ```
 
 **Includes:**
@@ -79,7 +79,7 @@ pip install skill-seekers
 All features and platforms:
 
 ```bash
-pip install skill-seekers[all-llms]
+pip install yonyou-doc2skill[all-llms]
 ```
 
 **Includes:**
@@ -96,15 +96,15 @@ Install only what you need:
 
 ```bash
 # Specific platform only
-pip install skill-seekers[gemini]      # Google Gemini
-pip install skill-seekers[openai]      # OpenAI
-pip install skill-seekers[chroma]      # ChromaDB
+pip install yonyou-doc2skill[gemini]      # Google Gemini
+pip install yonyou-doc2skill[openai]      # OpenAI
+pip install yonyou-doc2skill[chroma]      # ChromaDB
 
 # Multiple extras
-pip install skill-seekers[gemini,openai,chroma]
+pip install yonyou-doc2skill[gemini,openai,chroma]
 
 # Development
-pip install skill-seekers[dev]
+pip install yonyou-doc2skill[dev]
 ```
 
 ---
@@ -113,26 +113,26 @@ pip install skill-seekers[dev]
 
 | Extra | Description | Install Command |
 |-------|-------------|-----------------|
-| `gemini` | Google Gemini support | `pip install skill-seekers[gemini]` |
-| `openai` | OpenAI ChatGPT support | `pip install skill-seekers[openai]` |
-| `mcp` | MCP server | `pip install skill-seekers[mcp]` |
-| `video` | YouTube/Vimeo subtitles & metadata | `pip install skill-seekers[video]` |
-| `video-full` | + Whisper transcription & visual frames | `pip install skill-seekers[video-full]` |
-| `jupyter` | Jupyter Notebook extraction | `pip install skill-seekers[jupyter]` |
-| `ocr` | OCR support (scanned PDFs, visual frames) | `pip install skill-seekers[ocr]` |
-| `confluence` | Confluence wiki support | `pip install skill-seekers[confluence]` |
-| `notion` | Notion pages support | `pip install skill-seekers[notion]` |
-| `chroma` | ChromaDB export | `pip install skill-seekers[chroma]` |
-| `weaviate` | Weaviate export | `pip install skill-seekers[weaviate]` |
-| `qdrant` | Qdrant export | `pip install skill-seekers[qdrant]` |
-| `faiss` | FAISS export | `pip install skill-seekers[faiss]` |
-| `s3` | AWS S3 storage | `pip install skill-seekers[s3]` |
-| `gcs` | Google Cloud Storage | `pip install skill-seekers[gcs]` |
-| `azure` | Azure Blob Storage | `pip install skill-seekers[azure]` |
-| `embedding` | Embedding server | `pip install skill-seekers[embedding]` |
-| `all-llms` | All LLM platforms | `pip install skill-seekers[all-llms]` |
-| `all` | Everything | `pip install skill-seekers[all]` |
-| `dev` | Development tools | `pip install skill-seekers[dev]` |
+| `gemini` | Google Gemini support | `pip install yonyou-doc2skill[gemini]` |
+| `openai` | OpenAI ChatGPT support | `pip install yonyou-doc2skill[openai]` |
+| `mcp` | MCP server | `pip install yonyou-doc2skill[mcp]` |
+| `video` | YouTube/Vimeo subtitles & metadata | `pip install yonyou-doc2skill[video]` |
+| `video-full` | + Whisper transcription & visual frames | `pip install yonyou-doc2skill[video-full]` |
+| `jupyter` | Jupyter Notebook extraction | `pip install yonyou-doc2skill[jupyter]` |
+| `ocr` | OCR support (scanned PDFs, visual frames) | `pip install yonyou-doc2skill[ocr]` |
+| `confluence` | Confluence wiki support | `pip install yonyou-doc2skill[confluence]` |
+| `notion` | Notion pages support | `pip install yonyou-doc2skill[notion]` |
+| `chroma` | ChromaDB export | `pip install yonyou-doc2skill[chroma]` |
+| `weaviate` | Weaviate export | `pip install yonyou-doc2skill[weaviate]` |
+| `qdrant` | Qdrant export | `pip install yonyou-doc2skill[qdrant]` |
+| `faiss` | FAISS export | `pip install yonyou-doc2skill[faiss]` |
+| `s3` | AWS S3 storage | `pip install yonyou-doc2skill[s3]` |
+| `gcs` | Google Cloud Storage | `pip install yonyou-doc2skill[gcs]` |
+| `azure` | Azure Blob Storage | `pip install yonyou-doc2skill[azure]` |
+| `embedding` | Embedding server | `pip install yonyou-doc2skill[embedding]` |
+| `all-llms` | All LLM platforms | `pip install yonyou-doc2skill[all-llms]` |
+| `all` | Everything | `pip install yonyou-doc2skill[all]` |
+| `dev` | Development tools | `pip install yonyou-doc2skill[dev]` |
 
 ---
 
@@ -144,7 +144,7 @@ For AI enhancement and uploads:
 
 ```bash
 # Interactive configuration wizard
-skill-seekers config
+yonyou-doc2skill config
 
 # Or set environment variables
 export ANTHROPIC_API_KEY=sk-ant-...
@@ -155,23 +155,23 @@ export GITHUB_TOKEN=ghp_...
 
 ```bash
 # Check version
-skill-seekers --version
+yonyou-doc2skill --version
 
 # See all commands
-skill-seekers --help
+yonyou-doc2skill --help
 
 # Test configuration
-skill-seekers config --test
+yonyou-doc2skill config --test
 ```
 
 ### 3. Quick Test
 
 ```bash
 # List available presets
-skill-seekers estimate --all
+yonyou-doc2skill estimate --all
 
 # Do a dry run
-skill-seekers create https://docs.python.org/3/ --dry-run
+yonyou-doc2skill create https://docs.python.org/3/ --dry-run
 ```
 
 ---
@@ -183,12 +183,12 @@ skill-seekers create https://docs.python.org/3/ --dry-run
 ```bash
 # Using Homebrew Python
 brew install python@3.12
-pip3.12 install skill-seekers[all-llms]
+pip3.12 install yonyou-doc2skill[all-llms]
 
 # Or with pyenv
 pyenv install 3.12
 pyenv global 3.12
-pip install skill-seekers[all-llms]
+pip install yonyou-doc2skill[all-llms]
 ```
 
 ### Linux (Ubuntu/Debian)
@@ -198,11 +198,11 @@ pip install skill-seekers[all-llms]
 sudo apt update
 sudo apt install python3-pip python3-venv
 
-# Install skill-seekers
-pip3 install skill-seekers[all-llms]
+# Install yonyou-doc2skill
+pip3 install yonyou-doc2skill[all-llms]
 
 # Make available system-wide
-sudo ln -s ~/.local/bin/skill-seekers /usr/local/bin/
+sudo ln -s ~/.local/bin/yonyou-doc2skill /usr/local/bin/
 ```
 
 ### Windows
@@ -211,7 +211,7 @@ sudo ln -s ~/.local/bin/skill-seekers /usr/local/bin/
 
 ```powershell
 # Or use Windows directly (PowerShell)
-python -m pip install skill-seekers[all-llms]
+python -m pip install yonyou-doc2skill[all-llms]
 
 # Add to PATH if needed
 [Environment]::SetEnvironmentVariable("Path", $env:Path + ";$env:APPDATA\Python\Python312\Scripts", "User")
@@ -221,28 +221,28 @@ python -m pip install skill-seekers[all-llms]
 
 ```bash
 # Pull image
-docker pull skillseekers/skill-seekers:latest
+docker pull yonyoudoc2skill/yonyou-doc2skill:latest
 
 # Run
 docker run -it --rm \
   -e ANTHROPIC_API_KEY=$ANTHROPIC_API_KEY \
   -v $(pwd)/output:/output \
-  skillseekers/skill-seekers \
-  skill-seekers create https://docs.react.dev/
+  yonyoudoc2skill/yonyou-doc2skill \
+  yonyou-doc2skill create https://docs.react.dev/
 ```
 
 ---
 
 ## Troubleshooting
 
-### "command not found: skill-seekers"
+### "command not found: yonyou-doc2skill"
 
 ```bash
 # Add pip bin to PATH
 export PATH="$HOME/.local/bin:$PATH"
 
 # Or reinstall with --user
-pip install --user --force-reinstall skill-seekers
+pip install --user --force-reinstall yonyou-doc2skill
 ```
 
 ### Permission denied
@@ -250,12 +250,12 @@ pip install --user --force-reinstall skill-seekers
 ```bash
 # Don't use sudo with pip
 # Instead:
-pip install --user skill-seekers
+pip install --user yonyou-doc2skill
 
 # Or use a virtual environment
 python3 -m venv venv
 source venv/bin/activate
-pip install skill-seekers[all-llms]
+pip install yonyou-doc2skill[all-llms]
 ```
 
 ### Import errors
@@ -265,16 +265,16 @@ pip install skill-seekers[all-llms]
 pip install -e .
 
 # Check installation
-python -c "import skill_seekers; print(skill_seekers.__version__)"
+python -c "import yonyou_doc2skill; print(yonyou_doc2skill.__version__)"
 ```
 
 ### Version conflicts
 
 ```bash
 # Use virtual environment
-python3 -m venv skill-seekers-env
-source skill-seekers-env/bin/activate
-pip install skill-seekers[all-llms]
+python3 -m venv yonyou-doc2skill-env
+source yonyou-doc2skill-env/bin/activate
+pip install yonyou-doc2skill[all-llms]
 ```
 
 ---
@@ -283,16 +283,16 @@ pip install skill-seekers[all-llms]
 
 ```bash
 # Upgrade to latest
-pip install --upgrade skill-seekers
+pip install --upgrade yonyou-doc2skill
 
 # Upgrade with all extras
-pip install --upgrade skill-seekers[all-llms]
+pip install --upgrade yonyou-doc2skill[all-llms]
 
 # Check current version
-skill-seekers --version
+yonyou-doc2skill --version
 
 # See what's new
-pip show skill-seekers
+pip show yonyou-doc2skill
 ```
 
 ---
@@ -300,11 +300,11 @@ pip show skill-seekers
 ## Uninstall
 
 ```bash
-pip uninstall skill-seekers
+pip uninstall yonyou-doc2skill
 
 # Clean up config (optional)
-rm -rf ~/.config/skill-seekers/
-rm -rf ~/.cache/skill-seekers/
+rm -rf ~/.config/yonyou-doc2skill/
+rm -rf ~/.cache/yonyou-doc2skill/
 ```
 
 ---
@@ -320,12 +320,12 @@ rm -rf ~/.cache/skill-seekers/
 
 ```bash
 # Command help
-skill-seekers --help
-skill-seekers create --help
+yonyou-doc2skill --help
+yonyou-doc2skill create --help
 
 # Documentation
-# https://github.com/yusufkaraaslan/Skill_Seekers/tree/main/docs
+# https://github.com/yonyou/yonyou-doc2skill/tree/main/docs
 
 # Issues
-# https://github.com/yusufkaraaslan/Skill_Seekers/issues
+# https://github.com/yonyou/yonyou-doc2skill/issues
 ```

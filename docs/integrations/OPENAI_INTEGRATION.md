@@ -1,10 +1,10 @@
 # OpenAI ChatGPT Integration Guide
 
-Complete guide for creating and deploying skills to OpenAI ChatGPT using Skill Seekers.
+Complete guide for creating and deploying skills to OpenAI ChatGPT using Yonyou Doc2Skill.
 
 ## Overview
 
-Skill Seekers packages documentation into OpenAI-compatible formats optimized for:
+Yonyou Doc2Skill packages documentation into OpenAI-compatible formats optimized for:
 - **Assistants API** for custom AI assistants
 - **Vector Store + File Search** for accurate retrieval
 - **GPT-4o** for enhancement and responses
@@ -15,7 +15,7 @@ Skill Seekers packages documentation into OpenAI-compatible formats optimized fo
 
 ```bash
 # Install with OpenAI dependencies
-pip install skill-seekers[openai]
+pip install yonyou-doc2skill[openai]
 
 # Verify installation
 pip list | grep openai
@@ -35,7 +35,7 @@ pip list | grep openai
 export OPENAI_API_KEY=sk-proj-...
 
 # Or pass directly to commands
-skill-seekers upload --target openai --api-key sk-proj-...
+yonyou-doc2skill upload --target openai --api-key sk-proj-...
 ```
 
 ## Complete Workflow
@@ -44,10 +44,10 @@ skill-seekers upload --target openai --api-key sk-proj-...
 
 ```bash
 # Use any config (scraping is platform-agnostic)
-skill-seekers scrape --config configs/react.json
+yonyou-doc2skill scrape --config configs/react.json
 
 # Or use a unified config for multi-source
-skill-seekers unified --config configs/react_unified.json
+yonyou-doc2skill unified --config configs/react_unified.json
 ```
 
 **Result:** `output/react/` skill directory with references
@@ -56,10 +56,10 @@ skill-seekers unified --config configs/react_unified.json
 
 ```bash
 # Enhance SKILL.md using GPT-4o
-skill-seekers enhance output/react/ --target openai
+yonyou-doc2skill enhance output/react/ --target openai
 
 # With API key specified
-skill-seekers enhance output/react/ --target openai --api-key sk-proj-...
+yonyou-doc2skill enhance output/react/ --target openai --api-key sk-proj-...
 ```
 
 **What it does:**
@@ -77,7 +77,7 @@ skill-seekers enhance output/react/ --target openai --api-key sk-proj-...
 
 ```bash
 # Create ZIP package for OpenAI Assistants
-skill-seekers package output/react/ --target openai
+yonyou-doc2skill package output/react/ --target openai
 
 # Result: react-openai.zip
 ```
@@ -98,10 +98,10 @@ react-openai.zip/
 
 ```bash
 # Upload and create Assistant with Vector Store
-skill-seekers upload react-openai.zip --target openai
+yonyou-doc2skill upload react-openai.zip --target openai
 
 # With API key
-skill-seekers upload react-openai.zip --target openai --api-key sk-proj-...
+yonyou-doc2skill upload react-openai.zip --target openai --api-key sk-proj-...
 ```
 
 **What it does:**
@@ -286,7 +286,7 @@ client.beta.vector_stores.files.create(
 ### Programmatic Package and Upload
 
 ```python
-from skill_seekers.cli.adaptors import get_adaptor
+from yonyou_doc2skill.cli.adaptors import get_adaptor
 from pathlib import Path
 
 # Get adaptor
@@ -359,7 +359,7 @@ Include images in your documentation:
 
 **Solution:**
 ```bash
-pip install skill-seekers[openai]
+pip install yonyou-doc2skill[openai]
 ```
 
 ### Issue: `Invalid API key format`
@@ -377,10 +377,10 @@ pip install skill-seekers[openai]
 **Solution:**
 ```bash
 # Use --target openai for ZIP format
-skill-seekers package output/react/ --target openai
+yonyou-doc2skill package output/react/ --target openai
 
 # NOT:
-skill-seekers package output/react/ --target gemini  # Creates .tar.gz
+yonyou-doc2skill package output/react/ --target gemini  # Creates .tar.gz
 ```
 
 ### Issue: `Assistant creation failed`
@@ -399,7 +399,7 @@ python3 -c "from openai import OpenAI; print(OpenAI(api_key='sk-proj-...').model
 # Visit: https://platform.openai.com/account/limits
 
 # Reduce file count
-skill-seekers package output/react/ --target openai --max-files 20
+yonyou-doc2skill package output/react/ --target openai --max-files 20
 ```
 
 ### Issue: Enhancement fails
@@ -410,10 +410,10 @@ skill-seekers package output/react/ --target openai --max-files 20
 # Visit: https://platform.openai.com/account/billing
 
 # Try with smaller skill
-skill-seekers enhance output/react/ --target openai --max-files 5
+yonyou-doc2skill enhance output/react/ --target openai --max-files 5
 
 # Use without enhancement
-skill-seekers package output/react/ --target openai
+yonyou-doc2skill package output/react/ --target openai
 # (Skip enhancement step)
 ```
 
@@ -466,12 +466,12 @@ print(f"Output tokens: {run.usage.completion_tokens}")
 
 ```bash
 # Re-scrape updated documentation
-skill-seekers scrape --config configs/react.json
+yonyou-doc2skill scrape --config configs/react.json
 
 # Re-enhance and upload (creates new Assistant)
-skill-seekers enhance output/react/ --target openai
-skill-seekers package output/react/ --target openai
-skill-seekers upload react-openai.zip --target openai
+yonyou-doc2skill enhance output/react/ --target openai
+yonyou-doc2skill package output/react/ --target openai
+yonyou-doc2skill upload react-openai.zip --target openai
 ```
 
 ## Cost Estimation
@@ -495,7 +495,7 @@ skill-seekers upload react-openai.zip --target openai
 
 ## Next Steps
 
-1. ✅ Install OpenAI support: `pip install skill-seekers[openai]`
+1. ✅ Install OpenAI support: `pip install yonyou-doc2skill[openai]`
 2. ✅ Get API key from OpenAI Platform
 3. ✅ Scrape your documentation
 4. ✅ Enhance with GPT-4o
@@ -512,4 +512,4 @@ skill-seekers upload react-openai.zip --target openai
 
 ## Feedback
 
-Found an issue or have suggestions? [Open an issue](https://github.com/yusufkaraaslan/Skill_Seekers/issues)
+Found an issue or have suggestions? [Open an issue](https://github.com/yonyou/yonyou-doc2skill/issues)

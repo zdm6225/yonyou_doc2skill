@@ -8,9 +8,9 @@ Tests the multi-layer merging architecture:
 - Layer 4: GitHub insights (issues)
 """
 
-from skill_seekers.cli.conflict_detector import Conflict
-from skill_seekers.cli.github_fetcher import CodeStream, DocsStream, InsightsStream, ThreeStreamData
-from skill_seekers.cli.merge_sources import (
+from yonyou_doc2skill.cli.conflict_detector import Conflict
+from yonyou_doc2skill.cli.github_fetcher import CodeStream, DocsStream, InsightsStream, ThreeStreamData
+from yonyou_doc2skill.cli.merge_sources import (
     RuleBasedMerger,
     _match_issues_to_apis,
     categorize_issues_by_topic,

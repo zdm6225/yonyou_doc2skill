@@ -13,10 +13,10 @@ import unittest
 
 import pytest
 
-from skill_seekers.cli.doc_scraper import DocToSkillConverter
-from skill_seekers.cli.llms_txt_detector import LlmsTxtDetector
-from skill_seekers.cli.llms_txt_downloader import LlmsTxtDownloader
-from skill_seekers.cli.llms_txt_parser import LlmsTxtParser
+from yonyou_doc2skill.cli.doc_scraper import DocToSkillConverter
+from yonyou_doc2skill.cli.llms_txt_detector import LlmsTxtDetector
+from yonyou_doc2skill.cli.llms_txt_downloader import LlmsTxtDownloader
+from yonyou_doc2skill.cli.llms_txt_parser import LlmsTxtParser
 
 
 @pytest.mark.integration
@@ -109,7 +109,7 @@ class TestIssue277DiscordDocsE2E(unittest.TestCase):
     def test_discord_full_pipeline_no_404_urls(self):
         """Full pipeline: detector -> downloader -> parser -> converter -> queue.
 
-        Simulates what `skill-seekers create https://docs.discord.com` does,
+        Simulates what `yonyou-doc2skill create https://docs.discord.com` does,
         without actually scraping pages.
         """
         converter = DocToSkillConverter(self.config, dry_run=True)

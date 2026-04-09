@@ -5,7 +5,7 @@ Tests for base adaptor and registry
 
 import unittest
 
-from skill_seekers.cli.adaptors import (
+from yonyou_doc2skill.cli.adaptors import (
     SkillAdaptor,
     SkillMetadata,
     get_adaptor,

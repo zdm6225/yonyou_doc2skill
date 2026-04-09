@@ -46,11 +46,11 @@ def setup_mcp_server(project_path: Path) -> bool:
     # Create MCP config
     mcp_config = {
         "mcpServers": {
-            "skill-seekers": {
+            "yonyou-doc2skill": {
                 "command": "python",
                 "args": [
                     "-m",
-                    "skill_seekers.mcp.server_fastmcp",
+                    "yonyou_doc2skill.mcp.server_fastmcp",
                     "--transport",
                     "stdio"
                 ],
@@ -119,7 +119,7 @@ def main():
     if not args.skip_scrape:
         if not run_command(
             [
-                "skill-seekers",
+                "yonyou-doc2skill",
                 "scrape",
                 "--config",
                 "configs/django.json",
@@ -138,7 +138,7 @@ def main():
     # Step 2: Package for Cline
     if not run_command(
         [
-            "skill-seekers",
+            "yonyou-doc2skill",
             "package",
             str(output_dir),
             "--target",

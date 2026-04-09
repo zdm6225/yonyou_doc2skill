@@ -1,4 +1,4 @@
-# Skill Seekers Feature Matrix
+# Yonyou Doc2Skill Feature Matrix
 
 Complete feature support across all platforms and skill modes.
 
@@ -176,16 +176,16 @@ install --target X → Fetch → Scrape → Enhance → Package → Upload
 
 ```bash
 # Core package (Claude only)
-pip install skill-seekers
+pip install yonyou-doc2skill
 
 # With Gemini support
-pip install skill-seekers[gemini]
+pip install yonyou-doc2skill[gemini]
 
 # With OpenAI support
-pip install skill-seekers[openai]
+pip install yonyou-doc2skill[openai]
 
 # With all platforms
-pip install skill-seekers[all-llms]
+pip install yonyou-doc2skill[all-llms]
 ```
 
 ## Examples
@@ -193,13 +193,13 @@ pip install skill-seekers[all-llms]
 ### Package for Multiple Platforms (Same Skill)
 ```bash
 # Scrape once (platform-agnostic)
-skill-seekers scrape --config configs/react.json
+yonyou-doc2skill scrape --config configs/react.json
 
 # Package for all platforms
-skill-seekers package output/react/ --target claude
-skill-seekers package output/react/ --target gemini
-skill-seekers package output/react/ --target openai
-skill-seekers package output/react/ --target markdown
+yonyou-doc2skill package output/react/ --target claude
+yonyou-doc2skill package output/react/ --target gemini
+yonyou-doc2skill package output/react/ --target openai
+yonyou-doc2skill package output/react/ --target markdown
 
 # Result:
 # - react.zip (Claude)
@@ -214,9 +214,9 @@ export ANTHROPIC_API_KEY=sk-ant-...
 export GOOGLE_API_KEY=AIzaSy...
 export OPENAI_API_KEY=sk-proj-...
 
-skill-seekers upload react.zip --target claude
-skill-seekers upload react-gemini.tar.gz --target gemini
-skill-seekers upload react-openai.zip --target openai
+yonyou-doc2skill upload react.zip --target claude
+yonyou-doc2skill upload react-gemini.tar.gz --target gemini
+yonyou-doc2skill upload react-openai.zip --target openai
 ```
 
 ### Use MCP Tools for Any Platform
@@ -236,34 +236,34 @@ enhance_skill(skill_dir="output/react", target="gemini", mode="api")
 ### Complete Workflow with Different Platforms
 ```bash
 # Install React skill for Claude (default)
-skill-seekers install --config react
+yonyou-doc2skill install --config react
 
 # Install Django skill for Gemini
-skill-seekers install --config django --target gemini
+yonyou-doc2skill install --config django --target gemini
 
 # Install FastAPI skill for OpenAI
-skill-seekers install --config fastapi --target openai
+yonyou-doc2skill install --config fastapi --target openai
 
 # Install Vue skill as generic markdown
-skill-seekers install --config vue --target markdown
+yonyou-doc2skill install --config vue --target markdown
 ```
 
 ### Split Unified Config by Source
 ```bash
 # Split multi-source config into separate configs
-skill-seekers split --config configs/react_unified.json --strategy source
+yonyou-doc2skill split --config configs/react_unified.json --strategy source
 
 # Creates:
 # - react-documentation.json (docs only)
 # - react-github.json (GitHub only)
 
 # Then scrape each separately
-skill-seekers unified --config react-documentation.json
-skill-seekers unified --config react-github.json
+yonyou-doc2skill unified --config react-documentation.json
+yonyou-doc2skill unified --config react-github.json
 
 # Or scrape in parallel for speed
-skill-seekers unified --config react-documentation.json &
-skill-seekers unified --config react-github.json &
+yonyou-doc2skill unified --config react-documentation.json &
+yonyou-doc2skill unified --config react-github.json &
 wait
 ```
 

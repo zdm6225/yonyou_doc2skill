@@ -1,12 +1,12 @@
 # MiniMax AI Integration Guide
 
-Complete guide for using Skill Seekers with MiniMax AI platform.
+Complete guide for using Yonyou Doc2Skill with MiniMax AI platform.
 
 ---
 
 ## Overview
 
-**MiniMax AI** is a Chinese AI company offering OpenAI-compatible APIs with their M2.7 model. Skill Seekers packages documentation for use with MiniMax's platform.
+**MiniMax AI** is a Chinese AI company offering OpenAI-compatible APIs with their M2.7 model. Yonyou Doc2Skill packages documentation for use with MiniMax's platform.
 
 ### Key Features
 
@@ -31,10 +31,10 @@ Complete guide for using Skill Seekers with MiniMax AI platform.
 
 ```bash
 # Install MiniMax support (includes openai library)
-pip install skill-seekers[minimax]
+pip install yonyou-doc2skill[minimax]
 
 # Or install all LLM platforms
-pip install skill-seekers[all-llms]
+pip install yonyou-doc2skill[all-llms]
 ```
 
 ### 3. Configure Environment
@@ -53,20 +53,20 @@ Add to your `~/.bashrc`, `~/.zshrc`, or `.env` file for persistence.
 
 ```bash
 # Scrape documentation website
-skill-seekers scrape --config configs/react.json
+yonyou-doc2skill scrape --config configs/react.json
 
 # Or use quick preset
-skill-seekers create https://docs.python.org/3/ --preset quick
+yonyou-doc2skill create https://docs.python.org/3/ --preset quick
 ```
 
 ### Step 2: Enhance with MiniMax-M2.7
 
 ```bash
 # Enhance SKILL.md using MiniMax AI
-skill-seekers enhance output/react/ --target minimax
+yonyou-doc2skill enhance output/react/ --target minimax
 
 # With custom model (if available)
-skill-seekers enhance output/react/ --target minimax --model MiniMax-M2.7
+yonyou-doc2skill enhance output/react/ --target minimax --model MiniMax-M2.7
 ```
 
 This step:
@@ -79,10 +79,10 @@ This step:
 
 ```bash
 # Package as MiniMax-compatible ZIP
-skill-seekers package output/react/ --target minimax
+yonyou-doc2skill package output/react/ --target minimax
 
 # Custom output path
-skill-seekers package output/react/ --target minimax --output my-skill.zip
+yonyou-doc2skill package output/react/ --target minimax --output my-skill.zip
 ```
 
 **Output structure:**
@@ -100,7 +100,7 @@ react-minimax.zip
 
 ```bash
 # Validate package with MiniMax API
-skill-seekers upload react-minimax.zip --target minimax
+yonyou-doc2skill upload react-minimax.zip --target minimax
 ```
 
 This validates:
@@ -189,7 +189,7 @@ response = client.chat.completions.create(
 ### SkillAdaptor Methods
 
 ```python
-from skill_seekers.cli.adaptors import get_adaptor
+from yonyou_doc2skill.cli.adaptors import get_adaptor
 
 # Get MiniMax adaptor
 adaptor = get_adaptor('minimax')
@@ -235,7 +235,7 @@ echo $MINIMAX_API_KEY | head -c 10
 
 **Solution:**
 ```bash
-pip install skill-seekers[minimax]
+pip install yonyou-doc2skill[minimax]
 # or
 pip install openai>=1.0.0
 ```
@@ -298,14 +298,14 @@ output/react/
 Always enhance before packaging:
 ```bash
 # Enhancement improves system instructions quality
-skill-seekers enhance output/react/ --target minimax
+yonyou-doc2skill enhance output/react/ --target minimax
 ```
 
 ### 3. Test Before Deployment
 
 ```bash
 # Validate package
-skill-seekers upload react-minimax.zip --target minimax
+yonyou-doc2skill upload react-minimax.zip --target minimax
 
 # If successful, package is ready to use
 ```
@@ -314,7 +314,7 @@ skill-seekers upload react-minimax.zip --target minimax
 
 ```bash
 # Include version in output name
-skill-seekers package output/react/ --target minimax --output react-v2.0-minimax.zip
+yonyou-doc2skill package output/react/ --target minimax --output react-v2.0-minimax.zip
 ```
 
 ---
@@ -339,7 +339,7 @@ skill-seekers package output/react/ --target minimax --output react-v2.0-minimax
 Programmatically customize enhancement:
 
 ```python
-from skill_seekers.cli.adaptors import get_adaptor
+from yonyou_doc2skill.cli.adaptors import get_adaptor
 from pathlib import Path
 
 adaptor = get_adaptor('minimax')
@@ -364,9 +364,9 @@ prompt += "\n\nADDITIONAL FOCUS: Emphasize React 18 concurrent features."
 ```bash
 # Process multiple frameworks
 for framework in react vue angular; do
-    skill-seekers scrape --config configs/${framework}.json
-    skill-seekers enhance output/${framework}/ --target minimax
-    skill-seekers package output/${framework}/ --target minimax --output ${framework}-minimax.zip
+    yonyou-doc2skill scrape --config configs/${framework}.json
+    yonyou-doc2skill enhance output/${framework}/ --target minimax
+    yonyou-doc2skill package output/${framework}/ --target minimax --output ${framework}-minimax.zip
 done
 ```
 
@@ -384,7 +384,7 @@ done
 ## Next Steps
 
 1. Get your [MiniMax API key](https://platform.minimaxi.com/)
-2. Install dependencies: `pip install skill-seekers[minimax]`
+2. Install dependencies: `pip install yonyou-doc2skill[minimax]`
 3. Try the [Quick Start example](#complete-workflow)
 4. Explore [advanced usage](#advanced-usage) patterns
 

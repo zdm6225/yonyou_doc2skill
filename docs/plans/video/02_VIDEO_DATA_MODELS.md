@@ -25,7 +25,7 @@
 3. **Timeline-aligned** — Every piece of data has `start_time` and `end_time` fields. This is the alignment axis for merging streams.
 4. **Confidence-scored** — Every extracted piece of content carries a confidence score for quality filtering.
 5. **Source-aware** — Every piece of data traces back to its origin (which video, which stream, which tool).
-6. **Compatible** — Output structures must be compatible with existing Skill Seekers page/reference format for seamless integration.
+6. **Compatible** — Output structures must be compatible with existing Yonyou Doc2Skill page/reference format for seamless integration.
 
 ---
 

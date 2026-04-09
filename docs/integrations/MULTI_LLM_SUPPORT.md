@@ -1,6 +1,6 @@
 # Multi-LLM Platform Support Guide
 
-Skill Seekers supports multiple LLM platforms through a clean adaptor system. The core scraping and content organization remains universal, while packaging and upload are platform-specific.
+Yonyou Doc2Skill supports multiple LLM platforms through a clean adaptor system. The core scraping and content organization remains universal, while packaging and upload are platform-specific.
 
 ## Supported Platforms
 
@@ -20,35 +20,35 @@ No changes needed! All existing workflows continue to work:
 
 ```bash
 # Scrape documentation
-skill-seekers scrape --config configs/react.json
+yonyou-doc2skill scrape --config configs/react.json
 
 # Package for Claude (default)
-skill-seekers package output/react/
+yonyou-doc2skill package output/react/
 
 # Upload to Claude
-skill-seekers upload react.zip
+yonyou-doc2skill upload react.zip
 ```
 
 ### Google Gemini
 
 ```bash
 # Install Gemini support
-pip install skill-seekers[gemini]
+pip install yonyou-doc2skill[gemini]
 
 # Set API key
 export GOOGLE_API_KEY=AIzaSy...
 
 # Scrape documentation (same as always)
-skill-seekers scrape --config configs/react.json
+yonyou-doc2skill scrape --config configs/react.json
 
 # Package for Gemini
-skill-seekers package output/react/ --target gemini
+yonyou-doc2skill package output/react/ --target gemini
 
 # Upload to Gemini
-skill-seekers upload react-gemini.tar.gz --target gemini
+yonyou-doc2skill upload react-gemini.tar.gz --target gemini
 
 # Optional: Enhance with Gemini
-skill-seekers enhance output/react/ --target gemini
+yonyou-doc2skill enhance output/react/ --target gemini
 ```
 
 **Output:** `react-gemini.tar.gz` ready for Google AI Studio
@@ -57,22 +57,22 @@ skill-seekers enhance output/react/ --target gemini
 
 ```bash
 # Install OpenAI support
-pip install skill-seekers[openai]
+pip install yonyou-doc2skill[openai]
 
 # Set API key
 export OPENAI_API_KEY=sk-proj-...
 
 # Scrape documentation (same as always)
-skill-seekers scrape --config configs/react.json
+yonyou-doc2skill scrape --config configs/react.json
 
 # Package for OpenAI
-skill-seekers package output/react/ --target openai
+yonyou-doc2skill package output/react/ --target openai
 
 # Upload to OpenAI (creates Assistant + Vector Store)
-skill-seekers upload react-openai.zip --target openai
+yonyou-doc2skill upload react-openai.zip --target openai
 
 # Optional: Enhance with GPT-4o
-skill-seekers enhance output/react/ --target openai
+yonyou-doc2skill enhance output/react/ --target openai
 ```
 
 **Output:** OpenAI Assistant created with file search enabled
@@ -81,7 +81,7 @@ skill-seekers enhance output/react/ --target openai
 
 ```bash
 # Package as generic markdown (no dependencies)
-skill-seekers package output/react/ --target markdown
+yonyou-doc2skill package output/react/ --target markdown
 
 # Output: react-markdown.zip with:
 #   - README.md
@@ -97,33 +97,33 @@ skill-seekers package output/react/ --target markdown
 
 ```bash
 # Default installation (Claude support only)
-pip install skill-seekers
+pip install yonyou-doc2skill
 ```
 
 ### Install with Specific Platform Support
 
 ```bash
 # Google Gemini support
-pip install skill-seekers[gemini]
+pip install yonyou-doc2skill[gemini]
 
 # OpenAI ChatGPT support
-pip install skill-seekers[openai]
+pip install yonyou-doc2skill[openai]
 
 # MiniMax AI support
-pip install skill-seekers[minimax]
+pip install yonyou-doc2skill[minimax]
 
 # All LLM platforms
-pip install skill-seekers[all-llms]
+pip install yonyou-doc2skill[all-llms]
 
 # Development dependencies (includes testing)
-pip install skill-seekers[dev]
+pip install yonyou-doc2skill[dev]
 ```
 
 ### Install from Source
 
 ```bash
-git clone https://github.com/yusufkaraaslan/Skill_Seekers.git
-cd Skill_Seekers
+git clone https://github.com/yonyou/yonyou-doc2skill.git
+cd yonyou_doc2skill
 
 # Editable install with all platforms
 pip install -e .[all-llms]
@@ -196,16 +196,16 @@ export MINIMAX_API_KEY=your-key
 
 ```bash
 # 1. Scrape
-skill-seekers scrape --config configs/react.json
+yonyou-doc2skill scrape --config configs/react.json
 
 # 2. Enhance (optional but recommended)
-skill-seekers enhance output/react/
+yonyou-doc2skill enhance output/react/
 
 # 3. Package
-skill-seekers package output/react/
+yonyou-doc2skill package output/react/
 
 # 4. Upload
-skill-seekers upload react.zip
+yonyou-doc2skill upload react.zip
 
 # Access at: https://claude.ai/skills
 ```
@@ -214,20 +214,20 @@ skill-seekers upload react.zip
 
 ```bash
 # Setup (one-time)
-pip install skill-seekers[gemini]
+pip install yonyou-doc2skill[gemini]
 export GOOGLE_API_KEY=AIzaSy...
 
 # 1. Scrape (universal)
-skill-seekers scrape --config configs/react.json
+yonyou-doc2skill scrape --config configs/react.json
 
 # 2. Enhance for Gemini
-skill-seekers enhance output/react/ --target gemini
+yonyou-doc2skill enhance output/react/ --target gemini
 
 # 3. Package for Gemini
-skill-seekers package output/react/ --target gemini
+yonyou-doc2skill package output/react/ --target gemini
 
 # 4. Upload to Gemini
-skill-seekers upload react-gemini.tar.gz --target gemini
+yonyou-doc2skill upload react-gemini.tar.gz --target gemini
 
 # Access at: https://aistudio.google.com/files/
 ```
@@ -236,20 +236,20 @@ skill-seekers upload react-gemini.tar.gz --target gemini
 
 ```bash
 # Setup (one-time)
-pip install skill-seekers[openai]
+pip install yonyou-doc2skill[openai]
 export OPENAI_API_KEY=sk-proj-...
 
 # 1. Scrape (universal)
-skill-seekers scrape --config configs/react.json
+yonyou-doc2skill scrape --config configs/react.json
 
 # 2. Enhance with GPT-4o
-skill-seekers enhance output/react/ --target openai
+yonyou-doc2skill enhance output/react/ --target openai
 
 # 3. Package for OpenAI
-skill-seekers package output/react/ --target openai
+yonyou-doc2skill package output/react/ --target openai
 
 # 4. Upload (creates Assistant + Vector Store)
-skill-seekers upload react-openai.zip --target openai
+yonyou-doc2skill upload react-openai.zip --target openai
 
 # Access at: https://platform.openai.com/assistants/
 ```
@@ -258,20 +258,20 @@ skill-seekers upload react-openai.zip --target openai
 
 ```bash
 # Setup (one-time)
-pip install skill-seekers[minimax]
+pip install yonyou-doc2skill[minimax]
 export MINIMAX_API_KEY=your-key
 
 # 1. Scrape (universal)
-skill-seekers scrape --config configs/react.json
+yonyou-doc2skill scrape --config configs/react.json
 
 # 2. Enhance with MiniMax-M2.7
-skill-seekers enhance output/react/ --target minimax
+yonyou-doc2skill enhance output/react/ --target minimax
 
 # 3. Package for MiniMax
-skill-seekers package output/react/ --target minimax
+yonyou-doc2skill package output/react/ --target minimax
 
 # 4. Upload to MiniMax (validates with API)
-skill-seekers upload react-minimax.zip --target minimax
+yonyou-doc2skill upload react-minimax.zip --target minimax
 
 # Access at: https://platform.minimaxi.com/
 ```
@@ -280,17 +280,17 @@ skill-seekers upload react-minimax.zip --target minimax
 
 ```bash
 # Install all platforms
-pip install skill-seekers[all-llms]
+pip install yonyou-doc2skill[all-llms]
 
 # Scrape once
-skill-seekers scrape --config configs/react.json
+yonyou-doc2skill scrape --config configs/react.json
 
 # Package for all platforms
-skill-seekers package output/react/ --target claude
-skill-seekers package output/react/ --target gemini
-skill-seekers package output/react/ --target openai
-skill-seekers package output/react/ --target minimax
-skill-seekers package output/react/ --target markdown
+yonyou-doc2skill package output/react/ --target claude
+yonyou-doc2skill package output/react/ --target gemini
+yonyou-doc2skill package output/react/ --target openai
+yonyou-doc2skill package output/react/ --target minimax
+yonyou-doc2skill package output/react/ --target markdown
 
 # Result:
 # - react.zip (Claude)
@@ -308,14 +308,14 @@ Each platform uses its default enhancement model, but you can customize:
 
 ```bash
 # Use specific model for enhancement (if supported)
-skill-seekers enhance output/react/ --target gemini --model gemini-2.0-flash-exp
-skill-seekers enhance output/react/ --target openai --model gpt-4o
+yonyou-doc2skill enhance output/react/ --target gemini --model gemini-2.0-flash-exp
+yonyou-doc2skill enhance output/react/ --target openai --model gpt-4o
 ```
 
 ### Programmatic Usage
 
 ```python
-from skill_seekers.cli.adaptors import get_adaptor
+from yonyou_doc2skill.cli.adaptors import get_adaptor
 
 # Get platform-specific adaptor
 gemini = get_adaptor('gemini')
@@ -336,7 +336,7 @@ print(f"Uploaded to: {result['url']}")
 Check which platforms are available:
 
 ```python
-from skill_seekers.cli.adaptors import list_platforms, is_platform_available
+from yonyou_doc2skill.cli.adaptors import list_platforms, is_platform_available
 
 # List all registered platforms
 platforms = list_platforms()
@@ -373,16 +373,16 @@ For detailed platform-specific instructions, see:
 
 **Solution:**
 ```bash
-pip install skill-seekers[gemini]
+pip install yonyou-doc2skill[gemini]
 ```
 
 **Error:** `ModuleNotFoundError: No module named 'openai'`
 
 **Solution:**
 ```bash
-pip install skill-seekers[openai]
+pip install yonyou-doc2skill[openai]
 # or for MiniMax (also uses openai library)
-pip install skill-seekers[minimax]
+pip install yonyou-doc2skill[minimax]
 ```
 
 ### API Key Issues
@@ -402,10 +402,10 @@ pip install skill-seekers[minimax]
 **Solution:** Use correct --target flag:
 ```bash
 # Gemini requires tar.gz
-skill-seekers package output/react/ --target gemini
+yonyou-doc2skill package output/react/ --target gemini
 
 # OpenAI and Claude use ZIP
-skill-seekers package output/react/ --target openai
+yonyou-doc2skill package output/react/ --target openai
 ```
 
 ## FAQ

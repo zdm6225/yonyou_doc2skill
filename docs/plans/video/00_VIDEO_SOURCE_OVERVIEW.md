@@ -24,7 +24,7 @@
 
 ## Executive Summary
 
-Add **video** as a first-class source type in Skill Seekers, alongside web documentation, GitHub repositories, PDF files, and Word documents. Videos contain a massive amount of knowledge — conference talks, official tutorials, live coding sessions, architecture walkthroughs — that is currently inaccessible to our pipeline.
+Add **video** as a first-class source type in Yonyou Doc2Skill, alongside web documentation, GitHub repositories, PDF files, and Word documents. Videos contain a massive amount of knowledge — conference talks, official tutorials, live coding sessions, architecture walkthroughs — that is currently inaccessible to our pipeline.
 
 The video source will use a **3-stream parallel extraction** model:
 
@@ -46,7 +46,7 @@ These three streams are **aligned on a shared timeline** and merged into structu
 2. **Official tutorials** — Many frameworks (React, Flutter, Unity, Godot) have official video tutorials that are the canonical learning resource.
 3. **Code walkthroughs** — Screen-recorded coding sessions show real patterns, debugging workflows, and architecture decisions that written docs miss.
 4. **Conference talks** — JSConf, PyCon, GopherCon, etc. contain deep technical insights from framework authors.
-5. **Completeness** — Skill Seekers aims to be the **universal** documentation preprocessor. Video is the last major content type we don't support.
+5. **Completeness** — Yonyou Doc2Skill aims to be the **universal** documentation preprocessor. Video is the last major content type we don't support.
 
 ### Goals
 
@@ -253,9 +253,9 @@ opencv-python-headless>=4.9.0
 
 ## Success Criteria
 
-1. **Functional:** `skill-seekers create https://youtube.com/watch?v=xxx` produces a skill with video content integrated into SKILL.md.
+1. **Functional:** `yonyou-doc2skill create https://youtube.com/watch?v=xxx` produces a skill with video content integrated into SKILL.md.
 2. **Multi-source:** Video sources work alongside docs/github/pdf in unified configs.
 3. **Quality:** Video-derived reference files are categorized and structured (not raw transcript dumps).
 4. **Performance:** Transcript-only mode processes a 30-minute video in < 30 seconds.
 5. **Tests:** Full test suite with mocked network calls, 100% of video pipeline covered.
-6. **Tiered deps:** `pip install skill-seekers[video]` works without pulling Whisper/OpenCV.
+6. **Tiered deps:** `pip install yonyou-doc2skill[video]` works without pulling Whisper/OpenCV.

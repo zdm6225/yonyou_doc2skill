@@ -21,8 +21,8 @@ from pathlib import Path
 import git
 import pytest
 
-from skill_seekers.mcp.git_repo import GitConfigRepo
-from skill_seekers.mcp.source_manager import SourceManager
+from yonyou_doc2skill.mcp.git_repo import GitConfigRepo
+from yonyou_doc2skill.mcp.source_manager import SourceManager
 
 # Check if MCP is available
 try:
@@ -716,7 +716,7 @@ class TestMCPToolsE2E:
         """
         MCP E2E Test 1: Complete add/list/remove workflow via MCP tools
         """
-        from skill_seekers.mcp.server import (
+        from yonyou_doc2skill.mcp.server import (
             add_config_source_tool,
             list_config_sources_tool,
             remove_config_source_tool,
@@ -758,7 +758,7 @@ class TestMCPToolsE2E:
         """
         MCP E2E Test 2: fetch_config with direct git URL
         """
-        from skill_seekers.mcp.server import fetch_config_tool
+        from yonyou_doc2skill.mcp.server import fetch_config_tool
 
         cache_dir, config_dir = temp_dirs
         repo_dir, repo = temp_git_repo
@@ -795,7 +795,7 @@ class TestMCPToolsE2E:
         """
         MCP E2E Test 3: fetch_config with registered source
         """
-        from skill_seekers.mcp.server import add_config_source_tool, fetch_config_tool
+        from yonyou_doc2skill.mcp.server import add_config_source_tool, fetch_config_tool
 
         cache_dir, config_dir = temp_dirs
         repo_dir, repo = temp_git_repo
@@ -827,7 +827,7 @@ class TestMCPToolsE2E:
         """
         MCP E2E Test 4: Error handling across all tools
         """
-        from skill_seekers.mcp.server import (
+        from yonyou_doc2skill.mcp.server import (
             add_config_source_tool,
             fetch_config_tool,
             remove_config_source_tool,

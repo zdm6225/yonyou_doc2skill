@@ -15,8 +15,8 @@ from pathlib import Path
 # Add parent directory to path
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from skill_seekers.cli.config_validator import ConfigValidator
-from skill_seekers.cli.doc_scraper import DocToSkillConverter, load_config, validate_config
+from yonyou_doc2skill.cli.config_validator import ConfigValidator
+from yonyou_doc2skill.cli.doc_scraper import DocToSkillConverter, load_config, validate_config
 
 
 class TestDryRunMode(unittest.TestCase):
@@ -436,7 +436,7 @@ app.use('*', cors())
         from unittest.mock import MagicMock, patch
 
         # Mock the requests.get call for downloading llms.txt
-        with patch("skill_seekers.cli.llms_txt_downloader.requests.get") as mock_get:
+        with patch("yonyou_doc2skill.cli.llms_txt_downloader.requests.get") as mock_get:
             # Configure mock response
             mock_response = MagicMock()
             mock_response.status_code = 200
@@ -532,8 +532,8 @@ app.use('*', cors())
         sample_small = "# Small\n" + "x" * 500
 
         with (
-            patch("skill_seekers.cli.llms_txt_detector.requests.head") as mock_head,
-            patch("skill_seekers.cli.llms_txt_downloader.requests.get") as mock_get,
+            patch("yonyou_doc2skill.cli.llms_txt_detector.requests.head") as mock_head,
+            patch("yonyou_doc2skill.cli.llms_txt_downloader.requests.get") as mock_get,
         ):
             # Mock detection (all exist)
             mock_head_response = Mock()
@@ -556,7 +556,7 @@ app.use('*', cors())
             mock_get.side_effect = mock_download
 
             # Run scraper
-            from skill_seekers.cli.doc_scraper import DocToSkillConverter as DocumentationScraper
+            from yonyou_doc2skill.cli.doc_scraper import DocToSkillConverter as DocumentationScraper
 
             scraper = DocumentationScraper(config, dry_run=False)
             _result = scraper._try_llms_txt()
@@ -589,7 +589,7 @@ def test_no_content_truncation():
     }
 
     # Create scraper with long content
-    from skill_seekers.cli.doc_scraper import DocToSkillConverter
+    from yonyou_doc2skill.cli.doc_scraper import DocToSkillConverter
 
     scraper = DocToSkillConverter(config, dry_run=False)
 

@@ -51,13 +51,13 @@ def tmp_user_dir(tmp_path, monkeypatch):
     """Redirect USER_WORKFLOWS_DIR in workflow_tools to a temp dir."""
     fake_dir = tmp_path / "workflows"
     fake_dir.mkdir()
-    monkeypatch.setattr("skill_seekers.mcp.tools.workflow_tools.USER_WORKFLOWS_DIR", fake_dir)
+    monkeypatch.setattr("yonyou_doc2skill.mcp.tools.workflow_tools.USER_WORKFLOWS_DIR", fake_dir)
     return fake_dir
 
 
 def _mock_bundled_names(names=("default", "security-focus")):
     return patch(
-        "skill_seekers.mcp.tools.workflow_tools._bundled_names",
+        "yonyou_doc2skill.mcp.tools.workflow_tools._bundled_names",
         return_value=list(names),
     )
 
@@ -67,7 +67,7 @@ def _mock_bundled_text(mapping: dict):
         return mapping.get(name)
 
     return patch(
-        "skill_seekers.mcp.tools.workflow_tools._read_bundled",
+        "yonyou_doc2skill.mcp.tools.workflow_tools._read_bundled",
         side_effect=_read,
     )
 
@@ -87,7 +87,7 @@ def _text(result) -> str:
 
 class TestListWorkflowsTool:
     def test_lists_bundled_and_user(self, tmp_user_dir):
-        from skill_seekers.mcp.tools.workflow_tools import list_workflows_tool
+        from yonyou_doc2skill.mcp.tools.workflow_tools import list_workflows_tool
 
         (tmp_user_dir / "my-workflow.yaml").write_text(MINIMAL_YAML, encoding="utf-8")
 
@@ -102,7 +102,7 @@ class TestListWorkflowsTool:
         assert "user" in text
 
     def test_empty_lists(self, tmp_user_dir):
-        from skill_seekers.mcp.tools.workflow_tools import list_workflows_tool
+        from yonyou_doc2skill.mcp.tools.workflow_tools import list_workflows_tool
 
         with _mock_bundled_names([]):
             result = list_workflows_tool({})
@@ -120,10 +120,10 @@ class TestListWorkflowsTool:
 
 class TestGetWorkflowTool:
     def test_get_bundled(self):
-        from skill_seekers.mcp.tools.workflow_tools import get_workflow_tool
+        from yonyou_doc2skill.mcp.tools.workflow_tools import get_workflow_tool
 
         with patch(
-            "skill_seekers.mcp.tools.workflow_tools._read_workflow",
+            "yonyou_doc2skill.mcp.tools.workflow_tools._read_workflow",
             return_value=MINIMAL_YAML,
         ):
             result = get_workflow_tool({"name": "default"})
@@ -131,7 +131,7 @@ class TestGetWorkflowTool:
         assert "stages" in _text(result)
 
     def test_get_not_found(self, tmp_user_dir):
-        from skill_seekers.mcp.tools.workflow_tools import get_workflow_tool
+        from yonyou_doc2skill.mcp.tools.workflow_tools import get_workflow_tool
 
         with _mock_bundled_names([]):
             result = get_workflow_tool({"name": "ghost"})
@@ -140,13 +140,13 @@ class TestGetWorkflowTool:
         assert "not found" in text.lower() or "Error" in text
 
     def test_missing_name_param(self):
-        from skill_seekers.mcp.tools.workflow_tools import get_workflow_tool
+        from yonyou_doc2skill.mcp.tools.workflow_tools import get_workflow_tool
 
         result = get_workflow_tool({})
         assert "required" in _text(result).lower()
 
     def test_get_user_workflow(self, tmp_user_dir):
-        from skill_seekers.mcp.tools.workflow_tools import get_workflow_tool
+        from yonyou_doc2skill.mcp.tools.workflow_tools import get_workflow_tool
 
         (tmp_user_dir / "custom.yaml").write_text(MINIMAL_YAML, encoding="utf-8")
         result = get_workflow_tool({"name": "custom"})
@@ -160,7 +160,7 @@ class TestGetWorkflowTool:
 
 class TestCreateWorkflowTool:
     def test_create_new_workflow(self, tmp_user_dir):
-        from skill_seekers.mcp.tools.workflow_tools import create_workflow_tool
+        from yonyou_doc2skill.mcp.tools.workflow_tools import create_workflow_tool
 
         result = create_workflow_tool({"name": "new-wf", "content": MINIMAL_YAML})
         text = _text(result)
@@ -168,26 +168,26 @@ class TestCreateWorkflowTool:
         assert (tmp_user_dir / "new-wf.yaml").exists()
 
     def test_create_duplicate_fails(self, tmp_user_dir):
-        from skill_seekers.mcp.tools.workflow_tools import create_workflow_tool
+        from yonyou_doc2skill.mcp.tools.workflow_tools import create_workflow_tool
 
         (tmp_user_dir / "existing.yaml").write_text(MINIMAL_YAML, encoding="utf-8")
         result = create_workflow_tool({"name": "existing", "content": MINIMAL_YAML})
         assert "already exists" in _text(result).lower()
 
     def test_create_invalid_yaml(self, tmp_user_dir):
-        from skill_seekers.mcp.tools.workflow_tools import create_workflow_tool
+        from yonyou_doc2skill.mcp.tools.workflow_tools import create_workflow_tool
 
         result = create_workflow_tool({"name": "bad", "content": INVALID_YAML_NO_STAGES})
         assert "invalid" in _text(result).lower() or "stages" in _text(result).lower()
 
     def test_create_missing_name(self):
-        from skill_seekers.mcp.tools.workflow_tools import create_workflow_tool
+        from yonyou_doc2skill.mcp.tools.workflow_tools import create_workflow_tool
 
         result = create_workflow_tool({"content": MINIMAL_YAML})
         assert "required" in _text(result).lower()
 
     def test_create_missing_content(self):
-        from skill_seekers.mcp.tools.workflow_tools import create_workflow_tool
+        from yonyou_doc2skill.mcp.tools.workflow_tools import create_workflow_tool
 
         result = create_workflow_tool({"name": "test"})
         assert "required" in _text(result).lower()
@@ -200,7 +200,7 @@ class TestCreateWorkflowTool:
 
 class TestUpdateWorkflowTool:
     def test_update_user_workflow(self, tmp_user_dir):
-        from skill_seekers.mcp.tools.workflow_tools import update_workflow_tool
+        from yonyou_doc2skill.mcp.tools.workflow_tools import update_workflow_tool
 
         (tmp_user_dir / "my-wf.yaml").write_text("old content", encoding="utf-8")
 
@@ -212,7 +212,7 @@ class TestUpdateWorkflowTool:
         assert (tmp_user_dir / "my-wf.yaml").read_text() == MINIMAL_YAML
 
     def test_update_bundled_refused(self, tmp_user_dir):
-        from skill_seekers.mcp.tools.workflow_tools import update_workflow_tool
+        from yonyou_doc2skill.mcp.tools.workflow_tools import update_workflow_tool
 
         with _mock_bundled_names(["default"]):
             result = update_workflow_tool({"name": "default", "content": MINIMAL_YAML})
@@ -220,7 +220,7 @@ class TestUpdateWorkflowTool:
         assert "bundled" in _text(result).lower()
 
     def test_update_invalid_yaml(self, tmp_user_dir):
-        from skill_seekers.mcp.tools.workflow_tools import update_workflow_tool
+        from yonyou_doc2skill.mcp.tools.workflow_tools import update_workflow_tool
 
         (tmp_user_dir / "my-wf.yaml").write_text(MINIMAL_YAML, encoding="utf-8")
 
@@ -231,7 +231,7 @@ class TestUpdateWorkflowTool:
 
     def test_update_user_override_of_bundled_name(self, tmp_user_dir):
         """A user workflow with same name as bundled should be updatable."""
-        from skill_seekers.mcp.tools.workflow_tools import update_workflow_tool
+        from yonyou_doc2skill.mcp.tools.workflow_tools import update_workflow_tool
 
         (tmp_user_dir / "default.yaml").write_text("old", encoding="utf-8")
 
@@ -250,7 +250,7 @@ class TestUpdateWorkflowTool:
 
 class TestDeleteWorkflowTool:
     def test_delete_user_workflow(self, tmp_user_dir):
-        from skill_seekers.mcp.tools.workflow_tools import delete_workflow_tool
+        from yonyou_doc2skill.mcp.tools.workflow_tools import delete_workflow_tool
 
         wf = tmp_user_dir / "to-delete.yaml"
         wf.write_text(MINIMAL_YAML, encoding="utf-8")
@@ -262,7 +262,7 @@ class TestDeleteWorkflowTool:
         assert not wf.exists()
 
     def test_delete_bundled_refused(self, tmp_user_dir):
-        from skill_seekers.mcp.tools.workflow_tools import delete_workflow_tool
+        from yonyou_doc2skill.mcp.tools.workflow_tools import delete_workflow_tool
 
         with _mock_bundled_names(["default"]):
             result = delete_workflow_tool({"name": "default"})
@@ -270,7 +270,7 @@ class TestDeleteWorkflowTool:
         assert "bundled" in _text(result).lower()
 
     def test_delete_nonexistent(self, tmp_user_dir):
-        from skill_seekers.mcp.tools.workflow_tools import delete_workflow_tool
+        from yonyou_doc2skill.mcp.tools.workflow_tools import delete_workflow_tool
 
         with _mock_bundled_names([]):
             result = delete_workflow_tool({"name": "ghost"})
@@ -278,7 +278,7 @@ class TestDeleteWorkflowTool:
         assert "not found" in _text(result).lower()
 
     def test_delete_yml_extension(self, tmp_user_dir):
-        from skill_seekers.mcp.tools.workflow_tools import delete_workflow_tool
+        from yonyou_doc2skill.mcp.tools.workflow_tools import delete_workflow_tool
 
         wf = tmp_user_dir / "my-wf.yml"
         wf.write_text(MINIMAL_YAML, encoding="utf-8")
@@ -289,7 +289,7 @@ class TestDeleteWorkflowTool:
         assert not wf.exists()
 
     def test_delete_missing_name(self):
-        from skill_seekers.mcp.tools.workflow_tools import delete_workflow_tool
+        from yonyou_doc2skill.mcp.tools.workflow_tools import delete_workflow_tool
 
         result = delete_workflow_tool({})
         assert "required" in _text(result).lower()

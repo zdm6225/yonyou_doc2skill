@@ -20,7 +20,7 @@ Before uploading a skill, check:
 
 ```bash
 # Check your skill quality
-skill-seekers quality output/myskill/
+yonyou-doc2skill quality output/myskill/
 ```
 
 ---
@@ -263,7 +263,7 @@ Always check quality before uploading:
 
 ```bash
 # Check quality score
-skill-seekers quality output/myskill/
+yonyou-doc2skill quality output/myskill/
 
 # Expected output:
 # ✅ Grade: A (Score: 95)
@@ -289,7 +289,7 @@ skill-seekers quality output/myskill/
 
 **"No code examples found"**
 - Add code blocks to SKILL.md
-- Run enhancement: `skill-seekers enhance output/myskill/`
+- Run enhancement: `yonyou-doc2skill enhance output/myskill/`
 
 **"Generic description"**
 - Rewrite "When to Use" section
@@ -427,7 +427,7 @@ function useWindowSize() {
 
 **Final command before upload:**
 ```bash
-skill-seekers quality output/myskill/
+yonyou-doc2skill quality output/myskill/
 ```
 
 That's it! Follow these practices and your skills will work better with Claude.
@@ -436,10 +436,10 @@ That's it! Follow these practices and your skills will work better with Claude.
 
 ## 8. Tips for Specific Source Types
 
-Skill Seekers supports **17 source types**. Here are tips for getting the best results from each category:
+Yonyou Doc2Skill supports **17 source types**. Here are tips for getting the best results from each category:
 
 ### Documentation (Web)
-- Always test CSS selectors before large scrapes: `skill-seekers scrape --max-pages 3 --verbose`
+- Always test CSS selectors before large scrapes: `yonyou-doc2skill scrape --max-pages 3 --verbose`
 - Use `--async` for large sites (2-3x faster)
 
 ### GitHub Repos
@@ -452,7 +452,7 @@ Skill Seekers supports **17 source types**. Here are tips for getting the best r
 - EPUB works best with DRM-free files
 
 ### Video
-- Run `skill-seekers video --setup` first to install GPU-optimized dependencies
+- Run `yonyou-doc2skill video --setup` first to install GPU-optimized dependencies
 - YouTube and Vimeo URLs are auto-detected; local video files also work
 
 ### Jupyter Notebooks
@@ -491,6 +491,6 @@ Skill Seekers supports **17 source types**. Here are tips for getting the best r
 
 ## Contributing
 
-This guide was contributed by the [AI Writing Guide](https://github.com/jmagly/ai-writing-guide) project, which uses Skill Seekers for documentation-to-skill conversion. Best practices here are informed by research on production-grade agentic workflows.
+This guide was contributed by the [AI Writing Guide](https://github.com/jmagly/ai-writing-guide) project, which uses Yonyou Doc2Skill for documentation-to-skill conversion. Best practices here are informed by research on production-grade agentic workflows.
 
 Found an issue or want to improve this guide? PRs welcome!

@@ -1,11 +1,11 @@
-# Skill Seekers GitHub Action
+# Yonyou Doc2Skill GitHub Action
 
 Transform documentation, GitHub repos, PDFs, videos, and 13 other source types into AI-ready skills and RAG knowledge — directly in your CI/CD pipeline.
 
 ## Quick Start
 
 ```yaml
-- uses: yusufkaraaslan/skill-seekers-action@v3
+- uses: yonyou/yonyou-doc2skill-action@v3
   with:
     source: 'https://react.dev'
 ```
@@ -45,7 +45,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: yusufkaraaslan/skill-seekers-action@v3
+      - uses: yonyou/yonyou-doc2skill-action@v3
         with:
           source: 'https://react.dev'
           target: 'langchain'
@@ -59,7 +59,7 @@ jobs:
 ### Generate skill from GitHub repo
 
 ```yaml
-- uses: yusufkaraaslan/skill-seekers-action@v3
+- uses: yonyou/yonyou-doc2skill-action@v3
   with:
     source: 'pallets/flask'
     command: 'github'
@@ -71,7 +71,7 @@ jobs:
 ```yaml
 - uses: actions/checkout@v4
 
-- uses: yusufkaraaslan/skill-seekers-action@v3
+- uses: yonyou/yonyou-doc2skill-action@v3
   with:
     source: 'docs/api-reference.pdf'
     command: 'pdf'
@@ -82,7 +82,7 @@ jobs:
 ```yaml
 - uses: actions/checkout@v4
 
-- uses: yusufkaraaslan/skill-seekers-action@v3
+- uses: yonyou/yonyou-doc2skill-action@v3
   with:
     config: 'configs/my-project.json'
     command: 'unified'
@@ -94,7 +94,7 @@ jobs:
 ```yaml
 - uses: actions/checkout@v4
 
-- uses: yusufkaraaslan/skill-seekers-action@v3
+- uses: yonyou/yonyou-doc2skill-action@v3
   id: generate
   with:
     source: 'https://fastapi.tiangolo.com'

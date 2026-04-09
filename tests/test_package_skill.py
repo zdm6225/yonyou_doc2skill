@@ -8,7 +8,7 @@ import unittest
 import zipfile
 from pathlib import Path
 
-from skill_seekers.cli.package_skill import package_skill
+from yonyou_doc2skill.cli.package_skill import package_skill
 
 
 class TestPackageSkill(unittest.TestCase):
@@ -159,12 +159,12 @@ class TestPackageSkillCLI(unittest.TestCase):
     """Test package_skill.py command-line interface"""
 
     def test_cli_help_output(self):
-        """Test that skill-seekers package --help works"""
+        """Test that yonyou-doc2skill package --help works"""
         import subprocess
 
         try:
             result = subprocess.run(
-                ["skill-seekers", "package", "--help"], capture_output=True, text=True, timeout=5
+                ["yonyou-doc2skill", "package", "--help"], capture_output=True, text=True, timeout=5
             )
 
             # argparse may return 0 or 2 for --help
@@ -172,21 +172,21 @@ class TestPackageSkillCLI(unittest.TestCase):
             output = result.stdout + result.stderr
             self.assertTrue("usage:" in output.lower() or "package" in output.lower())
         except FileNotFoundError:
-            self.skipTest("skill-seekers command not installed")
+            self.skipTest("yonyou-doc2skill command not installed")
 
     def test_cli_executes_without_errors(self):
-        """Test that skill-seekers-package entry point works"""
+        """Test that yonyou-doc2skill-package entry point works"""
         import subprocess
 
         try:
             result = subprocess.run(
-                ["skill-seekers-package", "--help"], capture_output=True, text=True, timeout=5
+                ["yonyou-doc2skill-package", "--help"], capture_output=True, text=True, timeout=5
             )
 
             # argparse may return 0 or 2 for --help
             self.assertIn(result.returncode, [0, 2])
         except FileNotFoundError:
-            self.skipTest("skill-seekers-package command not installed")
+            self.skipTest("yonyou-doc2skill-package command not installed")
 
 
 if __name__ == "__main__":

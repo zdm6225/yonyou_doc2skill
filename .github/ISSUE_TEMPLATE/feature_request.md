@@ -1,6 +1,6 @@
 ---
 name: Feature Request
-about: Suggest a new feature for Skill Seekers
+about: Suggest a new feature for Yonyou Doc2Skill
 title: '[FEATURE] '
 labels: 'type: feature'
 assignees: ''

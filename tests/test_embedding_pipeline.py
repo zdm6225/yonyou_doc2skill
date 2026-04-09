@@ -21,7 +21,7 @@ pytest.importorskip("numpy")
 # Add src to path
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 
-from skill_seekers.cli.embedding_pipeline import (
+from yonyou_doc2skill.cli.embedding_pipeline import (
     EmbeddingConfig,
     EmbeddingPipeline,
     LocalEmbeddingProvider,

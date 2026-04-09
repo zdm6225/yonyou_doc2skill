@@ -5732,7 +5732,7 @@ wheels = [
 ]
 
 [[package]]
-name = "skill-seekers"
+name = "yonyou-doc2skill"
 version = "3.4.0"
 source = { editable = "." }
 dependencies = [

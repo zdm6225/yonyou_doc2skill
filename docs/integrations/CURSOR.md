@@ -1,4 +1,4 @@
-# Using Skill Seekers with Cursor IDE
+# Using Yonyou Doc2Skill with Cursor IDE
 
 **Last Updated:** February 5, 2026
 **Status:** Production Ready
@@ -22,7 +22,7 @@ Cursor IDE offers powerful AI coding assistance, but:
 
 ## ✨ The Solution
 
-Use Skill Seekers to create **custom documentation** for Cursor's AI:
+Use Yonyou Doc2Skill to create **custom documentation** for Cursor's AI:
 
 1. **Generate structured docs** from any framework or codebase
 2. **Package as .cursorrules** - Cursor's custom instruction format
@@ -39,26 +39,26 @@ Cursor's AI becomes an expert in your frameworks with persistent, automatic cont
 ### Prerequisites
 
 - Cursor IDE installed (https://cursor.sh/)
-- Python 3.10+ (for Skill Seekers)
+- Python 3.10+ (for Yonyou Doc2Skill)
 
 ### Installation
 
 ```bash
-# Install Skill Seekers
-pip install skill-seekers
+# Install Yonyou Doc2Skill
+pip install yonyou-doc2skill
 
 # Verify installation
-skill-seekers --version
+yonyou-doc2skill --version
 ```
 
 ### Generate .cursorrules
 
 ```bash
 # Example: Django framework
-skill-seekers scrape --config configs/django.json
+yonyou-doc2skill scrape --config configs/django.json
 
 # Package for Cursor
-skill-seekers package output/django --target markdown
+yonyou-doc2skill package output/django --target markdown
 
 # Extract SKILL.md (this becomes your .cursorrules content)
 # output/django-markdown/SKILL.md
@@ -113,43 +113,43 @@ cat output/react-markdown/SKILL.md >> /path/to/your/project/.cursorrules
 **Option A: Framework Documentation**
 ```bash
 # Available presets: django, fastapi, react, vue, etc.
-skill-seekers scrape --config configs/react.json
-skill-seekers package output/react --target markdown
+yonyou-doc2skill scrape --config configs/react.json
+yonyou-doc2skill package output/react --target markdown
 ```
 
 **Option B: GitHub Repository**
 ```bash
 # Scrape from GitHub repo
-skill-seekers github --repo facebook/react --name react
-skill-seekers package output/react --target markdown
+yonyou-doc2skill github --repo facebook/react --name react
+yonyou-doc2skill package output/react --target markdown
 ```
 
 **Option C: Local Codebase**
 ```bash
 # Analyze your own codebase
-skill-seekers analyze --directory /path/to/repo --comprehensive
-skill-seekers package output/codebase --target markdown
+yonyou-doc2skill analyze --directory /path/to/repo --comprehensive
+yonyou-doc2skill package output/codebase --target markdown
 ```
 
 **Option D: Multiple Sources**
 ```bash
 # Combine docs + code
-skill-seekers unified \
+yonyou-doc2skill unified \
   --docs-config configs/fastapi.json \
   --github fastapi/fastapi \
   --name fastapi-complete
 
-skill-seekers package output/fastapi-complete --target markdown
+yonyou-doc2skill package output/fastapi-complete --target markdown
 ```
 
 ### Step 2: Optimize for Cursor
 
-Cursor has a **200KB limit** for .cursorrules. Skill Seekers markdown output is optimized, but for very large documentation:
+Cursor has a **200KB limit** for .cursorrules. Yonyou Doc2Skill markdown output is optimized, but for very large documentation:
 
 **Strategy 1: Summarize (Recommended)**
 ```bash
 # Use AI enhancement to create concise version
-skill-seekers enhance output/django --mode LOCAL
+yonyou-doc2skill enhance output/django --mode LOCAL
 
 # Result: More concise, better structured SKILL.md
 ```
@@ -172,7 +172,7 @@ cat output/django/references/models.md >> .cursorrules
 **Strategy 3: Router Approach**
 ```bash
 # Use router skill (generates high-level overview)
-skill-seekers unified \
+yonyou-doc2skill unified \
   --docs-config configs/django.json \
   --build-router
 
@@ -192,7 +192,7 @@ You are an expert in [Framework Name]. Follow these guidelines:
 [Your documentation here]
 
 ## Common Patterns
-[Patterns from Skill Seekers]
+[Patterns from Yonyou Doc2Skill]
 
 ## Code Examples
 [Examples from documentation]
@@ -232,13 +232,13 @@ You are an expert in [Framework Name]. Follow these guidelines:
 
 ```bash
 # Generate rules for full-stack project
-skill-seekers scrape --config configs/fastapi.json
-skill-seekers scrape --config configs/react.json
-skill-seekers scrape --config configs/postgresql.json
+yonyou-doc2skill scrape --config configs/fastapi.json
+yonyou-doc2skill scrape --config configs/react.json
+yonyou-doc2skill scrape --config configs/postgresql.json
 
-skill-seekers package output/fastapi --target markdown
-skill-seekers package output/react --target markdown
-skill-seekers package output/postgresql --target markdown
+yonyou-doc2skill package output/fastapi --target markdown
+yonyou-doc2skill package output/react --target markdown
+yonyou-doc2skill package output/postgresql --target markdown
 
 # Combine into single .cursorrules
 cat > .cursorrules << 'EOF'
@@ -263,7 +263,7 @@ cat output/postgresql-markdown/SKILL.md >> .cursorrules
 
 ```bash
 # Analyze your codebase
-skill-seekers analyze --directory . --comprehensive
+yonyou-doc2skill analyze --directory . --comprehensive
 
 # Extract patterns and architecture
 cat output/codebase/SKILL.md > .cursorrules
@@ -437,7 +437,7 @@ class Product(models.Model):
 crontab -e
 
 # Add line to regenerate rules monthly
-0 0 1 * * cd ~/projects && skill-seekers scrape --config configs/django.json && skill-seekers package output/django --target markdown && cp output/django-markdown/SKILL.md ~/.cursorrules
+0 0 1 * * cd ~/projects && yonyou-doc2skill scrape --config configs/django.json && yonyou-doc2skill package output/django --target markdown && cp output/django-markdown/SKILL.md ~/.cursorrules
 ```
 
 ---
@@ -607,7 +607,7 @@ ls -lh .cursorrules
 
 # Reduce size:
 # 1. Use --enhance to create concise version
-skill-seekers enhance output/django --mode LOCAL
+yonyou-doc2skill enhance output/django --mode LOCAL
 
 # 2. Extract only essential sections
 cat output/django/SKILL.md | head -n 1000 > .cursorrules
@@ -656,7 +656,7 @@ cat output/django/references/views.md > views/.cursorrules
 
 ## 📊 Before vs After Comparison
 
-| Aspect | Without Skill Seekers | With Skill Seekers |
+| Aspect | Without Yonyou Doc2Skill | With Yonyou Doc2Skill |
 |--------|---------------------|-------------------|
 | **Context** | Generic, manual | Framework-specific, automatic |
 | **Accuracy** | 60-70% (generic knowledge) | 90-95% (project-specific) |
@@ -669,9 +669,9 @@ cat output/django/references/views.md > views/.cursorrules
 
 ## 🤝 Community & Support
 
-- **Questions:** [GitHub Discussions](https://github.com/yusufkaraaslan/Skill_Seekers/discussions)
-- **Issues:** [GitHub Issues](https://github.com/yusufkaraaslan/Skill_Seekers/issues)
-- **Documentation:** [https://skillseekersweb.com/](https://skillseekersweb.com/)
+- **Questions:** [GitHub Discussions](https://github.com/yonyou/yonyou-doc2skill/discussions)
+- **Issues:** [GitHub Issues](https://github.com/yonyou/yonyou-doc2skill/issues)
+- **Documentation:** [https://docs.yonyou.example/yonyou-doc2skill/](https://docs.yonyou.example/yonyou-doc2skill/)
 - **Cursor Forum:** [https://forum.cursor.sh/](https://forum.cursor.sh/)
 
 ---
@@ -697,4 +697,4 @@ cat output/django/references/views.md > views/.cursorrules
 
 **Last Updated:** February 5, 2026
 **Tested With:** Cursor 0.41+, Claude Sonnet 4.5
-**Skill Seekers Version:** v2.9.0+
+**Yonyou Doc2Skill Version:** v2.9.0+

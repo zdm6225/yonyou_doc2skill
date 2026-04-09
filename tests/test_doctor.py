@@ -1,11 +1,11 @@
-"""Tests for skill-seekers doctor command (#316)."""
+"""Tests for yonyou-doc2skill doctor command (#316)."""
 
 from __future__ import annotations
 
 import os
 from unittest.mock import patch
 
-from skill_seekers.cli.doctor import (
+from yonyou_doc2skill.cli.doctor import (
     CheckResult,
     check_api_keys,
     check_core_deps,
@@ -39,7 +39,7 @@ class TestCheckPackageInstalled:
 
     def test_fails_when_import_broken(self):
         with (
-            patch.dict("sys.modules", {"skill_seekers._version": None}),
+            patch.dict("sys.modules", {"yonyou_doc2skill._version": None}),
             patch("builtins.__import__", side_effect=ImportError("mocked")),
         ):
             result = check_package_installed()
@@ -53,7 +53,7 @@ class TestCheckGit:
         assert result.status in ("pass", "warn")
 
     def test_warns_when_git_missing(self):
-        with patch("skill_seekers.cli.doctor.shutil.which", return_value=None):
+        with patch("yonyou_doc2skill.cli.doctor.shutil.which", return_value=None):
             result = check_git()
             assert result.status == "warn"
 

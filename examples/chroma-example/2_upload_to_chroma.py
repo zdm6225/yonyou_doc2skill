@@ -87,7 +87,7 @@ def create_collection(client, collection_name: str, reset: bool = False):
         # Create collection
         collection = client.create_collection(
             name=collection_name,
-            metadata={"description": "Skill Seekers documentation"}
+            metadata={"description": "Yonyou Doc2Skill documentation"}
         )
         print("✅ Collection created!\n")
         return collection

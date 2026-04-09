@@ -6,7 +6,7 @@ from pathlib import Path
 
 import pytest
 
-from skill_seekers.mcp.marketplace_manager import MarketplaceManager
+from yonyou_doc2skill.mcp.marketplace_manager import MarketplaceManager
 
 
 @pytest.fixture
@@ -51,7 +51,7 @@ class TestMarketplaceManagerInit:
 
     def test_init_with_default_config_dir(self):
         mgr = MarketplaceManager()
-        assert mgr.config_dir == Path.home() / ".skill-seekers"
+        assert mgr.config_dir == Path.home() / ".yonyou-doc2skill"
 
 
 class TestAddMarketplace:

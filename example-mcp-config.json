@@ -2,12 +2,12 @@
   "mcpServers": {
     "skill-seeker": {
       "type": "stdio",
-      "command": "/path/to/your/Skill_Seekers/.venv/bin/python3",
+      "command": "/path/to/your/yonyou_doc2skill/.venv/bin/python3",
       "args": [
         "-m",
-        "skill_seekers.mcp.server_fastmcp"
+        "yonyou_doc2skill.mcp.server_fastmcp"
       ],
-      "cwd": "/path/to/your/Skill_Seekers",
+      "cwd": "/path/to/your/yonyou_doc2skill",
       "env": {}
     }
   }

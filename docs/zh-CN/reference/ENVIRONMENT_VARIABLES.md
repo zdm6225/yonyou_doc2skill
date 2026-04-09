@@ -1,4 +1,4 @@
-# Environment Variables Reference - Skill Seekers
+# Environment Variables Reference - Yonyou Doc2Skill
 
 > **Version:** 3.1.0  
 > **Last Updated:** 2026-02-16  
@@ -24,7 +24,7 @@
 
 ## Overview
 
-Skill Seekers uses environment variables for:
+Yonyou Doc2Skill uses environment variables for:
 - API authentication (Claude, Gemini, OpenAI, GitHub)
 - Configuration paths
 - Output directories
@@ -44,8 +44,8 @@ Variables are read at runtime and override default settings.
 **Format:** `sk-ant-api03-...`
 
 **Used by:**
-- `skill-seekers enhance` (API mode)
-- `skill-seekers upload` (Claude target)
+- `yonyou-doc2skill enhance` (API mode)
+- `yonyou-doc2skill upload` (Claude target)
 - AI enhancement features
 
 **Example:**
@@ -64,7 +64,7 @@ export ANTHROPIC_API_KEY=sk-ant-api03-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 **Format:** `AIza...`
 
 **Used by:**
-- `skill-seekers upload` (Gemini target)
+- `yonyou-doc2skill upload` (Gemini target)
 
 **Example:**
 ```bash
@@ -80,7 +80,7 @@ export GOOGLE_API_KEY=AIzaSyxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 **Format:** `sk-...`
 
 **Used by:**
-- `skill-seekers upload` (OpenAI target)
+- `yonyou-doc2skill upload` (OpenAI target)
 - Embedding generation for vector DBs
 
 **Example:**
@@ -97,9 +97,9 @@ export OPENAI_API_KEY=sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 **Format:** `ghp_...` (personal access token) or `github_pat_...` (fine-grained)
 
 **Used by:**
-- `skill-seekers github`
-- `skill-seekers unified` (GitHub sources)
-- `skill-seekers analyze` (GitHub repos)
+- `yonyou-doc2skill github`
+- `yonyou-doc2skill unified` (GitHub sources)
+- `yonyou-doc2skill analyze` (GitHub repos)
 
 **Benefits:**
 - 5000 requests/hour vs 60 for unauthenticated
@@ -136,11 +136,11 @@ export ANTHROPIC_BASE_URL=https://custom-api.example.com
 
 ### SKILL_SEEKERS_HOME
 
-**Purpose:** Base directory for Skill Seekers data.
+**Purpose:** Base directory for Yonyou Doc2Skill data.
 
 **Default:**
-- Linux/macOS: `~/.config/skill-seekers/`
-- Windows: `%APPDATA%\skill-seekers\`
+- Linux/macOS: `~/.config/yonyou-doc2skill/`
+- Windows: `%APPDATA%\yonyou-doc2skill\`
 
 **Used for:**
 - Configuration files
@@ -150,7 +150,7 @@ export ANTHROPIC_BASE_URL=https://custom-api.example.com
 
 **Example:**
 ```bash
-export SKILL_SEEKERS_HOME=/opt/skill-seekers
+export SKILL_SEEKERS_HOME=/opt/yonyou-doc2skill
 ```
 
 ---
@@ -181,7 +181,7 @@ export SKILL_SEEKERS_OUTPUT=/var/skills/output
 
 **Example:**
 ```bash
-export SKILL_SEEKERS_CONFIG_DIR=/etc/skill-seekers/configs
+export SKILL_SEEKERS_CONFIG_DIR=/etc/yonyou-doc2skill/configs
 ```
 
 ---
@@ -259,7 +259,7 @@ export SKILL_SEEKERS_TIMEOUT=60
 
 **Purpose:** Custom User-Agent header.
 
-**Default:** `Skill-Seekers/3.1.0`
+**Default:** `Yonyou-Doc2Skill/3.1.0`
 
 **Example:**
 ```bash
@@ -279,7 +279,7 @@ export SKILL_SEEKERS_USER_AGENT="MyBot/1.0 (contact@example.com)"
 **Options:** `claude`, `cursor`, `windsurf`, `cline`, `continue`
 
 **Used by:**
-- `skill-seekers enhance`
+- `yonyou-doc2skill enhance`
 
 **Example:**
 ```bash
@@ -362,7 +362,7 @@ export GITHUB_ENTERPRISE_TOKEN=...   # enterprise
 **Default:** `http://localhost:8000`
 
 **Used by:**
-- `skill-seekers upload --target chroma`
+- `yonyou-doc2skill upload --target chroma`
 - `export_to_chroma` MCP tool
 
 **Example:**
@@ -392,7 +392,7 @@ export CHROMA_PERSIST_DIRECTORY=/var/lib/chroma
 **Default:** `http://localhost:8080`
 
 **Used by:**
-- `skill-seekers upload --target weaviate`
+- `yonyou-doc2skill upload --target weaviate`
 - `export_to_weaviate` MCP tool
 
 **Example:**
@@ -479,7 +479,7 @@ export SKILL_SEEKERS_LOG_LEVEL=DEBUG
 
 **Example:**
 ```bash
-export SKILL_SEEKERS_LOG_FILE=/var/log/skill-seekers.log
+export SKILL_SEEKERS_LOG_FILE=/var/log/yonyou-doc2skill.log
 ```
 
 ---
@@ -488,11 +488,11 @@ export SKILL_SEEKERS_LOG_FILE=/var/log/skill-seekers.log
 
 **Purpose:** Custom cache directory.
 
-**Default:** `~/.cache/skill-seekers/`
+**Default:** `~/.cache/yonyou-doc2skill/`
 
 **Example:**
 ```bash
-export SKILL_SEEKERS_CACHE_DIR=/tmp/skill-seekers-cache
+export SKILL_SEEKERS_CACHE_DIR=/tmp/yonyou-doc2skill-cache
 ```
 
 ---
@@ -569,7 +569,7 @@ export SKILL_SEEKERS_DEBUG=1
 export SKILL_SEEKERS_LOG_LEVEL=DEBUG
 
 # Custom paths
-export SKILL_SEEKERS_HOME=./.skill-seekers
+export SKILL_SEEKERS_HOME=./.yonyou-doc2skill
 export SKILL_SEEKERS_OUTPUT=./output
 
 # Faster scraping for testing
@@ -592,7 +592,7 @@ export SKILL_SEEKERS_RATE_LIMIT=1.0
 export SKILL_SEEKERS_WORKERS=2
 
 # Logging
-export SKILL_SEEKERS_LOG_FILE=/var/log/skill-seekers.log
+export SKILL_SEEKERS_LOG_FILE=/var/log/yonyou-doc2skill.log
 export SKILL_SEEKERS_LOG_LEVEL=WARNING
 ```
 
@@ -662,7 +662,7 @@ Example:
 # Default: rate_limit = 0.5
 export SKILL_SEEKERS_RATE_LIMIT=1.0  # Env var overrides default
 # Config file: rate_limit = 0.2      # Config overrides env
-skill-seekers scrape --rate-limit 2.0  # Flag overrides all
+yonyou-doc2skill scrape --rate-limit 2.0  # Flag overrides all
 ```
 
 ---
@@ -715,15 +715,15 @@ python -c "import os; print(os.getenv('ANTHROPIC_API_KEY'))"
 
 ```bash
 # See effective configuration
-skill-seekers config --show
+yonyou-doc2skill config --show
 ```
 
 ### Path expansion
 
 ```bash
 # Use full path or expand tilde
-export SKILL_SEEKERS_HOME=$HOME/.skill-seekers
-# NOT: ~/.skill-seekers (may not expand in all shells)
+export SKILL_SEEKERS_HOME=$HOME/.yonyou-doc2skill
+# NOT: ~/.yonyou-doc2skill (may not expand in all shells)
 ```
 
 ---

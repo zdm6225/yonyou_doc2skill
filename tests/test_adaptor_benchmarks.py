@@ -27,8 +27,8 @@ from pathlib import Path
 
 import pytest
 
-from skill_seekers.cli.adaptors import get_adaptor
-from skill_seekers.cli.adaptors.base import SkillMetadata
+from yonyou_doc2skill.cli.adaptors import get_adaptor
+from yonyou_doc2skill.cli.adaptors.base import SkillMetadata
 
 
 @pytest.mark.benchmark

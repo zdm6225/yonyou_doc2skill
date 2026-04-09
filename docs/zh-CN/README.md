@@ -1,12 +1,12 @@
-# Skill Seekers Documentation
+# Yonyou Doc2Skill Documentation
 
-> **Complete documentation for Skill Seekers v3.4.0**
+> **Complete documentation for Yonyou Doc2Skill v3.4.0**
 
 ---
 
 ## Welcome!
 
-This is the official documentation for **Skill Seekers** - the universal tool for converting 17 source types (documentation, code, PDFs, videos, notebooks, wikis, and more) into AI-ready skills.
+This is the official documentation for **Yonyou Doc2Skill** - the universal tool for converting 17 source types (documentation, code, PDFs, videos, notebooks, wikis, and more) into AI-ready skills.
 
 ---
 
@@ -16,7 +16,7 @@ This is the official documentation for **Skill Seekers** - the universal tool fo
 
 Start with our **Getting Started** guides:
 
-1. [Installation](getting-started/01-installation.md) - Install Skill Seekers
+1. [Installation](getting-started/01-installation.md) - Install Yonyou Doc2Skill
 2. [Quick Start](getting-started/02-quick-start.md) - Create your first skill in 3 commands
 3. [Your First Skill](getting-started/03-your-first-skill.md) - Complete walkthrough
 4. [Next Steps](getting-started/04-next-steps.md) - Where to go from here
@@ -25,7 +25,7 @@ Start with our **Getting Started** guides:
 
 Explore our **User Guides**:
 
-- [Core Concepts](user-guide/01-core-concepts.md) - How Skill Seekers works
+- [Core Concepts](user-guide/01-core-concepts.md) - How Yonyou Doc2Skill works
 - [Scraping Guide](user-guide/02-scraping.md) - All scraping options
 - [Enhancement Guide](user-guide/03-enhancement.md) - AI enhancement explained
 - [Packaging Guide](user-guide/04-packaging.md) - Export to platforms
@@ -59,53 +59,53 @@ Power user features:
 
 ```bash
 # 1. Install
-pip install skill-seekers
+pip install yonyou-doc2skill
 
 # 2. Create skill from any of 17 source types
-skill-seekers create https://docs.django.com/
+yonyou-doc2skill create https://docs.django.com/
 
 # 3. Package for Claude
-skill-seekers package output/django --target claude
+yonyou-doc2skill package output/django --target claude
 ```
 
 ### Common Commands
 
 ```bash
 # Scrape documentation
-skill-seekers scrape --config react
+yonyou-doc2skill scrape --config react
 
 # Analyze GitHub repo
-skill-seekers github --repo facebook/react
+yonyou-doc2skill github --repo facebook/react
 
 # Extract PDF
-skill-seekers pdf manual.pdf --name docs
+yonyou-doc2skill pdf manual.pdf --name docs
 
 # Analyze local code
-skill-seekers analyze --directory ./my-project
+yonyou-doc2skill analyze --directory ./my-project
 
 # New source types (v3.2.0)
-skill-seekers create notebook.ipynb              # Jupyter Notebook
-skill-seekers create page.html                   # Local HTML
-skill-seekers create api-spec.yaml               # OpenAPI/Swagger
-skill-seekers create guide.adoc                  # AsciiDoc
-skill-seekers create slides.pptx                 # PowerPoint
-skill-seekers rss --feed-url https://blog.example.com/feed  # RSS/Atom
-skill-seekers manpage --man-path curl.1           # Man pages
-skill-seekers confluence --space-key DEV          # Confluence
-skill-seekers notion --database-id abc123         # Notion
-skill-seekers chat --export-path ./slack-export/  # Slack/Discord
+yonyou-doc2skill create notebook.ipynb              # Jupyter Notebook
+yonyou-doc2skill create page.html                   # Local HTML
+yonyou-doc2skill create api-spec.yaml               # OpenAPI/Swagger
+yonyou-doc2skill create guide.adoc                  # AsciiDoc
+yonyou-doc2skill create slides.pptx                 # PowerPoint
+yonyou-doc2skill rss --feed-url https://blog.example.com/feed  # RSS/Atom
+yonyou-doc2skill manpage --man-path curl.1           # Man pages
+yonyou-doc2skill confluence --space-key DEV          # Confluence
+yonyou-doc2skill notion --database-id abc123         # Notion
+yonyou-doc2skill chat --export-path ./slack-export/  # Slack/Discord
 
 # Enhance skill
-skill-seekers enhance output/my-skill/
+yonyou-doc2skill enhance output/my-skill/
 
 # Package for platform
-skill-seekers package output/my-skill/ --target claude
+yonyou-doc2skill package output/my-skill/ --target claude
 
 # Upload
-skill-seekers upload output/my-skill-claude.zip
+yonyou-doc2skill upload output/my-skill-claude.zip
 
 # List workflows
-skill-seekers workflows list
+yonyou-doc2skill workflows list
 ```
 
 ---
@@ -170,7 +170,7 @@ For Cursor, Windsurf, Cline:
 
 1. [Your First Skill](getting-started/03-your-first-skill.md)
 2. [Local Codebase Analysis](user-guide/02-scraping.md#local-codebase-analysis)
-3. `skill-seekers install-agent --agent cursor`
+3. `yonyou-doc2skill install-agent --agent cursor`
 
 ---
 
@@ -196,10 +196,10 @@ See [Contributing Guide](../CONTRIBUTING.md) for details.
 
 ## External Links
 
-- **Main Repository:** https://github.com/yusufkaraaslan/Skill_Seekers
-- **Website:** https://skillseekersweb.com/
-- **PyPI:** https://pypi.org/project/skill-seekers/
-- **Issues:** https://github.com/yusufkaraaslan/Skill_Seekers/issues
+- **Main Repository:** https://github.com/yonyou/yonyou-doc2skill
+- **Website:** https://docs.yonyou.example/yonyou-doc2skill/
+- **PyPI:** https://pypi.org/project/yonyou-doc2skill/
+- **Issues:** https://github.com/yonyou/yonyou-doc2skill/issues
 
 ---
 

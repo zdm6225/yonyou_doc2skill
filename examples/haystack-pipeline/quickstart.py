@@ -2,7 +2,7 @@
 """
 Haystack Pipeline Example
 
-Demonstrates how to use Skill Seekers documentation with Haystack 2.x
+Demonstrates how to use Yonyou Doc2Skill documentation with Haystack 2.x
 for building RAG pipelines.
 """
 
@@ -33,8 +33,8 @@ def main():
     if not docs_path.exists():
         print(f"❌ Error: Documents not found at {docs_path}")
         print("\n📝 Generate documents first:")
-        print("   skill-seekers scrape --config configs/react.json --max-pages 100")
-        print("   skill-seekers package output/react --target haystack")
+        print("   yonyou-doc2skill scrape --config configs/react.json --max-pages 100")
+        print("   yonyou-doc2skill package output/react --target haystack")
         sys.exit(1)
 
     # Step 1: Load documents

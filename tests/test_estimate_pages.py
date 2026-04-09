@@ -7,7 +7,7 @@ import json
 import unittest
 from pathlib import Path
 
-from skill_seekers.cli.estimate_pages import estimate_pages
+from yonyou_doc2skill.cli.estimate_pages import estimate_pages
 
 
 class TestEstimatePages(unittest.TestCase):
@@ -65,12 +65,12 @@ class TestEstimatePagesCLI(unittest.TestCase):
     """Test estimate_pages command-line interface (via entry point)"""
 
     def test_cli_help_output(self):
-        """Test that skill-seekers estimate --help works"""
+        """Test that yonyou-doc2skill estimate --help works"""
         import subprocess
 
         try:
             result = subprocess.run(
-                ["skill-seekers", "estimate", "--help"], capture_output=True, text=True, timeout=5
+                ["yonyou-doc2skill", "estimate", "--help"], capture_output=True, text=True, timeout=5
             )
 
             # Should return successfully (0 or 2 for argparse)
@@ -78,21 +78,21 @@ class TestEstimatePagesCLI(unittest.TestCase):
             output = result.stdout + result.stderr
             self.assertTrue("usage:" in output.lower() or "estimate" in output.lower())
         except FileNotFoundError:
-            self.skipTest("skill-seekers command not installed")
+            self.skipTest("yonyou-doc2skill command not installed")
 
     def test_cli_executes_with_help_flag(self):
-        """Test that skill-seekers-estimate entry point works"""
+        """Test that yonyou-doc2skill-estimate entry point works"""
         import subprocess
 
         try:
             result = subprocess.run(
-                ["skill-seekers-estimate", "--help"], capture_output=True, text=True, timeout=5
+                ["yonyou-doc2skill-estimate", "--help"], capture_output=True, text=True, timeout=5
             )
 
             # Should return successfully
             self.assertIn(result.returncode, [0, 2])
         except FileNotFoundError:
-            self.skipTest("skill-seekers-estimate command not installed")
+            self.skipTest("yonyou-doc2skill-estimate command not installed")
 
     def test_cli_requires_config_argument(self):
         """Test that CLI requires config file argument"""
@@ -101,7 +101,7 @@ class TestEstimatePagesCLI(unittest.TestCase):
         try:
             # Run without config argument
             result = subprocess.run(
-                ["skill-seekers", "estimate"], capture_output=True, text=True, timeout=5
+                ["yonyou-doc2skill", "estimate"], capture_output=True, text=True, timeout=5
             )
 
             # Should fail (non-zero exit code) or show usage
@@ -111,7 +111,7 @@ class TestEstimatePagesCLI(unittest.TestCase):
                 or "usage" in result.stdout.lower()
             )
         except FileNotFoundError:
-            self.skipTest("skill-seekers command not installed")
+            self.skipTest("yonyou-doc2skill command not installed")
 
     def test_cli_all_flag_lists_configs(self):
         """Test that --all flag lists all available configs"""
@@ -120,7 +120,7 @@ class TestEstimatePagesCLI(unittest.TestCase):
         try:
             # Run with --all flag
             result = subprocess.run(
-                ["skill-seekers", "estimate", "--all"], capture_output=True, text=True, timeout=10
+                ["yonyou-doc2skill", "estimate", "--all"], capture_output=True, text=True, timeout=10
             )
 
             # Should succeed
@@ -141,15 +141,15 @@ class TestEstimatePagesCLI(unittest.TestCase):
                 "Expected at least one known config name in output",
             )
         except FileNotFoundError:
-            self.skipTest("skill-seekers command not installed")
+            self.skipTest("yonyou-doc2skill command not installed")
 
     def test_cli_all_flag_with_direct_entry_point(self):
-        """Test --all flag works with skill-seekers-estimate entry point"""
+        """Test --all flag works with yonyou-doc2skill-estimate entry point"""
         import subprocess
 
         try:
             result = subprocess.run(
-                ["skill-seekers-estimate", "--all"], capture_output=True, text=True, timeout=10
+                ["yonyou-doc2skill-estimate", "--all"], capture_output=True, text=True, timeout=10
             )
 
             # Should succeed
@@ -159,7 +159,7 @@ class TestEstimatePagesCLI(unittest.TestCase):
             output = result.stdout
             self.assertIn("AVAILABLE CONFIGS", output)
         except FileNotFoundError:
-            self.skipTest("skill-seekers-estimate command not installed")
+            self.skipTest("yonyou-doc2skill-estimate command not installed")
 
 
 class TestEstimatePagesWithRealConfig(unittest.TestCase):

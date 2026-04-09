@@ -4,11 +4,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-**Skill Seekers** converts documentation from 17 source types into production-ready formats for 24+ AI platforms (LLM platforms, RAG frameworks, vector databases, AI coding assistants). Published on PyPI as `skill-seekers`.
+**Yonyou Doc2Skill** converts documentation from 17 source types into production-ready formats for 24+ AI platforms (LLM platforms, RAG frameworks, vector databases, AI coding assistants). Published on PyPI as `yonyou-doc2skill`.
 
-**Version:** 3.4.0 | **Python:** 3.10+ | **Website:** https://skillseekersweb.com/
+**Version:** 3.4.0 | **Python:** 3.10+ | **Website:** https://docs.yonyou.example/
 
-**Architecture:** See `docs/UML_ARCHITECTURE.md` for UML diagrams and module overview. StarUML project at `docs/UML/skill_seekers.mdj`.
+**Architecture:** See `docs/UML_ARCHITECTURE.md` for UML diagrams and module overview. StarUML project at `docs/UML/yonyou_doc2skill.mdj`.
 
 ## Essential Commands
 
@@ -28,7 +28,7 @@ pytest tests/test_scraper_features.py::test_detect_language -vv -s
 # Code quality (must pass before push - matches CI)
 uvx ruff check src/ tests/
 uvx ruff format --check src/ tests/
-mypy src/skill_seekers  # continue-on-error in CI
+mypy src/yonyou_doc2skill  # continue-on-error in CI
 
 # Auto-fix lint/format issues
 uvx ruff check --fix --unsafe-fixes src/ tests/
@@ -54,11 +54,11 @@ Runs on push/PR to `main` or `development`. Lint job (Python 3.12, Ubuntu) + Tes
 
 ### CLI: Unified create command
 
-Entry point `src/skill_seekers/cli/main.py`. The `create` command is the **only** entry point for skill creation — it auto-detects source type and routes to the appropriate `SkillConverter`.
+Entry point `src/yonyou_doc2skill/cli/main.py`. The `create` command is the **only** entry point for skill creation — it auto-detects source type and routes to the appropriate `SkillConverter`.
 
 ```
-skill-seekers create <source>     # Auto-detect: URL, owner/repo, ./path, file.pdf, etc.
-skill-seekers package <dir>       # Package for platform (--target claude/gemini/openai/markdown/minimax/opencode/kimi/deepseek/qwen/openrouter/together/fireworks, --format langchain/llama-index/haystack/chroma/faiss/weaviate/qdrant/pinecone)
+yonyou-doc2skill create <source>     # Auto-detect: URL, owner/repo, ./path, file.pdf, etc.
+yonyou-doc2skill package <dir>       # Package for platform (--target claude/gemini/openai/markdown/minimax/opencode/kimi/deepseek/qwen/openrouter/together/fireworks, --format langchain/llama-index/haystack/chroma/faiss/weaviate/qdrant/pinecone)
 ```
 
 ### SkillConverter Pattern (Template Method + Factory)
@@ -85,7 +85,7 @@ Registry in `CONVERTER_REGISTRY` maps source type → (module, class). `create_c
 Factory: `get_adaptor(platform, config)` in `adaptors/__init__.py` returns a `SkillAdaptor` instance. Base class `SkillAdaptor` + `SkillMetadata` in `adaptors/base.py`.
 
 ```
-src/skill_seekers/cli/adaptors/
+src/yonyou_doc2skill/cli/adaptors/
 ├── __init__.py              # Factory: get_adaptor(platform, config), ADAPTORS registry
 ├── base.py                  # Abstract base: SkillAdaptor, SkillMetadata
 ├── openai_compatible.py     # Shared base for OpenAI-compatible platforms
@@ -116,12 +116,12 @@ src/skill_seekers/cli/adaptors/
 
 ### 18 Source Type Converters
 
-Each in `src/skill_seekers/cli/{type}_scraper.py` as a `SkillConverter` subclass (no `main()`). The `create_command.py` uses `source_detector.py` to auto-detect, then calls `get_converter()`. Converters: web (doc_scraper), github, pdf, word, epub, video, local (codebase_scraper), jupyter, html, openapi, asciidoc, pptx, rss, manpage, confluence, notion, chat, config (unified_scraper).
+Each in `src/yonyou_doc2skill/cli/{type}_scraper.py` as a `SkillConverter` subclass (no `main()`). The `create_command.py` uses `source_detector.py` to auto-detect, then calls `get_converter()`. Converters: web (doc_scraper), github, pdf, word, epub, video, local (codebase_scraper), jupyter, html, openapi, asciidoc, pptx, rss, manpage, confluence, notion, chat, config (unified_scraper).
 
 ### CLI Argument System
 
 ```
-src/skill_seekers/cli/
+src/yonyou_doc2skill/cli/
 ├── parsers/              # Subcommand parser registration
 │   └── create_parser.py  # Progressive help disclosure (--help-web, --help-github, etc.)
 ├── arguments/            # Argument definitions
@@ -142,7 +142,7 @@ Local codebase analysis features, all opt-out (`--skip-*` flags):
 
 ### MCP Server
 
-`src/skill_seekers/mcp/server_fastmcp.py` - 40 tools via FastMCP. Transport: stdio (Claude Code) or HTTP (Cursor/Windsurf). Optional dependency: `pip install -e ".[mcp]"`
+`src/yonyou_doc2skill/mcp/server_fastmcp.py` - 40 tools via FastMCP. Transport: stdio (Claude Code) or HTTP (Cursor/Windsurf). Optional dependency: `pip install -e ".[mcp]"`
 
 Supporting modules:
 - `marketplace_publisher.py` - Publish skills to plugin marketplace repositories
@@ -151,7 +151,7 @@ Supporting modules:
 
 ### Enhancement Modes (via AgentClient)
 
-Enhancement now uses the `AgentClient` abstraction (`src/skill_seekers/cli/agent_client.py`) instead of direct Claude API calls:
+Enhancement now uses the `AgentClient` abstraction (`src/yonyou_doc2skill/cli/agent_client.py`) instead of direct Claude API calls:
 
 - **API mode** (if API key set): Supports Anthropic, Moonshot/Kimi, Google Gemini, OpenAI
 - **LOCAL mode** (fallback): Supports Claude Code, Kimi Code, Codex, Copilot, OpenCode, custom agents
@@ -194,7 +194,7 @@ pytest tests/ -v -m "not slow and not integration"  # Fastest subset
 
 ### sys.modules gotcha
 
-`test_swift_detection.py` deletes `skill_seekers.cli` modules from `sys.modules`. It must save and restore both `sys.modules` entries AND parent package attributes (`setattr`). See the test file for the pattern.
+`test_swift_detection.py` deletes `yonyou_doc2skill.cli` modules from `sys.modules`. It must save and restore both `sys.modules` entries AND parent package attributes (`setattr`). See the test file for the pattern.
 
 ## Dependencies
 
@@ -232,13 +232,13 @@ GITHUB_TOKEN=ghp_...                  # Higher GitHub rate limits
 ## Adding New Features
 
 ### New platform adaptor
-1. Create `src/skill_seekers/cli/adaptors/{platform}.py` inheriting `SkillAdaptor` from `base.py`
+1. Create `src/yonyou_doc2skill/cli/adaptors/{platform}.py` inheriting `SkillAdaptor` from `base.py`
 2. Register in `adaptors/__init__.py` (add try/except import + add to `ADAPTORS` dict)
 3. Add optional dep to `pyproject.toml`
 4. Add tests in `tests/`
 
 ### New source type converter
-1. Create `src/skill_seekers/cli/{type}_scraper.py` with a class inheriting `SkillConverter`
+1. Create `src/yonyou_doc2skill/cli/{type}_scraper.py` with a class inheriting `SkillConverter`
 2. Implement `extract()` and `build_skill()` methods, set `SOURCE_TYPE`
 3. Register in `CONVERTER_REGISTRY` in `skill_converter.py`
 4. Add source type config building in `create_command.py:_build_config()`

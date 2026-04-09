@@ -1,6 +1,6 @@
 # Custom Workflows Guide
 
-> **Skill Seekers v3.1.0**  
+> **Yonyou Doc2Skill v3.1.0**  
 > **Create custom AI enhancement workflows**
 
 ---
@@ -108,13 +108,13 @@ stages:
 
 ```bash
 # Add workflow
-skill-seekers workflows add performance.yaml
+yonyou-doc2skill workflows add performance.yaml
 
 # Use it
-skill-seekers create <source> --enhance-workflow performance-focus
+yonyou-doc2skill create <source> --enhance-workflow performance-focus
 
 # With custom variables
-skill-seekers create <source> \
+yonyou-doc2skill create <source> \
   --enhance-workflow performance-focus \
   --var target_latency=50ms \
   --var target_throughput=5000req/s
@@ -203,7 +203,7 @@ stages:
 ### Overriding at Runtime
 
 ```bash
-skill-seekers create <source> \
+yonyou-doc2skill create <source> \
   --enhance-workflow my-workflow \
   --var audience=experts \
   --var focus_area=performance
@@ -287,7 +287,7 @@ stages:
 ### Validate Before Installing
 
 ```bash
-skill-seekers workflows validate ./my-workflow.yaml
+yonyou-doc2skill workflows validate ./my-workflow.yaml
 ```
 
 ### Common Errors
@@ -344,12 +344,12 @@ variables:
 
 ```bash
 # Test with dry run
-skill-seekers create <source> \
+yonyou-doc2skill create <source> \
   --enhance-workflow my-workflow \
   --workflow-dry-run
 
 # Then actually run
-skill-seekers create <source> \
+yonyou-doc2skill create <source> \
   --enhance-workflow my-workflow
 ```
 
@@ -357,7 +357,7 @@ skill-seekers create <source> \
 
 ```bash
 # Use multiple workflows
-skill-seekers create <source> \
+yonyou-doc2skill create <source> \
   --enhance-workflow security-focus \
   --enhance-workflow performance-focus
 ```
@@ -370,7 +370,7 @@ skill-seekers create <source> \
 
 ```bash
 # Get workflow content
-skill-seekers workflows show my-workflow > my-workflow.yaml
+yonyou-doc2skill workflows show my-workflow > my-workflow.yaml
 ```
 
 ### Share with Team
@@ -381,14 +381,14 @@ git add my-workflow.yaml
 git commit -m "Add custom security workflow"
 
 # Team members install
-skill-seekers workflows add my-workflow.yaml
+yonyou-doc2skill workflows add my-workflow.yaml
 ```
 
 ### Publish
 
-Submit to Skill Seekers community:
+Submit to Yonyou Doc2Skill community:
 - GitHub Discussions
-- Skill Seekers website
+- Yonyou Doc2Skill website
 - Documentation contributions
 
 ---

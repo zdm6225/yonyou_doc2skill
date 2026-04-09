@@ -1,6 +1,6 @@
 # Workflows Guide
 
-> **Skill Seekers v3.1.0**  
+> **Yonyou Doc2Skill v3.1.0**  
 > **Enhancement workflow presets for specialized analysis**
 
 ---
@@ -21,7 +21,7 @@ Basic Skill ──▶ Workflow: Security-Focus ──▶ Security-Enhanced Skill
 
 ## Built-in Presets
 
-Skill Seekers includes 5 built-in workflow presets:
+Yonyou Doc2Skill includes 5 built-in workflow presets:
 
 | Preset | Stages | Best For |
 |--------|--------|----------|
@@ -38,7 +38,7 @@ Skill Seekers includes 5 built-in workflow presets:
 ### List Available Workflows
 
 ```bash
-skill-seekers workflows list
+yonyou-doc2skill workflows list
 ```
 
 **Output:**
@@ -58,10 +58,10 @@ User Workflows:
 
 ```bash
 # During skill creation
-skill-seekers create <source> --enhance-workflow security-focus
+yonyou-doc2skill create <source> --enhance-workflow security-focus
 
 # Multiple workflows (chained)
-skill-seekers create <source> \
+yonyou-doc2skill create <source> \
   --enhance-workflow security-focus \
   --enhance-workflow api-documentation
 ```
@@ -69,7 +69,7 @@ skill-seekers create <source> \
 ### Show Workflow Content
 
 ```bash
-skill-seekers workflows show security-focus
+yonyou-doc2skill workflows show security-focus
 ```
 
 **Output:**
@@ -154,7 +154,7 @@ stages:
 
 **Example:**
 ```bash
-skill-seekers create oauth2-server --enhance-workflow security-focus
+yonyou-doc2skill create oauth2-server --enhance-workflow security-focus
 ```
 
 ---
@@ -196,7 +196,7 @@ stages:
 
 **Example:**
 ```bash
-skill-seekers create kubernetes/kubernetes \
+yonyou-doc2skill create kubernetes/kubernetes \
   --enhance-workflow architecture-comprehensive
 ```
 
@@ -227,7 +227,7 @@ stages:
 
 **Example:**
 ```bash
-skill-seekers create https://api.example.com/docs \
+yonyou-doc2skill create https://api.example.com/docs \
   --enhance-workflow api-documentation
 ```
 
@@ -238,7 +238,7 @@ skill-seekers create https://api.example.com/docs \
 Apply multiple workflows sequentially:
 
 ```bash
-skill-seekers create <source> \
+yonyou-doc2skill create <source> \
   --enhance-workflow security-focus \
   --enhance-workflow api-documentation
 ```
@@ -293,29 +293,29 @@ stages:
 
 ```bash
 # Add to user workflows
-skill-seekers workflows add my-workflow.yaml
+yonyou-doc2skill workflows add my-workflow.yaml
 
 # With custom name
-skill-seekers workflows add my-workflow.yaml --name perf-guide
+yonyou-doc2skill workflows add my-workflow.yaml --name perf-guide
 ```
 
 ### Use Custom Workflow
 
 ```bash
-skill-seekers create <source> --enhance-workflow performance-focus
+yonyou-doc2skill create <source> --enhance-workflow performance-focus
 ```
 
 ### Update Workflow
 
 ```bash
 # Edit the file, then:
-skill-seekers workflows add my-workflow.yaml --name performance-focus
+yonyou-doc2skill workflows add my-workflow.yaml --name performance-focus
 ```
 
 ### Remove Workflow
 
 ```bash
-skill-seekers workflows remove performance-focus
+yonyou-doc2skill workflows remove performance-focus
 ```
 
 ---
@@ -335,7 +335,7 @@ variables:
 ### Override at Runtime
 
 ```bash
-skill-seekers create <source> \
+yonyou-doc2skill create <source> \
   --enhance-workflow my-workflow \
   --var target_audience=experts \
   --var focus_area=performance
@@ -358,7 +358,7 @@ stages:
 Add one-off enhancement stages without creating a workflow file:
 
 ```bash
-skill-seekers create <source> \
+yonyou-doc2skill create <source> \
   --enhance-stage "performance:Analyze performance characteristics"
 ```
 
@@ -366,7 +366,7 @@ skill-seekers create <source> \
 
 **Multiple stages:**
 ```bash
-skill-seekers create <source> \
+yonyou-doc2skill create <source> \
   --enhance-stage "perf:Analyze performance" \
   --enhance-stage "security:Check security" \
   --enhance-stage "examples:Add more examples"
@@ -379,7 +379,7 @@ skill-seekers create <source> \
 Preview what a workflow will do without executing:
 
 ```bash
-skill-seekers create <source> \
+yonyou-doc2skill create <source> \
   --enhance-workflow security-focus \
   --workflow-dry-run
 ```
@@ -416,10 +416,10 @@ Validate workflow syntax:
 
 ```bash
 # Validate bundled workflow
-skill-seekers workflows validate security-focus
+yonyou-doc2skill workflows validate security-focus
 
 # Validate file
-skill-seekers workflows validate ./my-workflow.yaml
+yonyou-doc2skill workflows validate ./my-workflow.yaml
 ```
 
 ---
@@ -430,13 +430,13 @@ Copy bundled workflows to customize:
 
 ```bash
 # Copy single workflow
-skill-seekers workflows copy security-focus
+yonyou-doc2skill workflows copy security-focus
 
 # Copy multiple
-skill-seekers workflows copy security-focus api-documentation minimal
+yonyou-doc2skill workflows copy security-focus api-documentation minimal
 
 # Edit the copy
-nano ~/.config/skill-seekers/workflows/security-focus.yaml
+nano ~/.config/yonyou-doc2skill/workflows/security-focus.yaml
 ```
 
 ---
@@ -447,24 +447,24 @@ nano ~/.config/skill-seekers/workflows/security-focus.yaml
 
 ```bash
 # Default is good for most cases
-skill-seekers create <source>
+yonyou-doc2skill create <source>
 ```
 
 ### 2. Add Specific Workflows as Needed
 
 ```bash
 # Security-focused project
-skill-seekers create auth-library --enhance-workflow security-focus
+yonyou-doc2skill create auth-library --enhance-workflow security-focus
 
 # API project
-skill-seekers create api-framework --enhance-workflow api-documentation
+yonyou-doc2skill create api-framework --enhance-workflow api-documentation
 ```
 
 ### 3. Chain for Comprehensive Analysis
 
 ```bash
 # Large framework: architecture + security
-skill-seekers create kubernetes/kubernetes \
+yonyou-doc2skill create kubernetes/kubernetes \
   --enhance-workflow architecture-comprehensive \
   --enhance-workflow security-focus
 ```
@@ -473,19 +473,19 @@ skill-seekers create kubernetes/kubernetes \
 
 ```bash
 # Create custom workflow for your domain
-skill-seekers workflows add ml-workflow.yaml
-skill-seekers create ml-framework --enhance-workflow ml-focus
+yonyou-doc2skill workflows add ml-workflow.yaml
+yonyou-doc2skill create ml-framework --enhance-workflow ml-focus
 ```
 
 ### 5. Use Variables for Flexibility
 
 ```bash
 # Same workflow, different targets
-skill-seekers create <source> \
+yonyou-doc2skill create <source> \
   --enhance-workflow my-workflow \
   --var audience=beginners
 
-skill-seekers create <source> \
+yonyou-doc2skill create <source> \
   --enhance-workflow my-workflow \
   --var audience=experts
 ```
@@ -498,17 +498,17 @@ skill-seekers create <source> \
 
 ```bash
 # List available
-skill-seekers workflows list
+yonyou-doc2skill workflows list
 
 # Check spelling
-skill-seekers create <source> --enhance-workflow security-focus
+yonyou-doc2skill create <source> --enhance-workflow security-focus
 ```
 
 ### "Invalid workflow YAML"
 
 ```bash
 # Validate
-skill-seekers workflows validate ./my-workflow.yaml
+yonyou-doc2skill workflows validate ./my-workflow.yaml
 
 # Common issues:
 # - Missing 'stages' key
@@ -520,10 +520,10 @@ skill-seekers workflows validate ./my-workflow.yaml
 
 ```bash
 # Check stage details
-skill-seekers workflows show my-workflow
+yonyou-doc2skill workflows show my-workflow
 
 # Try with dry run
-skill-seekers create <source> \
+yonyou-doc2skill create <source> \
   --enhance-workflow my-workflow \
   --workflow-dry-run
 ```

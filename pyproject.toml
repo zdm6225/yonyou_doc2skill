@@ -3,14 +3,14 @@ requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "skill-seekers"
+name = "yonyou-doc2skill"
 version = "3.4.0"
-description = "Convert documentation websites, GitHub repositories, and PDFs into Claude AI skills. International support with Chinese (简体中文) documentation."
+description = "Yonyou Doc2Skill converts documentation websites, GitHub repositories, and PDFs into AI skills."
 readme = "README.md"
 requires-python = ">=3.10"
 license = {text = "MIT"}
 authors = [
-    {name = "Yusuf Karaaslan"}
+    {name = "Yonyou"}
 ]
 keywords = [
     "claude",
@@ -149,11 +149,6 @@ docx = [
     "python-docx>=1.1.0",
 ]
 
-# EPUB (.epub) support
-epub = [
-    "ebooklib>=0.18",
-]
-
 # Video processing (lightweight: YouTube transcripts + metadata)
 video = [
     "yt-dlp>=2024.12.0",
@@ -162,7 +157,7 @@ video = [
 
 # Video processing (full: + Whisper + visual extraction)
 # NOTE: easyocr removed — it pulls torch with the wrong GPU variant.
-# Use: skill-seekers video --setup  (auto-detects GPU, installs correct PyTorch + easyocr)
+# Use: yonyou-doc2skill video --setup  (auto-detects GPU, installs correct PyTorch + easyocr)
 video-full = [
     "yt-dlp>=2024.12.0",
     "youtube-transcript-api>=1.2.0",
@@ -201,11 +196,6 @@ all-cloud = [
     "boto3>=1.34.0",
     "google-cloud-storage>=2.10.0",
     "azure-storage-blob>=12.19.0",
-]
-
-# New source type dependencies (v3.2.0+)
-jupyter = [
-    "nbformat>=5.9.0",
 ]
 
 asciidoc = [
@@ -248,7 +238,7 @@ embedding = [
 
 # All optional dependencies combined (dev dependencies now in [dependency-groups])
 # Note: video-full deps (opencv, easyocr, faster-whisper) excluded due to heavy
-# native dependencies. Install separately: pip install skill-seekers[video-full]
+# native dependencies. Install separately: pip install yonyou-doc2skill[video-full]
 all = [
     "mammoth>=1.6.0",
     "python-docx>=1.1.0",
@@ -284,66 +274,66 @@ all = [
 ]
 
 [project.urls]
-Homepage = "https://skillseekersweb.com/"
-Website = "https://skillseekersweb.com/"
-Repository = "https://github.com/yusufkaraaslan/Skill_Seekers"
-"Bug Tracker" = "https://github.com/yusufkaraaslan/Skill_Seekers/issues"
-Documentation = "https://skillseekersweb.com/"
-"Config Browser" = "https://skillseekersweb.com/"
-"中文文档 (Chinese)" = "https://github.com/yusufkaraaslan/Skill_Seekers/blob/main/README.zh-CN.md"
-"Author" = "https://x.com/_yUSyUS_"
-"Website Repository" = "https://github.com/yusufkaraaslan/skillseekersweb"
-"Community Configs" = "https://github.com/yusufkaraaslan/skill-seekers-configs"
-"GitHub Action" = "https://github.com/yusufkaraaslan/skill-seekers-action"
-"Plugin" = "https://github.com/yusufkaraaslan/skill-seekers-plugin"
-"Homebrew Tap" = "https://github.com/yusufkaraaslan/homebrew-skill-seekers"
+Homepage = "https://docs.yonyou.example/yonyou-doc2skill"
+Website = "https://docs.yonyou.example/yonyou-doc2skill"
+Repository = "https://github.com/yonyou/yonyou-doc2skill"
+"Bug Tracker" = "https://github.com/yonyou/yonyou-doc2skill/issues"
+Documentation = "https://docs.yonyou.example/yonyou-doc2skill"
+"Config Browser" = "https://docs.yonyou.example/yonyou-doc2skill/config"
+"中文文档 (Chinese)" = "https://docs.yonyou.example/yonyou-doc2skill/README.zh-CN"
+"Author" = "https://github.com/yonyou"
+"Website Repository" = "https://github.com/yonyou/yonyou-doc2skill-website"
+"Community Configs" = "https://github.com/yonyou/yonyou-doc2skill-configs"
+"GitHub Action" = "https://github.com/yonyou/yonyou-doc2skill-action"
+"Plugin" = "https://github.com/yonyou/yonyou-doc2skill-plugin"
+"Homebrew Tap" = "https://github.com/yonyou/homebrew-yonyou-doc2skill"
 
 [project.scripts]
 # Main CLI entry point
-skill-seekers = "skill_seekers.cli.main:main"
+yonyou-doc2skill = "yonyou_doc2skill.cli.main:main"
 
 # Core commands
-skill-seekers-create = "skill_seekers.cli.create_command:main"
-skill-seekers-enhance = "skill_seekers.cli.enhance_command:main"
-skill-seekers-enhance-status = "skill_seekers.cli.enhance_status:main"
-skill-seekers-package = "skill_seekers.cli.package_skill:main"
-skill-seekers-upload = "skill_seekers.cli.upload_skill:main"
-skill-seekers-install = "skill_seekers.cli.install_skill:main"
-skill-seekers-install-agent = "skill_seekers.cli.install_agent:main"
+yonyou-doc2skill-create = "yonyou_doc2skill.cli.create_command:main"
+yonyou-doc2skill-enhance = "yonyou_doc2skill.cli.enhance_command:main"
+yonyou-doc2skill-enhance-status = "yonyou_doc2skill.cli.enhance_status:main"
+yonyou-doc2skill-package = "yonyou_doc2skill.cli.package_skill:main"
+yonyou-doc2skill-upload = "yonyou_doc2skill.cli.upload_skill:main"
+yonyou-doc2skill-install = "yonyou_doc2skill.cli.install_skill:main"
+yonyou-doc2skill-install-agent = "yonyou_doc2skill.cli.install_agent:main"
 
 # Analysis & utilities
-skill-seekers-estimate = "skill_seekers.cli.estimate_pages:main"
-skill-seekers-patterns = "skill_seekers.cli.pattern_recognizer:main"
-skill-seekers-how-to-guides = "skill_seekers.cli.how_to_guide_builder:main"
-skill-seekers-quality = "skill_seekers.cli.quality_metrics:main"
-skill-seekers-workflows = "skill_seekers.cli.workflows_command:main"
+yonyou-doc2skill-estimate = "yonyou_doc2skill.cli.estimate_pages:main"
+yonyou-doc2skill-patterns = "yonyou_doc2skill.cli.pattern_recognizer:main"
+yonyou-doc2skill-how-to-guides = "yonyou_doc2skill.cli.how_to_guide_builder:main"
+yonyou-doc2skill-quality = "yonyou_doc2skill.cli.quality_metrics:main"
+yonyou-doc2skill-workflows = "yonyou_doc2skill.cli.workflows_command:main"
 
 # Configuration & setup
-skill-seekers-config = "skill_seekers.cli.config_command:main"
-skill-seekers-doctor = "skill_seekers.cli.doctor:main"
-skill-seekers-setup = "skill_seekers.cli.setup_wizard:main"
-skill-seekers-resume = "skill_seekers.cli.resume_command:main"
-skill-seekers-sync-config = "skill_seekers.cli.sync_config:main"
+yonyou-doc2skill-config = "yonyou_doc2skill.cli.config_command:main"
+yonyou-doc2skill-doctor = "yonyou_doc2skill.cli.doctor:main"
+yonyou-doc2skill-setup = "yonyou_doc2skill.cli.setup_wizard:main"
+yonyou-doc2skill-resume = "yonyou_doc2skill.cli.resume_command:main"
+yonyou-doc2skill-sync-config = "yonyou_doc2skill.cli.sync_config:main"
 
 # Advanced
-skill-seekers-cloud = "skill_seekers.cli.cloud_storage_cli:main"
-skill-seekers-embed = "skill_seekers.embedding.server:main"
-skill-seekers-sync = "skill_seekers.cli.sync_cli:main"
-skill-seekers-benchmark = "skill_seekers.cli.benchmark_cli:main"
-skill-seekers-stream = "skill_seekers.cli.streaming_ingest:main"
-skill-seekers-update = "skill_seekers.cli.incremental_updater:main"
-skill-seekers-multilang = "skill_seekers.cli.multilang_support:main"
+yonyou-doc2skill-cloud = "yonyou_doc2skill.cli.cloud_storage_cli:main"
+yonyou-doc2skill-embed = "yonyou_doc2skill.embedding.server:main"
+yonyou-doc2skill-sync = "yonyou_doc2skill.cli.sync_cli:main"
+yonyou-doc2skill-benchmark = "yonyou_doc2skill.cli.benchmark_cli:main"
+yonyou-doc2skill-stream = "yonyou_doc2skill.cli.streaming_ingest:main"
+yonyou-doc2skill-update = "yonyou_doc2skill.cli.incremental_updater:main"
+yonyou-doc2skill-multilang = "yonyou_doc2skill.cli.multilang_support:main"
 
 [tool.setuptools]
 package-dir = {"" = "src"}
 
 [tool.setuptools.packages.find]
 where = ["src"]
-include = ["skill_seekers*"]
+include = ["yonyou_doc2skill*"]
 namespaces = false
 
 [tool.setuptools.package-data]
-skill_seekers = ["py.typed", "workflows/*.yaml"]
+yonyou_doc2skill = ["py.typed", "workflows/*.yaml"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
@@ -364,7 +354,7 @@ asyncio_mode = "auto"
 asyncio_default_fixture_loop_scope = "function"
 
 [tool.coverage.run]
-source = ["src/skill_seekers"]
+source = ["src/yonyou_doc2skill"]
 omit = ["*/tests/*", "*/__pycache__/*", "*/venv/*"]
 
 [tool.coverage.report]
@@ -405,7 +395,7 @@ ignore = [
 ]
 
 [tool.ruff.lint.isort]
-known-first-party = ["skill_seekers"]
+known-first-party = ["yonyou_doc2skill"]
 
 [tool.mypy]
 python_version = "3.10"

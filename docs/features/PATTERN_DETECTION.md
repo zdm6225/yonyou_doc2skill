@@ -62,7 +62,7 @@ The pattern detection feature automatically identifies common design patterns in
 - **Example**: Class named "DatabaseSingleton" → Singleton pattern
 
 ```bash
-skill-seekers-patterns --file db.py --depth surface
+yonyou-doc2skill-patterns --file db.py --depth surface
 ```
 
 ### Deep Detection (Balanced, ~80-90% Confidence) ⭐ Default
@@ -72,7 +72,7 @@ skill-seekers-patterns --file db.py --depth surface
 - **Example**: Class with getInstance() + private constructor → Singleton
 
 ```bash
-skill-seekers-patterns --file db.py --depth deep
+yonyou-doc2skill-patterns --file db.py --depth deep
 ```
 
 ### Full Detection (Thorough, ~90-95% Confidence)
@@ -82,7 +82,7 @@ skill-seekers-patterns --file db.py --depth deep
 - **Example**: Checks for instance caching, thread safety → Singleton
 
 ```bash
-skill-seekers-patterns --file db.py --depth full
+yonyou-doc2skill-patterns --file db.py --depth full
 ```
 
 ---
@@ -93,16 +93,16 @@ skill-seekers-patterns --file db.py --depth full
 
 ```bash
 # Single file analysis
-skill-seekers-patterns --file src/database.py
+yonyou-doc2skill-patterns --file src/database.py
 
 # Directory analysis
-skill-seekers-patterns --directory src/
+yonyou-doc2skill-patterns --directory src/
 
 # Full analysis with JSON output
-skill-seekers-patterns --directory src/ --depth full --json --output patterns/
+yonyou-doc2skill-patterns --directory src/ --depth full --json --output patterns/
 
 # Multiple files
-skill-seekers-patterns --file src/db.py --file src/api.py
+yonyou-doc2skill-patterns --file src/db.py --file src/api.py
 ```
 
 **CLI Options:**
@@ -119,10 +119,10 @@ The `--detect-patterns` flag integrates with codebase analysis:
 
 ```bash
 # Analyze codebase + detect patterns
-skill-seekers analyze --directory src/ --detect-patterns
+yonyou-doc2skill analyze --directory src/ --detect-patterns
 
 # With other features
-skill-seekers analyze \
+yonyou-doc2skill analyze \
   --directory src/ \
   --detect-patterns \
   --build-api-reference \
@@ -153,7 +153,7 @@ await use_mcp_tool('detect_patterns', {
 ### Python API
 
 ```python
-from skill_seekers.cli.pattern_recognizer import PatternRecognizer
+from yonyou_doc2skill.cli.pattern_recognizer import PatternRecognizer
 
 # Create recognizer
 recognizer = PatternRecognizer(depth='deep')
@@ -292,7 +292,7 @@ class Database:
 
 **Command:**
 ```bash
-skill-seekers-patterns --file database.py
+yonyou-doc2skill-patterns --file database.py
 ```
 
 **Output:**
@@ -434,7 +434,7 @@ Combine pattern detection with dependency analysis:
 **Problem**: Analysis completes but finds no patterns
 
 **Solutions:**
-1. Check file language is supported: `skill-seekers-patterns --file test.py --verbose`
+1. Check file language is supported: `yonyou-doc2skill-patterns --file test.py --verbose`
 2. Try lower depth: `--depth surface`
 3. Verify code contains actual patterns (not all code uses patterns!)
 
@@ -504,7 +504,7 @@ PatternRecognizer
 - **Gang of Four (GoF)**: Design Patterns book
 - **Pattern Categories**: Creational, Structural, Behavioral
 - **Supported Languages**: 9 (Python, JavaScript, TypeScript, C++, C, C#, Go, Rust, Java)
-- **Implementation**: `src/skill_seekers/cli/pattern_recognizer.py` (~1,900 lines)
+- **Implementation**: `src/yonyou_doc2skill/cli/pattern_recognizer.py` (~1,900 lines)
 - **Tests**: `tests/test_pattern_recognizer.py` (24 tests, 100% passing)
 
 ---

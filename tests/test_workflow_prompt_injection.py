@@ -18,7 +18,7 @@ def _load_bundled_yaml(name: str) -> dict:
 
     for suffix in (".yaml", ".yml"):
         try:
-            ref = importlib_files("skill_seekers.workflows").joinpath(name + suffix)
+            ref = importlib_files("yonyou_doc2skill.workflows").joinpath(name + suffix)
             return yaml.safe_load(ref.read_text(encoding="utf-8"))
         except (FileNotFoundError, TypeError, ModuleNotFoundError):
             continue

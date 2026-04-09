@@ -1,6 +1,6 @@
 # Troubleshooting Guide
 
-> **Skill Seekers v3.1.0**  
+> **Yonyou Doc2Skill v3.1.0**  
 > **Common issues and solutions**
 
 ---
@@ -20,7 +20,7 @@
 
 ## Installation Issues
 
-### "command not found: skill-seekers"
+### "command not found: yonyou-doc2skill"
 
 **Cause:** pip bin directory not in PATH
 
@@ -30,28 +30,28 @@
 export PATH="$HOME/.local/bin:$PATH"
 
 # Or reinstall with --user
-pip install --user --force-reinstall skill-seekers
+pip install --user --force-reinstall yonyou-doc2skill
 
 # Verify
-which skill-seekers
+which yonyou-doc2skill
 ```
 
 ---
 
-### "No module named 'skill_seekers'"
+### "No module named 'yonyou_doc2skill'"
 
 **Cause:** Package not installed or wrong Python environment
 
 **Solution:**
 ```bash
 # Install package
-pip install skill-seekers
+pip install yonyou-doc2skill
 
 # For development
 pip install -e .
 
 # Verify
-python -c "import skill_seekers; print(skill_seekers.__version__)"
+python -c "import yonyou_doc2skill; print(yonyou_doc2skill.__version__)"
 ```
 
 ---
@@ -64,12 +64,12 @@ python -c "import skill_seekers; print(skill_seekers.__version__)"
 ```bash
 # Don't use sudo
 # Instead:
-pip install --user skill-seekers
+pip install --user yonyou-doc2skill
 
 # Or use virtual environment
 python3 -m venv venv
 source venv/bin/activate
-pip install skill-seekers
+pip install yonyou-doc2skill
 ```
 
 ---
@@ -83,11 +83,11 @@ pip install skill-seekers
 **Solution:**
 ```bash
 # Slow down
-skill-seekers create <url> --rate-limit 2.0
+yonyou-doc2skill create <url> --rate-limit 2.0
 
 # For GitHub
 export GITHUB_TOKEN=ghp_...
-skill-seekers github --repo owner/repo
+yonyou-doc2skill github --repo owner/repo
 ```
 
 ---
@@ -112,7 +112,7 @@ cat > configs/fix.json << 'EOF'
 }
 EOF
 
-skill-seekers create --config configs/fix.json
+yonyou-doc2skill create --config configs/fix.json
 ```
 
 **Common selectors:**
@@ -132,10 +132,10 @@ skill-seekers create --config configs/fix.json
 **Solution:**
 ```bash
 # Estimate first
-skill-seekers estimate configs/my-config.json
+yonyou-doc2skill estimate configs/my-config.json
 
 # Increase limit
-skill-seekers create <url> --max-pages 1000
+yonyou-doc2skill create <url> --max-pages 1000
 
 # Or limit in config
 {
@@ -152,7 +152,7 @@ skill-seekers create <url> --max-pages 1000
 **Solution:**
 ```bash
 # Increase timeout
-skill-seekers create <url> --timeout 60
+yonyou-doc2skill create <url> --timeout 60
 
 # Or in config
 {
@@ -191,7 +191,7 @@ export PYTHONWARNINGS="ignore:Unverified HTTPS request"
 export ANTHROPIC_API_KEY=sk-ant-...
 
 # Or use LOCAL mode
-skill-seekers enhance output/my-skill/ --agent local
+yonyou-doc2skill enhance output/my-skill/ --agent local
 ```
 
 ---
@@ -207,7 +207,7 @@ skill-seekers enhance output/my-skill/ --agent local
 
 # Or use API mode
 export ANTHROPIC_API_KEY=sk-ant-...
-skill-seekers enhance output/my-skill/ --agent api
+yonyou-doc2skill enhance output/my-skill/ --agent api
 ```
 
 ---
@@ -219,11 +219,11 @@ skill-seekers enhance output/my-skill/ --agent api
 **Solution:**
 ```bash
 # Increase timeout
-skill-seekers enhance output/my-skill/ --timeout 1200
+yonyou-doc2skill enhance output/my-skill/ --timeout 1200
 
 # Use background mode
-skill-seekers enhance output/my-skill/ --background
-skill-seekers enhance-status output/my-skill/ --watch
+yonyou-doc2skill enhance output/my-skill/ --background
+yonyou-doc2skill enhance-status output/my-skill/ --watch
 ```
 
 ---
@@ -235,10 +235,10 @@ skill-seekers enhance-status output/my-skill/ --watch
 **Solution:**
 ```bash
 # List available workflows
-skill-seekers workflows list
+yonyou-doc2skill workflows list
 
 # Check spelling
-skill-seekers create <source> --enhance-workflow security-focus
+yonyou-doc2skill create <source> --enhance-workflow security-focus
 ```
 
 ---
@@ -259,10 +259,10 @@ ls output/my-skill/
 # - references/
 
 # Rebuild if needed
-skill-seekers create --config my-config --skip-scrape
+yonyou-doc2skill create --config my-config --skip-scrape
 
 # Or recreate
-skill-seekers create <source>
+yonyou-doc2skill create <source>
 ```
 
 ---
@@ -274,7 +274,7 @@ skill-seekers create <source>
 **Solution:**
 ```bash
 # List valid targets
-skill-seekers package --help
+yonyou-doc2skill package --help
 
 # Valid targets:
 # claude, gemini, openai, langchain, llama-index,
@@ -290,10 +290,10 @@ skill-seekers package --help
 **Solution:**
 ```bash
 # Use streaming mode
-skill-seekers package output/my-skill/ --streaming
+yonyou-doc2skill package output/my-skill/ --streaming
 
 # Reduce chunk size
-skill-seekers package output/my-skill/ \
+yonyou-doc2skill package output/my-skill/ \
   --streaming \
   --streaming-chunk-chars 1000
 ```
@@ -333,7 +333,7 @@ echo $ANTHROPIC_API_KEY
 ping api.anthropic.com
 
 # Retry
-skill-seekers upload output/my-skill-claude.zip --target claude
+yonyou-doc2skill upload output/my-skill-claude.zip --target claude
 
 # Or upload manually through web interface
 ```
@@ -350,10 +350,10 @@ skill-seekers upload output/my-skill-claude.zip --target claude
 ls -lh output/my-skill-claude.zip
 
 # Use streaming mode
-skill-seekers package output/my-skill/ --streaming
+yonyou-doc2skill package output/my-skill/ --streaming
 
 # Or split into smaller skills
-skill-seekers workflows split-config configs/my-config.json
+yonyou-doc2skill workflows split-config configs/my-config.json
 ```
 
 ---
@@ -388,7 +388,7 @@ https://github.com/owner/repo
 export GITHUB_TOKEN=ghp_...
 
 # Correct format
-skill-seekers github --repo owner/repo
+yonyou-doc2skill github --repo owner/repo
 ```
 
 ---
@@ -436,10 +436,10 @@ skill-seekers github --repo owner/repo
 **Solution:**
 ```bash
 # Enable OCR
-skill-seekers pdf --pdf scanned.pdf --enable-ocr
+yonyou-doc2skill pdf --pdf scanned.pdf --enable-ocr
 
 # Install OCR dependencies
-pip install skill-seekers[pdf-ocr]
+pip install yonyou-doc2skill[pdf-ocr]
 # System: apt-get install tesseract-ocr
 ```
 
@@ -472,10 +472,10 @@ python -m json.tool configs/my-config.json
 ls configs/my-config.json
 
 # Use absolute path
-skill-seekers create --config /full/path/to/config.json
+yonyou-doc2skill create --config /full/path/to/config.json
 
 # Or list available
-skill-seekers estimate --all
+yonyou-doc2skill estimate --all
 ```
 
 ---
@@ -487,13 +487,13 @@ skill-seekers estimate --all
 **Solutions:**
 ```bash
 # Use async mode
-skill-seekers create <url> --async --workers 5
+yonyou-doc2skill create <url> --async --workers 5
 
 # Reduce rate limit (for your own servers)
-skill-seekers create <url> --rate-limit 0.1
+yonyou-doc2skill create <url> --rate-limit 0.1
 
 # Skip enhancement
-skill-seekers create <url> --enhance-level 0
+yonyou-doc2skill create <url> --enhance-level 0
 ```
 
 ---
@@ -509,7 +509,7 @@ du -sh output/
 rm -rf output/old-skill/
 
 # Use streaming mode
-skill-seekers create <url> --streaming
+yonyou-doc2skill create <url> --streaming
 ```
 
 ---
@@ -519,14 +519,14 @@ skill-seekers create <url> --streaming
 **Solutions:**
 ```bash
 # Use streaming mode
-skill-seekers create <url> --streaming
-skill-seekers package output/my-skill/ --streaming
+yonyou-doc2skill create <url> --streaming
+yonyou-doc2skill package output/my-skill/ --streaming
 
 # Reduce workers
-skill-seekers create <url> --workers 1
+yonyou-doc2skill create <url> --workers 1
 
 # Limit pages
-skill-seekers create <url> --max-pages 100
+yonyou-doc2skill create <url> --max-pages 100
 ```
 
 ---
@@ -537,7 +537,7 @@ skill-seekers create <url> --max-pages 100
 
 ```bash
 # Enable verbose logging
-skill-seekers create <source> --verbose
+yonyou-doc2skill create <source> --verbose
 
 # Or environment variable
 export SKILL_SEEKERS_DEBUG=1
@@ -547,10 +547,10 @@ export SKILL_SEEKERS_DEBUG=1
 
 ```bash
 # Enable file logging
-export SKILL_SEEKERS_LOG_FILE=/tmp/skill-seekers.log
+export SKILL_SEEKERS_LOG_FILE=/tmp/yonyou-doc2skill.log
 
 # Tail logs
-tail -f /tmp/skill-seekers.log
+tail -f /tmp/yonyou-doc2skill.log
 ```
 
 ### Create Minimal Reproduction
@@ -566,7 +566,7 @@ cat > test-config.json << 'EOF'
 EOF
 
 # Run with debug
-skill-seekers create --config test-config.json --verbose --dry-run
+yonyou-doc2skill create --config test-config.json --verbose --dry-run
 ```
 
 ---
@@ -577,18 +577,18 @@ If none of these solutions work:
 
 1. **Gather info:**
    ```bash
-   skill-seekers --version
+   yonyou-doc2skill --version
    python --version
-   pip show skill-seekers
+   pip show yonyou-doc2skill
    ```
 
 2. **Enable debug:**
    ```bash
-   skill-seekers <command> --verbose 2>&1 | tee debug.log
+   yonyou-doc2skill <command> --verbose 2>&1 | tee debug.log
    ```
 
 3. **Create issue:**
-   - https://github.com/yusufkaraaslan/Skill_Seekers/issues
+   - https://github.com/yonyou/yonyou-doc2skill/issues
    - Include: error message, command used, debug log
 
 ---
@@ -610,8 +610,8 @@ If none of these solutions work:
 
 ## Still Stuck?
 
-- **Documentation:** https://skillseekersweb.com/
-- **GitHub Issues:** https://github.com/yusufkaraaslan/Skill_Seekers/issues
+- **Documentation:** https://docs.yonyou.example/yonyou-doc2skill/
+- **GitHub Issues:** https://github.com/yonyou/yonyou-doc2skill/issues
 - **Discussions:** Share your use case
 
 ---

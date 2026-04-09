@@ -17,7 +17,7 @@ Run with: pytest tests/test_swift_detection.py -v
 import pytest
 from bs4 import BeautifulSoup
 
-from skill_seekers.cli.language_detector import LanguageDetector
+from yonyou_doc2skill.cli.language_detector import LanguageDetector
 
 
 class TestSwiftCSSClassDetection:
@@ -1246,7 +1246,7 @@ class TestSwiftErrorHandling:
 
     def test_pattern_validation_catches_invalid_weight(self):
         """Test that pattern validation catches invalid weight values"""
-        from skill_seekers.cli.swift_patterns import _validate_patterns
+        from yonyou_doc2skill.cli.swift_patterns import _validate_patterns
 
         # Invalid weight (too high)
         invalid_patterns = {
@@ -1260,7 +1260,7 @@ class TestSwiftErrorHandling:
 
     def test_pattern_validation_catches_invalid_type(self):
         """Test that pattern validation catches non-string patterns"""
-        from skill_seekers.cli.swift_patterns import _validate_patterns
+        from yonyou_doc2skill.cli.swift_patterns import _validate_patterns
 
         # Invalid pattern (not a string)
         invalid_patterns = {
@@ -1274,7 +1274,7 @@ class TestSwiftErrorHandling:
 
     def test_pattern_validation_catches_invalid_tuple_structure(self):
         """Test that pattern validation catches malformed tuples"""
-        from skill_seekers.cli.swift_patterns import _validate_patterns
+        from yonyou_doc2skill.cli.swift_patterns import _validate_patterns
 
         # Invalid structure (not a tuple)
         invalid_patterns = {
@@ -1290,12 +1290,12 @@ class TestSwiftErrorHandling:
         """Test that invalid regex patterns are logged and skipped without crashing"""
         from unittest.mock import patch
 
-        from skill_seekers.cli.language_detector import LanguageDetector
+        from yonyou_doc2skill.cli.language_detector import LanguageDetector
 
         # Create detector - malformed patterns should be skipped during compilation
-        with patch("skill_seekers.cli.language_detector.logger") as mock_logger:
+        with patch("yonyou_doc2skill.cli.language_detector.logger") as mock_logger:
             # Inject a language with a malformed pattern
-            import skill_seekers.cli.language_detector as ld_module
+            import yonyou_doc2skill.cli.language_detector as ld_module
 
             # Save original patterns
             original_patterns = ld_module.LANGUAGE_PATTERNS.copy()
@@ -1325,30 +1325,30 @@ class TestSwiftErrorHandling:
         import sys
         from unittest.mock import patch
 
-        # Save all existing skill_seekers.cli modules so we can restore them afterward.
+        # Save all existing yonyou_doc2skill.cli modules so we can restore them afterward.
         # Deleting them is necessary to force a fresh import of language_detector with the
         # mocked swift_patterns, but leaving them deleted would break other tests that rely
         # on the original module objects (e.g. @patch decorators in test_unified_analyzer.py
         # patch the module in sys.modules, but methods on already-imported classes still use
         # the original module's globals).
-        saved_cli_modules = {k: v for k, v in sys.modules.items() if "skill_seekers.cli" in k}
+        saved_cli_modules = {k: v for k, v in sys.modules.items() if "yonyou_doc2skill.cli" in k}
 
         try:
             # Remove module from cache to force fresh import
             for mod in list(sys.modules.keys()):
-                if "skill_seekers.cli" in mod:
+                if "yonyou_doc2skill.cli" in mod:
                     del sys.modules[mod]
 
             # Mock empty SWIFT_PATTERNS during import
             with patch.dict(
                 "sys.modules",
                 {
-                    "skill_seekers.cli.swift_patterns": type(
+                    "yonyou_doc2skill.cli.swift_patterns": type(
                         "MockModule", (), {"SWIFT_PATTERNS": {}}
                     )
                 },
             ):
-                from skill_seekers.cli.language_detector import LanguageDetector
+                from yonyou_doc2skill.cli.language_detector import LanguageDetector
 
                 # Create detector - should handle empty patterns gracefully
                 detector = LanguageDetector()
@@ -1361,15 +1361,15 @@ class TestSwiftErrorHandling:
                 assert isinstance(lang, str)
                 assert isinstance(confidence, (int, float))
         finally:
-            # Remove the freshly imported skill_seekers.cli modules from sys.modules
+            # Remove the freshly imported yonyou_doc2skill.cli modules from sys.modules
             for mod in list(sys.modules.keys()):
-                if "skill_seekers.cli" in mod:
+                if "yonyou_doc2skill.cli" in mod:
                     del sys.modules[mod]
             # Restore the original module objects so subsequent tests work correctly
             sys.modules.update(saved_cli_modules)
             # Python's import system also sets submodule references as attributes on
-            # parent packages (e.g. skill_seekers.cli.language_detector gets set as
-            # an attribute on skill_seekers.cli). Restore those attributes too so that
+            # parent packages (e.g. yonyou_doc2skill.cli.language_detector gets set as
+            # an attribute on yonyou_doc2skill.cli). Restore those attributes too so that
             # dotted-import statements resolve to the original module objects.
             for key, mod in saved_cli_modules.items():
                 parent_key, _, attr = key.rpartition(".")
@@ -1380,10 +1380,10 @@ class TestSwiftErrorHandling:
         """Test that non-string patterns are caught during compilation"""
         from unittest.mock import patch
 
-        from skill_seekers.cli.language_detector import LanguageDetector
+        from yonyou_doc2skill.cli.language_detector import LanguageDetector
 
-        with patch("skill_seekers.cli.language_detector.logger") as mock_logger:
-            import skill_seekers.cli.language_detector as ld_module
+        with patch("yonyou_doc2skill.cli.language_detector.logger") as mock_logger:
+            import yonyou_doc2skill.cli.language_detector as ld_module
 
             # Save original
             original = ld_module.LANGUAGE_PATTERNS.copy()
@@ -1413,7 +1413,7 @@ class TestSwiftErrorHandling:
 
         import inspect
 
-        from skill_seekers.cli import swift_patterns
+        from yonyou_doc2skill.cli import swift_patterns
 
         # Read the source code of the module
         source = inspect.getsource(swift_patterns)

@@ -16,7 +16,7 @@ import tempfile
 import unittest
 
 try:
-    from skill_seekers.cli.dependency_analyzer import DependencyAnalyzer
+    from yonyou_doc2skill.cli.dependency_analyzer import DependencyAnalyzer
 
     ANALYZER_AVAILABLE = True
 except ImportError:

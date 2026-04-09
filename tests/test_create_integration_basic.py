@@ -15,7 +15,7 @@ class TestCreateCommandBasic:
         import subprocess
 
         result = subprocess.run(
-            ["skill-seekers", "create", "--help"], capture_output=True, text=True
+            ["yonyou-doc2skill", "create", "--help"], capture_output=True, text=True
         )
         assert result.returncode == 0
         assert "Auto-detects source type" in result.stdout
@@ -24,7 +24,7 @@ class TestCreateCommandBasic:
 
     def test_create_detects_web_url(self):
         """Test that web URLs are detected and routed correctly."""
-        from skill_seekers.cli.source_detector import SourceDetector
+        from yonyou_doc2skill.cli.source_detector import SourceDetector
 
         info = SourceDetector.detect("https://docs.react.dev/")
         assert info.type == "web"
@@ -40,7 +40,7 @@ class TestCreateCommandBasic:
         import subprocess
 
         result = subprocess.run(
-            ["skill-seekers", "create", "facebook/react", "--help"],
+            ["yonyou-doc2skill", "create", "facebook/react", "--help"],
             capture_output=True,
             text=True,
             timeout=10,
@@ -57,7 +57,7 @@ class TestCreateCommandBasic:
         test_dir.mkdir()
 
         result = subprocess.run(
-            ["skill-seekers", "create", str(test_dir), "--help"],
+            ["yonyou-doc2skill", "create", str(test_dir), "--help"],
             capture_output=True,
             text=True,
             timeout=10,
@@ -74,7 +74,7 @@ class TestCreateCommandBasic:
         pdf_file.touch()
 
         result = subprocess.run(
-            ["skill-seekers", "create", str(pdf_file), "--help"],
+            ["yonyou-doc2skill", "create", str(pdf_file), "--help"],
             capture_output=True,
             text=True,
             timeout=10,
@@ -93,7 +93,7 @@ class TestCreateCommandBasic:
         config_file.write_text(json.dumps(config_data))
 
         result = subprocess.run(
-            ["skill-seekers", "create", str(config_file), "--help"],
+            ["yonyou-doc2skill", "create", str(config_file), "--help"],
             capture_output=True,
             text=True,
             timeout=10,
@@ -107,7 +107,7 @@ class TestCreateCommandConverterRouting:
 
     def test_get_converter_web(self):
         """Test that get_converter returns DocToSkillConverter for web."""
-        from skill_seekers.cli.skill_converter import get_converter
+        from yonyou_doc2skill.cli.skill_converter import get_converter
 
         config = {"name": "test", "base_url": "https://example.com"}
         converter = get_converter("web", config)
@@ -117,7 +117,7 @@ class TestCreateCommandConverterRouting:
 
     def test_get_converter_github(self):
         """Test that get_converter returns GitHubScraper for github."""
-        from skill_seekers.cli.skill_converter import get_converter
+        from yonyou_doc2skill.cli.skill_converter import get_converter
 
         config = {"name": "test", "repo": "owner/repo"}
         converter = get_converter("github", config)
@@ -127,7 +127,7 @@ class TestCreateCommandConverterRouting:
 
     def test_get_converter_pdf(self):
         """Test that get_converter returns PDFToSkillConverter for pdf."""
-        from skill_seekers.cli.skill_converter import get_converter
+        from yonyou_doc2skill.cli.skill_converter import get_converter
 
         config = {"name": "test", "pdf_path": "/tmp/test.pdf"}
         converter = get_converter("pdf", config)
@@ -137,7 +137,7 @@ class TestCreateCommandConverterRouting:
 
     def test_get_converter_unknown_raises(self):
         """Test that get_converter raises ValueError for unknown type."""
-        from skill_seekers.cli.skill_converter import get_converter
+        from yonyou_doc2skill.cli.skill_converter import get_converter
 
         with pytest.raises(ValueError, match="Unknown source type"):
             get_converter("unknown_type", {})
@@ -148,7 +148,7 @@ class TestExecutionContextIntegration:
 
     def test_execution_context_auto_initializes(self):
         """ExecutionContext.get() returns defaults without explicit init."""
-        from skill_seekers.cli.execution_context import ExecutionContext
+        from yonyou_doc2skill.cli.execution_context import ExecutionContext
 
         # Reset to ensure clean state
         ExecutionContext.reset()
@@ -162,7 +162,7 @@ class TestExecutionContextIntegration:
 
     def test_execution_context_values_preserved(self):
         """Values set in context are preserved and accessible."""
-        from skill_seekers.cli.execution_context import ExecutionContext
+        from yonyou_doc2skill.cli.execution_context import ExecutionContext
         import argparse
 
         ExecutionContext.reset()
@@ -194,7 +194,7 @@ class TestUnifiedCommands:
         import subprocess
 
         result = subprocess.run(
-            ["skill-seekers", "--help"], capture_output=True, text=True, timeout=10
+            ["yonyou-doc2skill", "--help"], capture_output=True, text=True, timeout=10
         )
         assert result.returncode == 0
         # Should show create command
@@ -207,7 +207,7 @@ class TestUnifiedCommands:
         import subprocess
 
         result = subprocess.run(
-            ["skill-seekers", "workflows", "--help"],
+            ["yonyou-doc2skill", "workflows", "--help"],
             capture_output=True,
             text=True,
             timeout=10,
@@ -223,7 +223,7 @@ class TestRemovedCommands:
         import subprocess
 
         result = subprocess.run(
-            ["skill-seekers", "scrape", "--help"], capture_output=True, text=True, timeout=10
+            ["yonyou-doc2skill", "scrape", "--help"], capture_output=True, text=True, timeout=10
         )
         # Should fail - command removed
         assert result.returncode == 2
@@ -234,7 +234,7 @@ class TestRemovedCommands:
         import subprocess
 
         result = subprocess.run(
-            ["skill-seekers", "github", "--help"], capture_output=True, text=True, timeout=10
+            ["yonyou-doc2skill", "github", "--help"], capture_output=True, text=True, timeout=10
         )
         # Should fail - command removed
         assert result.returncode == 2

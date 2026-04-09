@@ -1,4 +1,4 @@
-# Case Study: DeepWiki-open + Skill Seekers
+# Case Study: DeepWiki-open + Yonyou Doc2Skill
 
 **Project:** DeepWiki-open
 **Repository:** AsyncFuncAI/deepwiki-open
@@ -10,13 +10,13 @@
 
 ## 📋 Executive Summary
 
-DeepWiki-open is a deployment tool for complex AI applications that encountered critical **context window limitations** when processing comprehensive technical documentation. By integrating Skill Seekers as an essential preparation step, they solved token overflow issues and created a more robust deployment workflow for enterprise teams.
+DeepWiki-open is a deployment tool for complex AI applications that encountered critical **context window limitations** when processing comprehensive technical documentation. By integrating Yonyou Doc2Skill as an essential preparation step, they solved token overflow issues and created a more robust deployment workflow for enterprise teams.
 
 **Key Results:**
 - ✅ Eliminated context window limitations
 - ✅ Enabled complete documentation processing
 - ✅ Created enterprise-ready workflow
-- ✅ Positioned Skill Seekers as essential infrastructure
+- ✅ Positioned Yonyou Doc2Skill as essential infrastructure
 
 ---
 
@@ -57,9 +57,9 @@ For enterprise teams managing complex codebases:
 
 ## ✨ The Solution
 
-### Why Skill Seekers
+### Why Yonyou Doc2Skill
 
-DeepWiki-open chose Skill Seekers because it:
+DeepWiki-open chose Yonyou Doc2Skill because it:
 1. **Converts documentation into structured, callable skill packages**
 2. **Handles large documentation sets without context limits**
 3. **Works as infrastructure** - essential prep step before deployment
@@ -71,13 +71,13 @@ DeepWiki-open chose Skill Seekers because it:
 
 **Option 1: Pip (Quick Start)**
 ```bash
-pip install skill-seekers
+pip install yonyou-doc2skill
 ```
 
 **Option 2: Source Code (Recommended)**
 ```bash
-git clone https://github.com/yusufkaraaslan/Skill_Seekers.git
-cd Skill_Seekers
+git clone https://github.com/yonyou/yonyou-doc2skill.git
+cd yonyou_doc2skill
 pip install -e .
 ```
 
@@ -86,7 +86,7 @@ pip install -e .
 **CLI Mode:**
 ```bash
 # Direct GitHub repository processing
-skill-seekers github --repo AsyncFuncAI/deepwiki-open --name deepwiki-skill
+yonyou-doc2skill github --repo AsyncFuncAI/deepwiki-open --name deepwiki-skill
 
 # Output: Structured skill package ready for Claude
 ```
@@ -95,8 +95,8 @@ skill-seekers github --repo AsyncFuncAI/deepwiki-open --name deepwiki-skill
 ```json
 {
   "mcpServers": {
-    "skill-seekers": {
-      "command": "skill-seekers-mcp"
+    "yonyou-doc2skill": {
+      "command": "yonyou-doc2skill-mcp"
     }
   }
 }
@@ -109,7 +109,7 @@ Then use natural language:
 
 ```
 ┌─────────────────────────────────────────────┐
-│  Step 1: Skill Seekers (Preparation)       │
+│  Step 1: Yonyou Doc2Skill (Preparation)       │
 │  • Scrape GitHub repo documentation        │
 │  • Extract code structure                  │
 │  • Process README, Issues, Changelog       │
@@ -129,7 +129,7 @@ Then use natural language:
 ### Positioning
 
 **Article Quote:**
-> "Skill Seekers functions as the initial preparation step before DeepWiki-open deployment. It bridges documentation and AI model capabilities by transforming technical reference materials into structured, model-compatible formats—solving token overflow issues that previously prevented complete documentation generation."
+> "Yonyou Doc2Skill functions as the initial preparation step before DeepWiki-open deployment. It bridges documentation and AI model capabilities by transforming technical reference materials into structured, model-compatible formats—solving token overflow issues that previously prevented complete documentation generation."
 
 ---
 
@@ -148,7 +148,7 @@ Then use natural language:
 
 - **Workflow Reliability:** Consistent, repeatable process replaced manual workarounds
 - **Enterprise Readiness:** Scalable solution for teams managing complex codebases
-- **Infrastructure Positioning:** Established Skill Seekers as essential preparation layer
+- **Infrastructure Positioning:** Established Yonyou Doc2Skill as essential preparation layer
 - **User Experience:** Seamless integration between tools
 
 ### Article Recognition
@@ -167,7 +167,7 @@ The article positioned this integration as:
 ```
 GitHub Repository (AsyncFuncAI/deepwiki-open)
     ↓
-Skill Seekers Processing:
+Yonyou Doc2Skill Processing:
     • README extraction
     • Documentation parsing
     • Code structure analysis
@@ -187,10 +187,10 @@ Claude API (via DeepWiki-open)
 
 ### Workflow Details
 
-1. **Pre-Processing (Skill Seekers)**
+1. **Pre-Processing (Yonyou Doc2Skill)**
    ```bash
    # Extract comprehensive documentation
-   skill-seekers github --repo AsyncFuncAI/deepwiki-open --name deepwiki-skill
+   yonyou-doc2skill github --repo AsyncFuncAI/deepwiki-open --name deepwiki-skill
 
    # Output structure:
    output/deepwiki-skill/
@@ -262,12 +262,12 @@ Claude API (via DeepWiki-open)
 ### Advice for Similar Integrations
 
 **Quote pattern to reuse:**
-> "[Tool] deployment hit [limitation] when working with [complex scenario]. Skill Seekers serves as essential preparation step, converting [source] into [format] to solve [limitation]."
+> "[Tool] deployment hit [limitation] when working with [complex scenario]. Yonyou Doc2Skill serves as essential preparation step, converting [source] into [format] to solve [limitation]."
 
 **Success formula:**
 ```
 Tool with Context Limits
-→ Skill Seekers as Prep Step
+→ Yonyou Doc2Skill as Prep Step
 → Problem Solved
 → Better Tool Experience
 ```
@@ -281,7 +281,7 @@ Tool with Context Limits
 #### 1. Router Skills for Even Larger Docs
 ```bash
 # After generating skill
-skill-seekers generate-router output/deepwiki-skill/
+yonyou-doc2skill generate-router output/deepwiki-skill/
 
 # Result: Split into topic-specific skills
 # - Authentication skill
@@ -293,7 +293,7 @@ skill-seekers generate-router output/deepwiki-skill/
 #### 2. AI Enhancement for Better Quality
 ```bash
 # Free enhancement using LOCAL mode
-skill-seekers enhance output/deepwiki-skill/ --mode LOCAL
+yonyou-doc2skill enhance output/deepwiki-skill/ --mode LOCAL
 
 # Result: 2-3/10 → 8-9/10 quality
 ```
@@ -301,8 +301,8 @@ skill-seekers enhance output/deepwiki-skill/ --mode LOCAL
 #### 3. Multi-Platform Support
 ```bash
 # Export for multiple AI platforms
-skill-seekers package output/deepwiki-skill/ --target gemini
-skill-seekers package output/deepwiki-skill/ --target openai
+yonyou-doc2skill package output/deepwiki-skill/ --target gemini
+yonyou-doc2skill package output/deepwiki-skill/ --target openai
 
 # Use same docs across platforms
 ```
@@ -310,7 +310,7 @@ skill-seekers package output/deepwiki-skill/ --target openai
 #### 4. C3.x Codebase Analysis
 ```bash
 # Deep code analysis with pattern detection
-skill-seekers codebase --directory /path/to/deepwiki-open --comprehensive
+yonyou-doc2skill codebase --directory /path/to/deepwiki-open --comprehensive
 
 # Includes:
 # - Design patterns (C3.1)
@@ -341,13 +341,13 @@ skill-seekers codebase --directory /path/to/deepwiki-open --comprehensive
 ### Template for Replication
 
 ```markdown
-# Using Skill Seekers with [Tool]
+# Using Yonyou Doc2Skill with [Tool]
 
 ## The Problem
 [Tool] hits context limits when working with complex frameworks.
 
 ## The Solution
-Use Skill Seekers as essential preparation:
+Use Yonyou Doc2Skill as essential preparation:
 1. Generate comprehensive skills
 2. Solve context limitations
 3. Better [Tool] experience
@@ -385,7 +385,7 @@ This case study enables:
 
 - **Article:** https://www.2090ai.com/qoder/11522.html
 - **DeepWiki-open:** https://github.com/AsyncFuncAI/deepwiki-open
-- **Skill Seekers:** https://skillseekersweb.com/
+- **Yonyou Doc2Skill:** https://docs.yonyou.example/yonyou-doc2skill/
 - **Config Example:** [configs/integrations/deepwiki-open.json](../../configs/integrations/deepwiki-open.json)
 
 ---

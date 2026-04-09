@@ -417,9 +417,9 @@ Scrape docs using configs/react.json with max 100 pages
     "skill-seeker": {
       "command": "python3",
       "args": [
-        "/path/to/Skill_Seekers/mcp/server.py"
+        "/path/to/yonyou_doc2skill/mcp/server.py"
       ],
-      "cwd": "/path/to/Skill_Seekers"
+      "cwd": "/path/to/yonyou_doc2skill"
     }
   }
 }

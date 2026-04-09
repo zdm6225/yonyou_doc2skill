@@ -1,4 +1,4 @@
-# Weaviate Integration with Skill Seekers
+# Weaviate Integration with Yonyou Doc2Skill
 
 **Status:** ✅ Production Ready
 **Difficulty:** Intermediate
@@ -37,7 +37,7 @@ client.schema.create_class({
 
 ## ✅ The Solution
 
-Skill Seekers automates Weaviate integration with structured, production-ready data:
+Yonyou Doc2Skill automates Weaviate integration with structured, production-ready data:
 
 **Benefits:**
 - ✅ Auto-formatted objects with all metadata properties
@@ -58,8 +58,8 @@ Skill Seekers automates Weaviate integration with structured, production-ready d
 # Install Weaviate Python client
 pip install weaviate-client>=3.25.0
 
-# Or with Skill Seekers
-pip install skill-seekers[all-llms]
+# Or with Yonyou Doc2Skill
+pip install yonyou-doc2skill[all-llms]
 ```
 
 **What you need:**
@@ -71,10 +71,10 @@ pip install skill-seekers[all-llms]
 
 ```bash
 # Step 1: Scrape documentation
-skill-seekers scrape --config configs/react.json
+yonyou-doc2skill scrape --config configs/react.json
 
 # Step 2: Package for Weaviate (creates LangChain format)
-skill-seekers package output/react --target langchain
+yonyou-doc2skill package output/react --target langchain
 
 # Output: output/react-langchain.json (Weaviate-compatible)
 ```
@@ -188,30 +188,30 @@ helm install weaviate weaviate/weaviate \
   --set env.OPENAI_APIKEY=your-key
 ```
 
-### Step 2: Generate Skill Seekers Documents
+### Step 2: Generate Yonyou Doc2Skill Documents
 
 **Option A: Documentation Website**
 ```bash
-skill-seekers scrape --config configs/django.json
-skill-seekers package output/django --target langchain
+yonyou-doc2skill scrape --config configs/django.json
+yonyou-doc2skill package output/django --target langchain
 ```
 
 **Option B: GitHub Repository**
 ```bash
-skill-seekers github --repo django/django --name django
-skill-seekers package output/django --target langchain
+yonyou-doc2skill github --repo django/django --name django
+yonyou-doc2skill package output/django --target langchain
 ```
 
 **Option C: Local Codebase**
 ```bash
-skill-seekers analyze --directory /path/to/repo
-skill-seekers package output/codebase --target langchain
+yonyou-doc2skill analyze --directory /path/to/repo
+yonyou-doc2skill package output/codebase --target langchain
 ```
 
 **Option D: RAG-Optimized Chunking**
 ```bash
-skill-seekers scrape --config configs/fastapi.json --chunk-for-rag --chunk-tokens 512
-skill-seekers package output/fastapi --target langchain
+yonyou-doc2skill scrape --config configs/fastapi.json --chunk-for-rag --chunk-tokens 512
+yonyou-doc2skill package output/fastapi --target langchain
 ```
 
 ### Step 3: Create Weaviate Schema
@@ -227,10 +227,10 @@ client = weaviate.Client(
     }
 )
 
-# Define schema with all Skill Seekers metadata
+# Define schema with all Yonyou Doc2Skill metadata
 schema = {
     "class": "Documentation",
-    "description": "Framework documentation from Skill Seekers",
+    "description": "Framework documentation from Yonyou Doc2Skill",
     "vectorizer": "text2vec-openai",
     "moduleConfig": {
         "text2vec-openai": {
@@ -935,10 +935,10 @@ print(schema.get("multiTenancyConfig", {}).get("enabled"))  # Should be True
 
 ## 📊 Before vs. After
 
-| Aspect | Without Skill Seekers | With Skill Seekers |
+| Aspect | Without Yonyou Doc2Skill | With Yonyou Doc2Skill |
 |--------|----------------------|-------------------|
 | **Schema Design** | Manual property definition for each framework | Auto-formatted with consistent structure |
-| **Data Ingestion** | Custom scraping + parsing logic | One command: `skill-seekers scrape` |
+| **Data Ingestion** | Custom scraping + parsing logic | One command: `yonyou-doc2skill scrape` |
 | **Metadata** | Manual extraction from docs | Auto-extracted (category, source, file, type) |
 | **Multi-Framework** | Separate schemas and databases | Single tenant-based schema |
 | **Hybrid Search** | Complex query construction | Pre-optimized for BM25 + vector |
@@ -960,7 +960,7 @@ print(schema.get("multiTenancyConfig", {}).get("enabled"))  # Should be True
 
 2. **Implement Semantic Chunking:**
    ```bash
-   skill-seekers scrape --config configs/fastapi.json --chunk-for-rag --chunk-tokens 512
+   yonyou-doc2skill scrape --config configs/fastapi.json --chunk-for-rag --chunk-tokens 512
    ```
 
 3. **Set Up Multi-Tenancy:**
@@ -984,10 +984,10 @@ print(schema.get("multiTenancyConfig", {}).get("enabled"))  # Should be True
 
 - **Weaviate Docs:** https://weaviate.io/developers/weaviate
 - **Python Client:** https://weaviate.io/developers/weaviate/client-libraries/python
-- **Support:** https://github.com/yusufkaraaslan/Skill_Seekers/discussions
+- **Support:** https://github.com/yonyou/yonyou-doc2skill/discussions
 
 ---
 
-**Questions?** Open an issue: https://github.com/yusufkaraaslan/Skill_Seekers/issues
-**Website:** https://skillseekersweb.com/
+**Questions?** Open an issue: https://github.com/yonyou/yonyou-doc2skill/issues
+**Website:** https://docs.yonyou.example/yonyou-doc2skill/
 **Last Updated:** February 7, 2026

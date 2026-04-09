@@ -1,6 +1,6 @@
 # Continue.dev + Universal Context Example
 
-Complete example showing how to use Skill Seekers to create IDE-agnostic context providers for Continue.dev across VS Code, JetBrains, and other IDEs.
+Complete example showing how to use Yonyou Doc2Skill to create IDE-agnostic context providers for Continue.dev across VS Code, JetBrains, and other IDEs.
 
 ## What This Example Does
 
@@ -14,12 +14,12 @@ Complete example showing how to use Skill Seekers to create IDE-agnostic context
 ### 1. Generate Documentation
 
 ```bash
-# Install Skill Seekers
-pip install skill-seekers[mcp]
+# Install Yonyou Doc2Skill
+pip install yonyou-doc2skill[mcp]
 
 # Generate Vue.js documentation
-skill-seekers scrape --config configs/vue.json
-skill-seekers package output/vue --target markdown
+yonyou-doc2skill scrape --config configs/vue.json
+yonyou-doc2skill package output/vue --target markdown
 ```
 
 ### 2. Start Context Server
@@ -177,7 +177,7 @@ The `context_server.py` implements a simple HTTP server:
 
 ```python
 from fastapi import FastAPI
-from skill_seekers.cli.doc_scraper import load_skill
+from yonyou_doc2skill.cli.doc_scraper import load_skill
 
 app = FastAPI()
 
@@ -212,12 +212,12 @@ Add more frameworks easily:
 
 ```bash
 # Generate React docs
-skill-seekers scrape --config configs/react.json
-skill-seekers package output/react --target markdown
+yonyou-doc2skill scrape --config configs/react.json
+yonyou-doc2skill package output/react --target markdown
 
 # Generate Django docs
-skill-seekers scrape --config configs/django.json
-skill-seekers package output/django --target markdown
+yonyou-doc2skill scrape --config configs/django.json
+yonyou-doc2skill package output/django --target markdown
 
 # Server automatically serves both at:
 # http://localhost:8765/docs/react
@@ -304,8 +304,8 @@ CMD ["python", "context_server.py", "--host", "0.0.0.0"]
 
 ```bash
 # Build and run
-docker build -t skill-seekers-context .
-docker run -d -p 8765:8765 skill-seekers-context
+docker build -t yonyou-doc2skill-context .
+docker run -d -p 8765:8765 yonyou-doc2skill-context
 
 # Team uses: http://your-server:8765/docs/vue
 ```
@@ -317,30 +317,30 @@ docker run -d -p 8765:8765 skill-seekers-context
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: skill-seekers-context
+  name: yonyou-doc2skill-context
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: skill-seekers-context
+      app: yonyou-doc2skill-context
   template:
     metadata:
       labels:
-        app: skill-seekers-context
+        app: yonyou-doc2skill-context
     spec:
       containers:
       - name: context-server
-        image: skill-seekers-context:latest
+        image: yonyou-doc2skill-context:latest
         ports:
         - containerPort: 8765
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: skill-seekers-context
+  name: yonyou-doc2skill-context
 spec:
   selector:
-    app: skill-seekers-context
+    app: yonyou-doc2skill-context
   ports:
   - port: 80
     targetPort: 8765
@@ -437,8 +437,8 @@ cat ~/.continue/config.json
 
 **Solution:** Re-generate and restart
 ```bash
-skill-seekers scrape --config configs/vue.json
-skill-seekers package output/vue --target markdown
+yonyou-doc2skill scrape --config configs/vue.json
+yonyou-doc2skill package output/vue --target markdown
 
 # Restart server (will load new docs)
 pkill -f context_server.py
@@ -499,21 +499,21 @@ Continue config:
 
 ```bash
 # Install MCP support
-pip install skill-seekers[mcp]
+pip install yonyou-doc2skill[mcp]
 
 # Continue config with MCP
 {
   "mcpServers": {
-    "skill-seekers": {
+    "yonyou-doc2skill": {
       "command": "python",
-      "args": ["-m", "skill_seekers.mcp.server_fastmcp", "--transport", "stdio"]
+      "args": ["-m", "yonyou_doc2skill.mcp.server_fastmcp", "--transport", "stdio"]
     }
   },
   "contextProviders": [
     {
       "name": "mcp",
       "params": {
-        "serverName": "skill-seekers"
+        "serverName": "yonyou-doc2skill"
       }
     }
   ]
@@ -592,6 +592,6 @@ python context_server.py --port 8767 &
 
 ## Support
 
-- **Skill Seekers Issues:** [GitHub](https://github.com/yusufkaraaslan/Skill_Seekers/issues)
+- **Yonyou Doc2Skill Issues:** [GitHub](https://github.com/yonyou/yonyou-doc2skill/issues)
 - **Continue.dev Docs:** [docs.continue.dev](https://docs.continue.dev/)
 - **Integration Guide:** [CONTINUE_DEV.md](../../docs/integrations/CONTINUE_DEV.md)

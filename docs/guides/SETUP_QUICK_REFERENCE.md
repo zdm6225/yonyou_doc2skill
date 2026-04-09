@@ -59,7 +59,7 @@
 # Choose option 1 for HTTP server
 
 # Manual start
-python3 -m skill_seekers.mcp.server_fastmcp --http --port 3000
+python3 -m yonyou_doc2skill.mcp.server_fastmcp --http --port 3000
 ```
 
 ### Test Server
@@ -73,12 +73,12 @@ curl http://localhost:3000/health
 kill 12345
 
 # Find and kill
-pkill -f "skill_seekers.mcp.server_fastmcp"
+pkill -f "yonyou_doc2skill.mcp.server_fastmcp"
 ```
 
 ### View Logs
 ```bash
-tail -f /tmp/skill-seekers-mcp.log
+tail -f /tmp/yonyou-doc2skill-mcp.log
 ```
 
 ## Configuration Files
@@ -89,7 +89,7 @@ tail -f /tmp/skill-seekers-mcp.log
   "mcpServers": {
     "skill-seeker": {
       "command": "python",
-      "args": ["-m", "skill_seekers.mcp.server_fastmcp"]
+      "args": ["-m", "yonyou_doc2skill.mcp.server_fastmcp"]
     }
   }
 }
@@ -113,7 +113,7 @@ tail -f /tmp/skill-seekers-mcp.log
 python3 -c "
 import sys
 sys.path.insert(0, 'src')
-from skill_seekers.mcp.agent_detector import AgentDetector
+from yonyou_doc2skill.mcp.agent_detector import AgentDetector
 for agent in AgentDetector().detect_agents():
     print(f\"{agent['name']} ({agent['transport']})\")
 "
@@ -124,21 +124,21 @@ for agent in AgentDetector().detect_agents():
 python3 -c "
 import sys
 sys.path.insert(0, 'src')
-from skill_seekers.mcp.agent_detector import generate_config
-print(generate_config('claude-code', 'skill-seekers mcp'))
+from yonyou_doc2skill.mcp.agent_detector import generate_config
+print(generate_config('claude-code', 'yonyou-doc2skill mcp'))
 "
 ```
 
 ### Test HTTP Server
 ```bash
 # Start server
-python3 -m skill_seekers.mcp.server_fastmcp --http --port 3000 &
+python3 -m yonyou_doc2skill.mcp.server_fastmcp --http --port 3000 &
 
 # Test health
 curl http://localhost:3000/health
 
 # Stop server
-pkill -f skill_seekers.mcp.server_fastmcp
+pkill -f yonyou_doc2skill.mcp.server_fastmcp
 ```
 
 ### Test in Agent
@@ -176,7 +176,7 @@ lsof -i :3000
 lsof -ti:3000 | xargs kill -9
 
 # Use different port
-python3 -m skill_seekers.mcp.server_fastmcp --http --port 8080
+python3 -m yonyou_doc2skill.mcp.server_fastmcp --http --port 8080
 ```
 
 ### Agent Can't Connect
@@ -185,11 +185,11 @@ python3 -m skill_seekers.mcp.server_fastmcp --http --port 8080
 curl http://localhost:3000/health
 
 # Check logs
-tail -f /tmp/skill-seekers-mcp.log
+tail -f /tmp/yonyou-doc2skill-mcp.log
 
 # Restart server
-pkill -f skill_seekers.mcp.server_fastmcp
-python3 -m skill_seekers.mcp.server_fastmcp --http --port 3000 &
+pkill -f yonyou_doc2skill.mcp.server_fastmcp
+python3 -m yonyou_doc2skill.mcp.server_fastmcp --http --port 3000 &
 ```
 
 ## Quick Commands
@@ -199,34 +199,34 @@ python3 -m skill_seekers.mcp.server_fastmcp --http --port 3000 &
 python3 --version
 
 # Test MCP server (stdio)
-python3 -m skill_seekers.mcp.server_fastmcp
+python3 -m yonyou_doc2skill.mcp.server_fastmcp
 
 # Test MCP server (HTTP)
-python3 -m skill_seekers.mcp.server_fastmcp --http --port 3000
+python3 -m yonyou_doc2skill.mcp.server_fastmcp --http --port 3000
 
 # Check installed agents
-python3 -c "import sys; sys.path.insert(0, 'src'); from skill_seekers.mcp.agent_detector import detect_agents; print(detect_agents())"
+python3 -c "import sys; sys.path.insert(0, 'src'); from yonyou_doc2skill.mcp.agent_detector import detect_agents; print(detect_agents())"
 
 # Generate config for agent
-python3 -c "import sys; sys.path.insert(0, 'src'); from skill_seekers.mcp.agent_detector import generate_config; print(generate_config('cursor', 'skill-seekers mcp', 3000))"
+python3 -c "import sys; sys.path.insert(0, 'src'); from yonyou_doc2skill.mcp.agent_detector import generate_config; print(generate_config('cursor', 'yonyou-doc2skill mcp', 3000))"
 
 # Validate config JSON
 jq empty ~/.config/claude-code/mcp.json
 
 # Start HTTP server in background
-nohup python3 -m skill_seekers.mcp.server_fastmcp --http --port 3000 > /tmp/skill-seekers-mcp.log 2>&1 &
+nohup python3 -m yonyou_doc2skill.mcp.server_fastmcp --http --port 3000 > /tmp/yonyou-doc2skill-mcp.log 2>&1 &
 
 # Health check
 curl http://localhost:3000/health
 
 # View logs
-tail -f /tmp/skill-seekers-mcp.log
+tail -f /tmp/yonyou-doc2skill-mcp.log
 
 # Find server process
-ps aux | grep skill_seekers.mcp.server_fastmcp
+ps aux | grep yonyou_doc2skill.mcp.server_fastmcp
 
 # Kill server
-pkill -f skill_seekers.mcp.server_fastmcp
+pkill -f yonyou_doc2skill.mcp.server_fastmcp
 ```
 
 ## Environment Variables
@@ -251,12 +251,12 @@ which python3
 
 ### Agent Detector Module
 ```
-src/skill_seekers/mcp/agent_detector.py
+src/yonyou_doc2skill/mcp/agent_detector.py
 ```
 
 ### MCP Server
 ```
-src/skill_seekers/mcp/server_fastmcp.py
+src/yonyou_doc2skill/mcp/server_fastmcp.py
 ```
 
 ### Documentation
@@ -295,7 +295,7 @@ docs/MCP_SETUP.md               # MCP integration guide
 ## Getting Help
 
 - **Documentation**: [docs/MULTI_AGENT_SETUP.md](MULTI_AGENT_SETUP.md)
-- **GitHub Issues**: https://github.com/yusufkaraaslan/Skill_Seekers/issues
+- **GitHub Issues**: https://github.com/yonyou/yonyou-doc2skill/issues
 - **MCP Docs**: https://modelcontextprotocol.io/
 
 ## Quick Validation Checklist
@@ -313,7 +313,7 @@ docs/MCP_SETUP.md               # MCP integration guide
 
 ## Version Info
 
-**Skill Seekers Version**: 2.1.2+
+**Yonyou Doc2Skill Version**: 2.1.2+
 **Setup Script**: Multi-agent auto-configuration
 **Supported Agents**: 5 (Claude Code, Cursor, Windsurf, VS Code + Cline, IntelliJ)
 **Transport Types**: stdio, HTTP

@@ -2,7 +2,7 @@
 
 ## Overview
 
-Skill_Seekers now automatically detects and uses llms.txt files when available, providing 10x faster documentation ingestion.
+yonyou_doc2skill now automatically detects and uses llms.txt files when available, providing 10x faster documentation ingestion.
 
 ## What is llms.txt?
 
@@ -14,7 +14,7 @@ The llms.txt convention is a growing standard where documentation sites provide 
 
 ## How It Works
 
-1. Before HTML scraping, Skill_Seekers checks for llms.txt files
+1. Before HTML scraping, yonyou_doc2skill checks for llms.txt files
 2. If found, downloads and parses the markdown
 3. If not found, falls back to HTML scraping
 4. Zero config changes needed

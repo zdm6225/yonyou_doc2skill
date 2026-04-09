@@ -1,6 +1,6 @@
 # Haystack Pipeline Example
 
-Complete example showing how to use Skill Seekers with Haystack 2.x for building RAG pipelines.
+Complete example showing how to use Yonyou Doc2Skill with Haystack 2.x for building RAG pipelines.
 
 ## What This Example Does
 
@@ -12,8 +12,8 @@ Complete example showing how to use Skill Seekers with Haystack 2.x for building
 ## Prerequisites
 
 ```bash
-# Install Skill Seekers
-pip install skill-seekers
+# Install Yonyou Doc2Skill
+pip install yonyou-doc2skill
 
 # Install Haystack 2.x
 pip install haystack-ai
@@ -25,10 +25,10 @@ pip install haystack-ai
 
 ```bash
 # Scrape React documentation
-skill-seekers scrape --config configs/react.json --max-pages 100
+yonyou-doc2skill scrape --config configs/react.json --max-pages 100
 
 # Package for Haystack
-skill-seekers package output/react --target haystack
+yonyou-doc2skill package output/react --target haystack
 ```
 
 This creates `output/react-haystack.json` with Haystack Documents.
@@ -132,7 +132,7 @@ For better retrieval quality, use semantic chunking:
 
 ```bash
 # Generate with chunking
-skill-seekers scrape --config configs/react.json --max-pages 100 --chunk-for-rag --chunk-tokens 512 --chunk-overlap-tokens 50
+yonyou-doc2skill scrape --config configs/react.json --max-pages 100 --chunk-for-rag --chunk-tokens 512 --chunk-overlap-tokens 50
 
 # Use chunked output
 python quickstart.py --chunked
@@ -243,8 +243,8 @@ pip install haystack-ai
 **Solution:** Run scraping first
 
 ```bash
-skill-seekers scrape --config configs/react.json
-skill-seekers package output/react --target haystack
+yonyou-doc2skill scrape --config configs/react.json
+yonyou-doc2skill package output/react --target haystack
 ```
 
 ### Issue: Poor retrieval quality
@@ -253,7 +253,7 @@ skill-seekers package output/react --target haystack
 
 ```bash
 # Semantic chunking
-skill-seekers scrape --config configs/react.json --chunk-for-rag
+yonyou-doc2skill scrape --config configs/react.json --chunk-for-rag
 
 # Or use vector embeddings (see Advanced Usage)
 ```
@@ -274,5 +274,5 @@ skill-seekers scrape --config configs/react.json --chunk-for-rag
 ## Resources
 
 - [Haystack Documentation](https://docs.haystack.deepset.ai/)
-- [Skill Seekers Documentation](https://github.com/yusufkaraaslan/Skill_Seekers)
+- [Yonyou Doc2Skill Documentation](https://github.com/yonyou/yonyou-doc2skill)
 - [Haystack Tutorials](https://haystack.deepset.ai/tutorials)

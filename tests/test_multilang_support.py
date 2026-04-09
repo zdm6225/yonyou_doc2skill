@@ -19,7 +19,7 @@ import json
 # Add src to path
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 
-from skill_seekers.cli.multilang_support import LanguageDetector, MultiLanguageManager
+from yonyou_doc2skill.cli.multilang_support import LanguageDetector, MultiLanguageManager
 
 
 def test_detect_english():

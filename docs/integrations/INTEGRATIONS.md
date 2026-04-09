@@ -1,4 +1,4 @@
-# AI System Integrations with Skill Seekers
+# AI System Integrations with Yonyou Doc2Skill
 
 **Universal Preprocessor:** Transform documentation into structured knowledge for any AI system
 
@@ -35,8 +35,8 @@ Transform documentation into RAG-ready formats for AI-powered search and retriev
 **Quick Example:**
 ```bash
 # Generate LangChain documents
-skill-seekers scrape --config configs/react.json
-skill-seekers package output/react --target langchain
+yonyou-doc2skill scrape --config configs/react.json
+yonyou-doc2skill package output/react --target langchain
 
 # Use in RAG pipeline
 python examples/langchain-rag-pipeline/quickstart.py
@@ -57,8 +57,8 @@ Direct upload to vector databases without RAG frameworks:
 **Quick Example:**
 ```bash
 # Generate Pinecone format
-skill-seekers scrape --config configs/fastapi.json
-skill-seekers package output/fastapi --target pinecone
+yonyou-doc2skill scrape --config configs/fastapi.json
+yonyou-doc2skill package output/fastapi --target pinecone
 
 # Upsert to Pinecone
 python examples/pinecone-upsert/quickstart.py
@@ -82,8 +82,8 @@ Give AI coding assistants expert knowledge of your frameworks:
 **Quick Example:**
 ```bash
 # For any AI coding assistant (Cursor, Windsurf, Cline, Continue.dev)
-skill-seekers scrape --config configs/django.json
-skill-seekers package output/django --target markdown  # or --target claude
+yonyou-doc2skill scrape --config configs/django.json
+yonyou-doc2skill package output/django --target markdown  # or --target claude
 
 # Copy to your project
 cp output/django-markdown/SKILL.md my-project/.cursorrules  # or appropriate config
@@ -117,11 +117,11 @@ Upload documentation as custom skills to AI chat platforms:
 **Quick Example:**
 ```bash
 # Generate Claude skill
-skill-seekers scrape --config configs/vue.json
-skill-seekers package output/vue --target claude
+yonyou-doc2skill scrape --config configs/vue.json
+yonyou-doc2skill package output/vue --target claude
 
 # Upload to Claude
-skill-seekers upload output/vue-claude.zip --target claude
+yonyou-doc2skill upload output/vue-claude.zip --target claude
 ```
 
 ---
@@ -207,11 +207,11 @@ Do you need RAG/search?
 
 ```bash
 # 1. Generate RAG pipeline (LangChain)
-skill-seekers scrape --config configs/django.json
-skill-seekers package output/django --target langchain --chunk-for-rag
+yonyou-doc2skill scrape --config configs/django.json
+yonyou-doc2skill package output/django --target langchain --chunk-for-rag
 
 # 2. Generate AI coding context (Cursor)
-skill-seekers package output/django --target claude
+yonyou-doc2skill package output/django --target claude
 
 # 3. Use both:
 # - Cursor: Quick context for common patterns
@@ -230,7 +230,7 @@ python rag_search.py "How to implement custom Django middleware?"
 
 ```bash
 # 1. Generate documentation
-skill-seekers scrape --config configs/react.json
+yonyou-doc2skill scrape --config configs/react.json
 
 # 2. Set up Continue.dev HTTP server (team server)
 python context_server.py --host 0.0.0.0 --port 8765
@@ -256,12 +256,12 @@ python context_server.py --host 0.0.0.0 --port 8765
 
 ```bash
 # 1. Generate backend context (FastAPI)
-skill-seekers scrape --config configs/fastapi.json
-skill-seekers package output/fastapi --target markdown
+yonyou-doc2skill scrape --config configs/fastapi.json
+yonyou-doc2skill package output/fastapi --target markdown
 
 # 2. Generate frontend context (Vue)
-skill-seekers scrape --config configs/vue.json
-skill-seekers package output/vue --target markdown
+yonyou-doc2skill scrape --config configs/vue.json
+yonyou-doc2skill package output/vue --target markdown
 
 # 3. For Cursor (modular rules):
 cat output/fastapi-markdown/SKILL.md >> .cursorrules
@@ -285,19 +285,19 @@ cat output/vue-markdown/SKILL.md >> .cursorrules
 
 ```bash
 # 1. Scrape public documentation
-skill-seekers scrape --config configs/custom-framework.json
+yonyou-doc2skill scrape --config configs/custom-framework.json
 
 # 2. Analyze internal codebase
-skill-seekers analyze --directory /path/to/internal/repo --comprehensive
+yonyou-doc2skill analyze --directory /path/to/internal/repo --comprehensive
 
 # 3. Merge both:
-skill-seekers merge-sources \
+yonyou-doc2skill merge-sources \
   --docs output/custom-framework \
   --codebase output/internal-repo \
   --output output/complete-knowledge
 
 # 4. Package for any platform
-skill-seekers package output/complete-knowledge --target [platform]
+yonyou-doc2skill package output/complete-knowledge --target [platform]
 
 # Result: Documentation + Real-world code patterns!
 ```
@@ -311,15 +311,15 @@ skill-seekers package output/complete-knowledge --target [platform]
 **Phase 1:** Single framework, single tool
 ```bash
 # Week 1: Just Cursor + React
-skill-seekers scrape --config configs/react.json
-skill-seekers package output/react --target claude
+yonyou-doc2skill scrape --config configs/react.json
+yonyou-doc2skill package output/react --target claude
 cp output/react-claude/SKILL.md .cursorrules
 ```
 
 **Phase 2:** Add RAG for deep search
 ```bash
 # Week 2: Add LangChain for complex queries
-skill-seekers package output/react --target langchain --chunk-for-rag
+yonyou-doc2skill package output/react --target langchain --chunk-for-rag
 # Now you have: Cursor (quick) + RAG (deep)
 ```
 
@@ -370,15 +370,15 @@ cat output/react-markdown/SKILL.md >> .cursorrules
 **Monthly:** Framework documentation
 ```bash
 # Check for framework updates
-skill-seekers scrape --config configs/react.json
+yonyou-doc2skill scrape --config configs/react.json
 # If new version, re-package
-skill-seekers package output/react --target [your-platform]
+yonyou-doc2skill package output/react --target [your-platform]
 ```
 
 **Quarterly:** Codebase analysis
 ```bash
 # Re-analyze internal codebase for new patterns
-skill-seekers analyze --directory . --comprehensive
+yonyou-doc2skill analyze --directory . --comprehensive
 ```
 
 **Yearly:** Architecture review
@@ -468,8 +468,8 @@ This project uses Cursor with custom rules:
 ### For RAG Pipelines:
 ```bash
 # Generate LangChain documents
-skill-seekers scrape --config configs/react.json
-skill-seekers package output/react --target langchain
+yonyou-doc2skill scrape --config configs/react.json
+yonyou-doc2skill package output/react --target langchain
 
 # Use in RAG pipeline
 python examples/langchain-rag-pipeline/quickstart.py
@@ -478,8 +478,8 @@ python examples/langchain-rag-pipeline/quickstart.py
 ### For AI Coding:
 ```bash
 # Generate Cursor rules
-skill-seekers scrape --config configs/django.json
-skill-seekers package output/django --target claude
+yonyou-doc2skill scrape --config configs/django.json
+yonyou-doc2skill package output/django --target claude
 
 # Copy to project
 cp output/django-claude/SKILL.md my-project/.cursorrules
@@ -488,8 +488,8 @@ cp output/django-claude/SKILL.md my-project/.cursorrules
 ### For Vector Databases:
 ```bash
 # Generate Pinecone format
-skill-seekers scrape --config configs/fastapi.json
-skill-seekers package output/fastapi --target pinecone
+yonyou-doc2skill scrape --config configs/fastapi.json
+yonyou-doc2skill package output/fastapi --target pinecone
 
 # Upsert to Pinecone
 python examples/pinecone-upsert/quickstart.py
@@ -498,7 +498,7 @@ python examples/pinecone-upsert/quickstart.py
 ### For Multi-IDE Teams:
 ```bash
 # Generate documentation
-skill-seekers scrape --config configs/vue.json
+yonyou-doc2skill scrape --config configs/vue.json
 
 # Start HTTP context server
 python examples/continue-dev-universal/context_server.py
@@ -527,10 +527,10 @@ python examples/continue-dev-universal/context_server.py
 
 ## 🤝 Community & Support
 
-- **Questions:** [GitHub Discussions](https://github.com/yusufkaraaslan/Skill_Seekers/discussions)
-- **Issues:** [GitHub Issues](https://github.com/yusufkaraaslan/Skill_Seekers/issues)
-- **Website:** [skillseekersweb.com](https://skillseekersweb.com/)
-- **Examples:** [GitHub Examples](https://github.com/yusufkaraaslan/Skill_Seekers/tree/main/examples)
+- **Questions:** [GitHub Discussions](https://github.com/yonyou/yonyou-doc2skill/discussions)
+- **Issues:** [GitHub Issues](https://github.com/yonyou/yonyou-doc2skill/issues)
+- **Website:** [docs.yonyou.example/yonyou-doc2skill](https://docs.yonyou.example/yonyou-doc2skill/)
+- **Examples:** [GitHub Examples](https://github.com/yonyou/yonyou-doc2skill/tree/main/examples)
 
 ---
 
@@ -542,9 +542,9 @@ python examples/continue-dev-universal/context_server.py
 4. **Customize for your project** with project-specific patterns
 5. **Share with your team** via Git or HTTP server
 
-**Need help deciding?** Ask in [GitHub Discussions](https://github.com/yusufkaraaslan/Skill_Seekers/discussions)
+**Need help deciding?** Ask in [GitHub Discussions](https://github.com/yonyou/yonyou-doc2skill/discussions)
 
 ---
 
 **Last Updated:** February 7, 2026
-**Skill Seekers Version:** v2.10.0+
+**Yonyou Doc2Skill Version:** v2.10.0+

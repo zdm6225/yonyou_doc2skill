@@ -9,7 +9,7 @@ import json
 import pytest
 
 # Import adaptors
-from skill_seekers.cli.adaptors import get_adaptor
+from yonyou_doc2skill.cli.adaptors import get_adaptor
 
 
 @pytest.fixture
@@ -159,7 +159,7 @@ class TestEmbeddingMethodInheritance:
         adaptor = get_adaptor("chroma")
         assert hasattr(adaptor, "_generate_openai_embeddings")
         # Verify it's the base class method, not a local override
-        from skill_seekers.cli.adaptors.base import SkillAdaptor
+        from yonyou_doc2skill.cli.adaptors.base import SkillAdaptor
 
         assert (
             adaptor._generate_openai_embeddings.__func__ is SkillAdaptor._generate_openai_embeddings
@@ -170,7 +170,7 @@ class TestEmbeddingMethodInheritance:
         adaptor = get_adaptor("weaviate")
         assert hasattr(adaptor, "_generate_openai_embeddings")
         assert hasattr(adaptor, "_generate_st_embeddings")
-        from skill_seekers.cli.adaptors.base import SkillAdaptor
+        from yonyou_doc2skill.cli.adaptors.base import SkillAdaptor
 
         assert (
             adaptor._generate_openai_embeddings.__func__ is SkillAdaptor._generate_openai_embeddings
@@ -182,7 +182,7 @@ class TestEmbeddingMethodInheritance:
         adaptor = get_adaptor("pinecone")
         assert hasattr(adaptor, "_generate_openai_embeddings")
         assert hasattr(adaptor, "_generate_st_embeddings")
-        from skill_seekers.cli.adaptors.base import SkillAdaptor
+        from yonyou_doc2skill.cli.adaptors.base import SkillAdaptor
 
         assert (
             adaptor._generate_openai_embeddings.__func__ is SkillAdaptor._generate_openai_embeddings
@@ -229,7 +229,7 @@ class TestUploadCommandIntegration:
 
     def test_upload_skill_api_signature(self):
         """Test upload_skill_api has correct signature."""
-        from skill_seekers.cli.upload_skill import upload_skill_api
+        from yonyou_doc2skill.cli.upload_skill import upload_skill_api
 
         # Verify function exists
         assert callable(upload_skill_api)

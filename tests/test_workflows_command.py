@@ -16,9 +16,9 @@ import pytest
 
 # Import the MODULE object (not just individual symbols) so we can patch it
 # directly via patch.object(). This survives any sys.modules manipulation by
-# other tests (e.g. test_swift_detection clears skill_seekers.cli.*), because
+# other tests (e.g. test_swift_detection clears yonyou_doc2skill.cli.*), because
 # we hold a reference to the original module object at collection time.
-import skill_seekers.cli.workflows_command as _wf_cmd
+import yonyou_doc2skill.cli.workflows_command as _wf_cmd
 
 cmd_list = _wf_cmd.cmd_list
 cmd_show = _wf_cmd.cmd_show
@@ -400,14 +400,14 @@ class TestCmdValidate:
 
 class TestMain:
     def test_main_no_action_exits_0(self):
-        from skill_seekers.cli.workflows_command import main
+        from yonyou_doc2skill.cli.workflows_command import main
 
         with pytest.raises(SystemExit) as exc:
             main([])
         assert exc.value.code == 0
 
     def test_main_list(self, capsys, tmp_user_dir):
-        from skill_seekers.cli.workflows_command import main
+        from yonyou_doc2skill.cli.workflows_command import main
 
         # tmp_user_dir is empty; mock bundled to return nothing
         with _mock_bundled([]), pytest.raises(SystemExit) as exc:
@@ -415,7 +415,7 @@ class TestMain:
         assert exc.value.code == 0
 
     def test_main_validate_success(self, capsys, sample_yaml_file):
-        from skill_seekers.cli.workflows_command import main
+        from yonyou_doc2skill.cli.workflows_command import main
 
         with pytest.raises(SystemExit) as exc:
             main(["validate", str(sample_yaml_file)])

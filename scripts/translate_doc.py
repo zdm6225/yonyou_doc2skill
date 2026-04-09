@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Translate Skill Seekers documentation to Chinese.
+Translate Yonyou Doc2Skill documentation to Chinese.
 
 Usage:
     python scripts/translate_doc.py <file> --target-lang zh-CN
@@ -17,7 +17,7 @@ from datetime import datetime
 def get_version() -> str:
     """Get current version from package."""
     try:
-        from skill_seekers import __version__
+        from yonyou_doc2skill import __version__
         return __version__
     except ImportError:
         return "3.1.0"
@@ -30,7 +30,7 @@ def translate_with_anthropic(content: str, api_key: str) -> str:
         
         client = anthropic.Anthropic(api_key=api_key)
         
-        system_prompt = """You are a professional technical translator translating Skill Seekers documentation from English to Simplified Chinese.
+        system_prompt = """You are a professional technical translator translating Yonyou Doc2Skill documentation from English to Simplified Chinese.
 
 Translation rules:
 1. Keep technical terms in English: CLI, API, JSON, YAML, MCP, URL, HTTP, etc.
@@ -198,7 +198,7 @@ def translate_file(input_path: str, target_lang: str = "zh-CN"):
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Translate Skill Seekers documentation to Chinese"
+        description="Translate Yonyou Doc2Skill documentation to Chinese"
     )
     parser.add_argument(
         "file",

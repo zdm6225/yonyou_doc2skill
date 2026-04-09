@@ -18,7 +18,7 @@ class TestMarkdownContentExtraction(unittest.TestCase):
 
     def setUp(self):
         """Set up test fixtures."""
-        from skill_seekers.cli.doc_scraper import DocToSkillConverter
+        from yonyou_doc2skill.cli.doc_scraper import DocToSkillConverter
 
         self.config = {
             "name": "test_md_parsing",
@@ -128,7 +128,7 @@ class TestHtmlAsMarkdownExtraction(unittest.TestCase):
 
     def setUp(self):
         """Set up test fixtures."""
-        from skill_seekers.cli.doc_scraper import DocToSkillConverter
+        from yonyou_doc2skill.cli.doc_scraper import DocToSkillConverter
 
         self.config = {
             "name": "test_html_fallback",
@@ -197,7 +197,7 @@ class TestLlmsTxtUrlExtraction(unittest.TestCase):
 
     def test_extract_markdown_style_links(self):
         """Test extracting [text](url) style links."""
-        from skill_seekers.cli.llms_txt_parser import LlmsTxtParser
+        from yonyou_doc2skill.cli.llms_txt_parser import LlmsTxtParser
 
         content = """
 # Documentation Index
@@ -215,7 +215,7 @@ class TestLlmsTxtUrlExtraction(unittest.TestCase):
 
     def test_extract_bare_urls(self):
         """Test extracting bare URLs without markdown syntax."""
-        from skill_seekers.cli.llms_txt_parser import LlmsTxtParser
+        from yonyou_doc2skill.cli.llms_txt_parser import LlmsTxtParser
 
         content = """
 Documentation: https://example.com/docs/guide.md
@@ -229,7 +229,7 @@ API: https://example.com/api/reference.md
 
     def test_resolve_relative_urls(self):
         """Test resolving relative URLs with base_url."""
-        from skill_seekers.cli.llms_txt_parser import LlmsTxtParser
+        from yonyou_doc2skill.cli.llms_txt_parser import LlmsTxtParser
 
         content = """
 - [Local Doc](./docs/guide.md)
@@ -243,7 +243,7 @@ API: https://example.com/api/reference.md
 
     def test_clean_url_invalid_anchor_pattern(self):
         """Test cleaning URLs with invalid anchor patterns."""
-        from skill_seekers.cli.llms_txt_parser import LlmsTxtParser
+        from yonyou_doc2skill.cli.llms_txt_parser import LlmsTxtParser
 
         parser = LlmsTxtParser("", base_url="https://example.com")
 
@@ -253,7 +253,7 @@ API: https://example.com/api/reference.md
 
     def test_clean_url_valid_anchor(self):
         """Test that valid anchors are preserved."""
-        from skill_seekers.cli.llms_txt_parser import LlmsTxtParser
+        from yonyou_doc2skill.cli.llms_txt_parser import LlmsTxtParser
 
         parser = LlmsTxtParser("", base_url="https://example.com")
 
@@ -263,7 +263,7 @@ API: https://example.com/api/reference.md
 
     def test_clean_url_no_anchor(self):
         """Test that URLs without anchors are unchanged."""
-        from skill_seekers.cli.llms_txt_parser import LlmsTxtParser
+        from yonyou_doc2skill.cli.llms_txt_parser import LlmsTxtParser
 
         parser = LlmsTxtParser("", base_url="https://example.com")
 
@@ -272,7 +272,7 @@ API: https://example.com/api/reference.md
 
     def test_clean_url_bracket_encoding(self):
         """Test that square brackets are percent-encoded in URL path (#284)."""
-        from skill_seekers.cli.llms_txt_parser import LlmsTxtParser
+        from yonyou_doc2skill.cli.llms_txt_parser import LlmsTxtParser
 
         parser = LlmsTxtParser("", base_url="https://example.com")
 
@@ -281,7 +281,7 @@ API: https://example.com/api/reference.md
 
     def test_clean_url_bracket_encoding_preserves_host(self):
         """Test that bracket encoding does not affect host (IPv6 literals)."""
-        from skill_seekers.cli.llms_txt_parser import LlmsTxtParser
+        from yonyou_doc2skill.cli.llms_txt_parser import LlmsTxtParser
 
         parser = LlmsTxtParser("", base_url="https://example.com")
 
@@ -293,7 +293,7 @@ API: https://example.com/api/reference.md
 
     def test_clean_url_bracket_in_query(self):
         """Test that brackets in query params are also encoded."""
-        from skill_seekers.cli.llms_txt_parser import LlmsTxtParser
+        from yonyou_doc2skill.cli.llms_txt_parser import LlmsTxtParser
 
         parser = LlmsTxtParser("", base_url="https://example.com")
 
@@ -302,7 +302,7 @@ API: https://example.com/api/reference.md
 
     def test_clean_url_malformed_anchor_with_brackets(self):
         """Test combined malformed anchor stripping + bracket encoding."""
-        from skill_seekers.cli.llms_txt_parser import LlmsTxtParser
+        from yonyou_doc2skill.cli.llms_txt_parser import LlmsTxtParser
 
         parser = LlmsTxtParser("", base_url="https://example.com")
 
@@ -316,7 +316,7 @@ API: https://example.com/api/reference.md
         Python 3.14 raises ValueError from urlparse() on these URLs.
         Seen in real-world llms-full.txt from docs.openclaw.ai.
         """
-        from skill_seekers.cli.llms_txt_parser import LlmsTxtParser
+        from yonyou_doc2skill.cli.llms_txt_parser import LlmsTxtParser
 
         parser = LlmsTxtParser("", base_url="https://example.com")
 
@@ -327,7 +327,7 @@ API: https://example.com/api/reference.md
 
     def test_extract_urls_with_ipv6_placeholder_no_crash(self):
         """Test that extract_urls handles content with broken IPv6 URLs (issue #284)."""
-        from skill_seekers.cli.llms_txt_parser import LlmsTxtParser
+        from yonyou_doc2skill.cli.llms_txt_parser import LlmsTxtParser
 
         content = """# Docs
 - [Guide](https://example.com/guide.md)
@@ -344,7 +344,7 @@ API: https://example.com/api/reference.md
 
     def test_deduplicate_urls(self):
         """Test that duplicate URLs are removed."""
-        from skill_seekers.cli.llms_txt_parser import LlmsTxtParser
+        from yonyou_doc2skill.cli.llms_txt_parser import LlmsTxtParser
 
         content = """
 - [Doc 1](https://example.com/doc.md)
@@ -364,7 +364,7 @@ class TestSavePageContentFiltering(unittest.TestCase):
 
     def setUp(self):
         """Set up test fixtures."""
-        from skill_seekers.cli.doc_scraper import DocToSkillConverter
+        from yonyou_doc2skill.cli.doc_scraper import DocToSkillConverter
 
         self.config = {
             "name": "test_save_filter",

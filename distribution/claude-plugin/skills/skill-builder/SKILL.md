@@ -1,11 +1,11 @@
 ---
 name: skill-builder
-description: Automatically detect source types and build AI skills using Skill Seekers. Use when the user wants to create skills from documentation, repos, PDFs, videos, or other knowledge sources.
+description: Automatically detect source types and build AI skills using Yonyou Doc2Skill. Use when the user wants to create skills from documentation, repos, PDFs, videos, or other knowledge sources.
 ---
 
 # Skill Builder
 
-You have access to the Skill Seekers MCP server which provides 35 tools for converting knowledge sources into AI-ready skills.
+You have access to the Yonyou Doc2Skill MCP server which provides 35 tools for converting knowledge sources into AI-ready skills.
 
 ## When to Use This Skill
 

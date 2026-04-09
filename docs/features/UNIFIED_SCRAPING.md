@@ -620,16 +620,16 @@ useEffect(callback: () => void | (() => void), deps?: readonly any[])
 
 ```bash
 # Basic usage
-skill-seekers unified --config configs/react_unified.json
+yonyou-doc2skill unified --config configs/react_unified.json
 
 # Override merge mode
-skill-seekers unified --config configs/react_unified.json --merge-mode claude-enhanced
+yonyou-doc2skill unified --config configs/react_unified.json --merge-mode claude-enhanced
 
 # Fresh start (clear cached data)
-skill-seekers unified --config configs/react_unified.json --fresh
+yonyou-doc2skill unified --config configs/react_unified.json --fresh
 
 # Dry run (preview without executing)
-skill-seekers unified --config configs/react_unified.json --dry-run
+yonyou-doc2skill unified --config configs/react_unified.json --dry-run
 ```
 
 ### Enhancement Workflow Options
@@ -638,25 +638,25 @@ All workflow flags are now supported:
 
 ```bash
 # Apply workflow preset
-skill-seekers unified --config configs/react_unified.json --enhance-workflow security-focus
+yonyou-doc2skill unified --config configs/react_unified.json --enhance-workflow security-focus
 
 # Multiple workflows (chained)
-skill-seekers unified --config configs/react_unified.json \
+yonyou-doc2skill unified --config configs/react_unified.json \
   --enhance-workflow security-focus \
   --enhance-workflow api-documentation
 
 # Custom enhancement stage
-skill-seekers unified --config configs/react_unified.json \
+yonyou-doc2skill unified --config configs/react_unified.json \
   --enhance-stage "cleanup:Remove boilerplate content"
 
 # Workflow variables
-skill-seekers unified --config configs/react_unified.json \
+yonyou-doc2skill unified --config configs/react_unified.json \
   --enhance-workflow my-workflow \
   --var focus_area=performance \
   --var detail_level=high
 
 # Preview workflows without executing
-skill-seekers unified --config configs/react_unified.json \
+yonyou-doc2skill unified --config configs/react_unified.json \
   --enhance-workflow security-focus \
   --workflow-dry-run
 ```
@@ -667,10 +667,10 @@ Override enhancement settings from CLI:
 
 ```bash
 # Override enhance level for all sources
-skill-seekers unified --config configs/react_unified.json --enhance-level 3
+yonyou-doc2skill unified --config configs/react_unified.json --enhance-level 3
 
 # Provide API key (or use ANTHROPIC_API_KEY env var)
-skill-seekers unified --config configs/react_unified.json --api-key YOUR_API_KEY
+yonyou-doc2skill unified --config configs/react_unified.json --api-key YOUR_API_KEY
 ```
 
 ### Workflow Configuration in JSON
@@ -920,8 +920,8 @@ Planned features:
 ## Support
 
 For issues, questions, or suggestions:
-- GitHub Issues: https://github.com/yusufkaraaslan/Skill_Seekers/issues
-- Documentation: https://github.com/yusufkaraaslan/Skill_Seekers/docs
+- GitHub Issues: https://github.com/yonyou/yonyou-doc2skill/issues
+- Documentation: https://github.com/yonyou/yonyou-doc2skill/docs
 
 ## Changelog
 

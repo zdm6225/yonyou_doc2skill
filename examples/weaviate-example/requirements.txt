@@ -1,7 +1,7 @@
 # Weaviate Example Dependencies
 
-# Skill Seekers (main package)
-skill-seekers>=2.10.0
+# Yonyou Doc2Skill (main package)
+yonyou-doc2skill>=2.10.0
 
 # Weaviate Python client
 weaviate-client>=4.0.0

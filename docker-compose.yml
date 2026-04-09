@@ -1,16 +1,16 @@
-# Skill Seekers Docker Compose
+# Yonyou Doc2Skill Docker Compose
 # Complete deployment with MCP server and vector databases
 
 version: '3.8'
 
 services:
-  # Main Skill Seekers CLI application
-  skill-seekers:
+  # Main Yonyou Doc2Skill CLI application
+  yonyou-doc2skill:
     build:
       context: .
       dockerfile: Dockerfile
-    image: skill-seekers:latest
-    container_name: skill-seekers
+    image: yonyou-doc2skill:latest
+    container_name: yonyou-doc2skill
     environment:
       - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
       - GOOGLE_API_KEY=${GOOGLE_API_KEY}
@@ -21,16 +21,16 @@ services:
       - ./configs:/configs:ro
       - ./output:/output
     networks:
-      - skill-seekers-net
-    command: ["skill-seekers", "--help"]
+      - yonyou-doc2skill-net
+    command: ["yonyou-doc2skill", "--help"]
 
   # MCP Server (HTTP mode)
   mcp-server:
     build:
       context: .
       dockerfile: Dockerfile.mcp
-    image: skill-seekers-mcp:latest
-    container_name: skill-seekers-mcp
+    image: yonyou-doc2skill-mcp:latest
+    container_name: yonyou-doc2skill-mcp
     ports:
       - "8765:8765"
     environment:
@@ -45,7 +45,7 @@ services:
       - ./configs:/configs:ro
       - ./output:/output
     networks:
-      - skill-seekers-net
+      - yonyou-doc2skill-net
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8765/health"]
@@ -70,7 +70,7 @@ services:
     volumes:
       - weaviate-data:/var/lib/weaviate
     networks:
-      - skill-seekers-net
+      - yonyou-doc2skill-net
     restart: unless-stopped
 
   # Qdrant Vector Database
@@ -83,7 +83,7 @@ services:
     volumes:
       - qdrant-data:/qdrant/storage
     networks:
-      - skill-seekers-net
+      - yonyou-doc2skill-net
     restart: unless-stopped
 
   # Chroma Vector Database
@@ -98,11 +98,11 @@ services:
     volumes:
       - chroma-data:/chroma/data
     networks:
-      - skill-seekers-net
+      - yonyou-doc2skill-net
     restart: unless-stopped
 
 networks:
-  skill-seekers-net:
+  yonyou-doc2skill-net:
     driver: bridge
 
 volumes:

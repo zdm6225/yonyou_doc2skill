@@ -1,7 +1,7 @@
 """Tests for ExecutionContext singleton.
 
 This module tests the ExecutionContext class which provides a single source
-of truth for all configuration in Skill Seekers.
+of truth for all configuration in Yonyou Doc2Skill.
 """
 
 import argparse
@@ -11,7 +11,7 @@ import tempfile
 
 import pytest
 
-from skill_seekers.cli.execution_context import (
+from yonyou_doc2skill.cli.execution_context import (
     ExecutionContext,
     get_context,
 )

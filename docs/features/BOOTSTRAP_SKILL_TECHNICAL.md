@@ -19,7 +19,7 @@ This document provides a **technical deep dive** into the Bootstrap Skill featur
 
 ### Output Statistics
 
-From a real bootstrap run on the Skill Seekers codebase (v2.8.0-dev):
+From a real bootstrap run on the Yonyou Doc2Skill codebase (v2.8.0-dev):
 
 **Files Analyzed:**
 - **Total Python Files:** 140
@@ -29,7 +29,7 @@ From a real bootstrap run on the Skill Seekers codebase (v2.8.0-dev):
 
 **Generated Output:**
 ```
-output/skill-seekers/
+output/yonyou-doc2skill/
 ├── SKILL.md                     230 lines, 7.6 KB
 ├── code_analysis.json           2.3 MB (complete AST)
 ├── patterns/
@@ -84,7 +84,7 @@ From `patterns/detected_patterns.json` (332 KB):
 - ENV: Environment variables
 
 **Configuration Patterns:**
-- Database: Not detected (no DB in skill-seekers)
+- Database: Not detected (no DB in yonyou-doc2skill)
 - API: GitHub API, Anthropic API, Google API, OpenAI API
 - Logging: Python logging configuration
 - Cache: `.skillseeker-cache/` management
@@ -96,9 +96,9 @@ From `patterns/detected_patterns.json` (332 KB):
 
 **Evidence:**
 ```
-Layer 1: CLI Interface (src/skill_seekers/cli/)
+Layer 1: CLI Interface (src/yonyou_doc2skill/cli/)
   ↓
-Layer 2: Core Logic (src/skill_seekers/core/)
+Layer 2: Core Logic (src/yonyou_doc2skill/core/)
 ```
 
 **Separation:**
@@ -148,7 +148,7 @@ Fails fast with helpful installation instructions.
 **Step 2: Codebase Analysis (lines 37-45)**
 ```bash
 rm -rf "$OUTPUT_DIR" 2>/dev/null || true
-uv run skill-seekers analyze \
+uv run yonyou-doc2skill analyze \
     --directory "$PROJECT_ROOT" \
     --output "$OUTPUT_DIR" \
     --depth deep \
@@ -217,18 +217,18 @@ cat header.md auto_generated.md > final.md
 **Result:**
 ```markdown
 ---                        ← From header (manual)
-name: skill-seekers
+name: yonyou-doc2skill
 description: ...
 ---
 
-# Skill Seekers            ← From header (manual)
+# Yonyou Doc2Skill            ← From header (manual)
 
 ## Prerequisites
 ...
 
 ---                        ← From auto-gen (skipped!)
 
-# Skill_Seekers Codebase  ← From auto-gen (included!)
+# yonyou_doc2skill Codebase  ← From auto-gen (included!)
 ...
 ```
 
@@ -328,11 +328,11 @@ fi
 1. **Operational Context** - AI doesn't know best UX
    ```markdown
    # AI-generated (generic):
-   "Skill Seekers is a tool for..."
+   "Yonyou Doc2Skill is a tool for..."
 
    # Manual (operational):
    "## Prerequisites
-   pip install skill-seekers
+   pip install yonyou-doc2skill
 
    ## Commands
    | Source | Command |"
@@ -506,8 +506,8 @@ Detected 200+ patterns (90% are false positives)
 **Solution:**
 ```bash
 # Use surface or deep, not full
-skill-seekers codebase --depth deep  # ✅
-skill-seekers codebase --depth full  # ❌ Too many
+yonyou-doc2skill codebase --depth deep  # ✅
+yonyou-doc2skill codebase --depth full  # ❌ Too many
 ```
 
 **Why Bootstrap Uses Deep:**
@@ -519,11 +519,11 @@ skill-seekers codebase --depth full  # ❌ Too many
 **Symptom:**
 ```markdown
 ---
-name: skill-seekers
+name: yonyou-doc2skill
 ---
 
 ---
-name: skill-seekers
+name: yonyou-doc2skill
 ---
 ```
 
@@ -532,7 +532,7 @@ name: skill-seekers
 **Solution:**
 ```bash
 # Check second '---' is found
-grep -n '^---$' output/skill-seekers/SKILL.md
+grep -n '^---$' output/yonyou-doc2skill/SKILL.md
 
 # Should output:
 # 1:---
@@ -542,7 +542,7 @@ grep -n '^---$' output/skill-seekers/SKILL.md
 **Debug:**
 ```bash
 # Show frontmatter end line number
-FRONTMATTER_END=$(grep -n '^---$' output/skill-seekers/SKILL.md | sed -n '2p' | cut -d: -f1)
+FRONTMATTER_END=$(grep -n '^---$' output/yonyou-doc2skill/SKILL.md | sed -n '2p' | cut -d: -f1)
 echo "Frontmatter ends at line: $FRONTMATTER_END"
 ```
 
@@ -562,7 +562,7 @@ head -10 scripts/skill_header.md
 
 # Should show:
 # ---
-# name: skill-seekers
+# name: yonyou-doc2skill
 # description: ...
 # ---
 ```
@@ -571,10 +571,10 @@ head -10 scripts/skill_header.md
 ```bash
 # Ensure frontmatter is YAML, not Markdown
 # WRONG:
-# # name: skill-seekers  ❌ (Markdown comment)
+# # name: yonyou-doc2skill  ❌ (Markdown comment)
 #
 # RIGHT:
-# name: skill-seekers   ✅ (YAML field)
+# name: yonyou-doc2skill   ✅ (YAML field)
 ```
 
 ---
@@ -616,14 +616,14 @@ See [Future Enhancements](#future-enhancements-discussion) section at the end of
 
 ## Architectural Insights
 
-### Why Bootstrap Proves Skill Seekers Works
+### Why Bootstrap Proves Yonyou Doc2Skill Works
 
 **Chicken-and-Egg Problem:**
-- "How do we know skill-seekers works?"
+- "How do we know yonyou-doc2skill works?"
 - "Trust us, it works!"
 
 **Bootstrap Solution:**
-- Use skill-seekers to analyze itself
+- Use yonyou-doc2skill to analyze itself
 - If output is useful → tool works
 - If output is garbage → tool is broken
 
@@ -640,19 +640,19 @@ See [Future Enhancements](#future-enhancements-discussion) section at the end of
 **Recursion in Software:**
 1. Compiler compiling itself (bootstrapping)
 2. Linter linting its own code
-3. **Skill-seekers generating its own skill** ← We are here
+3. **Yonyou Doc2Skill generating its own skill** ← We are here
 
 **Benefits:**
 1. **Quality proof** - Works on complex codebase
 2. **Always current** - Regenerate after changes
 3. **Self-documenting** - Code is the documentation
-4. **Developer onboarding** - Claude becomes expert on skill-seekers
+4. **Developer onboarding** - Claude becomes expert on yonyou-doc2skill
 
 ---
 
 ## Conclusion
 
-The Bootstrap Skill is a **meta-application** that demonstrates Skill Seekers' capabilities by using it to analyze itself. Key technical achievements:
+The Bootstrap Skill is a **meta-application** that demonstrates Yonyou Doc2Skill' capabilities by using it to analyze itself. Key technical achievements:
 
 - **Deterministic:** No AI randomness (reproducible builds)
 - **Fast:** 3 minutes (suitable for CI/CD)
@@ -660,7 +660,7 @@ The Bootstrap Skill is a **meta-application** that demonstrates Skill Seekers' c
 - **Smart:** Dynamic frontmatter detection (no hardcoded line numbers)
 - **Validated:** 8-12 tests ensuring quality
 
-**Result:** A production-ready skill that turns Claude Code into an expert on Skill Seekers, proving the tool works while making it easier to use.
+**Result:** A production-ready skill that turns Claude Code into an expert on Yonyou Doc2Skill, proving the tool works while making it easier to use.
 
 ---
 

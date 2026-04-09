@@ -207,7 +207,7 @@ def sample_chapters():
 @pytest.fixture
 def sample_video_config():
     """Create a sample VideoSourceConfig."""
-    from skill_seekers.cli.video_models import VideoSourceConfig
+    from yonyou_doc2skill.cli.video_models import VideoSourceConfig
     return VideoSourceConfig(
         url="https://www.youtube.com/watch?v=abc123def45",
         name="test_video",
@@ -337,27 +337,27 @@ class TestEnums:
 """Tests for transcript extraction (YouTube API + Whisper + subtitle parsing)."""
 
 class TestYouTubeTranscript:
-    @patch('skill_seekers.cli.video_transcript.YouTubeTranscriptApi')
+    @patch('yonyou_doc2skill.cli.video_transcript.YouTubeTranscriptApi')
     def test_extract_manual_captions(self, mock_api, sample_transcript):
         """Prefers manual captions over auto-generated."""
         ...
 
-    @patch('skill_seekers.cli.video_transcript.YouTubeTranscriptApi')
+    @patch('yonyou_doc2skill.cli.video_transcript.YouTubeTranscriptApi')
     def test_fallback_to_auto_generated(self, mock_api):
         """Falls back to auto-generated when manual not available."""
         ...
 
-    @patch('skill_seekers.cli.video_transcript.YouTubeTranscriptApi')
+    @patch('yonyou_doc2skill.cli.video_transcript.YouTubeTranscriptApi')
     def test_fallback_to_translation(self, mock_api):
         """Falls back to translated captions when preferred language unavailable."""
         ...
 
-    @patch('skill_seekers.cli.video_transcript.YouTubeTranscriptApi')
+    @patch('yonyou_doc2skill.cli.video_transcript.YouTubeTranscriptApi')
     def test_no_transcript_available(self, mock_api):
         """Raises TranscriptNotAvailable when no captions exist."""
         ...
 
-    @patch('skill_seekers.cli.video_transcript.YouTubeTranscriptApi')
+    @patch('yonyou_doc2skill.cli.video_transcript.YouTubeTranscriptApi')
     def test_confidence_scoring(self, mock_api, sample_transcript):
         """Manual captions get 1.0 confidence, auto-generated get 0.8."""
         ...
@@ -365,17 +365,17 @@ class TestYouTubeTranscript:
 
 class TestWhisperTranscription:
     @pytest.mark.slow
-    @patch('skill_seekers.cli.video_transcript.WhisperModel')
+    @patch('yonyou_doc2skill.cli.video_transcript.WhisperModel')
     def test_transcribe_with_word_timestamps(self, mock_model):
         """Whisper returns word-level timestamps."""
         ...
 
-    @patch('skill_seekers.cli.video_transcript.WhisperModel')
+    @patch('yonyou_doc2skill.cli.video_transcript.WhisperModel')
     def test_language_detection(self, mock_model):
         """Whisper detects video language."""
         ...
 
-    @patch('skill_seekers.cli.video_transcript.WhisperModel')
+    @patch('yonyou_doc2skill.cli.video_transcript.WhisperModel')
     def test_vad_filtering(self, mock_model):
         """VAD filter removes silence segments."""
         ...
@@ -411,8 +411,8 @@ class TestSubtitleParsing:
 
 
 class TestTranscriptFallbackChain:
-    @patch('skill_seekers.cli.video_transcript.YouTubeTranscriptApi')
-    @patch('skill_seekers.cli.video_transcript.WhisperModel')
+    @patch('yonyou_doc2skill.cli.video_transcript.YouTubeTranscriptApi')
+    @patch('yonyou_doc2skill.cli.video_transcript.WhisperModel')
     def test_youtube_then_whisper_fallback(self, mock_whisper, mock_yt_api):
         """Falls back to Whisper when YouTube captions fail."""
         ...
@@ -465,17 +465,17 @@ class TestKeyframeTimestamps:
 
 class TestOCRExtraction:
     @pytest.mark.slow
-    @patch('skill_seekers.cli.video_visual.easyocr.Reader')
+    @patch('yonyou_doc2skill.cli.video_visual.easyocr.Reader')
     def test_extract_text_from_code_frame(self, mock_reader, tmp_path):
         """OCR extracts text from code editor frame."""
         ...
 
-    @patch('skill_seekers.cli.video_visual.easyocr.Reader')
+    @patch('yonyou_doc2skill.cli.video_visual.easyocr.Reader')
     def test_confidence_filtering(self, mock_reader):
         """Low-confidence OCR results are filtered out."""
         ...
 
-    @patch('skill_seekers.cli.video_visual.easyocr.Reader')
+    @patch('yonyou_doc2skill.cli.video_visual.easyocr.Reader')
     def test_monospace_detection(self, mock_reader):
         """Monospace text regions correctly detected."""
         ...
@@ -653,8 +653,8 @@ class TestUnifiedConfigVideo:
 
 
 class TestFullPipeline:
-    @patch('skill_seekers.cli.video_transcript.YouTubeTranscriptApi')
-    @patch('skill_seekers.cli.video_scraper.YoutubeDL')
+    @patch('yonyou_doc2skill.cli.video_transcript.YouTubeTranscriptApi')
+    @patch('yonyou_doc2skill.cli.video_scraper.YoutubeDL')
     def test_single_video_transcript_only(
         self, mock_ytdl, mock_transcript, sample_ytdlp_metadata,
         sample_transcript, video_output_dir
@@ -668,9 +668,9 @@ class TestFullPipeline:
         ...
 
     @pytest.mark.slow
-    @patch('skill_seekers.cli.video_visual.easyocr.Reader')
-    @patch('skill_seekers.cli.video_transcript.YouTubeTranscriptApi')
-    @patch('skill_seekers.cli.video_scraper.YoutubeDL')
+    @patch('yonyou_doc2skill.cli.video_visual.easyocr.Reader')
+    @patch('yonyou_doc2skill.cli.video_transcript.YouTubeTranscriptApi')
+    @patch('yonyou_doc2skill.cli.video_scraper.YoutubeDL')
     def test_single_video_with_visual(
         self, mock_ytdl, mock_transcript, mock_ocr,
         sample_ytdlp_metadata, video_output_dir

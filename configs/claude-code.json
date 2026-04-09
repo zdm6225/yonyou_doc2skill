@@ -5,7 +5,7 @@
   "sources": [
     {
       "type": "documentation",
-      "_migration_note": "TODO: Migrate to external skill-seekers-configs repo. Kept temporarily to preserve PR #244 work.",
+      "_migration_note": "TODO: Migrate to external yonyou-doc2skill-configs repo. Kept temporarily to preserve PR #244 work.",
       "base_url": "https://code.claude.com/docs/en/",
       "start_urls": [
         "https://code.claude.com/docs/en/overview",

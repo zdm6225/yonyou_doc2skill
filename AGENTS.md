@@ -1,6 +1,6 @@
-# AGENTS.md - Skill Seekers
+# AGENTS.md - Yonyou Doc2Skill
 
-Concise reference for AI coding agents. Skill Seekers is a Python CLI tool (v3.3.0) that converts documentation sites, GitHub repos, PDFs, videos, notebooks, wikis, and more into AI-ready skills for 16+ LLM platforms and RAG pipelines.
+Concise reference for AI coding agents. Yonyou Doc2Skill is a Python CLI tool (v3.3.0) that converts documentation sites, GitHub repos, PDFs, videos, notebooks, wikis, and more into AI-ready skills for 16+ LLM platforms and RAG pipelines.
 
 ## Setup
 
@@ -13,7 +13,7 @@ pip install -e ".[dev]"
 pip install -e ".[all]"
 ```
 
-Note: `tests/conftest.py` checks that `skill_seekers` is importable and calls `sys.exit(1)` if not. Always install in editable mode first.
+Note: the current Python package import path is still `yonyou_doc2skill`. `tests/conftest.py` checks that module is importable and calls `sys.exit(1)` if not. Always install in editable mode first.
 
 ## Build / Test / Lint Commands
 
@@ -34,7 +34,7 @@ pytest tests/test_adaptors/test_claude_adaptor.py::TestClaudeAdaptor::test_packa
 pytest tests/ -v -m "not slow and not integration"
 
 # With coverage
-pytest tests/ --cov=src/skill_seekers --cov-report=term
+pytest tests/ --cov=src/yonyou_doc2skill --cov-report=term
 
 # Lint (ruff)
 ruff check src/ tests/
@@ -45,7 +45,7 @@ ruff format --check src/ tests/
 ruff format src/ tests/
 
 # Type check (mypy)
-mypy src/skill_seekers --show-error-codes --pretty
+mypy src/yonyou_doc2skill --show-error-codes --pretty
 ```
 
 **Pytest config** (from pyproject.toml): `addopts = "-v --tb=short --strict-markers"`, `asyncio_mode = "auto"`, `asyncio_default_fixture_loop_scope = "function"`.
@@ -62,7 +62,7 @@ mypy src/skill_seekers --show-error-codes --pretty
 - **Ignored rules:** E501 (line length handled by formatter), F541 (f-string style), ARG002 (unused method args for interface compliance), B007 (intentional unused loop vars), I001 (formatter handles imports), SIM114 (readability preference)
 
 ### Imports
-- Sort with isort (via ruff); `skill_seekers` is first-party
+- Sort with isort (via ruff); `yonyou_doc2skill` is the current first-party Python package
 - Standard library → third-party → first-party, separated by blank lines
 - Use `from __future__ import annotations` only if needed for forward refs
 - Guard optional imports with try/except ImportError (see `adaptors/__init__.py` pattern):
@@ -106,7 +106,7 @@ mypy src/skill_seekers --show-error-codes --pretty
 ## Project Layout
 
 ```
-src/skill_seekers/           # Main package (src/ layout)
+src/yonyou_doc2skill/           # Main Python package (current import path)
   cli/                       # CLI commands and entry points (96 files)
     adaptors/                # Platform adaptors (Strategy pattern, inherit SkillAdaptor)
     arguments/               # CLI argument definitions (one per source type)
@@ -142,7 +142,7 @@ docs/                        # Documentation (guides, integrations, architecture
 
 **CLI subcommands** — git-style in `cli/main.py`. Each delegates to a module's `main()` function.
 
-**Supported source types (17):** documentation (web), github, pdf, word, epub, video, local codebase, jupyter, html, openapi, asciidoc, pptx, rss, manpage, confluence, notion, chat (slack/discord). Each detected automatically by `source_detector.py`.
+**Public product surface:** Yonyou Doc2Skill currently advertises documentation (web), github, pdf, word, video, local codebase, html, asciidoc, pptx, confluence, and chat (slack/discord). Each retained type is detected automatically by `source_detector.py`.
 
 ## Git Workflow
 

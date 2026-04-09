@@ -1,6 +1,6 @@
 # Your First Skill - Complete Walkthrough
 
-> **Skill Seekers v3.1.0**  
+> **Yonyou Doc2Skill v3.1.0**  
 > **Step-by-step guide to creating your first skill**
 
 ---
@@ -17,10 +17,10 @@ A skill from the **Django documentation** that you can use with Claude AI.
 ## Prerequisites
 
 ```bash
-# Ensure skill-seekers is installed
-skill-seekers --version
+# Ensure yonyou-doc2skill is installed
+yonyou-doc2skill --version
 
-# Should output: skill-seekers 3.1.0
+# Should output: yonyou-doc2skill 3.1.0
 ```
 
 ---
@@ -50,7 +50,7 @@ facebook/react
 Before scraping, let's preview what will happen:
 
 ```bash
-skill-seekers create https://docs.djangoproject.com/ --dry-run
+yonyou-doc2skill create https://docs.djangoproject.com/ --dry-run
 ```
 
 **Expected output:**
@@ -84,7 +84,7 @@ This shows you exactly what will happen without actually scraping.
 Now let's actually create it:
 
 ```bash
-skill-seekers create https://docs.djangoproject.com/ --name django
+yonyou-doc2skill create https://docs.djangoproject.com/ --name django
 ```
 
 **What happens:**
@@ -137,7 +137,7 @@ ls -la output/django/
 **Output:**
 ```
 output/django/
-├── .skill-seekers/           # Metadata
+├── .yonyou-doc2skill/           # Metadata
 │   └── manifest.json
 ├── SKILL.md                  # Main skill file ⭐
 ├── references/               # Organized docs
@@ -204,7 +204,7 @@ cat output/django/references/models.md | head -30
 Now package it for Claude AI:
 
 ```bash
-skill-seekers package output/django/ --target claude
+yonyou-doc2skill package output/django/ --target claude
 ```
 
 **Output:**
@@ -217,7 +217,7 @@ skill-seekers package output/django/ --target claude
 📊 Size: 245 KB
 
 Next steps:
-  1. Upload to Claude: skill-seekers upload output/django-claude.zip
+  1. Upload to Claude: yonyou-doc2skill upload output/django-claude.zip
   2. Or manually: Use "Create Skill" in Claude Code
 ```
 
@@ -229,7 +229,7 @@ Next steps:
 
 ```bash
 export ANTHROPIC_API_KEY=sk-ant-...
-skill-seekers upload output/django-claude.zip --target claude
+yonyou-doc2skill upload output/django-claude.zip --target claude
 ```
 
 ### Option B: Manual Upload
@@ -262,13 +262,13 @@ If you want faster results (no AI enhancement):
 
 ```bash
 # Create without enhancement
-skill-seekers create https://docs.djangoproject.com/ --name django --enhance-level 0
+yonyou-doc2skill create https://docs.djangoproject.com/ --name django --enhance-level 0
 
 # Package
-skill-seekers package output/django/ --target claude
+yonyou-doc2skill package output/django/ --target claude
 
 # Enhances later if needed
-skill-seekers enhance output/django/
+yonyou-doc2skill enhance output/django/
 ```
 
 ---
@@ -279,21 +279,21 @@ Instead of auto-detection, use a preset:
 
 ```bash
 # See available presets
-skill-seekers estimate --all
+yonyou-doc2skill estimate --all
 
 # Use Django preset
-skill-seekers create --config django
-skill-seekers package output/django/ --target claude
+yonyou-doc2skill create --config django
+yonyou-doc2skill package output/django/ --target claude
 ```
 
 ---
 
 ## What You Learned
 
-✅ **Create** - `skill-seekers create <source>` auto-detects and scrapes  
+✅ **Create** - `yonyou-doc2skill create <source>` auto-detects and scrapes  
 ✅ **Dry Run** - `--dry-run` previews without executing  
 ✅ **Enhancement** - AI automatically improves SKILL.md quality  
-✅ **Package** - `skill-seekers package <dir> --target <platform>`  
+✅ **Package** - `yonyou-doc2skill package <dir> --target <platform>`  
 ✅ **Upload** - Direct upload or manual import  
 
 ---
@@ -303,39 +303,39 @@ skill-seekers package output/django/ --target claude
 ### GitHub Repository
 
 ```bash
-skill-seekers create facebook/react --name react
-skill-seekers package output/react/ --target claude
+yonyou-doc2skill create facebook/react --name react
+yonyou-doc2skill package output/react/ --target claude
 ```
 
 ### Local Project
 
 ```bash
 cd ~/projects/my-api
-skill-seekers create . --name my-api
-skill-seekers package output/my-api/ --target claude
+yonyou-doc2skill create . --name my-api
+yonyou-doc2skill package output/my-api/ --target claude
 ```
 
 ### PDF Document
 
 ```bash
-skill-seekers create manual.pdf --name docs
-skill-seekers package output/docs/ --target claude
+yonyou-doc2skill create manual.pdf --name docs
+yonyou-doc2skill package output/docs/ --target claude
 ```
 
 ### Multi-Platform
 
 ```bash
 # Create once
-skill-seekers create https://docs.djangoproject.com/ --name django
+yonyou-doc2skill create https://docs.djangoproject.com/ --name django
 
 # Package for multiple platforms
-skill-seekers package output/django/ --target claude
-skill-seekers package output/django/ --target gemini
-skill-seekers package output/django/ --target openai
+yonyou-doc2skill package output/django/ --target claude
+yonyou-doc2skill package output/django/ --target gemini
+yonyou-doc2skill package output/django/ --target openai
 
 # Upload to each
-skill-seekers upload output/django-claude.zip --target claude
-skill-seekers upload output/django-gemini.tar.gz --target gemini
+yonyou-doc2skill upload output/django-claude.zip --target claude
+yonyou-doc2skill upload output/django-gemini.tar.gz --target gemini
 ```
 
 ---
@@ -346,15 +346,15 @@ skill-seekers upload output/django-gemini.tar.gz --target gemini
 
 ```bash
 # Resume from checkpoint
-skill-seekers resume --list
-skill-seekers resume <job-id>
+yonyou-doc2skill resume --list
+yonyou-doc2skill resume <job-id>
 ```
 
 ### Too Many Pages
 
 ```bash
 # Limit pages
-skill-seekers create https://docs.djangoproject.com/ --max-pages 100
+yonyou-doc2skill create https://docs.djangoproject.com/ --max-pages 100
 ```
 
 ### Wrong Content Extracted
@@ -371,7 +371,7 @@ cat > configs/django.json << 'EOF'
 }
 EOF
 
-skill-seekers create --config configs/django.json
+yonyou-doc2skill create --config configs/django.json
 ```
 
 ---
@@ -389,8 +389,8 @@ skill-seekers create --config configs/django.json
 
 | Step | Command | Time |
 |------|---------|------|
-| 1 | `skill-seekers create https://docs.djangoproject.com/` | ~15 min |
-| 2 | `skill-seekers package output/django/ --target claude` | ~5 sec |
-| 3 | `skill-seekers upload output/django-claude.zip` | ~10 sec |
+| 1 | `yonyou-doc2skill create https://docs.djangoproject.com/` | ~15 min |
+| 2 | `yonyou-doc2skill package output/django/ --target claude` | ~5 sec |
+| 3 | `yonyou-doc2skill upload output/django-claude.zip` | ~10 sec |
 
 **Total:** ~15 minutes to a production-ready AI skill! 🎉

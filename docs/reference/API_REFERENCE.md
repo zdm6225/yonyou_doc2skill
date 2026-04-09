@@ -8,7 +8,7 @@
 
 ## Overview
 
-Skill Seekers can be used programmatically for integration into other tools, automation scripts, and CI/CD pipelines. This guide covers the public APIs available for developers who want to embed Skill Seekers functionality into their own applications.
+Yonyou Doc2Skill can be used programmatically for integration into other tools, automation scripts, and CI/CD pipelines. This guide covers the public APIs available for developers who want to embed Yonyou Doc2Skill functionality into their own applications.
 
 **Use Cases:**
 - Automated documentation skill generation in CI/CD
@@ -24,27 +24,27 @@ Skill Seekers can be used programmatically for integration into other tools, aut
 ### Basic Installation
 
 ```bash
-pip install skill-seekers
+pip install yonyou-doc2skill
 ```
 
 ### With Platform Dependencies
 
 ```bash
 # Google Gemini support
-pip install skill-seekers[gemini]
+pip install yonyou-doc2skill[gemini]
 
 # OpenAI ChatGPT support
-pip install skill-seekers[openai]
+pip install yonyou-doc2skill[openai]
 
 # All platform support
-pip install skill-seekers[all-llms]
+pip install yonyou-doc2skill[all-llms]
 ```
 
 ### Development Installation
 
 ```bash
-git clone https://github.com/yusufkaraaslan/Skill_Seekers.git
-cd Skill_Seekers
+git clone https://github.com/yonyou/yonyou-doc2skill.git
+cd yonyou_doc2skill
 pip install -e ".[all-llms]"
 ```
 
@@ -59,7 +59,7 @@ Extract content from documentation websites using BFS traversal and smart catego
 #### Basic Usage
 
 ```python
-from skill_seekers.cli.doc_scraper import scrape_all, build_skill
+from yonyou_doc2skill.cli.doc_scraper import scrape_all, build_skill
 import json
 
 # Load configuration
@@ -89,7 +89,7 @@ print(f"Skill created at: {skill_path}")
 #### Advanced Scraping Options
 
 ```python
-from skill_seekers.cli.doc_scraper import scrape_all
+from yonyou_doc2skill.cli.doc_scraper import scrape_all
 
 # Custom scraping with advanced options
 pages = scrape_all(
@@ -117,7 +117,7 @@ pages = scrape_all(
 #### Rebuilding Without Scraping
 
 ```python
-from skill_seekers.cli.doc_scraper import build_skill
+from yonyou_doc2skill.cli.doc_scraper import build_skill
 
 # Rebuild skill from existing data (fast!)
 skill_path = build_skill(
@@ -137,7 +137,7 @@ Analyze GitHub repositories with three-stream architecture (Code + Docs + Insigh
 #### Basic GitHub Analysis
 
 ```python
-from skill_seekers.cli.github_scraper import scrape_github_repo
+from yonyou_doc2skill.cli.github_scraper import scrape_github_repo
 
 # Analyze GitHub repository
 result = scrape_github_repo(
@@ -155,7 +155,7 @@ print(f"Patterns detected: {result['stats']['patterns']}")
 #### Stream-Specific Analysis
 
 ```python
-from skill_seekers.cli.github_scraper import scrape_github_repo
+from yonyou_doc2skill.cli.github_scraper import scrape_github_repo
 
 # Focus on specific streams
 result = scrape_github_repo(
@@ -180,7 +180,7 @@ Extract content from PDF documents with OCR and image support.
 #### Basic PDF Extraction
 
 ```python
-from skill_seekers.cli.pdf_scraper import scrape_pdf
+from yonyou_doc2skill.cli.pdf_scraper import scrape_pdf
 
 # Extract from single PDF
 skill_path = scrape_pdf(
@@ -196,7 +196,7 @@ print(f"PDF skill created: {skill_path}")
 #### Advanced PDF Processing
 
 ```python
-from skill_seekers.cli.pdf_scraper import scrape_pdf
+from yonyou_doc2skill.cli.pdf_scraper import scrape_pdf
 
 # PDF extraction with all features
 skill_path = scrape_pdf(
@@ -222,7 +222,7 @@ Combine multiple sources (any of 17 supported types) into a single unified skill
 #### Unified Scraping
 
 ```python
-from skill_seekers.cli.unified_scraper import unified_scrape
+from yonyou_doc2skill.cli.unified_scraper import unified_scrape
 
 # Scrape from multiple sources
 result = unified_scrape(
@@ -238,7 +238,7 @@ print(f"Conflicts detected: {result['conflicts']}")
 #### Conflict Detection
 
 ```python
-from skill_seekers.cli.unified_scraper import detect_conflicts
+from yonyou_doc2skill.cli.unified_scraper import detect_conflicts
 
 # Detect discrepancies between sources
 conflicts = detect_conflicts(
@@ -262,7 +262,7 @@ Package skills for different LLM platforms using the platform adaptor architectu
 #### Basic Packaging
 
 ```python
-from skill_seekers.cli.adaptors import get_adaptor
+from yonyou_doc2skill.cli.adaptors import get_adaptor
 
 # Get platform-specific adaptor
 adaptor = get_adaptor('claude')  # Options: claude, gemini, openai, markdown
@@ -279,7 +279,7 @@ print(f"Claude skill package: {package_path}")
 #### Multi-Platform Packaging
 
 ```python
-from skill_seekers.cli.adaptors import get_adaptor
+from yonyou_doc2skill.cli.adaptors import get_adaptor
 
 # Package for all platforms
 platforms = ['claude', 'gemini', 'openai', 'markdown']
@@ -296,7 +296,7 @@ for platform in platforms:
 #### Custom Packaging Options
 
 ```python
-from skill_seekers.cli.adaptors import get_adaptor
+from yonyou_doc2skill.cli.adaptors import get_adaptor
 
 adaptor = get_adaptor('gemini')
 
@@ -328,7 +328,7 @@ Upload packaged skills to LLM platforms via their APIs.
 
 ```python
 import os
-from skill_seekers.cli.adaptors import get_adaptor
+from yonyou_doc2skill.cli.adaptors import get_adaptor
 
 adaptor = get_adaptor('claude')
 
@@ -345,7 +345,7 @@ print(f"Uploaded to Claude AI: {result['skill_id']}")
 
 ```python
 import os
-from skill_seekers.cli.adaptors import get_adaptor
+from yonyou_doc2skill.cli.adaptors import get_adaptor
 
 adaptor = get_adaptor('gemini')
 
@@ -362,7 +362,7 @@ print(f"Gemini corpus ID: {result['corpus_id']}")
 
 ```python
 import os
-from skill_seekers.cli.adaptors import get_adaptor
+from yonyou_doc2skill.cli.adaptors import get_adaptor
 
 adaptor = get_adaptor('openai')
 
@@ -385,7 +385,7 @@ Enhance skills with AI-powered improvements using platform-specific models.
 
 ```python
 import os
-from skill_seekers.cli.adaptors import get_adaptor
+from yonyou_doc2skill.cli.adaptors import get_adaptor
 
 adaptor = get_adaptor('claude')
 
@@ -403,7 +403,7 @@ print(f"Quality score: {result['quality_score']}/10")
 #### LOCAL Mode Enhancement
 
 ```python
-from skill_seekers.cli.adaptors import get_adaptor
+from yonyou_doc2skill.cli.adaptors import get_adaptor
 
 adaptor = get_adaptor('claude')
 
@@ -421,8 +421,8 @@ print(f"Enhanced skill: {result['enhanced_path']}")
 #### Background Enhancement with Monitoring
 
 ```python
-from skill_seekers.cli.enhance_skill_local import enhance_skill
-from skill_seekers.cli.enhance_status import monitor_enhancement
+from yonyou_doc2skill.cli.enhance_skill_local import enhance_skill
+from yonyou_doc2skill.cli.enhance_status import monitor_enhancement
 import time
 
 # Start background enhancement
@@ -459,7 +459,7 @@ Automate the entire workflow: fetch config → scrape → enhance → package �
 
 ```python
 import os
-from skill_seekers.cli.install_skill import install_skill
+from yonyou_doc2skill.cli.install_skill import install_skill
 
 # Complete workflow automation
 result = install_skill(
@@ -479,7 +479,7 @@ print(f"Time taken: {result['duration']}s")
 #### Custom Config Install
 
 ```python
-from skill_seekers.cli.install_skill import install_skill
+from yonyou_doc2skill.cli.install_skill import install_skill
 
 # Install with custom configuration
 result = install_skill(
@@ -499,7 +499,7 @@ result = install_skill(
 
 ### Config Schema
 
-Skill Seekers uses JSON configuration files to define scraping behavior.
+Yonyou Doc2Skill uses JSON configuration files to define scraping behavior.
 
 ```json
 {
@@ -605,7 +605,7 @@ Supports all 17 source types: `documentation`, `github`, `pdf`, `local`, `word`,
 ### Custom Selectors
 
 ```python
-from skill_seekers.cli.doc_scraper import scrape_all
+from yonyou_doc2skill.cli.doc_scraper import scrape_all
 
 # Custom CSS selectors for complex sites
 pages = scrape_all(
@@ -645,7 +645,7 @@ config = {
 ### Category Inference
 
 ```python
-from skill_seekers.cli.doc_scraper import infer_categories
+from yonyou_doc2skill.cli.doc_scraper import infer_categories
 
 # Auto-detect categories from URL structure
 categories = infer_categories(
@@ -671,8 +671,8 @@ print(categories)
 ### Common Exceptions
 
 ```python
-from skill_seekers.cli.doc_scraper import scrape_all
-from skill_seekers.exceptions import (
+from yonyou_doc2skill.cli.doc_scraper import scrape_all
+from yonyou_doc2skill.exceptions import (
     NetworkError,
     InvalidConfigError,
     ScrapingError,
@@ -702,8 +702,8 @@ except ScrapingError as e:
 ### Retry Logic
 
 ```python
-from skill_seekers.cli.doc_scraper import scrape_all
-from skill_seekers.utils import retry_with_backoff
+from yonyou_doc2skill.cli.doc_scraper import scrape_all
+from yonyou_doc2skill.utils import retry_with_backoff
 
 @retry_with_backoff(max_retries=3, base_delay=1.0)
 def scrape_with_retry(base_url, config):
@@ -728,7 +728,7 @@ pages = scrape_with_retry(
 
 ```python
 import pytest
-from skill_seekers.cli.doc_scraper import scrape_all
+from yonyou_doc2skill.cli.doc_scraper import scrape_all
 
 def test_basic_scraping():
     """Test basic documentation scraping."""
@@ -747,7 +747,7 @@ def test_basic_scraping():
 
 def test_config_validation():
     """Test configuration validation."""
-    from skill_seekers.cli.config_validator import validate_config
+    from yonyou_doc2skill.cli.config_validator import validate_config
 
     config = {
         'name': 'test',
@@ -765,7 +765,7 @@ def test_config_validation():
 ```python
 import pytest
 import os
-from skill_seekers.cli.install_skill import install_skill
+from yonyou_doc2skill.cli.install_skill import install_skill
 
 @pytest.mark.integration
 def test_end_to_end_workflow():
@@ -785,7 +785,7 @@ def test_end_to_end_workflow():
 @pytest.mark.integration
 def test_multi_platform_packaging():
     """Test packaging for multiple platforms."""
-    from skill_seekers.cli.adaptors import get_adaptor
+    from yonyou_doc2skill.cli.adaptors import get_adaptor
 
     platforms = ['claude', 'gemini', 'openai', 'markdown']
 
@@ -805,7 +805,7 @@ def test_multi_platform_packaging():
 ### Async Scraping
 
 ```python
-from skill_seekers.cli.doc_scraper import scrape_all
+from yonyou_doc2skill.cli.doc_scraper import scrape_all
 
 # Enable async for 2-3x speed improvement
 pages = scrape_all(
@@ -819,7 +819,7 @@ pages = scrape_all(
 ### Caching and Rebuilding
 
 ```python
-from skill_seekers.cli.doc_scraper import build_skill
+from yonyou_doc2skill.cli.doc_scraper import build_skill
 
 # First scrape (slow - 15-45 minutes)
 build_skill(config_name='react', output_dir='output/react')
@@ -837,7 +837,7 @@ build_skill(
 
 ```python
 from concurrent.futures import ThreadPoolExecutor
-from skill_seekers.cli.install_skill import install_skill
+from yonyou_doc2skill.cli.install_skill import install_skill
 
 configs = ['react', 'vue', 'angular', 'svelte']
 
@@ -882,16 +882,16 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Install Skill Seekers
-        run: pip install skill-seekers[all-llms]
+      - name: Install Yonyou Doc2Skill
+        run: pip install yonyou-doc2skill[all-llms]
 
       - name: Generate Skills
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
         run: |
-          skill-seekers install react --target claude --enhance --upload
-          skill-seekers install vue --target gemini --enhance --upload
+          yonyou-doc2skill install react --target claude --enhance --upload
+          yonyou-doc2skill install vue --target gemini --enhance --upload
 
       - name: Archive Skills
         uses: actions/upload-artifact@v3
@@ -906,9 +906,9 @@ jobs:
 generate_skills:
   image: python:3.11
   script:
-    - pip install skill-seekers[all-llms]
-    - skill-seekers install react --target claude --enhance --upload
-    - skill-seekers install vue --target gemini --enhance --upload
+    - pip install yonyou-doc2skill[all-llms]
+    - yonyou-doc2skill install react --target claude --enhance --upload
+    - yonyou-doc2skill install vue --target gemini --enhance --upload
   artifacts:
     paths:
       - output/

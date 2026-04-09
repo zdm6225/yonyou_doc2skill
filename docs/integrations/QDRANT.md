@@ -1,4 +1,4 @@
-# Qdrant Integration with Skill Seekers
+# Qdrant Integration with Yonyou Doc2Skill
 
 **Status:** ✅ Production Ready
 **Difficulty:** Intermediate
@@ -51,7 +51,7 @@ client.upsert(collection_name="react_docs", points=points)
 
 ## ✅ The Solution
 
-Skill Seekers automates Qdrant integration with structured, production-ready data:
+Yonyou Doc2Skill automates Qdrant integration with structured, production-ready data:
 
 **Benefits:**
 - ✅ Auto-formatted documents with rich payload metadata
@@ -75,8 +75,8 @@ pip install qdrant-client>=1.7.0
 # OpenAI for embeddings
 pip install openai>=1.0.0
 
-# Or with Skill Seekers
-pip install skill-seekers[all-llms]
+# Or with Yonyou Doc2Skill
+pip install yonyou-doc2skill[all-llms]
 ```
 
 **What you need:**
@@ -97,10 +97,10 @@ docker run -p 6333:6333 -v $(pwd)/qdrant_storage:/qdrant/storage qdrant/qdrant
 
 ```bash
 # Step 1: Scrape documentation
-skill-seekers scrape --config configs/react.json
+yonyou-doc2skill scrape --config configs/react.json
 
 # Step 2: Package for Qdrant (creates LangChain format)
-skill-seekers package output/react --target langchain
+yonyou-doc2skill package output/react --target langchain
 
 # Output: output/react-langchain.json (Qdrant-compatible)
 ```
@@ -248,30 +248,30 @@ helm install qdrant qdrant/qdrant
 helm install qdrant qdrant/qdrant -f values.yaml
 ```
 
-### Step 2: Generate Skill Seekers Documents
+### Step 2: Generate Yonyou Doc2Skill Documents
 
 **Option A: Documentation Website**
 ```bash
-skill-seekers scrape --config configs/django.json
-skill-seekers package output/django --target langchain
+yonyou-doc2skill scrape --config configs/django.json
+yonyou-doc2skill package output/django --target langchain
 ```
 
 **Option B: GitHub Repository**
 ```bash
-skill-seekers github --repo django/django --name django
-skill-seekers package output/django --target langchain
+yonyou-doc2skill github --repo django/django --name django
+yonyou-doc2skill package output/django --target langchain
 ```
 
 **Option C: Local Codebase**
 ```bash
-skill-seekers analyze --directory /path/to/repo
-skill-seekers package output/codebase --target langchain
+yonyou-doc2skill analyze --directory /path/to/repo
+yonyou-doc2skill package output/codebase --target langchain
 ```
 
 **Option D: RAG-Optimized Chunking**
 ```bash
-skill-seekers scrape --config configs/fastapi.json --chunk-for-rag --chunk-tokens 512
-skill-seekers package output/fastapi --target langchain
+yonyou-doc2skill scrape --config configs/fastapi.json --chunk-for-rag --chunk-tokens 512
+yonyou-doc2skill package output/fastapi --target langchain
 ```
 
 ### Step 3: Create Collection with Payload Schema
@@ -870,9 +870,9 @@ print(f"Indexed: {info.indexed_vectors_count}/{info.points_count}")
 
 ## 📊 Before vs. After
 
-| Aspect | Without Skill Seekers | With Skill Seekers |
+| Aspect | Without Yonyou Doc2Skill | With Yonyou Doc2Skill |
 |--------|----------------------|-------------------|
-| **Data Preparation** | Custom scraping + parsing logic | One command: `skill-seekers scrape` |
+| **Data Preparation** | Custom scraping + parsing logic | One command: `yonyou-doc2skill scrape` |
 | **Collection Setup** | Manual vector config + payload schema | Standard LangChain format |
 | **Metadata** | Manual extraction from docs | Auto-extracted (category, source, file, type) |
 | **Payload Filtering** | Complex filter construction | Consistent metadata keys |
@@ -895,10 +895,10 @@ print(f"Indexed: {info.indexed_vectors_count}/{info.points_count}")
 
 - **Qdrant Docs:** https://qdrant.tech/documentation/
 - **Python Client:** https://qdrant.tech/documentation/quick-start/
-- **Support:** https://github.com/yusufkaraaslan/Skill_Seekers/discussions
+- **Support:** https://github.com/yonyou/yonyou-doc2skill/discussions
 
 ---
 
-**Questions?** Open an issue: https://github.com/yusufkaraaslan/Skill_Seekers/issues
-**Website:** https://skillseekersweb.com/
+**Questions?** Open an issue: https://github.com/yonyou/yonyou-doc2skill/issues
+**Website:** https://docs.yonyou.example/yonyou-doc2skill/
 **Last Updated:** February 7, 2026

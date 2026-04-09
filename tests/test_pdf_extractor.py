@@ -33,7 +33,7 @@ class TestLanguageDetection(unittest.TestCase):
     def setUp(self):
         if not PYMUPDF_AVAILABLE:
             self.skipTest("PyMuPDF not installed")
-        from skill_seekers.cli.pdf_extractor_poc import PDFExtractor
+        from yonyou_doc2skill.cli.pdf_extractor_poc import PDFExtractor
 
         self.PDFExtractor = PDFExtractor
 
@@ -41,7 +41,7 @@ class TestLanguageDetection(unittest.TestCase):
         """Test Python detection returns language and confidence"""
         extractor = self.PDFExtractor.__new__(self.PDFExtractor)
         # Initialize language_detector manually (since __init__ not called)
-        from skill_seekers.cli.language_detector import LanguageDetector
+        from yonyou_doc2skill.cli.language_detector import LanguageDetector
 
         extractor.language_detector = LanguageDetector(min_confidence=0.15)
 
@@ -57,7 +57,7 @@ class TestLanguageDetection(unittest.TestCase):
         """Test JavaScript detection"""
         extractor = self.PDFExtractor.__new__(self.PDFExtractor)
         # Initialize language_detector manually (since __init__ not called)
-        from skill_seekers.cli.language_detector import LanguageDetector
+        from yonyou_doc2skill.cli.language_detector import LanguageDetector
 
         extractor.language_detector = LanguageDetector(min_confidence=0.15)
 
@@ -72,7 +72,7 @@ class TestLanguageDetection(unittest.TestCase):
         """Test C++ detection"""
         extractor = self.PDFExtractor.__new__(self.PDFExtractor)
         # Initialize language_detector manually (since __init__ not called)
-        from skill_seekers.cli.language_detector import LanguageDetector
+        from yonyou_doc2skill.cli.language_detector import LanguageDetector
 
         extractor.language_detector = LanguageDetector(min_confidence=0.15)
 
@@ -87,7 +87,7 @@ class TestLanguageDetection(unittest.TestCase):
         """Test unknown language returns low confidence"""
         extractor = self.PDFExtractor.__new__(self.PDFExtractor)
         # Initialize language_detector manually (since __init__ not called)
-        from skill_seekers.cli.language_detector import LanguageDetector
+        from yonyou_doc2skill.cli.language_detector import LanguageDetector
 
         extractor.language_detector = LanguageDetector(min_confidence=0.15)
 
@@ -102,7 +102,7 @@ class TestLanguageDetection(unittest.TestCase):
         """Test confidence is always between 0 and 1"""
         extractor = self.PDFExtractor.__new__(self.PDFExtractor)
         # Initialize language_detector manually (since __init__ not called)
-        from skill_seekers.cli.language_detector import LanguageDetector
+        from yonyou_doc2skill.cli.language_detector import LanguageDetector
 
         extractor.language_detector = LanguageDetector(min_confidence=0.15)
 
@@ -122,7 +122,7 @@ class TestLanguageDetection(unittest.TestCase):
     def test_detect_scss_with_confidence(self):
         """Test SCSS detection"""
         extractor = self.PDFExtractor.__new__(self.PDFExtractor)
-        from skill_seekers.cli.language_detector import LanguageDetector
+        from yonyou_doc2skill.cli.language_detector import LanguageDetector
 
         extractor.language_detector = LanguageDetector(min_confidence=0.15)
 
@@ -150,7 +150,7 @@ class TestLanguageDetection(unittest.TestCase):
     def test_detect_dart_with_confidence(self):
         """Test Dart detection"""
         extractor = self.PDFExtractor.__new__(self.PDFExtractor)
-        from skill_seekers.cli.language_detector import LanguageDetector
+        from yonyou_doc2skill.cli.language_detector import LanguageDetector
 
         extractor.language_detector = LanguageDetector(min_confidence=0.15)
 
@@ -174,7 +174,7 @@ class TestLanguageDetection(unittest.TestCase):
     def test_detect_scala_with_confidence(self):
         """Test Scala detection"""
         extractor = self.PDFExtractor.__new__(self.PDFExtractor)
-        from skill_seekers.cli.language_detector import LanguageDetector
+        from yonyou_doc2skill.cli.language_detector import LanguageDetector
 
         extractor.language_detector = LanguageDetector(min_confidence=0.15)
 
@@ -197,7 +197,7 @@ class TestLanguageDetection(unittest.TestCase):
     def test_detect_sass_with_confidence(self):
         """Test SASS detection"""
         extractor = self.PDFExtractor.__new__(self.PDFExtractor)
-        from skill_seekers.cli.language_detector import LanguageDetector
+        from yonyou_doc2skill.cli.language_detector import LanguageDetector
 
         extractor.language_detector = LanguageDetector(min_confidence=0.15)
 
@@ -222,7 +222,7 @@ class TestLanguageDetection(unittest.TestCase):
     def test_detect_elixir_with_confidence(self):
         """Test Elixir detection"""
         extractor = self.PDFExtractor.__new__(self.PDFExtractor)
-        from skill_seekers.cli.language_detector import LanguageDetector
+        from yonyou_doc2skill.cli.language_detector import LanguageDetector
 
         extractor.language_detector = LanguageDetector(min_confidence=0.15)
 
@@ -252,7 +252,7 @@ class TestLanguageDetection(unittest.TestCase):
     def test_detect_lua_with_confidence(self):
         """Test Lua detection"""
         extractor = self.PDFExtractor.__new__(self.PDFExtractor)
-        from skill_seekers.cli.language_detector import LanguageDetector
+        from yonyou_doc2skill.cli.language_detector import LanguageDetector
 
         extractor.language_detector = LanguageDetector(min_confidence=0.15)
 
@@ -277,7 +277,7 @@ class TestLanguageDetection(unittest.TestCase):
     def test_detect_perl_with_confidence(self):
         """Test Perl detection"""
         extractor = self.PDFExtractor.__new__(self.PDFExtractor)
-        from skill_seekers.cli.language_detector import LanguageDetector
+        from yonyou_doc2skill.cli.language_detector import LanguageDetector
 
         extractor.language_detector = LanguageDetector(min_confidence=0.15)
 
@@ -315,7 +315,7 @@ class TestSyntaxValidation(unittest.TestCase):
     def setUp(self):
         if not PYMUPDF_AVAILABLE:
             self.skipTest("PyMuPDF not installed")
-        from skill_seekers.cli.pdf_extractor_poc import PDFExtractor
+        from yonyou_doc2skill.cli.pdf_extractor_poc import PDFExtractor
 
         self.PDFExtractor = PDFExtractor
 
@@ -376,7 +376,7 @@ class TestQualityScoring(unittest.TestCase):
     def setUp(self):
         if not PYMUPDF_AVAILABLE:
             self.skipTest("PyMuPDF not installed")
-        from skill_seekers.cli.pdf_extractor_poc import PDFExtractor
+        from yonyou_doc2skill.cli.pdf_extractor_poc import PDFExtractor
 
         self.PDFExtractor = PDFExtractor
 
@@ -434,7 +434,7 @@ class TestChapterDetection(unittest.TestCase):
     def setUp(self):
         if not PYMUPDF_AVAILABLE:
             self.skipTest("PyMuPDF not installed")
-        from skill_seekers.cli.pdf_extractor_poc import PDFExtractor
+        from yonyou_doc2skill.cli.pdf_extractor_poc import PDFExtractor
 
         self.PDFExtractor = PDFExtractor
 
@@ -491,7 +491,7 @@ class TestCodeBlockMerging(unittest.TestCase):
     def setUp(self):
         if not PYMUPDF_AVAILABLE:
             self.skipTest("PyMuPDF not installed")
-        from skill_seekers.cli.pdf_extractor_poc import PDFExtractor
+        from yonyou_doc2skill.cli.pdf_extractor_poc import PDFExtractor
 
         self.PDFExtractor = PDFExtractor
 
@@ -573,7 +573,7 @@ class TestCodeDetectionMethods(unittest.TestCase):
     def setUp(self):
         if not PYMUPDF_AVAILABLE:
             self.skipTest("PyMuPDF not installed")
-        from skill_seekers.cli.pdf_extractor_poc import PDFExtractor
+        from yonyou_doc2skill.cli.pdf_extractor_poc import PDFExtractor
 
         self.PDFExtractor = PDFExtractor
 
@@ -607,7 +607,7 @@ class TestQualityFiltering(unittest.TestCase):
     def setUp(self):
         if not PYMUPDF_AVAILABLE:
             self.skipTest("PyMuPDF not installed")
-        from skill_seekers.cli.pdf_extractor_poc import PDFExtractor
+        from yonyou_doc2skill.cli.pdf_extractor_poc import PDFExtractor
 
         self.PDFExtractor = PDFExtractor
 

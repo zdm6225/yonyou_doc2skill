@@ -11,7 +11,7 @@ Run with: pytest tests/test_language_detector.py -v
 import pytest
 from bs4 import BeautifulSoup
 
-from skill_seekers.cli.language_detector import LanguageDetector
+from yonyou_doc2skill.cli.language_detector import LanguageDetector
 
 
 class TestCSSClassDetection:

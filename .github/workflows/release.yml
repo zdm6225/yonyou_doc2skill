@@ -52,7 +52,7 @@ jobs:
     - name: Verify version consistency
       run: |
         TAG_VERSION="${{ steps.get_version.outputs.VERSION }}"
-        PKG_VERSION=$(python -c "import skill_seekers; print(skill_seekers.__version__)")
+        PKG_VERSION=$(python -c "import yonyou_doc2skill; print(yonyou_doc2skill.__version__)")
         TOML_VERSION=$(grep -m1 '^version' pyproject.toml | sed 's/version *= *"\(.*\)"/\1/')
         echo "Tag version:     $TAG_VERSION"
         echo "Package version: $PKG_VERSION"

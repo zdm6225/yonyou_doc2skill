@@ -3,7 +3,7 @@
 LlamaIndex Query Engine Quickstart
 
 This example shows how to:
-1. Load Skill Seekers nodes
+1. Load Yonyou Doc2Skill nodes
 2. Create a VectorStoreIndex
 3. Build a query engine
 4. Query the documentation with chat mode
@@ -24,10 +24,10 @@ from llama_index.core import VectorStoreIndex, StorageContext
 
 def load_nodes(json_path: str) -> list[TextNode]:
     """
-    Load TextNodes from Skill Seekers JSON output.
+    Load TextNodes from Yonyou Doc2Skill JSON output.
 
     Args:
-        json_path: Path to skill-seekers generated JSON file
+        json_path: Path to yonyou-doc2skill generated JSON file
 
     Returns:
         List of LlamaIndex TextNode objects
@@ -181,8 +181,8 @@ def main():
     if not Path(DOCS_PATH).exists():
         print(f"❌ Documents not found at: {DOCS_PATH}")
         print("\nGenerate documents first:")
-        print("  1. skill-seekers scrape --config configs/django.json")
-        print("  2. skill-seekers package output/django --target llama-index")
+        print("  1. yonyou-doc2skill scrape --config configs/django.json")
+        print("  2. yonyou-doc2skill package output/django --target llama-index")
         print("\nOr adjust DOCS_PATH in the script to point to your documents.")
         return
 

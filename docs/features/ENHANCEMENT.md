@@ -245,21 +245,21 @@ ADDITIONAL REQUIREMENTS:
 
 ## Multi-Platform Enhancement
 
-Skill Seekers supports enhancement for Claude AI, Google Gemini, and OpenAI ChatGPT using platform-specific AI models.
+Yonyou Doc2Skill supports enhancement for Claude AI, Google Gemini, and OpenAI ChatGPT using platform-specific AI models.
 
 ### Claude AI (Default)
 
 **Local Mode (Recommended - No API Key):**
 ```bash
 # Uses Claude Code Max (no API costs)
-skill-seekers enhance output/react/
+yonyou-doc2skill enhance output/react/
 ```
 
 **API Mode:**
 ```bash
 # Requires ANTHROPIC_API_KEY
 export ANTHROPIC_API_KEY=sk-ant-...
-skill-seekers enhance output/react/ --mode api
+yonyou-doc2skill enhance output/react/ --mode api
 ```
 
 **Model:** Claude Sonnet 4
@@ -271,13 +271,13 @@ skill-seekers enhance output/react/ --mode api
 
 ```bash
 # Install Gemini support
-pip install skill-seekers[gemini]
+pip install yonyou-doc2skill[gemini]
 
 # Set API key
 export GOOGLE_API_KEY=AIzaSy...
 
 # Enhance with Gemini
-skill-seekers enhance output/react/ --target gemini --mode api
+yonyou-doc2skill enhance output/react/ --target gemini --mode api
 ```
 
 **Model:** Gemini 2.0 Flash
@@ -290,13 +290,13 @@ skill-seekers enhance output/react/ --target gemini --mode api
 
 ```bash
 # Install OpenAI support
-pip install skill-seekers[openai]
+pip install yonyou-doc2skill[openai]
 
 # Set API key
 export OPENAI_API_KEY=sk-proj-...
 
 # Enhance with GPT-4o
-skill-seekers enhance output/react/ --target openai --mode api
+yonyou-doc2skill enhance output/react/ --target openai --mode api
 ```
 
 **Model:** GPT-4o

@@ -24,7 +24,7 @@ import tempfile
 import unittest
 from unittest.mock import MagicMock, patch
 
-from skill_seekers.cli.video_setup import (
+from yonyou_doc2skill.cli.video_setup import (
     _BASE_VIDEO_DEPS,
     GPUInfo,
     GPUVendor,
@@ -56,8 +56,8 @@ from skill_seekers.cli.video_setup import (
 class TestGPUDetection(unittest.TestCase):
     """Tests for detect_gpu() and its helpers."""
 
-    @patch("skill_seekers.cli.video_setup.shutil.which")
-    @patch("skill_seekers.cli.video_setup.subprocess.run")
+    @patch("yonyou_doc2skill.cli.video_setup.shutil.which")
+    @patch("yonyou_doc2skill.cli.video_setup.subprocess.run")
     def test_nvidia_detected(self, mock_run, mock_which):
         """nvidia-smi present → GPUVendor.NVIDIA."""
         mock_which.side_effect = lambda cmd: "/usr/bin/nvidia-smi" if cmd == "nvidia-smi" else None
@@ -75,9 +75,9 @@ class TestGPUDetection(unittest.TestCase):
         assert "12.4" in gpu.compute_version
         assert "cu124" in gpu.index_url
 
-    @patch("skill_seekers.cli.video_setup.shutil.which")
-    @patch("skill_seekers.cli.video_setup.subprocess.run")
-    @patch("skill_seekers.cli.video_setup._read_rocm_version", return_value="6.3.1")
+    @patch("yonyou_doc2skill.cli.video_setup.shutil.which")
+    @patch("yonyou_doc2skill.cli.video_setup.subprocess.run")
+    @patch("yonyou_doc2skill.cli.video_setup._read_rocm_version", return_value="6.3.1")
     def test_amd_rocm_detected(self, mock_rocm_ver, mock_run, mock_which):
         """rocminfo present → GPUVendor.AMD."""
 
@@ -97,8 +97,8 @@ class TestGPUDetection(unittest.TestCase):
         assert gpu.vendor == GPUVendor.AMD
         assert "rocm6.3" in gpu.index_url
 
-    @patch("skill_seekers.cli.video_setup.shutil.which")
-    @patch("skill_seekers.cli.video_setup.subprocess.run")
+    @patch("yonyou_doc2skill.cli.video_setup.shutil.which")
+    @patch("yonyou_doc2skill.cli.video_setup.subprocess.run")
     def test_amd_no_rocm_fallback(self, mock_run, mock_which):
         """AMD GPU in lspci but no ROCm → AMD vendor, CPU index URL."""
 
@@ -118,15 +118,15 @@ class TestGPUDetection(unittest.TestCase):
         assert "cpu" in gpu.index_url
         assert any("ROCm is not installed" in d for d in gpu.details)
 
-    @patch("skill_seekers.cli.video_setup.shutil.which", return_value=None)
+    @patch("yonyou_doc2skill.cli.video_setup.shutil.which", return_value=None)
     def test_cpu_fallback(self, mock_which):
         """No GPU tools found → GPUVendor.NONE."""
         gpu = detect_gpu()
         assert gpu.vendor == GPUVendor.NONE
         assert "cpu" in gpu.index_url
 
-    @patch("skill_seekers.cli.video_setup.shutil.which")
-    @patch("skill_seekers.cli.video_setup.subprocess.run")
+    @patch("yonyou_doc2skill.cli.video_setup.shutil.which")
+    @patch("yonyou_doc2skill.cli.video_setup.subprocess.run")
     def test_nvidia_smi_error(self, mock_run, mock_which):
         """nvidia-smi returns non-zero → skip to next check."""
         mock_which.side_effect = lambda cmd: "/usr/bin/nvidia-smi" if cmd == "nvidia-smi" else None
@@ -134,8 +134,8 @@ class TestGPUDetection(unittest.TestCase):
         gpu = detect_gpu()
         assert gpu.vendor == GPUVendor.NONE
 
-    @patch("skill_seekers.cli.video_setup.shutil.which")
-    @patch("skill_seekers.cli.video_setup.subprocess.run")
+    @patch("yonyou_doc2skill.cli.video_setup.shutil.which")
+    @patch("yonyou_doc2skill.cli.video_setup.subprocess.run")
     def test_nvidia_smi_timeout(self, mock_run, mock_which):
         """nvidia-smi times out → skip to next check."""
         mock_which.side_effect = lambda cmd: "/usr/bin/nvidia-smi" if cmd == "nvidia-smi" else None
@@ -143,8 +143,8 @@ class TestGPUDetection(unittest.TestCase):
         gpu = detect_gpu()
         assert gpu.vendor == GPUVendor.NONE
 
-    @patch("skill_seekers.cli.video_setup.shutil.which")
-    @patch("skill_seekers.cli.video_setup.subprocess.run")
+    @patch("yonyou_doc2skill.cli.video_setup.shutil.which")
+    @patch("yonyou_doc2skill.cli.video_setup.subprocess.run")
     def test_rocminfo_error(self, mock_run, mock_which):
         """rocminfo returns non-zero → skip to next check."""
 
@@ -236,12 +236,12 @@ class TestVenv(unittest.TestCase):
             assert create_venv(tmpdir) is True
 
     def test_get_venv_python_linux(self):
-        with patch("skill_seekers.cli.video_setup.platform.system", return_value="Linux"):
+        with patch("yonyou_doc2skill.cli.video_setup.platform.system", return_value="Linux"):
             path = get_venv_python("/path/.venv")
             assert path.endswith("bin/python")
 
     def test_get_venv_activate_cmd_linux(self):
-        with patch("skill_seekers.cli.video_setup.platform.system", return_value="Linux"):
+        with patch("yonyou_doc2skill.cli.video_setup.platform.system", return_value="Linux"):
             cmd = get_venv_activate_cmd("/path/.venv")
             assert "source" in cmd
             assert "bin/activate" in cmd
@@ -255,15 +255,15 @@ class TestVenv(unittest.TestCase):
 class TestSystemDeps(unittest.TestCase):
     """Tests for system dependency checks."""
 
-    @patch("skill_seekers.cli.video_setup.shutil.which", return_value=None)
+    @patch("yonyou_doc2skill.cli.video_setup.shutil.which", return_value=None)
     def test_tesseract_not_installed(self, mock_which):
         result = check_tesseract()
         assert result["installed"] is False
         assert result["has_eng"] is False
         assert isinstance(result["install_cmd"], str)
 
-    @patch("skill_seekers.cli.video_setup.subprocess.run")
-    @patch("skill_seekers.cli.video_setup.shutil.which", return_value="/usr/bin/tesseract")
+    @patch("yonyou_doc2skill.cli.video_setup.subprocess.run")
+    @patch("yonyou_doc2skill.cli.video_setup.shutil.which", return_value="/usr/bin/tesseract")
     def test_tesseract_installed_with_eng(self, mock_which, mock_run):
         mock_run.side_effect = [
             # --version call
@@ -275,8 +275,8 @@ class TestSystemDeps(unittest.TestCase):
         assert result["installed"] is True
         assert result["has_eng"] is True
 
-    @patch("skill_seekers.cli.video_setup.subprocess.run")
-    @patch("skill_seekers.cli.video_setup.shutil.which", return_value="/usr/bin/tesseract")
+    @patch("yonyou_doc2skill.cli.video_setup.subprocess.run")
+    @patch("yonyou_doc2skill.cli.video_setup.shutil.which", return_value="/usr/bin/tesseract")
     def test_tesseract_installed_no_eng(self, mock_which, mock_run):
         mock_run.side_effect = [
             MagicMock(returncode=0, stdout="tesseract 5.3.0\n", stderr=""),
@@ -401,7 +401,7 @@ class TestModuleSelection(unittest.TestCase):
 class TestInstallation(unittest.TestCase):
     """Tests for install_torch() and install_visual_deps()."""
 
-    @patch("skill_seekers.cli.video_setup.subprocess.run")
+    @patch("yonyou_doc2skill.cli.video_setup.subprocess.run")
     def test_install_torch_success(self, mock_run):
         mock_run.return_value = MagicMock(returncode=0, stdout="", stderr="")
         gpu = GPUInfo(vendor=GPUVendor.NVIDIA, index_url=f"{_PYTORCH_BASE}/cu124")
@@ -411,7 +411,7 @@ class TestInstallation(unittest.TestCase):
         assert "--index-url" in call_args
         assert f"{_PYTORCH_BASE}/cu124" in call_args
 
-    @patch("skill_seekers.cli.video_setup.subprocess.run")
+    @patch("yonyou_doc2skill.cli.video_setup.subprocess.run")
     def test_install_torch_cpu(self, mock_run):
         mock_run.return_value = MagicMock(returncode=0, stdout="", stderr="")
         gpu = GPUInfo(vendor=GPUVendor.NONE, index_url=f"{_PYTORCH_BASE}/cpu")
@@ -419,19 +419,19 @@ class TestInstallation(unittest.TestCase):
         call_args = mock_run.call_args[0][0]
         assert f"{_PYTORCH_BASE}/cpu" in call_args
 
-    @patch("skill_seekers.cli.video_setup.subprocess.run")
+    @patch("yonyou_doc2skill.cli.video_setup.subprocess.run")
     def test_install_torch_failure(self, mock_run):
         mock_run.return_value = MagicMock(returncode=1, stdout="", stderr="error msg")
         gpu = GPUInfo(vendor=GPUVendor.NVIDIA, index_url=f"{_PYTORCH_BASE}/cu124")
         assert install_torch(gpu) is False
 
-    @patch("skill_seekers.cli.video_setup.subprocess.run")
+    @patch("yonyou_doc2skill.cli.video_setup.subprocess.run")
     def test_install_torch_timeout(self, mock_run):
         mock_run.side_effect = subprocess.TimeoutExpired(cmd="pip", timeout=600)
         gpu = GPUInfo(vendor=GPUVendor.NVIDIA, index_url=f"{_PYTORCH_BASE}/cu124")
         assert install_torch(gpu) is False
 
-    @patch("skill_seekers.cli.video_setup.subprocess.run")
+    @patch("yonyou_doc2skill.cli.video_setup.subprocess.run")
     def test_install_torch_custom_python(self, mock_run):
         mock_run.return_value = MagicMock(returncode=0, stdout="", stderr="")
         gpu = GPUInfo(vendor=GPUVendor.NONE, index_url=f"{_PYTORCH_BASE}/cpu")
@@ -439,19 +439,19 @@ class TestInstallation(unittest.TestCase):
         call_args = mock_run.call_args[0][0]
         assert call_args[0] == "/custom/python"
 
-    @patch("skill_seekers.cli.video_setup.subprocess.run")
+    @patch("yonyou_doc2skill.cli.video_setup.subprocess.run")
     def test_install_visual_deps_success(self, mock_run):
         mock_run.return_value = MagicMock(returncode=0, stdout="", stderr="")
         assert install_visual_deps() is True
         call_args = mock_run.call_args[0][0]
         assert "easyocr" in call_args
 
-    @patch("skill_seekers.cli.video_setup.subprocess.run")
+    @patch("yonyou_doc2skill.cli.video_setup.subprocess.run")
     def test_install_visual_deps_failure(self, mock_run):
         mock_run.return_value = MagicMock(returncode=1, stdout="", stderr="error")
         assert install_visual_deps() is False
 
-    @patch("skill_seekers.cli.video_setup.subprocess.run")
+    @patch("yonyou_doc2skill.cli.video_setup.subprocess.run")
     def test_install_visual_deps_partial_modules(self, mock_run):
         mock_run.return_value = MagicMock(returncode=0, stdout="", stderr="")
         modules = SetupModules(
@@ -462,7 +462,7 @@ class TestInstallation(unittest.TestCase):
         assert "easyocr" in call_args
         assert "opencv-python-headless" not in call_args
 
-    @patch("skill_seekers.cli.video_setup.subprocess.run")
+    @patch("yonyou_doc2skill.cli.video_setup.subprocess.run")
     def test_install_visual_deps_base_only(self, mock_run):
         """Even with all optional modules off, base video deps get installed."""
         mock_run.return_value = MagicMock(returncode=0, stdout="", stderr="")
@@ -512,11 +512,11 @@ class TestVerification(unittest.TestCase):
 class TestRunSetup(unittest.TestCase):
     """Tests for run_setup() orchestrator."""
 
-    @patch("skill_seekers.cli.video_setup.verify_installation")
-    @patch("skill_seekers.cli.video_setup.install_visual_deps", return_value=True)
-    @patch("skill_seekers.cli.video_setup.install_torch", return_value=True)
-    @patch("skill_seekers.cli.video_setup.check_tesseract")
-    @patch("skill_seekers.cli.video_setup.detect_gpu")
+    @patch("yonyou_doc2skill.cli.video_setup.verify_installation")
+    @patch("yonyou_doc2skill.cli.video_setup.install_visual_deps", return_value=True)
+    @patch("yonyou_doc2skill.cli.video_setup.install_torch", return_value=True)
+    @patch("yonyou_doc2skill.cli.video_setup.check_tesseract")
+    @patch("yonyou_doc2skill.cli.video_setup.detect_gpu")
     def test_non_interactive_success(
         self, mock_detect, mock_tess, mock_torch, mock_deps, mock_verify
     ):
@@ -546,9 +546,9 @@ class TestRunSetup(unittest.TestCase):
         mock_torch.assert_called_once()
         mock_deps.assert_called_once()
 
-    @patch("skill_seekers.cli.video_setup.install_torch", return_value=False)
-    @patch("skill_seekers.cli.video_setup.check_tesseract")
-    @patch("skill_seekers.cli.video_setup.detect_gpu")
+    @patch("yonyou_doc2skill.cli.video_setup.install_torch", return_value=False)
+    @patch("yonyou_doc2skill.cli.video_setup.check_tesseract")
+    @patch("yonyou_doc2skill.cli.video_setup.detect_gpu")
     def test_failure_returns_nonzero(self, mock_detect, mock_tess, mock_torch):
         mock_detect.return_value = GPUInfo(
             vendor=GPUVendor.NONE,
@@ -564,10 +564,10 @@ class TestRunSetup(unittest.TestCase):
         rc = run_setup(interactive=False)
         assert rc == 1
 
-    @patch("skill_seekers.cli.video_setup.install_torch", return_value=True)
-    @patch("skill_seekers.cli.video_setup.install_visual_deps", return_value=False)
-    @patch("skill_seekers.cli.video_setup.check_tesseract")
-    @patch("skill_seekers.cli.video_setup.detect_gpu")
+    @patch("yonyou_doc2skill.cli.video_setup.install_torch", return_value=True)
+    @patch("yonyou_doc2skill.cli.video_setup.install_visual_deps", return_value=False)
+    @patch("yonyou_doc2skill.cli.video_setup.check_tesseract")
+    @patch("yonyou_doc2skill.cli.video_setup.detect_gpu")
     def test_visual_deps_failure(self, mock_detect, mock_tess, mock_deps, mock_torch):
         mock_detect.return_value = GPUInfo(
             vendor=GPUVendor.NONE,
@@ -583,11 +583,11 @@ class TestRunSetup(unittest.TestCase):
         rc = run_setup(interactive=False)
         assert rc == 1
 
-    @patch("skill_seekers.cli.video_setup.verify_installation")
-    @patch("skill_seekers.cli.video_setup.install_visual_deps", return_value=True)
-    @patch("skill_seekers.cli.video_setup.install_torch", return_value=True)
-    @patch("skill_seekers.cli.video_setup.check_tesseract")
-    @patch("skill_seekers.cli.video_setup.detect_gpu")
+    @patch("yonyou_doc2skill.cli.video_setup.verify_installation")
+    @patch("yonyou_doc2skill.cli.video_setup.install_visual_deps", return_value=True)
+    @patch("yonyou_doc2skill.cli.video_setup.install_torch", return_value=True)
+    @patch("yonyou_doc2skill.cli.video_setup.check_tesseract")
+    @patch("yonyou_doc2skill.cli.video_setup.detect_gpu")
     def test_rocm_configures_env(self, mock_detect, mock_tess, mock_torch, mock_deps, mock_verify):
         """AMD GPU → configure_rocm_env called and env vars set."""
         mock_detect.return_value = GPUInfo(
@@ -625,13 +625,13 @@ class TestTesseractCircuitBreaker(unittest.TestCase):
     """Tests for _tesseract_broken flag in video_visual.py."""
 
     def test_circuit_breaker_flag_exists(self):
-        import skill_seekers.cli.video_visual as vv
+        import yonyou_doc2skill.cli.video_visual as vv
 
         assert hasattr(vv, "_tesseract_broken")
 
     def test_circuit_breaker_skips_after_failure(self):
-        import skill_seekers.cli.video_visual as vv
-        from skill_seekers.cli.video_models import FrameType
+        import yonyou_doc2skill.cli.video_visual as vv
+        from yonyou_doc2skill.cli.video_models import FrameType
 
         # Save and set broken state
         original = vv._tesseract_broken
@@ -643,8 +643,8 @@ class TestTesseractCircuitBreaker(unittest.TestCase):
             vv._tesseract_broken = original
 
     def test_circuit_breaker_allows_when_not_broken(self):
-        import skill_seekers.cli.video_visual as vv
-        from skill_seekers.cli.video_models import FrameType
+        import yonyou_doc2skill.cli.video_visual as vv
+        from yonyou_doc2skill.cli.video_models import FrameType
 
         original = vv._tesseract_broken
         try:
@@ -684,7 +684,7 @@ class TestVideoArgumentSetup(unittest.TestCase):
     """Tests for --setup flag in VIDEO_ARGUMENTS."""
 
     def test_setup_in_video_arguments(self):
-        from skill_seekers.cli.arguments.video import VIDEO_ARGUMENTS
+        from yonyou_doc2skill.cli.arguments.video import VIDEO_ARGUMENTS
 
         assert "setup" in VIDEO_ARGUMENTS
         assert VIDEO_ARGUMENTS["setup"]["kwargs"]["action"] == "store_true"
@@ -692,7 +692,7 @@ class TestVideoArgumentSetup(unittest.TestCase):
     def test_parser_accepts_setup(self):
         import argparse
 
-        from skill_seekers.cli.arguments.video import add_video_arguments
+        from yonyou_doc2skill.cli.arguments.video import add_video_arguments
 
         parser = argparse.ArgumentParser()
         add_video_arguments(parser)
@@ -702,7 +702,7 @@ class TestVideoArgumentSetup(unittest.TestCase):
     def test_parser_default_false(self):
         import argparse
 
-        from skill_seekers.cli.arguments.video import add_video_arguments
+        from yonyou_doc2skill.cli.arguments.video import add_video_arguments
 
         parser = argparse.ArgumentParser()
         add_video_arguments(parser)
@@ -713,10 +713,10 @@ class TestVideoArgumentSetup(unittest.TestCase):
 class TestVideoScraperSetupEarlyExit(unittest.TestCase):
     """Test that --setup triggers run_setup via video setup module."""
 
-    @patch("skill_seekers.cli.video_setup.run_setup", return_value=0)
+    @patch("yonyou_doc2skill.cli.video_setup.run_setup", return_value=0)
     def test_setup_runs_successfully(self, mock_setup):
         """run_setup(interactive=True) should return 0 on success."""
-        from skill_seekers.cli.video_setup import run_setup
+        from yonyou_doc2skill.cli.video_setup import run_setup
 
         rc = run_setup(interactive=True)
         assert rc == 0

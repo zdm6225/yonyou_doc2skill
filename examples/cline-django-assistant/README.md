@@ -1,6 +1,6 @@
 # Cline + Django Assistant Example
 
-Complete example showing how to use Skill Seekers to generate Cline rules for Django development with MCP integration.
+Complete example showing how to use Yonyou Doc2Skill to generate Cline rules for Django development with MCP integration.
 
 ## What This Example Does
 
@@ -14,14 +14,14 @@ Complete example showing how to use Skill Seekers to generate Cline rules for Dj
 ### 1. Generate Django Skill
 
 ```bash
-# Install Skill Seekers with MCP support
-pip install skill-seekers[mcp]
+# Install Yonyou Doc2Skill with MCP support
+pip install yonyou-doc2skill[mcp]
 
 # Generate Django documentation skill
-skill-seekers scrape --config configs/django.json
+yonyou-doc2skill scrape --config configs/django.json
 
 # Package for Cline (markdown format)
-skill-seekers package output/django --target markdown
+yonyou-doc2skill package output/django --target markdown
 ```
 
 ### 2. Copy to Django Project
@@ -42,9 +42,9 @@ python generate_clinerules.py --project my-django-project
 
 # Add this configuration:
 {
-  "skill-seekers": {
+  "yonyou-doc2skill": {
     "command": "python",
-    "args": ["-m", "skill_seekers.mcp.server_fastmcp", "--transport", "stdio"],
+    "args": ["-m", "yonyou_doc2skill.mcp.server_fastmcp", "--transport", "stdio"],
     "env": {}
   }
 }
@@ -139,17 +139,17 @@ With MCP server configured, Cline can:
 
 1. **Search documentation dynamically**
    ```
-   Cline task: "Use skill-seekers MCP to search Django async views"
+   Cline task: "Use yonyou-doc2skill MCP to search Django async views"
    ```
 
 2. **Generate fresh rules**
    ```
-   Cline task: "Use skill-seekers MCP to scrape latest Django 5.0 docs"
+   Cline task: "Use yonyou-doc2skill MCP to scrape latest Django 5.0 docs"
    ```
 
 3. **Package skills on-demand**
    ```
-   Cline task: "Use skill-seekers MCP to package React docs for this project"
+   Cline task: "Use yonyou-doc2skill MCP to package React docs for this project"
    ```
 
 ## Rule Files Structure
@@ -252,22 +252,22 @@ ls -la .clinerules
 
 **Solution 1:** Verify installation
 ```bash
-pip show skill-seekers
+pip show yonyou-doc2skill
 # Should show: [mcp] extra installed
 ```
 
 **Solution 2:** Test MCP server directly
 ```bash
-python -m skill_seekers.mcp.server_fastmcp --transport stdio
+python -m yonyou_doc2skill.mcp.server_fastmcp --transport stdio
 # Should start without errors
 ```
 
 **Solution 3:** Use absolute Python path
 ```json
 {
-  "skill-seekers": {
+  "yonyou-doc2skill": {
     "command": "/usr/local/bin/python3",
-    "args": ["-m", "skill_seekers.mcp.server_fastmcp", "--transport", "stdio"]
+    "args": ["-m", "yonyou_doc2skill.mcp.server_fastmcp", "--transport", "stdio"]
   }
 }
 ```
@@ -292,11 +292,11 @@ NEVER deviate from these patterns.
 
 ```bash
 # Backend rules
-skill-seekers package output/django --target markdown
+yonyou-doc2skill package output/django --target markdown
 cp output/django-markdown/SKILL.md .clinerules.backend
 
 # Frontend rules
-skill-seekers package output/react --target markdown
+yonyou-doc2skill package output/react --target markdown
 cp output/react-markdown/SKILL.md .clinerules.frontend
 
 # Now Cline knows BOTH Django AND React patterns
@@ -306,8 +306,8 @@ cp output/react-markdown/SKILL.md .clinerules.frontend
 
 ```python
 # Create both .clinerules and RAG pipeline
-from skill_seekers.cli.doc_scraper import main as scrape
-from skill_seekers.cli.package_skill import main as package
+from yonyou_doc2skill.cli.doc_scraper import main as scrape
+from yonyou_doc2skill.cli.package_skill import main as package
 
 # Scrape
 scrape(["--config", "configs/django.json"])
@@ -358,6 +358,6 @@ package(["output/django", "--target", "langchain", "--chunk-for-rag"])
 
 ## Support
 
-- **Skill Seekers Issues:** [GitHub](https://github.com/yusufkaraaslan/Skill_Seekers/issues)
+- **Yonyou Doc2Skill Issues:** [GitHub](https://github.com/yonyou/yonyou-doc2skill/issues)
 - **Cline Docs:** [docs.cline.bot](https://docs.cline.bot/)
 - **Integration Guide:** [CLINE.md](../../docs/integrations/CLINE.md)

@@ -7,7 +7,7 @@ compatibility with Claude CLI's character limits.
 
 import pytest
 
-from skill_seekers.cli.enhance_skill_local import LocalSkillEnhancer
+from yonyou_doc2skill.cli.enhance_skill_local import LocalSkillEnhancer
 
 
 class TestSmartSummarization:

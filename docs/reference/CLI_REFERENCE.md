@@ -1,4 +1,4 @@
-# CLI Reference - Skill Seekers
+# CLI Reference - Yonyou Doc2Skill
 
 > **Version:** 3.2.0
 > **Last Updated:** 2026-03-15
@@ -26,17 +26,12 @@
   - [html](#html) - Extract from local HTML files
   - [install](#install) - One-command complete workflow
   - [install-agent](#install-agent) - Install to AI agent
-  - [jupyter](#jupyter) - Extract from Jupyter notebooks
-  - [manpage](#manpage) - Extract from man pages
   - [multilang](#multilang) - Multi-language docs
-  - [notion](#notion) - Extract from Notion
-  - [openapi](#openapi) - Extract from OpenAPI/Swagger specs
   - [package](#package) - Package skill for platform
   - [pdf](#pdf) - Extract from PDF
   - [pptx](#pptx) - Extract from PowerPoint files
   - [quality](#quality) - Quality scoring
   - [resume](#resume) - Resume interrupted jobs
-  - [rss](#rss) - Extract from RSS/Atom feeds
   - [scrape](#scrape) - Scrape documentation
   - [stream](#stream) - Stream large files
   - [unified](#unified) - Multi-source scraping
@@ -52,16 +47,16 @@
 
 ## Overview
 
-Skill Seekers provides a unified CLI for converting documentation, GitHub repositories, PDFs, videos, notebooks, wikis, and 17 total source types into AI-ready skills for 16+ LLM platforms and RAG pipelines.
+Yonyou Doc2Skill provides a unified CLI for converting documentation, GitHub repositories, PDFs, videos, and the retained source types into AI-ready skills for 16+ LLM platforms and RAG pipelines.
 
 ### Installation
 
 ```bash
 # Basic installation
-pip install skill-seekers
+pip install yonyou-doc2skill
 
 # With all platform support
-pip install skill-seekers[all-llms]
+pip install yonyou-doc2skill[all-llms]
 
 # Development setup
 pip install -e ".[all-llms,dev]"
@@ -69,7 +64,7 @@ pip install -e ".[all-llms,dev]"
 
 Verify installation:
 ```bash
-skill-seekers --version
+yonyou-doc2skill --version
 ```
 
 ### Global Flags
@@ -119,7 +114,7 @@ Analyze local codebase and extract code knowledge.
 
 **Syntax:**
 ```bash
-skill-seekers analyze --directory DIR [options]
+yonyou-doc2skill analyze --directory DIR [options]
 ```
 
 **Arguments:**
@@ -161,19 +156,19 @@ skill-seekers analyze --directory DIR [options]
 
 ```bash
 # Basic analysis with defaults
-skill-seekers analyze --directory ./my-project
+yonyou-doc2skill analyze --directory ./my-project
 
 # Quick analysis (1-2 min)
-skill-seekers analyze --directory ./my-project --preset quick
+yonyou-doc2skill analyze --directory ./my-project --preset quick
 
 # Comprehensive analysis with all features
-skill-seekers analyze --directory ./my-project --preset comprehensive
+yonyou-doc2skill analyze --directory ./my-project --preset comprehensive
 
 # Specific languages only
-skill-seekers analyze --directory ./my-project --languages Python,JavaScript
+yonyou-doc2skill analyze --directory ./my-project --languages Python,JavaScript
 
 # Skip heavy features for faster analysis
-skill-seekers analyze --directory ./my-project --skip-dependency-graph --skip-patterns
+yonyou-doc2skill analyze --directory ./my-project --skip-dependency-graph --skip-patterns
 ```
 
 **Exit Codes:**
@@ -190,7 +185,7 @@ Extract content from AsciiDoc files and generate skill.
 
 **Syntax:**
 ```bash
-skill-seekers asciidoc [options]
+yonyou-doc2skill asciidoc [options]
 ```
 
 **Key Flags:**
@@ -207,10 +202,10 @@ skill-seekers asciidoc [options]
 
 ```bash
 # Single file
-skill-seekers asciidoc --asciidoc-path guide.adoc --name my-guide
+yonyou-doc2skill asciidoc --asciidoc-path guide.adoc --name my-guide
 
 # Directory of AsciiDoc files
-skill-seekers asciidoc --asciidoc-path ./docs/ --name project-docs
+yonyou-doc2skill asciidoc --asciidoc-path ./docs/ --name project-docs
 ```
 
 ---
@@ -223,7 +218,7 @@ Extract knowledge from Slack or Discord chat exports.
 
 **Syntax:**
 ```bash
-skill-seekers chat [options]
+yonyou-doc2skill chat [options]
 ```
 
 **Key Flags:**
@@ -242,10 +237,10 @@ skill-seekers chat [options]
 
 ```bash
 # From Slack export
-skill-seekers chat --export-path ./slack-export/ --name team-knowledge
+yonyou-doc2skill chat --export-path ./slack-export/ --name team-knowledge
 
 # From Discord via API
-skill-seekers chat --platform discord --token $DISCORD_TOKEN --channel general --name discord-docs
+yonyou-doc2skill chat --platform discord --token $DISCORD_TOKEN --channel general --name discord-docs
 ```
 
 ---
@@ -258,7 +253,7 @@ Interactive configuration wizard for API keys and settings.
 
 **Syntax:**
 ```bash
-skill-seekers config [options]
+yonyou-doc2skill config [options]
 ```
 
 **Flags:**
@@ -274,16 +269,16 @@ skill-seekers config [options]
 
 ```bash
 # Full configuration wizard
-skill-seekers config
+yonyou-doc2skill config
 
 # Quick GitHub setup
-skill-seekers config --github
+yonyou-doc2skill config --github
 
 # View current config
-skill-seekers config --show
+yonyou-doc2skill config --show
 
 # Test all connections
-skill-seekers config --test
+yonyou-doc2skill config --test
 ```
 
 ---
@@ -296,7 +291,7 @@ Extract content from Confluence wikis.
 
 **Syntax:**
 ```bash
-skill-seekers confluence [options]
+yonyou-doc2skill confluence [options]
 ```
 
 **Key Flags:**
@@ -316,11 +311,11 @@ skill-seekers confluence [options]
 
 ```bash
 # Via API
-skill-seekers confluence --base-url https://wiki.example.com --space-key DEV \
+yonyou-doc2skill confluence --base-url https://wiki.example.com --space-key DEV \
   --username user@example.com --token $CONFLUENCE_TOKEN --name dev-wiki
 
 # From export
-skill-seekers confluence --export-path ./confluence-export/ --name team-docs
+yonyou-doc2skill confluence --export-path ./confluence-export/ --name team-docs
 ```
 
 ---
@@ -333,7 +328,7 @@ Create skill from any source. Auto-detects source type.
 
 **Syntax:**
 ```bash
-skill-seekers create [source] [options]
+yonyou-doc2skill create [source] [options]
 ```
 
 **Arguments:**
@@ -350,14 +345,9 @@ skill-seekers create [source] [options]
 | `./path` | Local codebase | `./my-project` |
 | `*.pdf` | PDF | `manual.pdf` |
 | `*.docx` | Word | `report.docx` |
-| `*.epub` | EPUB | `book.epub` |
-| `*.ipynb` | Jupyter Notebook | `analysis.ipynb` |
 | `*.html`/`*.htm` | Local HTML | `docs.html` |
-| `*.yaml`/`*.yml` | OpenAPI/Swagger | `openapi.yaml` |
 | `*.adoc`/`*.asciidoc` | AsciiDoc | `guide.adoc` |
 | `*.pptx` | PowerPoint | `slides.pptx` |
-| `*.rss`/`*.atom` | RSS/Atom feed | `feed.rss` |
-| `*.1`-`*.8`/`*.man` | Man page | `grep.1` |
 | `*.json` | Config file | `config.json` |
 
 **Flags:**
@@ -389,25 +379,25 @@ skill-seekers create [source] [options]
 
 ```bash
 # Documentation website
-skill-seekers create https://docs.django.com/
+yonyou-doc2skill create https://docs.django.com/
 
 # GitHub repository
-skill-seekers create facebook/react
+yonyou-doc2skill create facebook/react
 
 # Local codebase
-skill-seekers create ./my-project
+yonyou-doc2skill create ./my-project
 
 # PDF file
-skill-seekers create manual.pdf --name product-docs
+yonyou-doc2skill create manual.pdf --name product-docs
 
 # With preset
-skill-seekers create https://docs.react.dev/ --preset quick
+yonyou-doc2skill create https://docs.react.dev/ --preset quick
 
 # With enhancement workflow
-skill-seekers create ./my-project --enhance-workflow security-focus
+yonyou-doc2skill create ./my-project --enhance-workflow security-focus
 
 # Multi-workflow chaining
-skill-seekers create ./my-project \
+yonyou-doc2skill create ./my-project \
   --enhance-workflow security-focus \
   --enhance-workflow api-documentation
 ```
@@ -422,7 +412,7 @@ Enhance SKILL.md using local coding agent (Claude Code).
 
 **Syntax:**
 ```bash
-skill-seekers enhance SKILL_DIRECTORY [options]
+yonyou-doc2skill enhance SKILL_DIRECTORY [options]
 ```
 
 **Arguments:**
@@ -446,16 +436,16 @@ skill-seekers enhance SKILL_DIRECTORY [options]
 
 ```bash
 # Basic enhancement
-skill-seekers enhance output/react/
+yonyou-doc2skill enhance output/react/
 
 # Background mode
-skill-seekers enhance output/react/ --background
+yonyou-doc2skill enhance output/react/ --background
 
 # With custom timeout
-skill-seekers enhance output/react/ --timeout 1200
+yonyou-doc2skill enhance output/react/ --timeout 1200
 
 # Monitor background enhancement
-skill-seekers enhance-status output/react/ --watch
+yonyou-doc2skill enhance-status output/react/ --watch
 ```
 
 **Requirements:** Claude Code must be installed and authenticated.
@@ -470,7 +460,7 @@ Monitor background enhancement processes.
 
 **Syntax:**
 ```bash
-skill-seekers enhance-status SKILL_DIRECTORY [options]
+yonyou-doc2skill enhance-status SKILL_DIRECTORY [options]
 ```
 
 **Arguments:**
@@ -491,13 +481,13 @@ skill-seekers enhance-status SKILL_DIRECTORY [options]
 
 ```bash
 # Check status once
-skill-seekers enhance-status output/react/
+yonyou-doc2skill enhance-status output/react/
 
 # Watch continuously
-skill-seekers enhance-status output/react/ --watch
+yonyou-doc2skill enhance-status output/react/ --watch
 
 # JSON output for scripting
-skill-seekers enhance-status output/react/ --json
+yonyou-doc2skill enhance-status output/react/ --json
 ```
 
 ---
@@ -510,7 +500,7 @@ Estimate page count before scraping.
 
 **Syntax:**
 ```bash
-skill-seekers estimate [config] [options]
+yonyou-doc2skill estimate [config] [options]
 ```
 
 **Arguments:**
@@ -530,13 +520,13 @@ skill-seekers estimate [config] [options]
 
 ```bash
 # Estimate with config file
-skill-seekers estimate configs/react.json
+yonyou-doc2skill estimate configs/react.json
 
 # Quick estimate (100 pages)
-skill-seekers estimate configs/react.json --max-discovery 100
+yonyou-doc2skill estimate configs/react.json --max-discovery 100
 
 # List all available presets
-skill-seekers estimate --all
+yonyou-doc2skill estimate --all
 ```
 
 ---
@@ -549,7 +539,7 @@ Scrape GitHub repository and generate skill.
 
 **Syntax:**
 ```bash
-skill-seekers github [options]
+yonyou-doc2skill github [options]
 ```
 
 **Flags:**
@@ -580,19 +570,19 @@ skill-seekers github [options]
 
 ```bash
 # Basic repo analysis
-skill-seekers github --repo facebook/react
+yonyou-doc2skill github --repo facebook/react
 
 # With GitHub token (higher rate limits)
-skill-seekers github --repo facebook/react --token $GITHUB_TOKEN
+yonyou-doc2skill github --repo facebook/react --token $GITHUB_TOKEN
 
 # Skip issues for faster scraping
-skill-seekers github --repo facebook/react --no-issues
+yonyou-doc2skill github --repo facebook/react --no-issues
 
 # Dry run to preview
-skill-seekers github --repo facebook/react --dry-run
+yonyou-doc2skill github --repo facebook/react --dry-run
 
 # Scrape only, build later
-skill-seekers github --repo facebook/react --scrape-only
+yonyou-doc2skill github --repo facebook/react --scrape-only
 ```
 
 ---
@@ -605,7 +595,7 @@ Extract content from local HTML files and generate skill.
 
 **Syntax:**
 ```bash
-skill-seekers html [options]
+yonyou-doc2skill html [options]
 ```
 
 **Key Flags:**
@@ -622,10 +612,10 @@ skill-seekers html [options]
 
 ```bash
 # Single HTML file
-skill-seekers html --html-path docs/index.html --name my-docs
+yonyou-doc2skill html --html-path docs/index.html --name my-docs
 
 # Directory of HTML files
-skill-seekers html --html-path ./html-export/ --name exported-docs
+yonyou-doc2skill html --html-path ./html-export/ --name exported-docs
 ```
 
 ---
@@ -638,7 +628,7 @@ One-command complete workflow: fetch → scrape → enhance → package → uplo
 
 **Syntax:**
 ```bash
-skill-seekers install --config CONFIG [options]
+yonyou-doc2skill install --config CONFIG [options]
 ```
 
 **Arguments:**
@@ -660,16 +650,16 @@ skill-seekers install --config CONFIG [options]
 
 ```bash
 # Complete workflow with preset
-skill-seekers install --config react
+yonyou-doc2skill install --config react
 
 # Skip upload
-skill-seekers install --config react --no-upload
+yonyou-doc2skill install --config react --no-upload
 
 # Custom config
-skill-seekers install --config configs/my-project.json
+yonyou-doc2skill install --config configs/my-project.json
 
 # Dry run to preview
-skill-seekers install --config react --dry-run
+yonyou-doc2skill install --config react --dry-run
 ```
 
 **Note:** AI enhancement is mandatory for install command.
@@ -684,7 +674,7 @@ Install skill to AI agent directories (Cursor, Windsurf, Cline).
 
 **Syntax:**
 ```bash
-skill-seekers install-agent SKILL_DIRECTORY --agent AGENT [options]
+yonyou-doc2skill install-agent SKILL_DIRECTORY --agent AGENT [options]
 ```
 
 **Arguments:**
@@ -704,79 +694,13 @@ skill-seekers install-agent SKILL_DIRECTORY --agent AGENT [options]
 
 ```bash
 # Install to Cursor
-skill-seekers install-agent output/react/ --agent cursor
+yonyou-doc2skill install-agent output/react/ --agent cursor
 
 # Install to Windsurf
-skill-seekers install-agent output/react/ --agent windsurf
+yonyou-doc2skill install-agent output/react/ --agent windsurf
 
 # Force overwrite
-skill-seekers install-agent output/react/ --agent cursor --force
-```
-
----
-
-### jupyter
-
-Extract content from Jupyter Notebook files and generate skill.
-
-**Purpose:** Convert `.ipynb` notebooks into AI-ready skills with code, markdown, and outputs.
-
-**Syntax:**
-```bash
-skill-seekers jupyter [options]
-```
-
-**Key Flags:**
-
-| Flag | Description |
-|------|-------------|
-| `--notebook PATH` | Path to .ipynb file or directory |
-| `-n, --name` | Skill name |
-| `--from-json FILE` | Build from extracted JSON |
-| `--enhance-level` | AI enhancement (default: 0) |
-| `--dry-run` | Preview without executing |
-
-**Examples:**
-
-```bash
-# Single notebook
-skill-seekers jupyter --notebook analysis.ipynb --name data-analysis
-
-# Directory of notebooks
-skill-seekers jupyter --notebook ./notebooks/ --name ml-tutorials
-```
-
----
-
-### manpage
-
-Extract content from Unix/Linux man pages and generate skill.
-
-**Purpose:** Convert man pages into AI-ready reference skills.
-
-**Syntax:**
-```bash
-skill-seekers manpage [options]
-```
-
-**Key Flags:**
-
-| Flag | Description |
-|------|-------------|
-| `--man-names NAMES` | Comma-separated man page names (e.g., `ls,grep,find`) |
-| `--man-path PATH` | Path to directory containing man page files |
-| `--sections SECTIONS` | Comma-separated section numbers (e.g., `1,3,8`) |
-| `-n, --name` | Skill name |
-| `--dry-run` | Preview without executing |
-
-**Examples:**
-
-```bash
-# By name (system man pages)
-skill-seekers manpage --man-names ls,grep,find,awk --name unix-essentials
-
-# From directory
-skill-seekers manpage --man-path /usr/share/man/man1/ --sections 1 --name section1-cmds
+yonyou-doc2skill install-agent output/react/ --agent cursor --force
 ```
 
 ---
@@ -789,7 +713,7 @@ Multi-language documentation support.
 
 **Syntax:**
 ```bash
-skill-seekers multilang --config CONFIG [options]
+yonyou-doc2skill multilang --config CONFIG [options]
 ```
 
 **Flags:**
@@ -805,79 +729,10 @@ skill-seekers multilang --config CONFIG [options]
 
 ```bash
 # Multi-language scrape
-skill-seekers multilang --config configs/react-i18n.json
+yonyou-doc2skill multilang --config configs/react-i18n.json
 
 # Specific languages
-skill-seekers multilang --config configs/docs.json --languages en,zh,es
-```
-
----
-
-### notion
-
-Extract content from Notion workspaces.
-
-**Purpose:** Convert Notion pages and databases into AI-ready skills via API or export.
-
-**Syntax:**
-```bash
-skill-seekers notion [options]
-```
-
-**Key Flags:**
-
-| Flag | Description |
-|------|-------------|
-| `--database-id ID` | Notion database ID to extract from |
-| `--page-id ID` | Notion page ID to extract from |
-| `--export-path PATH` | Path to Notion export directory |
-| `--token TOKEN` | Notion integration token |
-| `--max-pages N` | Max pages to extract (default: 500) |
-| `-n, --name` | Skill name |
-| `--dry-run` | Preview without executing |
-
-**Examples:**
-
-```bash
-# Via API
-skill-seekers notion --database-id abc123 --token $NOTION_TOKEN --name team-docs
-
-# From export
-skill-seekers notion --export-path ./notion-export/ --name project-wiki
-```
-
----
-
-### openapi
-
-Extract content from OpenAPI/Swagger specifications and generate skill.
-
-**Purpose:** Convert API specs into AI-ready reference skills with endpoint documentation.
-
-**Syntax:**
-```bash
-skill-seekers openapi [options]
-```
-
-**Key Flags:**
-
-| Flag | Description |
-|------|-------------|
-| `--spec PATH` | Path to OpenAPI/Swagger spec file |
-| `--spec-url URL` | URL to OpenAPI/Swagger spec |
-| `-n, --name` | Skill name |
-| `--from-json FILE` | Build from extracted JSON |
-| `--enhance-level` | AI enhancement (default: 0) |
-| `--dry-run` | Preview without executing |
-
-**Examples:**
-
-```bash
-# From local file
-skill-seekers openapi --spec api/openapi.yaml --name my-api
-
-# From URL
-skill-seekers openapi --spec-url https://petstore.swagger.io/v2/swagger.json --name petstore
+yonyou-doc2skill multilang --config configs/docs.json --languages en,zh,es
 ```
 
 ---
@@ -890,7 +745,7 @@ Package skill directory into platform-specific format.
 
 **Syntax:**
 ```bash
-skill-seekers package SKILL_DIRECTORY [options]
+yonyou-doc2skill package SKILL_DIRECTORY [options]
 ```
 
 **Arguments:**
@@ -945,21 +800,21 @@ skill-seekers package SKILL_DIRECTORY [options]
 
 ```bash
 # Package for Claude (default)
-skill-seekers package output/react/
+yonyou-doc2skill package output/react/
 
 # Package for Gemini
-skill-seekers package output/react/ --target gemini
+yonyou-doc2skill package output/react/ --target gemini
 
 # Package for multiple platforms
 for platform in claude gemini openai; do
-  skill-seekers package output/react/ --target $platform
+  yonyou-doc2skill package output/react/ --target $platform
 done
 
 # Package with upload
-skill-seekers package output/react/ --target claude --upload
+yonyou-doc2skill package output/react/ --target claude --upload
 
 # Streaming mode for large docs
-skill-seekers package output/large-docs/ --streaming
+yonyou-doc2skill package output/large-docs/ --streaming
 ```
 
 ---
@@ -972,7 +827,7 @@ Extract content from PDF and generate skill.
 
 **Syntax:**
 ```bash
-skill-seekers pdf [options]
+yonyou-doc2skill pdf [options]
 ```
 
 **Flags:**
@@ -999,16 +854,16 @@ skill-seekers pdf [options]
 
 ```bash
 # Direct PDF path
-skill-seekers pdf --pdf manual.pdf --name product-manual
+yonyou-doc2skill pdf --pdf manual.pdf --name product-manual
 
 # With config file
-skill-seekers pdf --config configs/manual.json
+yonyou-doc2skill pdf --config configs/manual.json
 
 # Enable enhancement
-skill-seekers pdf --pdf manual.pdf --enhance-level 2
+yonyou-doc2skill pdf --pdf manual.pdf --enhance-level 2
 
 # Dry run to preview
-skill-seekers pdf --pdf manual.pdf --name test --dry-run
+yonyou-doc2skill pdf --pdf manual.pdf --name test --dry-run
 ```
 
 ---
@@ -1021,7 +876,7 @@ Extract content from PowerPoint files and generate skill.
 
 **Syntax:**
 ```bash
-skill-seekers pptx [options]
+yonyou-doc2skill pptx [options]
 ```
 
 **Key Flags:**
@@ -1038,10 +893,10 @@ skill-seekers pptx [options]
 
 ```bash
 # Extract from presentation
-skill-seekers pptx --pptx training-slides.pptx --name training-material
+yonyou-doc2skill pptx --pptx training-slides.pptx --name training-material
 
 # With enhancement
-skill-seekers pptx --pptx architecture.pptx --name arch-overview --enhance-level 2
+yonyou-doc2skill pptx --pptx architecture.pptx --name arch-overview --enhance-level 2
 ```
 
 ---
@@ -1054,7 +909,7 @@ Analyze and score skill documentation quality.
 
 **Syntax:**
 ```bash
-skill-seekers quality SKILL_DIRECTORY [options]
+yonyou-doc2skill quality SKILL_DIRECTORY [options]
 ```
 
 **Arguments:**
@@ -1074,13 +929,13 @@ skill-seekers quality SKILL_DIRECTORY [options]
 
 ```bash
 # Basic quality check
-skill-seekers quality output/react/
+yonyou-doc2skill quality output/react/
 
 # Detailed report
-skill-seekers quality output/react/ --report
+yonyou-doc2skill quality output/react/ --report
 
 # Fail if below threshold
-skill-seekers quality output/react/ --threshold 7.0
+yonyou-doc2skill quality output/react/ --threshold 7.0
 ```
 
 ---
@@ -1093,7 +948,7 @@ Resume interrupted scraping job from checkpoint.
 
 **Syntax:**
 ```bash
-skill-seekers resume [JOB_ID] [options]
+yonyou-doc2skill resume [JOB_ID] [options]
 ```
 
 **Arguments:**
@@ -1113,48 +968,13 @@ skill-seekers resume [JOB_ID] [options]
 
 ```bash
 # List resumable jobs
-skill-seekers resume --list
+yonyou-doc2skill resume --list
 
 # Resume specific job
-skill-seekers resume job-abc123
+yonyou-doc2skill resume job-abc123
 
 # Clean old checkpoints
-skill-seekers resume --clean
-```
-
----
-
-### rss
-
-Extract content from RSS/Atom feeds and generate skill.
-
-**Purpose:** Convert blog feeds and news sources into AI-ready skills.
-
-**Syntax:**
-```bash
-skill-seekers rss [options]
-```
-
-**Key Flags:**
-
-| Flag | Description |
-|------|-------------|
-| `--feed-url URL` | URL of the RSS/Atom feed |
-| `--feed-path PATH` | Path to local RSS/Atom feed file |
-| `--follow-links` | Follow article links for full content (default: true) |
-| `--no-follow-links` | Use feed summary only |
-| `--max-articles N` | Max articles to extract (default: 50) |
-| `-n, --name` | Skill name |
-| `--dry-run` | Preview without executing |
-
-**Examples:**
-
-```bash
-# From URL
-skill-seekers rss --feed-url https://blog.example.com/feed.xml --name blog-knowledge
-
-# From local file, summaries only
-skill-seekers rss --feed-path ./feed.rss --no-follow-links --name feed-summaries
+yonyou-doc2skill resume --clean
 ```
 
 ---
@@ -1167,7 +987,7 @@ Scrape documentation website and generate skill.
 
 **Syntax:**
 ```bash
-skill-seekers scrape [url] [options]
+yonyou-doc2skill scrape [url] [options]
 ```
 
 **Arguments:**
@@ -1208,25 +1028,25 @@ skill-seekers scrape [url] [options]
 
 ```bash
 # With preset config
-skill-seekers scrape --config configs/react.json
+yonyou-doc2skill scrape --config configs/react.json
 
 # Quick mode
-skill-seekers scrape --name react --url https://react.dev/
+yonyou-doc2skill scrape --name react --url https://react.dev/
 
 # Interactive mode
-skill-seekers scrape --interactive
+yonyou-doc2skill scrape --interactive
 
 # Dry run
-skill-seekers scrape --config configs/react.json --dry-run
+yonyou-doc2skill scrape --config configs/react.json --dry-run
 
 # Fast async scraping
-skill-seekers scrape --config configs/react.json --async --workers 5
+yonyou-doc2skill scrape --config configs/react.json --async --workers 5
 
 # Skip scrape, rebuild from cache
-skill-seekers scrape --config configs/react.json --skip-scrape
+yonyou-doc2skill scrape --config configs/react.json --skip-scrape
 
 # Resume interrupted scrape
-skill-seekers scrape --config configs/react.json --resume
+yonyou-doc2skill scrape --config configs/react.json --resume
 ```
 
 ---
@@ -1239,7 +1059,7 @@ Stream large files chunk-by-chunk.
 
 **Syntax:**
 ```bash
-skill-seekers stream --config CONFIG [options]
+yonyou-doc2skill stream --config CONFIG [options]
 ```
 
 **Flags:**
@@ -1254,10 +1074,10 @@ skill-seekers stream --config CONFIG [options]
 
 ```bash
 # Stream large documentation
-skill-seekers stream --config configs/large-docs.json
+yonyou-doc2skill stream --config configs/large-docs.json
 
 # Custom chunk size
-skill-seekers stream --config configs/large-docs.json --streaming-chunk-chars 1000
+yonyou-doc2skill stream --config configs/large-docs.json --streaming-chunk-chars 1000
 ```
 
 ---
@@ -1270,7 +1090,7 @@ Multi-source scraping combining docs + GitHub + PDF.
 
 **Syntax:**
 ```bash
-skill-seekers unified --config FILE [options]
+yonyou-doc2skill unified --config FILE [options]
 ```
 
 **Arguments:**
@@ -1298,13 +1118,13 @@ skill-seekers unified --config FILE [options]
 
 ```bash
 # Unified scraping
-skill-seekers unified --config configs/react-unified.json
+yonyou-doc2skill unified --config configs/react-unified.json
 
 # Fresh start
-skill-seekers unified --config configs/react-unified.json --fresh
+yonyou-doc2skill unified --config configs/react-unified.json --fresh
 
 # Rule-based merging
-skill-seekers unified --config configs/react-unified.json --merge-mode rule-based
+yonyou-doc2skill unified --config configs/react-unified.json --merge-mode rule-based
 ```
 
 **Config Format:**
@@ -1328,7 +1148,7 @@ Update docs without full rescrape.
 
 **Syntax:**
 ```bash
-skill-seekers update --config CONFIG [options]
+yonyou-doc2skill update --config CONFIG [options]
 ```
 
 **Flags:**
@@ -1343,13 +1163,13 @@ skill-seekers update --config CONFIG [options]
 
 ```bash
 # Check for updates
-skill-seekers update --config configs/react.json --check-only
+yonyou-doc2skill update --config configs/react.json --check-only
 
 # Update since specific date
-skill-seekers update --config configs/react.json --since 2026-01-01
+yonyou-doc2skill update --config configs/react.json --since 2026-01-01
 
 # Full update
-skill-seekers update --config configs/react.json
+yonyou-doc2skill update --config configs/react.json
 ```
 
 ---
@@ -1362,7 +1182,7 @@ Upload skill package to LLM platform or vector database.
 
 **Syntax:**
 ```bash
-skill-seekers upload PACKAGE_FILE [options]
+yonyou-doc2skill upload PACKAGE_FILE [options]
 ```
 
 **Arguments:**
@@ -1389,16 +1209,16 @@ skill-seekers upload PACKAGE_FILE [options]
 
 ```bash
 # Upload to Claude
-skill-seekers upload output/react-claude.zip
+yonyou-doc2skill upload output/react-claude.zip
 
 # Upload to Gemini
-skill-seekers upload output/react-gemini.tar.gz --target gemini
+yonyou-doc2skill upload output/react-gemini.tar.gz --target gemini
 
 # Upload to ChromaDB
-skill-seekers upload output/react-chroma.zip --target chroma
+yonyou-doc2skill upload output/react-chroma.zip --target chroma
 
 # Upload to Weaviate Cloud
-skill-seekers upload output/react-weaviate.zip --target weaviate \
+yonyou-doc2skill upload output/react-weaviate.zip --target weaviate \
   --use-cloud --cluster-url https://xxx.weaviate.network
 ```
 
@@ -1412,16 +1232,16 @@ Extract skills from video tutorials (YouTube, Vimeo, or local files).
 
 ```bash
 # Setup (first time — auto-detects GPU, installs PyTorch + visual deps)
-skill-seekers video --setup
+yonyou-doc2skill video --setup
 
 # Extract from YouTube
-skill-seekers video --url https://www.youtube.com/watch?v=VIDEO_ID --name my-skill
+yonyou-doc2skill video --url https://www.youtube.com/watch?v=VIDEO_ID --name my-skill
 
 # With visual frame extraction (requires --setup first)
-skill-seekers video --url VIDEO_URL --name my-skill --visual
+yonyou-doc2skill video --url VIDEO_URL --name my-skill --visual
 
 # Local video file
-skill-seekers video --url /path/to/video.mp4 --name my-skill
+yonyou-doc2skill video --url /path/to/video.mp4 --name my-skill
 ```
 
 ### Key Flags
@@ -1437,7 +1257,7 @@ skill-seekers video --url /path/to/video.mp4 --name my-skill
 ### Notes
 
 - `--setup` detects NVIDIA (CUDA), AMD (ROCm), or CPU-only and installs the correct PyTorch variant
-- Requires `pip install skill-seekers[video]` (transcripts) or `skill-seekers[video-full]` (+ whisper + scene detection)
+- Requires `pip install yonyou-doc2skill[video]` (transcripts) or `yonyou-doc2skill[video-full]` (+ whisper + scene detection)
 - EasyOCR is NOT included in pip extras — it is installed by `--setup` with the correct GPU backend
 
 ---
@@ -1450,7 +1270,7 @@ Manage enhancement workflow presets.
 
 **Syntax:**
 ```bash
-skill-seekers workflows ACTION [options]
+yonyou-doc2skill workflows ACTION [options]
 ```
 
 **Actions:**
@@ -1474,26 +1294,26 @@ skill-seekers workflows ACTION [options]
 
 ```bash
 # List all workflows
-skill-seekers workflows list
+yonyou-doc2skill workflows list
 
 # Show workflow content
-skill-seekers workflows show security-focus
+yonyou-doc2skill workflows show security-focus
 
 # Copy for editing
-skill-seekers workflows copy security-focus
+yonyou-doc2skill workflows copy security-focus
 
 # Add custom workflow
-skill-seekers workflows add ./my-workflow.yaml
+yonyou-doc2skill workflows add ./my-workflow.yaml
 
 # Add with custom name
-skill-seekers workflows add ./workflow.yaml --name my-custom
+yonyou-doc2skill workflows add ./workflow.yaml --name my-custom
 
 # Remove user workflow
-skill-seekers workflows remove my-workflow
+yonyou-doc2skill workflows remove my-workflow
 
 # Validate workflow
-skill-seekers workflows validate security-focus
-skill-seekers workflows validate ./my-workflow.yaml
+yonyou-doc2skill workflows validate security-focus
+yonyou-doc2skill workflows validate ./my-workflow.yaml
 ```
 
 **Built-in Presets:**
@@ -1511,55 +1331,55 @@ skill-seekers workflows validate ./my-workflow.yaml
 
 ```bash
 # 1. Estimate pages (optional)
-skill-seekers estimate configs/react.json
+yonyou-doc2skill estimate configs/react.json
 
 # 2. Scrape documentation
-skill-seekers scrape --config configs/react.json
+yonyou-doc2skill scrape --config configs/react.json
 
 # 3. Enhance SKILL.md (optional, recommended)
-skill-seekers enhance output/react/
+yonyou-doc2skill enhance output/react/
 
 # 4. Package for Claude
-skill-seekers package output/react/ --target claude
+yonyou-doc2skill package output/react/ --target claude
 
 # 5. Upload
-skill-seekers upload output/react-claude.zip
+yonyou-doc2skill upload output/react-claude.zip
 ```
 
 ### Workflow 2: GitHub → Skill
 
 ```bash
 # 1. Analyze repository
-skill-seekers github --repo facebook/react
+yonyou-doc2skill github --repo facebook/react
 
 # 2. Package
-skill-seekers package output/react/ --target claude
+yonyou-doc2skill package output/react/ --target claude
 
 # 3. Upload
-skill-seekers upload output/react-claude.zip
+yonyou-doc2skill upload output/react-claude.zip
 ```
 
 ### Workflow 3: Local Codebase → Skill
 
 ```bash
 # 1. Analyze codebase
-skill-seekers analyze --directory ./my-project
+yonyou-doc2skill analyze --directory ./my-project
 
 # 2. Package
-skill-seekers package output/codebase/ --target claude
+yonyou-doc2skill package output/codebase/ --target claude
 
 # 3. Install to Cursor
-skill-seekers install-agent output/codebase/ --agent cursor
+yonyou-doc2skill install-agent output/codebase/ --agent cursor
 ```
 
 ### Workflow 4: PDF → Skill
 
 ```bash
 # 1. Extract PDF
-skill-seekers pdf --pdf manual.pdf --name product-docs
+yonyou-doc2skill pdf --pdf manual.pdf --name product-docs
 
 # 2. Package
-skill-seekers package output/product-docs/ --target claude
+yonyou-doc2skill package output/product-docs/ --target claude
 ```
 
 ### Workflow 5: Multi-Source → Skill
@@ -1567,20 +1387,20 @@ skill-seekers package output/product-docs/ --target claude
 ```bash
 # 1. Create unified config (configs/my-project.json)
 # 2. Run unified scraping
-skill-seekers unified --config configs/my-project.json
+yonyou-doc2skill unified --config configs/my-project.json
 
 # 3. Package
-skill-seekers package output/my-project/ --target claude
+yonyou-doc2skill package output/my-project/ --target claude
 ```
 
 ### Workflow 6: One-Command Complete
 
 ```bash
 # Everything in one command
-skill-seekers install --config react --destination ./output
+yonyou-doc2skill install --config react --destination ./output
 
 # Or with create
-skill-seekers create https://docs.react.dev/ --preset standard
+yonyou-doc2skill create https://docs.react.dev/ --preset standard
 ```
 
 ---
@@ -1601,10 +1421,10 @@ skill-seekers create https://docs.react.dev/ --preset standard
 ### Command not found
 ```bash
 # Ensure package is installed
-pip install skill-seekers
+pip install yonyou-doc2skill
 
 # Check PATH
-which skill-seekers
+which yonyou-doc2skill
 ```
 
 ### ImportError
@@ -1616,13 +1436,13 @@ pip install -e .
 ### Rate limiting
 ```bash
 # Increase rate limit
-skill-seekers scrape --config react.json --rate-limit 1.0
+yonyou-doc2skill scrape --config react.json --rate-limit 1.0
 ```
 
 ### Out of memory
 ```bash
 # Use streaming mode
-skill-seekers package output/large/ --streaming
+yonyou-doc2skill package output/large/ --streaming
 ```
 
 ---
@@ -1635,4 +1455,4 @@ skill-seekers package output/large/ --streaming
 
 ---
 
-*For additional help: `skill-seekers --help` or `skill-seekers <command> --help`*
+*For additional help: `yonyou-doc2skill --help` or `yonyou-doc2skill <command> --help`*

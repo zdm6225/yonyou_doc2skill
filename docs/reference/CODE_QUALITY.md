@@ -8,7 +8,7 @@
 
 ## Overview
 
-Skill Seekers maintains high code quality through automated linting, comprehensive testing, and continuous integration. This document outlines the quality standards, tools, and processes used to ensure reliability and maintainability.
+Yonyou Doc2Skill maintains high code quality through automated linting, comprehensive testing, and continuous integration. This document outlines the quality standards, tools, and processes used to ensure reliability and maintainability.
 
 **Quality Pillars:**
 1. **Linting** - Automated code style and error detection with Ruff
@@ -61,7 +61,7 @@ ruff check .
 ruff check src/
 
 # Check specific file
-ruff check src/skill_seekers/cli/doc_scraper.py
+ruff check src/yonyou_doc2skill/cli/doc_scraper.py
 
 # Check with auto-fix
 ruff check --fix .
@@ -77,7 +77,7 @@ ruff format --check .
 ruff format .
 
 # Format specific file
-ruff format src/skill_seekers/cli/doc_scraper.py
+ruff format src/yonyou_doc2skill/cli/doc_scraper.py
 ```
 
 ### Configuration
@@ -238,13 +238,13 @@ Fixed **all 21 ruff linting errors** across the codebase:
 
 ### Files Updated
 
-1. **src/skill_seekers/cli/config_extractor.py** (SIM102 fixes)
-2. **src/skill_seekers/cli/config_validator.py** (SIM113 fix)
-3. **src/skill_seekers/cli/doc_scraper.py** (B007 fix)
-4. **src/skill_seekers/cli/pattern_recognizer.py** (3 × SIM102 fixes)
-5. **src/skill_seekers/cli/test_example_extractor.py** (3 × SIM117 fixes)
-6. **src/skill_seekers/cli/unified_skill_builder.py** (SIM117 fix)
-7. **src/skill_seekers/cli/pdf_scraper.py** (B904 fix)
+1. **src/yonyou_doc2skill/cli/config_extractor.py** (SIM102 fixes)
+2. **src/yonyou_doc2skill/cli/config_validator.py** (SIM113 fix)
+3. **src/yonyou_doc2skill/cli/doc_scraper.py** (B007 fix)
+4. **src/yonyou_doc2skill/cli/pattern_recognizer.py** (3 × SIM102 fixes)
+5. **src/yonyou_doc2skill/cli/test_example_extractor.py** (3 × SIM117 fixes)
+6. **src/yonyou_doc2skill/cli/unified_skill_builder.py** (SIM117 fix)
+7. **src/yonyou_doc2skill/cli/pdf_scraper.py** (B904 fix)
 8. **6 test files** (various fixes)
 
 ---
@@ -276,7 +276,7 @@ Fixed **all 21 ruff linting errors** across the codebase:
 pytest tests/ -v
 
 # Run with coverage
-pytest tests/ --cov=src/skill_seekers --cov-report=term --cov-report=html
+pytest tests/ --cov=src/yonyou_doc2skill --cov-report=term --cov-report=html
 
 # View HTML coverage report
 open htmlcov/index.html
@@ -352,7 +352,7 @@ pytest tests/ -m asyncio
 
 ### GitHub Actions Workflow
 
-Skill Seekers uses GitHub Actions for automated quality checks on every commit and PR.
+Yonyou Doc2Skill uses GitHub Actions for automated quality checks on every commit and PR.
 
 #### Workflow Configuration
 
@@ -401,7 +401,7 @@ jobs:
         run: pip install -e ".[all-llms,dev]"
 
       - name: Run tests
-        run: pytest tests/ --cov=src/skill_seekers --cov-report=xml
+        run: pytest tests/ --cov=src/yonyou_doc2skill --cov-report=xml
 
       - name: Upload coverage
         uses: codecov/codecov-action@v3
@@ -498,8 +498,8 @@ import requests
 from fastapi import FastAPI
 
 # 3. Local application imports
-from skill_seekers.cli.doc_scraper import scrape_all
-from skill_seekers.cli.adaptors import get_adaptor
+from yonyou_doc2skill.cli.doc_scraper import scrape_all
+from yonyou_doc2skill.cli.adaptors import get_adaptor
 ```
 
 **Tool:** Ruff automatically sorts imports with `I` rule.
@@ -680,13 +680,13 @@ pip install -e ".[all-llms,dev]"
 
 ```bash
 # Run linter frequently
-ruff check src/skill_seekers/cli/your_file.py --fix
+ruff check src/yonyou_doc2skill/cli/your_file.py --fix
 
 # Run relevant tests
 pytest tests/test_your_feature.py -v
 
 # Check formatting
-ruff format src/skill_seekers/cli/your_file.py
+ruff format src/yonyou_doc2skill/cli/your_file.py
 ```
 
 ### 3. Before Committing
@@ -700,7 +700,7 @@ ruff format --check .
 pytest tests/ -v
 
 # Check coverage
-pytest tests/ --cov=src/skill_seekers --cov-report=term
+pytest tests/ --cov=src/yonyou_doc2skill --cov-report=term
 
 # Verify all tests pass ✅
 ```
@@ -798,7 +798,7 @@ pytest tests/ -v
 
 ```bash
 # Generate detailed coverage report
-pytest tests/ --cov=src/skill_seekers --cov-report=html
+pytest tests/ --cov=src/yonyou_doc2skill --cov-report=html
 
 # Open report
 open htmlcov/index.html

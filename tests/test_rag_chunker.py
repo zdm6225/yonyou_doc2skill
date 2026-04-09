@@ -5,7 +5,7 @@ Tests for RAG Chunker (semantic chunking for RAG pipelines).
 import pytest
 import json
 
-from skill_seekers.cli.rag_chunker import RAGChunker
+from yonyou_doc2skill.cli.rag_chunker import RAGChunker
 
 
 class TestRAGChunker:

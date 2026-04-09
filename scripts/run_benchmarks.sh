@@ -1,5 +1,5 @@
 #!/bin/bash
-# Performance Benchmark Runner for Skill Seekers
+# Performance Benchmark Runner for Yonyou Doc2Skill
 # Runs comprehensive benchmarks for all platform adaptors
 
 set -e
@@ -13,7 +13,7 @@ CYAN='\033[0;36m'
 NC='\033[0m' # No Color
 
 echo -e "${CYAN}╔════════════════════════════════════════════════════════════╗${NC}"
-echo -e "${CYAN}║     Skill Seekers Performance Benchmarks                  ║${NC}"
+echo -e "${CYAN}║     Yonyou Doc2Skill Performance Benchmarks                  ║${NC}"
 echo -e "${CYAN}╔════════════════════════════════════════════════════════════╗${NC}"
 echo ""
 
@@ -24,7 +24,7 @@ if [ ! -f "pyproject.toml" ]; then
 fi
 
 # Check if package is installed
-if ! python -c "import skill_seekers" 2>/dev/null; then
+if ! python -c "import yonyou_doc2skill" 2>/dev/null; then
     echo -e "${YELLOW}Package not installed. Installing...${NC}"
     pip install -e . > /dev/null 2>&1
     echo -e "${GREEN}✓ Package installed${NC}"

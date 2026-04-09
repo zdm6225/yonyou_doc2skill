@@ -114,7 +114,7 @@ Choose option (1-3): 1
 Starting HTTP server on port 3000...
 ✓ HTTP server started (PID: 12345)
   Health check: http://127.0.0.1:3000/health
-  Logs: /tmp/skill-seekers-mcp.log
+  Logs: /tmp/yonyou-doc2skill-mcp.log
 
 Setup Complete!
 ```
@@ -175,9 +175,9 @@ File: ~/.config/claude-code/mcp.json
     "skill-seeker": {
       "command": "python3",
       "args": [
-        "/path/to/Skill_Seekers/src/skill_seekers/mcp/server_fastmcp.py"
+        "/path/to/yonyou_doc2skill/src/yonyou_doc2skill/mcp/server_fastmcp.py"
       ],
-      "cwd": "/path/to/Skill_Seekers"
+      "cwd": "/path/to/yonyou_doc2skill"
     }
   }
 }
@@ -185,7 +185,7 @@ File: ~/.config/claude-code/mcp.json
 For Cursor/Windsurf (HTTP):
 
 1. Start HTTP server:
-   python3 -m skill_seekers.mcp.server_fastmcp --http --port 3000
+   python3 -m yonyou_doc2skill.mcp.server_fastmcp --http --port 3000
 
 2. Add to agent config:
 {
@@ -207,7 +207,7 @@ For Cursor/Windsurf (HTTP):
   "mcpServers": {
     "skill-seeker": {
       "command": "python",
-      "args": ["-m", "skill_seekers.mcp.server_fastmcp"]
+      "args": ["-m", "yonyou_doc2skill.mcp.server_fastmcp"]
     }
   }
 }
@@ -280,7 +280,7 @@ The setup script **preserves existing MCP server configurations**:
     },
     "skill-seeker": {
       "command": "python",
-      "args": ["-m", "skill_seekers.mcp.server_fastmcp"]
+      "args": ["-m", "yonyou_doc2skill.mcp.server_fastmcp"]
     }
   }
 }
@@ -305,10 +305,10 @@ The setup script **preserves existing MCP server configurations**:
 **Option 2: Manual start**
 ```bash
 # Foreground (for testing)
-python3 -m skill_seekers.mcp.server_fastmcp --http --port 3000
+python3 -m yonyou_doc2skill.mcp.server_fastmcp --http --port 3000
 
 # Background (for production)
-nohup python3 -m skill_seekers.mcp.server_fastmcp --http --port 3000 > /tmp/skill-seekers-mcp.log 2>&1 &
+nohup python3 -m yonyou_doc2skill.mcp.server_fastmcp --http --port 3000 > /tmp/yonyou-doc2skill-mcp.log 2>&1 &
 ```
 
 ### Monitoring the Server
@@ -335,7 +335,7 @@ curl http://localhost:3000/health
 
 **View Logs:**
 ```bash
-tail -f /tmp/skill-seekers-mcp.log
+tail -f /tmp/yonyou-doc2skill-mcp.log
 ```
 
 **Stop Server:**
@@ -344,7 +344,7 @@ tail -f /tmp/skill-seekers-mcp.log
 kill 12345
 
 # Find and kill
-pkill -f "skill_seekers.mcp.server_fastmcp"
+pkill -f "yonyou_doc2skill.mcp.server_fastmcp"
 ```
 
 ## Troubleshooting
@@ -407,7 +407,7 @@ pkill -f "skill_seekers.mcp.server_fastmcp"
 
 3. Use a different port:
    ```bash
-   python3 -m skill_seekers.mcp.server_fastmcp --http --port 8080
+   python3 -m yonyou_doc2skill.mcp.server_fastmcp --http --port 8080
    ```
 
 4. Update agent configs with new port.
@@ -424,13 +424,13 @@ pkill -f "skill_seekers.mcp.server_fastmcp"
 
 2. Check server logs:
    ```bash
-   tail -f /tmp/skill-seekers-mcp.log
+   tail -f /tmp/yonyou-doc2skill-mcp.log
    ```
 
 3. Restart the server:
    ```bash
-   pkill -f skill_seekers.mcp.server_fastmcp
-   python3 -m skill_seekers.mcp.server_fastmcp --http --port 3000 &
+   pkill -f yonyou_doc2skill.mcp.server_fastmcp
+   python3 -m yonyou_doc2skill.mcp.server_fastmcp --http --port 3000 &
    ```
 
 4. Check firewall settings (if remote connection).
@@ -462,16 +462,16 @@ Enter HTTP server port [default: 3000]: 8080
 
 # Config uses Python module execution
 "command": "python",
-"args": ["-m", "skill_seekers.mcp.server_fastmcp"]
+"args": ["-m", "yonyou_doc2skill.mcp.server_fastmcp"]
 ```
 
 **System Install:**
 ```bash
 # Install globally via pip
-pip install skill-seekers
+pip install yonyou-doc2skill
 
 # Config uses CLI command
-"command": "skill-seekers",
+"command": "yonyou-doc2skill",
 "args": ["mcp"]
 ```
 
@@ -482,10 +482,10 @@ If you need different ports for different agents:
 1. Start multiple server instances:
    ```bash
    # Server 1 for Cursor
-   python3 -m skill_seekers.mcp.server_fastmcp --http --port 3000 &
+   python3 -m yonyou_doc2skill.mcp.server_fastmcp --http --port 3000 &
 
    # Server 2 for Windsurf
-   python3 -m skill_seekers.mcp.server_fastmcp --http --port 3001 &
+   python3 -m yonyou_doc2skill.mcp.server_fastmcp --http --port 3001 &
    ```
 
 2. Configure each agent with its own port:
@@ -504,7 +504,7 @@ If you need different ports for different agents:
 Use the Python API directly:
 
 ```python
-from skill_seekers.mcp.agent_detector import AgentDetector
+from yonyou_doc2skill.mcp.agent_detector import AgentDetector
 
 detector = AgentDetector()
 
@@ -517,7 +517,7 @@ for agent in agents:
 # Generate config for specific agent
 config = detector.generate_config(
     agent_id="cursor",
-    server_command="skill-seekers mcp",
+    server_command="yonyou-doc2skill mcp",
     http_port=3000
 )
 print(config)
@@ -613,21 +613,21 @@ After successful setup:
 
 1. **Read the MCP Setup Guide**: [docs/MCP_SETUP.md](MCP_SETUP.md)
 2. **Learn HTTP Transport**: [docs/HTTP_TRANSPORT.md](HTTP_TRANSPORT.md)
-3. **Explore Agent Detection**: [src/skill_seekers/mcp/agent_detector.py](../src/skill_seekers/mcp/agent_detector.py)
+3. **Explore Agent Detection**: [src/yonyou_doc2skill/mcp/agent_detector.py](../src/yonyou_doc2skill/mcp/agent_detector.py)
 4. **Try the Quick Start**: [QUICKSTART.md](../QUICKSTART.md)
 
 ## Related Documentation
 
 - [MCP Setup Guide](MCP_SETUP.md) - Detailed MCP integration guide
 - [HTTP Transport](HTTP_TRANSPORT.md) - HTTP transport documentation
-- [Agent Detector API](../src/skill_seekers/mcp/agent_detector.py) - Python API reference
+- [Agent Detector API](../src/yonyou_doc2skill/mcp/agent_detector.py) - Python API reference
 - [README](../README.md) - Main documentation
 
 ## Support
 
 For issues or questions:
-- **GitHub Issues**: https://github.com/yusufkaraaslan/Skill_Seekers/issues
-- **GitHub Discussions**: https://github.com/yusufkaraaslan/Skill_Seekers/discussions
+- **GitHub Issues**: https://github.com/yonyou/yonyou-doc2skill/issues
+- **GitHub Discussions**: https://github.com/yonyou/yonyou-doc2skill/discussions
 - **MCP Documentation**: https://modelcontextprotocol.io/
 
 ## Changelog

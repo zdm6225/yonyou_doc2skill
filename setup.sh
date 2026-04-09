@@ -1,11 +1,11 @@
 #!/bin/bash
-# Skill Seekers - Global Installation & MCP Setup
-# This script installs skill-seekers globally and configures MCP for AI agents
+# Yonyou Doc2Skill - Global Installation & MCP Setup
+# This script installs yonyou-doc2skill globally and configures MCP for AI agents
 
 set -e  # Exit on error
 
 echo "=========================================================="
-echo "Skill Seekers - Global Installation & MCP Setup"
+echo "Yonyou Doc2Skill - Global Installation & MCP Setup"
 echo "=========================================================="
 echo ""
 
@@ -47,12 +47,12 @@ fi
 echo ""
 
 # =============================================================================
-# STEP 2: INSTALL SKILL-SEEKERS GLOBALLY
+# STEP 2: INSTALL YONYOU-DOC2SKILL GLOBALLY
 # =============================================================================
-echo "Step 2: Installing skill-seekers globally from PyPI..."
+echo "Step 2: Installing yonyou-doc2skill globally from PyPI..."
 echo ""
-echo "This will install skill-seekers and all dependencies:"
-echo "  • skill-seekers (latest version)"
+echo "This will install yonyou-doc2skill and all dependencies:"
+echo "  • yonyou-doc2skill (latest version)"
 echo "  • mcp, fastmcp (MCP server support)"
 echo "  • beautifulsoup4, requests, httpx (scraping)"
 echo "  • GitPython, PyGithub (GitHub integration)"
@@ -63,30 +63,30 @@ read -p "Install globally? (y/n) " -n 1 -r
 echo ""
 
 if [[ $REPLY =~ ^[Yy]$ ]]; then
-    echo "Installing skill-seekers..."
+    echo "Installing yonyou-doc2skill..."
 
     # Use python3 -m pip to ensure pip matches the python3 that passed the
     # version check. Bare 'pip3' can point to a different Python installation.
-    if python3 -m pip install skill-seekers 2>/dev/null; then
+    if python3 -m pip install yonyou-doc2skill 2>/dev/null; then
         echo -e "${GREEN}✓${NC} Installed successfully via python3 -m pip"
     else
         # Fallback with --break-system-packages (for system Python)
         echo "Standard install failed, trying with --break-system-packages..."
-        python3 -m pip install skill-seekers --break-system-packages || {
-            echo -e "${RED}❌ Failed to install skill-seekers${NC}"
-            echo "Try manually: python3 -m pip install skill-seekers"
+        python3 -m pip install yonyou-doc2skill --break-system-packages || {
+            echo -e "${RED}❌ Failed to install yonyou-doc2skill${NC}"
+            echo "Try manually: python3 -m pip install yonyou-doc2skill"
             exit 1
         }
         echo -e "${GREEN}✓${NC} Installed successfully with --break-system-packages"
     fi
 
     # Verify installation
-    if command -v skill-seekers &> /dev/null; then
-        INSTALLED_VERSION=$(skill-seekers --version 2>/dev/null || echo "unknown")
-        echo -e "${GREEN}✓${NC} skill-seekers command available"
+    if command -v yonyou-doc2skill &> /dev/null; then
+        INSTALLED_VERSION=$(yonyou-doc2skill --version 2>/dev/null || echo "unknown")
+        echo -e "${GREEN}✓${NC} yonyou-doc2skill command available"
         echo "  Version: $INSTALLED_VERSION"
     else
-        echo -e "${YELLOW}⚠${NC} skill-seekers command not found in PATH"
+        echo -e "${YELLOW}⚠${NC} yonyou-doc2skill command not found in PATH"
         echo "  Add ~/.local/bin to PATH: export PATH=\"\$HOME/.local/bin:\$PATH\""
     fi
 else
@@ -102,7 +102,7 @@ echo "Step 3: Testing MCP server..."
 
 # Test stdio mode
 echo "  Testing stdio transport..."
-timeout 3 python3 -m skill_seekers.mcp.server_fastmcp 2>/dev/null || {
+timeout 3 python3 -m yonyou_doc2skill.mcp.server_fastmcp 2>/dev/null || {
     if [ $? -eq 124 ]; then
         echo -e "  ${GREEN}✓${NC} Stdio transport working"
     else
@@ -114,7 +114,7 @@ timeout 3 python3 -m skill_seekers.mcp.server_fastmcp 2>/dev/null || {
 echo "  Testing HTTP transport..."
 if python3 -c "import uvicorn" 2>/dev/null; then
     # Start HTTP server in background
-    python3 -m skill_seekers.mcp.server_fastmcp --transport http --port 8765 > /dev/null 2>&1 &
+    python3 -m yonyou_doc2skill.mcp.server_fastmcp --transport http --port 8765 > /dev/null 2>&1 &
     HTTP_TEST_PID=$!
     sleep 2
 
@@ -144,7 +144,7 @@ echo ""
 
 # Use Python agent detector
 DETECTED_AGENTS=$(python3 -c "
-from skill_seekers.mcp.agent_detector import AgentDetector
+from yonyou_doc2skill.mcp.agent_detector import AgentDetector
 detector = AgentDetector()
 agents = detector.detect_agents()
 if agents:
@@ -318,11 +318,11 @@ if [ "$DETECTED_AGENTS" != "NONE" ]; then
 
                 # Generate config using Python (with global command)
                 GENERATED_CONFIG=$(python3 -c "
-from skill_seekers.mcp.agent_detector import AgentDetector
+from yonyou_doc2skill.mcp.agent_detector import AgentDetector
 detector = AgentDetector()
 
-# Use global skill-seekers command (not local repo path)
-server_command = 'python3 -m skill_seekers.mcp.server_fastmcp'
+# Use global yonyou-doc2skill command (not local repo path)
+server_command = 'python3 -m yonyou_doc2skill.mcp.server_fastmcp'
 
 config = detector.generate_config('$agent_id', server_command, $HTTP_PORT)
 print(config)
@@ -417,7 +417,7 @@ if [ ${#SELECTED_AGENTS[@]} -gt 0 ]; then
                 echo "Starting HTTP server on port $HTTP_PORT..."
 
                 # Start server in background
-                nohup python3 -m skill_seekers.mcp.server_fastmcp --transport http --port $HTTP_PORT > /tmp/skill-seekers-mcp.log 2>&1 &
+                nohup python3 -m yonyou_doc2skill.mcp.server_fastmcp --transport http --port $HTTP_PORT > /tmp/yonyou-doc2skill-mcp.log 2>&1 &
                 SERVER_PID=$!
 
                 sleep 2
@@ -426,22 +426,22 @@ if [ ${#SELECTED_AGENTS[@]} -gt 0 ]; then
                 if curl -s http://127.0.0.1:$HTTP_PORT/health > /dev/null 2>&1; then
                     echo -e "${GREEN}✓${NC} HTTP server started (PID: $SERVER_PID)"
                     echo "  Health check: http://127.0.0.1:$HTTP_PORT/health"
-                    echo "  Logs: /tmp/skill-seekers-mcp.log"
+                    echo "  Logs: /tmp/yonyou-doc2skill-mcp.log"
                     echo ""
                     echo -e "${YELLOW}Note:${NC} Server is running in background. To stop:"
                     echo "  kill $SERVER_PID"
                 else
                     echo -e "${RED}✗${NC} Failed to start HTTP server"
-                    echo "  Check logs: /tmp/skill-seekers-mcp.log"
+                    echo "  Check logs: /tmp/yonyou-doc2skill-mcp.log"
                 fi
                 ;;
             2)
                 echo "Manual start command:"
                 echo ""
-                echo -e "${GREEN}python3 -m skill_seekers.mcp.server_fastmcp --transport http --port $HTTP_PORT${NC}"
+                echo -e "${GREEN}python3 -m yonyou_doc2skill.mcp.server_fastmcp --transport http --port $HTTP_PORT${NC}"
                 echo ""
                 echo "Or run in background:"
-                echo -e "${GREEN}nohup python3 -m skill_seekers.mcp.server_fastmcp --transport http --port $HTTP_PORT > /tmp/skill-seekers-mcp.log 2>&1 &${NC}"
+                echo -e "${GREEN}nohup python3 -m yonyou_doc2skill.mcp.server_fastmcp --transport http --port $HTTP_PORT > /tmp/yonyou-doc2skill-mcp.log 2>&1 &${NC}"
                 ;;
             3)
                 echo "Skipping HTTP server start"
@@ -499,7 +499,7 @@ else
     echo "  \"mcpServers\": {"
     echo "    \"skill-seeker\": {"
     echo "      \"command\": \"python3\","
-    echo "      \"args\": [\"-m\", \"skill_seekers.mcp.server_fastmcp\"]"
+    echo "      \"args\": [\"-m\", \"yonyou_doc2skill.mcp.server_fastmcp\"]"
     echo "    }"
     echo "  }"
     echo -e "}${NC}"
@@ -510,7 +510,7 @@ else
         echo "${CYAN}For Cursor/Windsurf (HTTP):${NC}"
         echo ""
         echo "1. Start HTTP server:"
-        echo "   ${GREEN}python3 -m skill_seekers.mcp.server_fastmcp --transport http --port 3000${NC}"
+        echo "   ${GREEN}python3 -m yonyou_doc2skill.mcp.server_fastmcp --transport http --port 3000${NC}"
         echo ""
         echo "2. Add to agent config:"
         echo -e "${GREEN}{"
@@ -560,25 +560,25 @@ echo ""
 echo "=========================================================="
 echo "CLI Commands:"
 echo "=========================================================="
-echo "  ${GREEN}skill-seekers --help${NC}             # Show all commands"
-echo "  ${GREEN}skill-seekers scrape${NC}             # Scrape documentation"
-echo "  ${GREEN}skill-seekers github${NC}             # Scrape GitHub repos"
-echo "  ${GREEN}skill-seekers unified${NC}            # Multi-source scraping"
-echo "  ${GREEN}skill-seekers install${NC}            # One-command workflow"
+echo "  ${GREEN}yonyou-doc2skill --help${NC}             # Show all commands"
+echo "  ${GREEN}yonyou-doc2skill scrape${NC}             # Scrape documentation"
+echo "  ${GREEN}yonyou-doc2skill github${NC}             # Scrape GitHub repos"
+echo "  ${GREEN}yonyou-doc2skill unified${NC}            # Multi-source scraping"
+echo "  ${GREEN}yonyou-doc2skill install${NC}            # One-command workflow"
 echo ""
 
 echo "=========================================================="
 echo "Troubleshooting:"
 echo "=========================================================="
 echo "  • Test MCP server:"
-echo "    ${CYAN}python3 -m skill_seekers.mcp.server_fastmcp${NC}"
+echo "    ${CYAN}python3 -m yonyou_doc2skill.mcp.server_fastmcp${NC}"
 echo ""
 echo "  • Test HTTP server:"
-echo "    ${CYAN}python3 -m skill_seekers.mcp.server_fastmcp --transport http --port 8000${NC}"
+echo "    ${CYAN}python3 -m yonyou_doc2skill.mcp.server_fastmcp --transport http --port 8000${NC}"
 echo "    ${CYAN}curl http://127.0.0.1:8000/health${NC}"
 echo ""
 echo "  • View server logs (if HTTP):"
-echo "    ${CYAN}tail -f /tmp/skill-seekers-mcp.log${NC}"
+echo "    ${CYAN}tail -f /tmp/yonyou-doc2skill-mcp.log${NC}"
 echo ""
 
 echo "Happy skill creating! 🚀"

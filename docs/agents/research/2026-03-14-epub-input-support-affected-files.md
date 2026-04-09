@@ -23,16 +23,16 @@ Adding `.epub` input support follows an established pattern already used for PDF
 
 | File | Purpose |
 |------|---------|
-| `src/skill_seekers/cli/epub_scraper.py` | Core EPUB extraction and skill building logic (analog: `word_scraper.py` at ~750 lines) |
-| `src/skill_seekers/cli/arguments/epub.py` | EPUB-specific argument definitions (analog: `arguments/word.py`) |
-| `src/skill_seekers/cli/parsers/epub_parser.py` | Subcommand parser class (analog: `parsers/word_parser.py`) |
+| `src/yonyou_doc2skill/cli/epub_scraper.py` | Core EPUB extraction and skill building logic (analog: `word_scraper.py` at ~750 lines) |
+| `src/yonyou_doc2skill/cli/arguments/epub.py` | EPUB-specific argument definitions (analog: `arguments/word.py`) |
+| `src/yonyou_doc2skill/cli/parsers/epub_parser.py` | Subcommand parser class (analog: `parsers/word_parser.py`) |
 | `tests/test_epub_scraper.py` | Test suite (analog: `test_word_scraper.py` at ~750 lines, 130+ tests) |
 
 ### Existing Files to Modify (16 files)
 
 #### 1. Source Detection Layer
 
-**`src/skill_seekers/cli/source_detector.py`** (3 locations)
+**`src/yonyou_doc2skill/cli/source_detector.py`** (3 locations)
 
 - **`SourceDetector.detect()`** (line ~60): Add `.epub` extension check, following the `.docx` pattern at line 63-64:
   ```python
@@ -56,25 +56,25 @@ Adding `.epub` input support follows an established pattern already used for PDF
 
 #### 2. CLI Dispatcher
 
-**`src/skill_seekers/cli/main.py`** (2 locations)
+**`src/yonyou_doc2skill/cli/main.py`** (2 locations)
 
 - **`COMMAND_MODULES` dict** (line ~46): Add epub entry:
   ```python
-  "epub": "skill_seekers.cli.epub_scraper",
+  "epub": "yonyou_doc2skill.cli.epub_scraper",
   ```
 
 - **Module docstring** (line ~1): Add `epub` to the commands list
 
 #### 3. Create Command Routing
 
-**`src/skill_seekers/cli/create_command.py`** (3 locations)
+**`src/yonyou_doc2skill/cli/create_command.py`** (3 locations)
 
 - **`_route_to_scraper()`** (line ~121): Add `elif self.source_info.type == "epub":` routing case
 
 - **New `_route_epub()` method**: Following the `_route_word()` pattern at lines 331-352:
   ```python
   def _route_epub(self) -> int:
-      from skill_seekers.cli import epub_scraper
+      from yonyou_doc2skill.cli import epub_scraper
       argv = ["epub_scraper"]
       file_path = self.source_info.parsed["file_path"]
       argv.extend(["--epub", file_path])
@@ -89,7 +89,7 @@ Adding `.epub` input support follows an established pattern already used for PDF
 
 #### 4. Argument Definitions
 
-**`src/skill_seekers/cli/arguments/create.py`** (4 locations)
+**`src/yonyou_doc2skill/cli/arguments/create.py`** (4 locations)
 
 - **New `EPUB_ARGUMENTS` dict** (~line 401): Define epub-specific arguments (e.g., `--epub` file path flag), following the `WORD_ARGUMENTS` pattern at lines 402-411
 
@@ -104,7 +104,7 @@ Adding `.epub` input support follows an established pattern already used for PDF
 
 #### 5. Parser Registration
 
-**`src/skill_seekers/cli/parsers/__init__.py`** (2 locations)
+**`src/yonyou_doc2skill/cli/parsers/__init__.py`** (2 locations)
 
 - **Import** (line ~15): Add `from .epub_parser import EpubParser`
 
@@ -125,12 +125,12 @@ Adding `.epub` input support follows an established pattern already used for PDF
 
 - **`[project.scripts]`** (line ~224): Add standalone entry point:
   ```toml
-  skill-seekers-epub = "skill_seekers.cli.epub_scraper:main"
+  yonyou-doc2skill-epub = "yonyou_doc2skill.cli.epub_scraper:main"
   ```
 
 #### 7. Argument Commons
 
-**`src/skill_seekers/cli/arguments/common.py`**
+**`src/yonyou_doc2skill/cli/arguments/common.py`**
 
 - No changes strictly required, but `add_all_standard_arguments()` is called by the new `arguments/epub.py` (no modification needed — it's used as-is)
 
@@ -159,22 +159,22 @@ These files do **not** need changes:
 
 ### Pattern to Follow (Word .docx implementation)
 
-- `src/skill_seekers/cli/word_scraper.py:1-750` — Full scraper with `WordToSkillConverter` class
-- `src/skill_seekers/cli/arguments/word.py:1-75` — Argument definitions with `add_word_arguments()`
-- `src/skill_seekers/cli/parsers/word_parser.py:1-33` — Parser class extending `SubcommandParser`
+- `src/yonyou_doc2skill/cli/word_scraper.py:1-750` — Full scraper with `WordToSkillConverter` class
+- `src/yonyou_doc2skill/cli/arguments/word.py:1-75` — Argument definitions with `add_word_arguments()`
+- `src/yonyou_doc2skill/cli/parsers/word_parser.py:1-33` — Parser class extending `SubcommandParser`
 - `tests/test_word_scraper.py:1-750` — Comprehensive test suite with 130+ tests
 
 ### Key Integration Points
 
-- `src/skill_seekers/cli/source_detector.py:57-65` — File extension detection order
-- `src/skill_seekers/cli/source_detector.py:124-129` — `_detect_word()` method (template for `_detect_epub()`)
-- `src/skill_seekers/cli/create_command.py:121-143` — `_route_to_scraper()` dispatch
-- `src/skill_seekers/cli/create_command.py:331-352` — `_route_word()` (template for `_route_epub()`)
-- `src/skill_seekers/cli/arguments/create.py:401-411` — `WORD_ARGUMENTS` dict (template)
-- `src/skill_seekers/cli/arguments/create.py:595-604` — `get_source_specific_arguments()` mapping
-- `src/skill_seekers/cli/arguments/create.py:676-678` — `add_create_arguments()` mode handling
-- `src/skill_seekers/cli/parsers/__init__.py:35-59` — `PARSERS` registry list
-- `src/skill_seekers/cli/main.py:46-70` — `COMMAND_MODULES` dict
+- `src/yonyou_doc2skill/cli/source_detector.py:57-65` — File extension detection order
+- `src/yonyou_doc2skill/cli/source_detector.py:124-129` — `_detect_word()` method (template for `_detect_epub()`)
+- `src/yonyou_doc2skill/cli/create_command.py:121-143` — `_route_to_scraper()` dispatch
+- `src/yonyou_doc2skill/cli/create_command.py:331-352` — `_route_word()` (template for `_route_epub()`)
+- `src/yonyou_doc2skill/cli/arguments/create.py:401-411` — `WORD_ARGUMENTS` dict (template)
+- `src/yonyou_doc2skill/cli/arguments/create.py:595-604` — `get_source_specific_arguments()` mapping
+- `src/yonyou_doc2skill/cli/arguments/create.py:676-678` — `add_create_arguments()` mode handling
+- `src/yonyou_doc2skill/cli/parsers/__init__.py:35-59` — `PARSERS` registry list
+- `src/yonyou_doc2skill/cli/main.py:46-70` — `COMMAND_MODULES` dict
 - `pyproject.toml:111-115` — Optional dependency group pattern (docx)
 - `pyproject.toml:213-246` — Script entry points
 
@@ -245,7 +245,7 @@ def _check_epub_deps():
     if not EPUB_AVAILABLE:
         raise RuntimeError(
             "ebooklib is required for EPUB support.\n"
-            'Install with: pip install "skill-seekers[epub]"\n'
+            'Install with: pip install "yonyou-doc2skill[epub]"\n'
             "Or: pip install ebooklib"
         )
 ```

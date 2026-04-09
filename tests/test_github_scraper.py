@@ -37,7 +37,7 @@ class TestGitHubScraperInitialization(unittest.TestCase):
     def setUp(self):
         if not PYGITHUB_AVAILABLE:
             self.skipTest("PyGithub not installed")
-        from skill_seekers.cli.github_scraper import GitHubScraper
+        from yonyou_doc2skill.cli.github_scraper import GitHubScraper
 
         self.GitHubScraper = GitHubScraper
 
@@ -72,7 +72,7 @@ class TestGitHubScraperInitialization(unittest.TestCase):
         env = {k: v for k, v in os.environ.items() if k != "GITHUB_TOKEN"}
         with (
             patch.dict(os.environ, env, clear=True),
-            patch("skill_seekers.cli.github_scraper.Github") as mock_github,
+            patch("yonyou_doc2skill.cli.github_scraper.Github") as mock_github,
         ):
             _scraper = self.GitHubScraper(config)
             mock_github.assert_called_once_with("test_token_123")
@@ -83,7 +83,7 @@ class TestGitHubScraperInitialization(unittest.TestCase):
 
         with (
             patch.dict(os.environ, {"GITHUB_TOKEN": "env_token_456"}),
-            patch("skill_seekers.cli.github_scraper.Github") as mock_github,
+            patch("yonyou_doc2skill.cli.github_scraper.Github") as mock_github,
         ):
             _scraper = self.GitHubScraper(config)
             mock_github.assert_called_once_with("env_token_456")
@@ -93,7 +93,7 @@ class TestGitHubScraperInitialization(unittest.TestCase):
         config = {"repo": "facebook/react", "name": "react", "github_token": None}
 
         with (
-            patch("skill_seekers.cli.github_scraper.Github"),
+            patch("yonyou_doc2skill.cli.github_scraper.Github"),
             patch.dict(os.environ, {}, clear=True),
         ):
             scraper = self.GitHubScraper(config)
@@ -120,7 +120,7 @@ class TestREADMEExtraction(unittest.TestCase):
     def setUp(self):
         if not PYGITHUB_AVAILABLE:
             self.skipTest("PyGithub not installed")
-        from skill_seekers.cli.github_scraper import GitHubScraper
+        from yonyou_doc2skill.cli.github_scraper import GitHubScraper
 
         self.GitHubScraper = GitHubScraper
 
@@ -131,7 +131,7 @@ class TestREADMEExtraction(unittest.TestCase):
         mock_content = Mock()
         mock_content.decoded_content = b"# React\n\nA JavaScript library"
 
-        with patch("skill_seekers.cli.github_scraper.Github"):
+        with patch("yonyou_doc2skill.cli.github_scraper.Github"):
             scraper = self.GitHubScraper(config)
             scraper.repo = Mock()
             scraper.repo.get_contents.return_value = mock_content
@@ -145,7 +145,7 @@ class TestREADMEExtraction(unittest.TestCase):
         """Test that README extraction tries multiple file locations"""
         config = {"repo": "facebook/react", "name": "react", "github_token": None}
 
-        with patch("skill_seekers.cli.github_scraper.Github"):
+        with patch("yonyou_doc2skill.cli.github_scraper.Github"):
             scraper = self.GitHubScraper(config)
             scraper.repo = Mock()
 
@@ -168,7 +168,7 @@ class TestREADMEExtraction(unittest.TestCase):
         """Test README extraction when no README exists"""
         config = {"repo": "test/norepo", "name": "norepo", "github_token": None}
 
-        with patch("skill_seekers.cli.github_scraper.Github"):
+        with patch("yonyou_doc2skill.cli.github_scraper.Github"):
             scraper = self.GitHubScraper(config)
             scraper.repo = Mock()
             scraper.repo.get_contents.side_effect = GithubException(404, "Not found")
@@ -185,7 +185,7 @@ class TestLanguageDetection(unittest.TestCase):
     def setUp(self):
         if not PYGITHUB_AVAILABLE:
             self.skipTest("PyGithub not installed")
-        from skill_seekers.cli.github_scraper import GitHubScraper
+        from yonyou_doc2skill.cli.github_scraper import GitHubScraper
 
         self.GitHubScraper = GitHubScraper
 
@@ -193,7 +193,7 @@ class TestLanguageDetection(unittest.TestCase):
         """Test successful language detection"""
         config = {"repo": "facebook/react", "name": "react", "github_token": None}
 
-        with patch("skill_seekers.cli.github_scraper.Github"):
+        with patch("yonyou_doc2skill.cli.github_scraper.Github"):
             scraper = self.GitHubScraper(config)
             scraper.repo = Mock()
             scraper.repo.get_languages.return_value = {
@@ -220,7 +220,7 @@ class TestLanguageDetection(unittest.TestCase):
         """Test language detection with no languages"""
         config = {"repo": "test/norepo", "name": "norepo", "github_token": None}
 
-        with patch("skill_seekers.cli.github_scraper.Github"):
+        with patch("yonyou_doc2skill.cli.github_scraper.Github"):
             scraper = self.GitHubScraper(config)
             scraper.repo = Mock()
             scraper.repo.get_languages.return_value = {}
@@ -234,7 +234,7 @@ class TestLanguageDetection(unittest.TestCase):
         """Test that non-integer metadata keys (e.g., 'url') are filtered out (#322)"""
         config = {"repo": "xyflow/xyflow", "name": "xyflow", "github_token": None}
 
-        with patch("skill_seekers.cli.github_scraper.Github"):
+        with patch("yonyou_doc2skill.cli.github_scraper.Github"):
             scraper = self.GitHubScraper(config)
             scraper.repo = Mock()
             scraper.repo.get_languages.return_value = {
@@ -262,7 +262,7 @@ class TestIssuesExtraction(unittest.TestCase):
     def setUp(self):
         if not PYGITHUB_AVAILABLE:
             self.skipTest("PyGithub not installed")
-        from skill_seekers.cli.github_scraper import GitHubScraper
+        from yonyou_doc2skill.cli.github_scraper import GitHubScraper
 
         self.GitHubScraper = GitHubScraper
 
@@ -313,7 +313,7 @@ class TestIssuesExtraction(unittest.TestCase):
         mock_issue2.body = "Feature description"
         mock_issue2.pull_request = None
 
-        with patch("skill_seekers.cli.github_scraper.Github"):
+        with patch("yonyou_doc2skill.cli.github_scraper.Github"):
             scraper = self.GitHubScraper(config)
             scraper.repo = Mock()
             scraper.repo.get_issues.return_value = [mock_issue1, mock_issue2]
@@ -364,7 +364,7 @@ class TestIssuesExtraction(unittest.TestCase):
         mock_pr.title = "Pull request"
         mock_pr.pull_request = Mock()  # Has pull_request attribute
 
-        with patch("skill_seekers.cli.github_scraper.Github"):
+        with patch("yonyou_doc2skill.cli.github_scraper.Github"):
             scraper = self.GitHubScraper(config)
             scraper.repo = Mock()
             scraper.repo.get_issues.return_value = [mock_issue, mock_pr]
@@ -402,7 +402,7 @@ class TestIssuesExtraction(unittest.TestCase):
             mock_issue.pull_request = None
             mock_issues.append(mock_issue)
 
-        with patch("skill_seekers.cli.github_scraper.Github"):
+        with patch("yonyou_doc2skill.cli.github_scraper.Github"):
             scraper = self.GitHubScraper(config)
             scraper.repo = Mock()
             scraper.repo.get_issues.return_value = mock_issues
@@ -420,7 +420,7 @@ class TestChangelogExtraction(unittest.TestCase):
     def setUp(self):
         if not PYGITHUB_AVAILABLE:
             self.skipTest("PyGithub not installed")
-        from skill_seekers.cli.github_scraper import GitHubScraper
+        from yonyou_doc2skill.cli.github_scraper import GitHubScraper
 
         self.GitHubScraper = GitHubScraper
 
@@ -431,7 +431,7 @@ class TestChangelogExtraction(unittest.TestCase):
         mock_content = Mock()
         mock_content.decoded_content = b"# Changelog\n\n## v1.0.0\n- Initial release"
 
-        with patch("skill_seekers.cli.github_scraper.Github"):
+        with patch("yonyou_doc2skill.cli.github_scraper.Github"):
             scraper = self.GitHubScraper(config)
             scraper.repo = Mock()
             scraper.repo.get_contents.return_value = mock_content
@@ -445,7 +445,7 @@ class TestChangelogExtraction(unittest.TestCase):
         """Test that CHANGELOG extraction tries multiple file locations"""
         config = {"repo": "facebook/react", "name": "react", "github_token": None}
 
-        with patch("skill_seekers.cli.github_scraper.Github"):
+        with patch("yonyou_doc2skill.cli.github_scraper.Github"):
             scraper = self.GitHubScraper(config)
             scraper.repo = Mock()
 
@@ -471,7 +471,7 @@ class TestChangelogExtraction(unittest.TestCase):
         """Test CHANGELOG extraction when no changelog exists"""
         config = {"repo": "test/norepo", "name": "norepo", "github_token": None}
 
-        with patch("skill_seekers.cli.github_scraper.Github"):
+        with patch("yonyou_doc2skill.cli.github_scraper.Github"):
             scraper = self.GitHubScraper(config)
             scraper.repo = Mock()
             scraper.repo.get_contents.side_effect = GithubException(404, "Not found")
@@ -488,7 +488,7 @@ class TestReleasesExtraction(unittest.TestCase):
     def setUp(self):
         if not PYGITHUB_AVAILABLE:
             self.skipTest("PyGithub not installed")
-        from skill_seekers.cli.github_scraper import GitHubScraper
+        from yonyou_doc2skill.cli.github_scraper import GitHubScraper
 
         self.GitHubScraper = GitHubScraper
 
@@ -521,7 +521,7 @@ class TestReleasesExtraction(unittest.TestCase):
         mock_release2.tarball_url = "https://github.com/facebook/react/archive/v18.0.0-rc.0.tar.gz"
         mock_release2.zipball_url = "https://github.com/facebook/react/archive/v18.0.0-rc.0.zip"
 
-        with patch("skill_seekers.cli.github_scraper.Github"):
+        with patch("yonyou_doc2skill.cli.github_scraper.Github"):
             scraper = self.GitHubScraper(config)
             scraper.repo = Mock()
             scraper.repo.get_releases.return_value = [mock_release1, mock_release2]
@@ -547,7 +547,7 @@ class TestReleasesExtraction(unittest.TestCase):
         """Test releases extraction with no releases"""
         config = {"repo": "test/norepo", "name": "norepo", "github_token": None}
 
-        with patch("skill_seekers.cli.github_scraper.Github"):
+        with patch("yonyou_doc2skill.cli.github_scraper.Github"):
             scraper = self.GitHubScraper(config)
             scraper.repo = Mock()
             scraper.repo.get_releases.return_value = []
@@ -564,7 +564,7 @@ class TestGitHubToSkillConverter(unittest.TestCase):
     def setUp(self):
         if not PYGITHUB_AVAILABLE:
             self.skipTest("PyGithub not installed")
-        from skill_seekers.cli.github_scraper import GitHubToSkillConverter
+        from yonyou_doc2skill.cli.github_scraper import GitHubToSkillConverter
 
         self.GitHubToSkillConverter = GitHubToSkillConverter
 
@@ -628,7 +628,7 @@ class TestGitHubToSkillConverter(unittest.TestCase):
         config = {"repo": "facebook/react", "name": "test", "description": "Test skill"}
 
         # Override data file path
-        with patch("skill_seekers.cli.github_scraper.GitHubToSkillConverter.__init__") as mock_init:
+        with patch("yonyou_doc2skill.cli.github_scraper.GitHubToSkillConverter.__init__") as mock_init:
             mock_init.return_value = None
             converter = self.GitHubToSkillConverter(config)
             converter.data_file = str(self.data_file)
@@ -648,7 +648,7 @@ class TestGitHubToSkillConverter(unittest.TestCase):
 
         # Patch the paths to use our temp directory
         with patch(
-            "skill_seekers.cli.github_scraper.GitHubToSkillConverter._load_data"
+            "yonyou_doc2skill.cli.github_scraper.GitHubToSkillConverter._load_data"
         ) as mock_load:
             mock_load.return_value = self.mock_data
             converter = self.GitHubToSkillConverter(config)
@@ -669,7 +669,7 @@ class TestSymlinkHandling(unittest.TestCase):
     def setUp(self):
         if not PYGITHUB_AVAILABLE:
             self.skipTest("PyGithub not installed")
-        from skill_seekers.cli.github_scraper import GitHubScraper
+        from yonyou_doc2skill.cli.github_scraper import GitHubScraper
 
         self.GitHubScraper = GitHubScraper
 
@@ -683,7 +683,7 @@ class TestSymlinkHandling(unittest.TestCase):
         mock_content.encoding = "base64"
         mock_content.decoded_content = b"# React\n\nA JavaScript library"
 
-        with patch("skill_seekers.cli.github_scraper.Github"):
+        with patch("yonyou_doc2skill.cli.github_scraper.Github"):
             scraper = self.GitHubScraper(config)
             scraper.repo = Mock()
             scraper.repo.get_contents.return_value = mock_content
@@ -709,7 +709,7 @@ class TestSymlinkHandling(unittest.TestCase):
         mock_target.encoding = "base64"
         mock_target.decoded_content = b"# AI SDK\n\nReal content from symlink target"
 
-        with patch("skill_seekers.cli.github_scraper.Github"):
+        with patch("yonyou_doc2skill.cli.github_scraper.Github"):
             scraper = self.GitHubScraper(config)
             scraper.repo = Mock()
 
@@ -734,7 +734,7 @@ class TestSymlinkHandling(unittest.TestCase):
         mock_symlink.encoding = None
         mock_symlink.target = "nonexistent/file.md"
 
-        with patch("skill_seekers.cli.github_scraper.Github"):
+        with patch("yonyou_doc2skill.cli.github_scraper.Github"):
             scraper = self.GitHubScraper(config)
             scraper.repo = Mock()
 
@@ -759,7 +759,7 @@ class TestSymlinkHandling(unittest.TestCase):
         mock_symlink.encoding = None
         mock_symlink.target = None
 
-        with patch("skill_seekers.cli.github_scraper.Github"):
+        with patch("yonyou_doc2skill.cli.github_scraper.Github"):
             scraper = self.GitHubScraper(config)
             scraper.repo = Mock()
             scraper.repo.get_contents.return_value = mock_symlink
@@ -785,7 +785,7 @@ class TestSymlinkHandling(unittest.TestCase):
         mock_target.encoding = "base64"
         mock_target.decoded_content = b"# AI SDK\n\nThe AI SDK is a TypeScript toolkit"
 
-        with patch("skill_seekers.cli.github_scraper.Github"):
+        with patch("yonyou_doc2skill.cli.github_scraper.Github"):
             scraper = self.GitHubScraper(config)
             scraper.repo = Mock()
             scraper.repo.get_contents.side_effect = [mock_symlink, mock_target]
@@ -815,7 +815,7 @@ class TestSymlinkHandling(unittest.TestCase):
         mock_target.encoding = "base64"
         mock_target.decoded_content = b"# Changelog\n\n## v1.0.0\n- Initial release"
 
-        with patch("skill_seekers.cli.github_scraper.Github"):
+        with patch("yonyou_doc2skill.cli.github_scraper.Github"):
             scraper = self.GitHubScraper(config)
             scraper.repo = Mock()
             scraper.repo.get_contents.side_effect = [mock_symlink, mock_target]
@@ -837,7 +837,7 @@ class TestSymlinkHandling(unittest.TestCase):
         # Mock decoded_content that can't be decoded as UTF-8
         mock_content.decoded_content = b"\xff\xfe Invalid UTF-8"
 
-        with patch("skill_seekers.cli.github_scraper.Github"):
+        with patch("yonyou_doc2skill.cli.github_scraper.Github"):
             scraper = self.GitHubScraper(config)
             scraper.repo = Mock()
             scraper.repo.get_contents.return_value = mock_content
@@ -861,7 +861,7 @@ class TestSymlinkHandling(unittest.TestCase):
             "https://raw.githubusercontent.com/ccxt/ccxt/master/CHANGELOG.md"
         )
 
-        with patch("skill_seekers.cli.github_scraper.Github"):
+        with patch("yonyou_doc2skill.cli.github_scraper.Github"):
             scraper = self.GitHubScraper(config)
             scraper.repo = Mock()
             scraper.repo.get_contents.return_value = mock_content
@@ -895,7 +895,7 @@ class TestSymlinkHandling(unittest.TestCase):
             "https://raw.githubusercontent.com/ccxt/ccxt/master/CHANGELOG.md"
         )
 
-        with patch("skill_seekers.cli.github_scraper.Github"):
+        with patch("yonyou_doc2skill.cli.github_scraper.Github"):
             scraper = self.GitHubScraper(config)
             scraper.repo = Mock()
             scraper.repo.get_contents.return_value = mock_content
@@ -921,7 +921,7 @@ class TestGitignoreSupport(unittest.TestCase):
         """Set up test environment"""
         if not PYGITHUB_AVAILABLE:
             self.skipTest("PyGithub not installed")
-        from skill_seekers.cli.github_scraper import GitHubScraper
+        from yonyou_doc2skill.cli.github_scraper import GitHubScraper
 
         self.GitHubScraper = GitHubScraper
 
@@ -940,7 +940,7 @@ class TestGitignoreSupport(unittest.TestCase):
 
         config = {"repo": "test/repo", "local_repo_path": str(self.repo_path)}
 
-        with patch("skill_seekers.cli.github_scraper.Github"):
+        with patch("yonyou_doc2skill.cli.github_scraper.Github"):
             scraper = self.GitHubScraper(config)
 
             # Should load .gitignore if pathspec available
@@ -955,7 +955,7 @@ class TestGitignoreSupport(unittest.TestCase):
         """Test behavior when no .gitignore exists."""
         config = {"repo": "test/repo", "local_repo_path": str(self.repo_path)}
 
-        with patch("skill_seekers.cli.github_scraper.Github"):
+        with patch("yonyou_doc2skill.cli.github_scraper.Github"):
             scraper = self.GitHubScraper(config)
 
             # Should be None when no .gitignore found
@@ -969,7 +969,7 @@ class TestGitignoreSupport(unittest.TestCase):
 
         config = {"repo": "test/repo", "local_repo_path": str(self.repo_path)}
 
-        with patch("skill_seekers.cli.github_scraper.Github"):
+        with patch("yonyou_doc2skill.cli.github_scraper.Github"):
             scraper = self.GitHubScraper(config)
 
             # Test .gitignore exclusion (if pathspec available)
@@ -984,7 +984,7 @@ class TestGitignoreSupport(unittest.TestCase):
         """Test that default exclusions still work."""
         config = {"repo": "test/repo", "local_repo_path": str(self.repo_path)}
 
-        with patch("skill_seekers.cli.github_scraper.Github"):
+        with patch("yonyou_doc2skill.cli.github_scraper.Github"):
             scraper = self.GitHubScraper(config)
 
             # Default exclusions should still work
@@ -1003,7 +1003,7 @@ class TestErrorHandling(unittest.TestCase):
     def setUp(self):
         if not PYGITHUB_AVAILABLE:
             self.skipTest("PyGithub not installed")
-        from skill_seekers.cli.github_scraper import GitHubScraper
+        from yonyou_doc2skill.cli.github_scraper import GitHubScraper
 
         self.GitHubScraper = GitHubScraper
 
@@ -1011,7 +1011,7 @@ class TestErrorHandling(unittest.TestCase):
         """Test handling of invalid repository name"""
         config = {"repo": "invalid_repo_format", "name": "test", "github_token": None}
 
-        with patch("skill_seekers.cli.github_scraper.Github"):
+        with patch("yonyou_doc2skill.cli.github_scraper.Github"):
             scraper = self.GitHubScraper(config)
             scraper.repo = None
             scraper.github.get_repo = Mock(side_effect=GithubException(404, "Not found"))
@@ -1031,7 +1031,7 @@ class TestErrorHandling(unittest.TestCase):
             "max_issues": 10,
         }
 
-        with patch("skill_seekers.cli.github_scraper.Github"):
+        with patch("yonyou_doc2skill.cli.github_scraper.Github"):
             scraper = self.GitHubScraper(config)
             scraper.repo = Mock()
             scraper.repo.get_issues.side_effect = GithubException(403, "Rate limit exceeded")

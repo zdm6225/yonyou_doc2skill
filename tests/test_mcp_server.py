@@ -38,7 +38,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 if MCP_AVAILABLE:
     # Import from installed package (new src/ layout)
     try:
-        from skill_seekers.mcp import server as skill_seeker_server
+        from yonyou_doc2skill.mcp import server as skill_seeker_server
     except ImportError as e:
         print(f"Warning: Could not import skill_seeker server: {e}")
         skill_seeker_server = None
@@ -208,7 +208,7 @@ class TestEstimatePagesTool(unittest.IsolatedAsyncioTestCase):
         os.chdir(self.original_cwd)
         shutil.rmtree(self.temp_dir, ignore_errors=True)
 
-    @patch("skill_seekers.mcp.tools.scraping_tools.run_subprocess_with_streaming")
+    @patch("yonyou_doc2skill.mcp.tools.scraping_tools.run_subprocess_with_streaming")
     async def test_estimate_pages_success(self, mock_streaming):
         """Test successful page estimation"""
         # Mock successful subprocess run with streaming
@@ -225,7 +225,7 @@ class TestEstimatePagesTool(unittest.IsolatedAsyncioTestCase):
         # Should also have progress message
         self.assertIn("Estimating page count", result[0].text)
 
-    @patch("skill_seekers.mcp.tools.scraping_tools.run_subprocess_with_streaming")
+    @patch("yonyou_doc2skill.mcp.tools.scraping_tools.run_subprocess_with_streaming")
     async def test_estimate_pages_with_max_discovery(self, mock_streaming):
         """Test page estimation with custom max_discovery"""
         # Mock successful subprocess run with streaming
@@ -241,7 +241,7 @@ class TestEstimatePagesTool(unittest.IsolatedAsyncioTestCase):
         self.assertIn("--max-discovery", call_args)
         self.assertIn("500", call_args)
 
-    @patch("skill_seekers.mcp.tools.scraping_tools.run_subprocess_with_streaming")
+    @patch("yonyou_doc2skill.mcp.tools.scraping_tools.run_subprocess_with_streaming")
     async def test_estimate_pages_error(self, mock_streaming):
         """Test error handling in page estimation"""
         # Mock failed subprocess run with streaming
@@ -280,11 +280,11 @@ class TestScrapeDocsTool(unittest.IsolatedAsyncioTestCase):
         os.chdir(self.original_cwd)
         shutil.rmtree(self.temp_dir, ignore_errors=True)
 
-    @patch("skill_seekers.mcp.tools.scraping_tools._run_converter")
-    @patch("skill_seekers.cli.skill_converter.get_converter")
+    @patch("yonyou_doc2skill.mcp.tools.scraping_tools._run_converter")
+    @patch("yonyou_doc2skill.cli.skill_converter.get_converter")
     async def test_scrape_docs_basic(self, mock_get_converter, mock_run_converter):
         """Test basic documentation scraping via in-process converter"""
-        from skill_seekers.mcp.tools.scraping_tools import TextContent
+        from yonyou_doc2skill.mcp.tools.scraping_tools import TextContent
 
         mock_run_converter.return_value = [
             TextContent(type="text", text="Scraping completed successfully")
@@ -298,11 +298,11 @@ class TestScrapeDocsTool(unittest.IsolatedAsyncioTestCase):
         mock_get_converter.assert_called_once()
         mock_run_converter.assert_called_once()
 
-    @patch("skill_seekers.mcp.tools.scraping_tools._run_converter")
-    @patch("skill_seekers.cli.skill_converter.get_converter")
+    @patch("yonyou_doc2skill.mcp.tools.scraping_tools._run_converter")
+    @patch("yonyou_doc2skill.cli.skill_converter.get_converter")
     async def test_scrape_docs_with_skip_scrape(self, mock_get_converter, mock_run_converter):
         """Test scraping with skip_scrape flag"""
-        from skill_seekers.mcp.tools.scraping_tools import TextContent
+        from yonyou_doc2skill.mcp.tools.scraping_tools import TextContent
 
         mock_run_converter.return_value = [TextContent(type="text", text="Using cached data")]
 
@@ -312,11 +312,11 @@ class TestScrapeDocsTool(unittest.IsolatedAsyncioTestCase):
         self.assertIsInstance(result, list)
         mock_get_converter.assert_called_once()
 
-    @patch("skill_seekers.mcp.tools.scraping_tools._run_converter")
-    @patch("skill_seekers.cli.skill_converter.get_converter")
+    @patch("yonyou_doc2skill.mcp.tools.scraping_tools._run_converter")
+    @patch("yonyou_doc2skill.cli.skill_converter.get_converter")
     async def test_scrape_docs_with_dry_run(self, mock_get_converter, mock_run_converter):
         """Test scraping with dry_run flag sets converter.dry_run"""
-        from skill_seekers.mcp.tools.scraping_tools import TextContent
+        from yonyou_doc2skill.mcp.tools.scraping_tools import TextContent
 
         mock_converter = mock_get_converter.return_value
         mock_run_converter.return_value = [TextContent(type="text", text="Dry run completed")]
@@ -328,11 +328,11 @@ class TestScrapeDocsTool(unittest.IsolatedAsyncioTestCase):
         # Verify dry_run was set on the converter instance
         self.assertTrue(mock_converter.dry_run)
 
-    @patch("skill_seekers.mcp.tools.scraping_tools._run_converter")
-    @patch("skill_seekers.cli.skill_converter.get_converter")
+    @patch("yonyou_doc2skill.mcp.tools.scraping_tools._run_converter")
+    @patch("yonyou_doc2skill.cli.skill_converter.get_converter")
     async def test_scrape_docs_with_enhance_local(self, mock_get_converter, mock_run_converter):
         """Test scraping with local enhancement flag"""
-        from skill_seekers.mcp.tools.scraping_tools import TextContent
+        from yonyou_doc2skill.mcp.tools.scraping_tools import TextContent
 
         mock_run_converter.return_value = [
             TextContent(type="text", text="Scraping with enhancement")

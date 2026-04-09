@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Quickstart script for Continue.dev + Skill Seekers integration.
+Quickstart script for Continue.dev + Yonyou Doc2Skill integration.
 
 Usage:
     python quickstart.py --framework vue
@@ -94,7 +94,7 @@ def create_continue_config(framework: str, port: int = 8765) -> Path:
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Quickstart script for Continue.dev + Skill Seekers"
+        description="Quickstart script for Continue.dev + Yonyou Doc2Skill"
     )
     parser.add_argument(
         "--framework",
@@ -119,7 +119,7 @@ def main():
     output_dir = Path(f"output/{framework}")
 
     print("=" * 60)
-    print("Continue.dev + Skill Seekers Quickstart")
+    print("Continue.dev + Yonyou Doc2Skill Quickstart")
     print("=" * 60)
     print(f"Framework: {framework}")
     print(f"Context server port: {args.port}")
@@ -129,7 +129,7 @@ def main():
     if not args.skip_scrape:
         if not run_command(
             [
-                "skill-seekers",
+                "yonyou-doc2skill",
                 "scrape",
                 "--config",
                 f"configs/{framework}.json"
@@ -148,7 +148,7 @@ def main():
     # Step 2: Package documentation
     if not run_command(
         [
-            "skill-seekers",
+            "yonyou-doc2skill",
             "package",
             str(output_dir),
             "--target",

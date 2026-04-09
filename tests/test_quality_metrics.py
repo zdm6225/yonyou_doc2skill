@@ -19,7 +19,7 @@ import tempfile
 # Add src to path
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 
-from skill_seekers.cli.quality_metrics import QualityAnalyzer, MetricLevel
+from yonyou_doc2skill.cli.quality_metrics import QualityAnalyzer, MetricLevel
 
 
 @pytest.fixture
