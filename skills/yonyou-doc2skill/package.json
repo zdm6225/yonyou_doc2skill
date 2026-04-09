@@ -1,7 +1,7 @@
 {
-  "name": "@yonyou/yonyou-doc2skill",
+  "name": "yonyou-doc2skill",
   "version": "0.1.0",
-  "description": "Official Yonyou Doc2Skill wrapper skill for generating skills from documentation, repositories, local projects, files, Confluence, and chat exports.",
+  "description": "目标驱动的企业知识蒸馏引擎，可将文档、仓库、Wiki、交付资料等来源蒸馏成面向研发、交付、培训、问答与 RAG 场景的 AI 知识资产。",
   "license": "UNLICENSED",
   "private": false,
   "files": [
@@ -13,14 +13,20 @@
   ],
   "keywords": [
     "yonyou",
-    "skill",
     "doc2skill",
-    "knowledge",
-    "confluence"
+    "enterprise-ai",
+    "knowledge-distillation",
+    "skill",
+    "rag",
+    "confluence",
+    "reference",
+    "builder",
+    "troubleshooting"
   ],
+  "homepage": "https://github.com/zdm6225/yonyou_doc2skill",
   "repository": {
     "type": "git",
-    "url": "https://github.com/yonyou/yonyou-doc2skill.git",
+    "url": "https://github.com/zdm6225/yonyou_doc2skill.git",
     "directory": "skills/yonyou-doc2skill"
   }
 }

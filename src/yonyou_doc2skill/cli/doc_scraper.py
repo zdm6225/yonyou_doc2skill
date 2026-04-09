@@ -2528,7 +2528,7 @@ def _run_scraping(config: dict[str, Any]) -> Optional["DocToSkillConverter"]:
     if not config.get("skip_scrape"):
         logger.info("\n🔍 Starting scrape...")
         try:
-            asyncio.run(converter.scrape())
+            converter.extract()
         except KeyboardInterrupt:
             logger.info("\n\n⚠️  Interrupted by user")
             converter.save_checkpoint()

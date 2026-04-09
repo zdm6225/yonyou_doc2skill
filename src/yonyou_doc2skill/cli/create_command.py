@@ -89,6 +89,7 @@ class CreateCommand:
 
         # 7. Centralized workflows
         self._run_workflows()
+        self._log_post_create_hint(ctx)
 
         return 0
 
@@ -207,20 +208,26 @@ class CreateCommand:
                 {
                     "base_url": url,
                     "doc_version": ctx.output.doc_version,
-                    "max_pages": ctx.scraping.max_pages,
-                    "rate_limit": ctx.scraping.rate_limit,
-                    "browser": ctx.scraping.browser,
-                    "browser_wait_until": ctx.scraping.browser_wait_until,
-                    "browser_extra_wait": ctx.scraping.browser_extra_wait,
-                    "workers": ctx.scraping.workers,
-                    "async_mode": ctx.scraping.async_mode,
-                    "resume": ctx.scraping.resume,
-                    "fresh": ctx.scraping.fresh,
-                    "skip_scrape": ctx.scraping.skip_scrape,
-                    "selectors": {"title": "title", "code_blocks": "pre code"},
-                    "url_patterns": {"include": [], "exclude": []},
                 }
             )
+
+            if self._is_explicitly_set("max_pages", getattr(self.args, "max_pages", None)):
+                config["max_pages"] = ctx.scraping.max_pages
+            if self._is_explicitly_set("rate_limit", getattr(self.args, "rate_limit", None)):
+                config["rate_limit"] = ctx.scraping.rate_limit
+            if self._is_explicitly_set("browser", getattr(self.args, "browser", False)):
+                config["browser"] = ctx.scraping.browser
+            if self._is_explicitly_set("workers", getattr(self.args, "workers", None)):
+                config["workers"] = ctx.scraping.workers
+            if self._is_explicitly_set("async_mode", getattr(self.args, "async_mode", False)):
+                config["async_mode"] = ctx.scraping.async_mode
+            if self._is_explicitly_set("resume", getattr(self.args, "resume", False)):
+                config["resume"] = ctx.scraping.resume
+            if self._is_explicitly_set("fresh", getattr(self.args, "fresh", False)):
+                config["fresh"] = ctx.scraping.fresh
+            if self._is_explicitly_set("skip_scrape", getattr(self.args, "skip_scrape", False)):
+                config["skip_scrape"] = ctx.scraping.skip_scrape
+
             # Load from config file if provided
             config_path = getattr(self.args, "config", None)
             if config_path:
@@ -348,13 +355,34 @@ class CreateCommand:
         """
         import json
 
+        def merge_defaults(existing: Any, incoming: Any) -> Any:
+            """Merge config values while still letting explicit CLI values win.
+
+            Empty placeholders injected by parser/build defaults should not block
+            values coming from the JSON config file.
+            """
+            if isinstance(existing, dict) and isinstance(incoming, dict):
+                merged = dict(existing)
+                for nested_key, nested_value in incoming.items():
+                    if nested_key in merged:
+                        merged[nested_key] = merge_defaults(merged[nested_key], nested_value)
+                    else:
+                        merged[nested_key] = nested_value
+                return merged
+
+            if existing in (None, "", [], {}):
+                return incoming
+
+            return existing
+
         try:
             with open(config_path, encoding="utf-8") as f:
                 file_config = json.load(f)
-            # Only set keys that aren't already in config
             for key, value in file_config.items():
                 if key not in config:
                     config[key] = value
+                else:
+                    config[key] = merge_defaults(config[key], value)
         except (FileNotFoundError, json.JSONDecodeError) as e:
             logger.warning(f"Could not load config file {config_path}: {e}")
 
@@ -416,6 +444,24 @@ class CreateCommand:
             pass
         except Exception as e:
             logger.warning(f"Workflow execution failed: {e}")
+
+    def _log_post_create_hint(self, ctx: ExecutionContext) -> None:
+        """Log an optional next-step hint after successful creation."""
+        if ctx.enhancement.enabled and ctx.enhancement.level > 0:
+            return
+
+        name = ctx.output.name or (
+            self.source_info.suggested_name if self.source_info else "unnamed"
+        )
+        skill_dir = ctx.output.output_dir or f"output/{name}"
+        agent_name = ctx.enhancement.agent or "codex"
+
+        logger.info("\n" + "=" * 60)
+        logger.info("可选下一步：增强模式")
+        logger.info("如果你希望结果更像专家型 skill，而不是默认模板化产物，可以继续执行：")
+        logger.info("  yonyou-doc2skill enhance %s --agent %s", skill_dir, agent_name)
+        logger.info("增强模式会进一步做跨文档综合、关键概念提炼和高价值样例重组。")
+        logger.info("=" * 60)
 
 
 def main() -> int:

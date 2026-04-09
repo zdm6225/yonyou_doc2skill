@@ -827,5 +827,40 @@ Also check [Guide](https://docs.example.com/guide/intro.md).
             self.assertNotIn("]", url, f"Raw bracket found in enqueued URL: {url}")
 
 
+class TestRunScrapingEntryPoint(unittest.TestCase):
+    """Regression tests for the top-level doc scraping entrypoint."""
+
+    def test_run_scraping_uses_extract_instead_of_removed_scrape(self):
+        """The wrapper entrypoint should use the converter extract/build workflow."""
+        from yonyou_doc2skill.cli import doc_scraper
+
+        calls = []
+
+        class FakeConverter:
+            def __init__(self, _config):
+                pass
+
+            def checkpoint_exists(self):
+                return False
+
+            def load_checkpoint(self):
+                calls.append("load_checkpoint")
+
+            def clear_checkpoint(self):
+                calls.append("clear_checkpoint")
+
+            def extract(self):
+                calls.append("extract")
+
+            def build_skill(self):
+                calls.append("build_skill")
+
+        with mock.patch.object(doc_scraper, "DocToSkillConverter", FakeConverter):
+            converter = doc_scraper._run_scraping({"name": "demo", "base_url": "https://example.com"})
+
+        self.assertIsNotNone(converter)
+        self.assertEqual(["extract", "build_skill"], calls)
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -41,7 +41,17 @@
 - **自动提炼**：只给来源，快速生成通用 skill 或知识包
 - **定向蒸馏**：补一句目标，例如“给 Codex 做编码规范 skill”，系统按目标输出更贴场景的结果
 
-### 3.2 同源多产物
+### 3.2 增强模式
+
+- **增强模式**：在初始蒸馏结果基础上，再用 AI 对 `SKILL.md` 做二次增强
+- 重点增强的不是“改几个词”，而是：
+  - 跨 references 的综合归纳
+  - 关键概念提炼
+  - 触发场景与边界条件说明
+  - 高价值样例重组
+- 可以把“自动生成的知识包”进一步提升为“更像专家助手的可交付 skill”
+
+### 3.3 同源多产物
 
 同一份知识，不止生成一个通用 skill，而是可以按目标输出不同资产：
 
@@ -50,7 +60,7 @@
 - 面向知识问答：`internal-wiki`
 - 面向通用场景：`general`
 
-### 3.3 Skill + Runtime，而不是静态 Prompt
+### 3.4 Skill + Runtime，而不是静态 Prompt
 
 Yonyou Doc2Skill 不是几句提示词，而是一套完整执行链路：
 
@@ -60,7 +70,7 @@ Yonyou Doc2Skill 不是几句提示词，而是一套完整执行链路：
 - 有 references 参考文件
 - 有最终生成的 `SKILL.md`
 
-### 3.4 多来源统一蒸馏流水线
+### 3.5 多来源统一蒸馏流水线
 
 公开文档、代码仓库、PDF、Wiki、Word、HTML、PPT、聊天记录等，可以进入同一条知识蒸馏流水线。
 
@@ -97,7 +107,7 @@ Yonyou Doc2Skill 不是几句提示词，而是一套完整执行链路：
 - 自动生成 `SKILL.md`
 - 支持 profile 定向输出
 - 支持自动 profile 判断
-- 支持增强流程和后处理
+- 支持增强模式和后处理
 
 ### 4.4 打包与分发
 
@@ -214,7 +224,27 @@ yonyou-doc2skill confluence \
 yonyou-doc2skill package output/nextjs-reference
 ```
 
-### 6.7 官方 Skill 模式
+### 6.7 增强模式
+
+直接在生成时启用：
+
+```bash
+yonyou-doc2skill create https://nextjs.org/docs --name nextjs-reference-enhanced --profile reference --enhance-level 1
+```
+
+先蒸馏，再单独增强：
+
+```bash
+yonyou-doc2skill enhance output/nextjs-reference --agent codex
+```
+
+说明：
+
+- `--enhance-level 0`：关闭增强
+- `--enhance-level 1`：增强 `SKILL.md`
+- 单独 `enhance`：对已有 skill 做二次增强，适合比赛展示“增强前后对比”
+
+### 6.8 官方 Skill 模式
 
 如果通过官方 skill 调用，则执行链路通常是：
 
@@ -222,7 +252,14 @@ yonyou-doc2skill package output/nextjs-reference
 python3 scripts/run.py create https://nextjs.org/docs --name nextjs-reference --profile reference --enhance-level 0
 ```
 
-### 6.8 推荐使用方式
+触发增强模式时，可直接这样调用：
+
+```bash
+python3 scripts/run.py create https://nextjs.org/docs --name nextjs-reference --profile reference --enhance-level 1
+python3 scripts/run.py enhance output/nextjs-reference --agent codex
+```
+
+### 6.9 推荐使用方式
 
 #### 快速模式
 
@@ -248,7 +285,22 @@ yonyou-doc2skill create https://docs.example.com --name example-skill --profile 
 - 给交付同学做排障 skill
 - 给新人做 tutorial skill
 
-### 6.9 典型产物
+#### 增强模式
+
+先生成，再增强：
+
+```bash
+yonyou-doc2skill create https://nextjs.org/docs --name nextjs-reference --profile reference --enhance-level 0
+yonyou-doc2skill enhance output/nextjs-reference --agent codex
+```
+
+适合：
+
+- 对外展示更强的最终 skill 质量
+- 做“增强前 / 增强后”对比
+- 让结果从模板化产物变成更像专家助手的交付物
+
+### 6.10 典型产物
 
 运行完成后，通常会得到：
 
