@@ -33,6 +33,9 @@ env/
 # Output directory
 output/
 *.zip
+skills/yonyou-doc2skill/.runtime/
+skills/yonyou-doc2skill/output/
+tmp_*.html
 
 # Yonyou Doc2Skill cache (intermediate files)
 .skillseeker-cache/
