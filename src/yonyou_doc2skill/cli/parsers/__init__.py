@@ -10,6 +10,7 @@ from .base import SubcommandParser
 from .create_parser import CreateParser
 from .config_parser import ConfigParser
 from .confluence_parser import ConfluenceParser
+from .ikm_parser import IKMParser
 from .chat_parser import ChatParser
 from .enhance_parser import EnhanceParser
 from .enhance_status_parser import EnhanceStatusParser
@@ -34,6 +35,7 @@ PARSERS = [
     DoctorParser(),
     ConfigParser(),
     ConfluenceParser(),
+    IKMParser(),
     ChatParser(),
     EnhanceParser(),
     EnhanceStatusParser(),

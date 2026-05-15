@@ -136,7 +136,7 @@ Yonyou Doc2Skill 是一个 **目标驱动的企业知识蒸馏引擎**。
 
 一句话说，就是把企业知识从“文档存量”变成“可执行资产”。
 
-当前支持把保留的来源类型——文档网站、GitHub 仓库、PDF、视频、Word 文档、本地代码库、本地 HTML 文件、AsciiDoc 文档、PowerPoint 演示文稿、Confluence 维基、Slack/Discord 聊天记录——转换为适用于不同 AI 目标的结构化知识资产：
+当前支持把保留的来源类型——文档网站、GitHub 仓库、PDF、视频、Word 文档、本地代码库、本地 HTML 文件、AsciiDoc 文档、PowerPoint 演示文稿、Confluence 维基、用友 iKM 知识地图、Slack/Discord 聊天记录——转换为适用于不同 AI 目标的结构化知识资产：
 
 | 使用场景 | 获得的内容 | 示例 |
 |---------|-----------|------|
@@ -636,7 +636,7 @@ yonyou-doc2skill install --config react --dry-run
 Yonyou Doc2Skill 支持 **12 个 LLM 平台**、**11 种保留来源类型**和 **5 种技能模式**，功能完全对等。
 
 **平台：** Claude AI、Google Gemini、OpenAI ChatGPT、MiniMax AI、通用 Markdown、OpenCode、Kimi、DeepSeek、Qwen、OpenRouter、Together AI、Fireworks AI
-**来源类型：** 文档网站、GitHub 仓库、PDF、Word、视频、本地代码库、本地 HTML、AsciiDoc 文档、PowerPoint 演示文稿、Confluence 维基、Slack/Discord 聊天记录
+**来源类型：** 文档网站、GitHub 仓库、PDF、Word、视频、本地代码库、本地 HTML、AsciiDoc 文档、PowerPoint 演示文稿、Confluence 维基、用友 iKM 知识地图、Slack/Discord 聊天记录
 **技能模式：** 文档、GitHub、PDF、统一多源、本地仓库
 
 完整信息请查看 [完整功能矩阵](docs/FEATURE_MATRIX.md)。

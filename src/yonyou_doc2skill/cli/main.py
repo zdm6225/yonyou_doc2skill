@@ -57,6 +57,7 @@ COMMAND_MODULES = {
     # Configuration & workflows
     "config": "yonyou_doc2skill.cli.config_command",
     "confluence": "yonyou_doc2skill.cli.confluence_scraper",
+    "ikm": "yonyou_doc2skill.cli.ikm_scraper",
     "chat": "yonyou_doc2skill.cli.chat_scraper",
     "doctor": "yonyou_doc2skill.cli.doctor",
     "workflows": "yonyou_doc2skill.cli.workflows_command",

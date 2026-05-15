@@ -87,6 +87,7 @@ class UnifiedScraper(SkillConverter):
             "asciidoc": [],  # List of AsciiDoc sources
             "pptx": [],  # List of PowerPoint sources
             "confluence": [],  # List of Confluence wiki sources
+            "ikm": [],  # List of iKM knowledge map sources
             "notion": [],  # List of Notion page sources
             "rss": [],  # List of RSS/Atom feed sources
             "manpage": [],  # List of man page sources
@@ -108,6 +109,7 @@ class UnifiedScraper(SkillConverter):
             "asciidoc": 0,
             "pptx": 0,
             "confluence": 0,
+            "ikm": 0,
             "notion": 0,
             "rss": 0,
             "manpage": 0,
@@ -238,6 +240,8 @@ class UnifiedScraper(SkillConverter):
                     self._scrape_pptx(source)
                 elif source_type == "confluence":
                     self._scrape_confluence(source)
+                elif source_type == "ikm":
+                    self._scrape_ikm(source)
                 elif source_type == "notion":
                     self._scrape_notion(source)
                 elif source_type == "rss":
@@ -1283,6 +1287,72 @@ class UnifiedScraper(SkillConverter):
             logger.warning(f"⚠️  Failed to build standalone Confluence SKILL.md: {e}")
 
         logger.info(f"✅ Confluence: {len(conf_data.get('pages', []))} pages extracted")
+
+    def _scrape_ikm(self, source: dict[str, Any]):
+        """Scrape iKM knowledge map assets and attachment metadata."""
+        from yonyou_doc2skill.cli.ikm_scraper import IKMToSkillConverter
+
+        idx = self._source_counters["ikm"]
+        self._source_counters["ikm"] += 1
+
+        source_id = source.get("pk", source.get("from_json", f"ikm_{idx}"))
+        source_id = source.get("url", source_id) if source.get("mode") == "asset" else source_id
+        if isinstance(source_id, str) and "/" in source_id:
+            source_id = os.path.basename(source_id.rstrip("/"))
+
+        ikm_config = {
+            "name": f"{self.name}_ikm_{idx}_{source_id}",
+            "base_url": source.get("base_url", "https://ikm.yonyou.com"),
+            "cookie": source.get("cookie"),
+            "mode": source.get("mode", "map"),
+            "url": source.get("url"),
+            "pk": source.get("pk"),
+            "keyword": source.get("keyword"),
+            "actionlocid": source.get("actionlocid"),
+            "actionloctype": source.get("actionloctype", "portal"),
+            "module": source.get("module"),
+            "moduleobjid": source.get("moduleobjid"),
+            "moduleobjname": source.get("moduleobjname"),
+            "portal_endpoint": source.get("portal_endpoint"),
+            "search_endpoint": source.get("search_endpoint"),
+            "max_assets": source.get("max_assets", 100),
+            "download_attachments": source.get("download_attachments", False),
+            "parse_attachments": source.get("parse_attachments", False),
+            "max_attachment_chars": source.get("max_attachment_chars", 12000),
+            "from_json": source.get("from_json"),
+            "description": source.get("description", f"{source_id} iKM knowledge map"),
+        }
+        session_factory = getattr(self, "_ikm_session_factory", None)
+        if session_factory:
+            ikm_config["_session"] = session_factory()
+
+        logger.info(f"Scraping iKM knowledge map: {source_id}")
+        converter = IKMToSkillConverter(ikm_config)
+        converter.extract()
+
+        ikm_data_file = converter.data_file
+        with open(ikm_data_file, encoding="utf-8") as f:
+            ikm_data = json.load(f)
+
+        cache_ikm_data = os.path.join(self.data_dir, f"ikm_data_{idx}_{source_id}.json")
+        shutil.copy(ikm_data_file, cache_ikm_data)
+
+        self.scraped_data["ikm"].append(
+            {
+                "source_id": source_id,
+                "idx": idx,
+                "data": ikm_data,
+                "data_file": cache_ikm_data,
+            }
+        )
+
+        try:
+            converter.build_skill()
+            logger.info("✅ iKM: Standalone SKILL.md created")
+        except Exception as e:
+            logger.warning(f"⚠️  Failed to build standalone iKM SKILL.md: {e}")
+
+        logger.info(f"✅ iKM: {len(ikm_data.get('assets', []))} assets extracted")
 
     def _scrape_notion(self, source: dict[str, Any]):
         """Scrape Notion pages (API or exported Markdown)."""

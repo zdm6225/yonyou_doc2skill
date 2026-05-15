@@ -26,6 +26,7 @@ Yonyou Doc2Skill 整体分为两层：
 - PowerPoint `.pptx`
 - 视频链接 / 本地视频
 - Confluence
+- 用友 iKM 知识地图
 - Slack / Discord chat 导出
 
 说明：
@@ -219,7 +220,39 @@ Yonyou Doc2Skill 整体分为两层：
 
 - 优先走 Confluence 官方 API 或导出格式，不依赖脆弱的页面暴力爬取
 
-### 11. Slack / Discord Chat
+### 11. 用友 iKM 知识地图
+
+核心实现：
+
+- `src/yonyou_doc2skill/cli/ikm_scraper.py`
+
+抓取方式：
+
+当前支持三种模式：
+
+- `map`：按知识地图 `pk` 抓，适合“数智焕新弹药库”这类明确知识地图
+- `portal`：按门户/栏目抓，适合部门知识库、门户推荐、热门资产
+- `search`：按关键词抓，适合围绕“YonLinker”“交付”“数智焕新”等主题定向蒸馏
+
+1. 从知识地图 URL 或用户参数中取得 `pk`
+2. 调用 `getKnowledgeMapByPK` 获取知识地图元信息
+3. 调用 `getMapData` 批量获取地图下资产列表
+4. 对每个资产调用 `getHlDetail` 获取附件清单
+5. 如启用 `--download-attachments`，再调用 `downloadFileSingle` 下载附件
+6. 生成 `SKILL.md`、`references/assets.md`、`references/attachments.md` 和 `raw/*.json`
+
+`portal/search` 模式会复用同一套资产和附件处理链路。由于不同 iKM 页面后端接口可能存在差异，命令提供 `--portal-endpoint` 和 `--search-endpoint` 用于覆盖默认接口。
+
+认证方式：
+
+- `--cookie`
+- 环境变量 `IKM_COOKIE`
+
+对外简化说法：
+
+- 不靠页面逐个点击抓取，而是复用 iKM 后端接口，把知识地图、门户资产、搜索结果和附件元数据批量沉淀成交付知识资产
+
+### 12. Slack / Discord Chat
 
 核心实现：
 
@@ -271,7 +304,7 @@ Yonyou Doc2Skill 整体分为两层：
 
 说明：
 
-- Confluence、Chat 这些不是 `create` 主入口自动识别，而是走独立子命令
+- Confluence、iKM、Chat 这些需要认证或专用参数的来源，不是 `create` 主入口自动识别，而是走独立子命令
 
 ## 统一产出逻辑
 
@@ -287,7 +320,7 @@ Yonyou Doc2Skill 整体分为两层：
 
 可以统一说成：
 
-Yonyou Doc2Skill 支持对文档、代码、Wiki、交付资料、视频和聊天记录等多类企业知识源进行自动蒸馏。对于公开网站，系统优先利用 `llms.txt` 等 AI 友好入口；没有时则自动解析网页正文和站内结构。对于代码仓库和本地项目，系统不仅提取文档，还会分析源码结构、接口模式和测试样例。对于 Confluence、聊天导出和视频等非标准文档来源，系统则分别通过官方 API、导出格式解析和 transcript/OCR 对齐方式提取知识，最终统一生成可被 AI 使用的 skill、知识包或 RAG 资产。
+Yonyou Doc2Skill 支持对文档、代码、Wiki、交付资料、iKM 知识地图、视频和聊天记录等多类企业知识源进行自动蒸馏。对于公开网站，系统优先利用 `llms.txt` 等 AI 友好入口；没有时则自动解析网页正文和站内结构。对于代码仓库和本地项目，系统不仅提取文档，还会分析源码结构、接口模式和测试样例。对于 Confluence、iKM、聊天导出和视频等非标准文档来源，系统则分别通过官方 API、后端接口、导出格式解析和 transcript/OCR 对齐方式提取知识，最终统一生成可被 AI 使用的 skill、知识包或 RAG 资产。
 
 ## 参赛时建议强调的点
 

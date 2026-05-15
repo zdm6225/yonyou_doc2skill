@@ -141,6 +141,7 @@ class TestConfigValidatorNewTypes:
         "asciidoc",
         "pptx",
         "confluence",
+        "ikm",
         "chat",
     }
 
@@ -425,6 +426,7 @@ class TestUnifiedSkillBuilderGenericMerge:
             "asciidoc",
             "pptx",
             "confluence",
+            "ikm",
             "chat",
         }
         assert expected.issubset(set(UnifiedSkillBuilder._SOURCE_LABELS.keys()))

@@ -23,14 +23,15 @@ class TestParserRegistry:
 
     def test_all_parsers_registered(self):
         """Test that all parsers are registered."""
-        assert len(PARSERS) == 20, f"Expected 20 parsers, got {len(PARSERS)}"
+        assert len(PARSERS) == 21, f"Expected 21 parsers, got {len(PARSERS)}"
 
     def test_get_parser_names(self):
         """Test getting list of parser names."""
         names = get_parser_names()
-        assert len(names) == 20
+        assert len(names) == 21
         assert "create" in names
         assert "confluence" in names
+        assert "ikm" in names
         assert "package" in names
         assert "upload" in names
         assert "config" in names
@@ -197,9 +198,9 @@ class TestCurrentCommands:
             assert cmd not in names, f"Removed command '{cmd}' still in parser registry!"
 
     def test_command_count_matches(self):
-        """Test that we have exactly 20 commands."""
-        assert len(PARSERS) == 20
-        assert len(get_parser_names()) == 20
+        """Test that we have exactly 21 commands."""
+        assert len(PARSERS) == 21
+        assert len(get_parser_names()) == 21
 
     def test_removed_source_help_flags_are_not_publicly_advertised(self):
         """The top-level create help should not advertise retired source types."""

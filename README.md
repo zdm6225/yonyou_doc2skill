@@ -110,7 +110,7 @@ yonyou-doc2skill create https://docs.django.com/ --agent codex
 yonyou-doc2skill create https://docs.django.com/ --agent-cmd "my-custom-agent run"
 ```
 
-### Supported Sources (11 Retained)
+### Supported Sources (12 Retained)
 
 ```bash
 # GitHub repository
@@ -142,6 +142,12 @@ yonyou-doc2skill video --setup
 # Confluence wiki
 yonyou-doc2skill confluence --space TEAM --name wiki
 
+# Yonyou iKM: map, portal, or keyword search
+yonyou-doc2skill ikm --mode map --pk MAP_ID --actionlocid PORTAL_ID --name ikm-map
+yonyou-doc2skill ikm --mode portal --actionlocid PORTAL_ID --name ikm-portal
+yonyou-doc2skill ikm --mode search --keyword YonLinker --actionlocid PORTAL_ID --name ikm-search
+yonyou-doc2skill ikm --mode map --pk MAP_ID --actionlocid PORTAL_ID --parse-attachments --name ikm-map-with-content
+
 # Slack/Discord chat export
 yonyou-doc2skill chat --export-dir ./slack-export --name team-chat
 ```
@@ -157,7 +163,7 @@ done
 
 ## What is Yonyou Doc2Skill?
 
-Yonyou Doc2Skill is the **data layer for AI systems**. It transforms the retained source types—documentation websites, GitHub repositories, PDFs, videos, Word documents, local codebases, local HTML files, AsciiDoc documents, PowerPoint presentations, Confluence wikis, and Slack/Discord exports—into structured knowledge assets for every AI target:
+Yonyou Doc2Skill is the **data layer for AI systems**. It transforms the retained source types—documentation websites, GitHub repositories, PDFs, videos, Word documents, local codebases, local HTML files, AsciiDoc documents, PowerPoint presentations, Confluence wikis, Yonyou iKM knowledge maps, and Slack/Discord exports—into structured knowledge assets for every AI target:
 
 | Use Case | What you get | Examples |
 |----------|-------------|---------|
@@ -724,10 +730,10 @@ yonyou-doc2skill install --config react --dry-run
 
 ## 📊 Feature Matrix
 
-Yonyou Doc2Skill supports **12 LLM platforms**, **11 retained source types**, and full feature parity across all targets.
+Yonyou Doc2Skill supports **12 LLM platforms**, **12 retained source types**, and full feature parity across all targets.
 
 **Platforms:** Claude AI, Google Gemini, OpenAI ChatGPT, MiniMax AI, Generic Markdown, OpenCode, Kimi (Moonshot AI), DeepSeek AI, Qwen (Alibaba), OpenRouter, Together AI, Fireworks AI
-**Source Types:** Documentation websites, GitHub repos, PDFs, Word (.docx), Video, Local codebases, Local HTML, AsciiDoc, PowerPoint (.pptx), Confluence wikis, Slack/Discord chat exports
+**Source Types:** Documentation websites, GitHub repos, PDFs, Word (.docx), Video, Local codebases, Local HTML, AsciiDoc, PowerPoint (.pptx), Confluence wikis, Yonyou iKM knowledge maps, Slack/Discord chat exports
 
 See [Complete Feature Matrix](docs/FEATURE_MATRIX.md) for detailed platform and feature support.
 
