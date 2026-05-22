@@ -1,0 +1,32 @@
+{
+  "name": "yonyou-knowledge-delivery-boost",
+  "version": "0.1.0",
+  "description": "面向 AI 项目交付的知识接入与资产生成技能，可将企业文档、Wiki、FAQ、案例与交付资料蒸馏为交付知识资产、RAG 数据与可复用 skill。",
+  "license": "UNLICENSED",
+  "private": false,
+  "files": [
+    "SKILL.md",
+    "package.json",
+    "requirements.txt",
+    "scripts",
+    "runtime"
+  ],
+  "keywords": [
+    "yonyou",
+    "knowledge-delivery",
+    "delivery-boost",
+    "enterprise-ai",
+    "knowledge-distillation",
+    "rag",
+    "internal-wiki",
+    "troubleshooting",
+    "faq",
+    "confluence"
+  ],
+  "homepage": "https://github.com/zdm6225/yonyou_doc2skill",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zdm6225/yonyou_doc2skill.git",
+    "directory": "skills/yonyou-knowledge-delivery-boost"
+  }
+}

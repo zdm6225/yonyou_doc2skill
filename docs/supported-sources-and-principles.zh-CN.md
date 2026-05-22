@@ -1,299 +1,365 @@
-# Yonyou Doc2Skill 支持来源与抓取原理
+# Yonyou Doc2Skill 支持来源与解析原理
 
-本文用于说明 Yonyou Doc2Skill 当前对外支持的主要来源类型、各自的抽取原理，以及适合对外介绍时使用的简化说法。
+本文说明 Yonyou Doc2Skill 当前支持的数据源类型，以及每一种来源的解析原理。核心结论是：它不是单一爬虫，而是一条“来源识别 -> 专用解析器 -> 结构化中间数据 -> skill / references / RAG 资产”的知识蒸馏流水线。
 
-## 总体原理
+## 1. 总体流程
 
-Yonyou Doc2Skill 整体分为两层：
+```text
+用户输入来源
+  -> 判断来源类型
+  -> 选择对应解析器
+  -> 抽取正文、标题、章节、代码、表格、链接、元数据
+  -> 生成统一结构化数据
+  -> 输出 SKILL.md、references、可选 RAG/外部框架格式
+```
 
-- 入口层：判断用户给的来源类型，并路由到对应 converter
-- 抽取层：针对不同来源执行内容抽取，先生成结构化中间数据，再生成 `SKILL.md`、`references/` 等产物
+统一产物通常包括：
 
-核心入口在：
+- `output/<name>/SKILL.md`：给 AI agent 使用的技能说明。
+- `output/<name>/references/`：结构化后的知识资料。
+- `output/<name>_extracted.json`：抽取后的中间数据。
+- 可选 package 产物：Claude skill、LangChain、LlamaIndex 等格式。
 
-- `src/yonyou_doc2skill/cli/source_detector.py`
-- `src/yonyou_doc2skill/cli/create_command.py`
+## 2. 当前对外支持的数据源
 
-## 当前对外支持的来源
+| 来源 | 典型输入 | 主要解析方式 |
+| --- | --- | --- |
+| 公开文档网站 | `https://nextjs.org/docs` | 优先读 `llms.txt`，其次 sitemap，再解析 HTML |
+| GitHub 仓库 | `owner/repo` 或 Git URL | GitHub API / clone 后分析仓库文件 |
+| 本地代码库 | `./my-codebase` | 遍历本地目录，按语言和文件类型解析 |
+| PDF | `manual.pdf` | PDF 页面文本、目录、表格、图片信息抽取 |
+| Word | `manual.docx` | DOCX 转 HTML + 段落、标题、表格解析 |
+| 本地 HTML | `page.html` | DOM 解析正文、标题、代码块、链接 |
+| AsciiDoc | `guide.adoc` | AsciiDoc 结构解析，失败时走文本 fallback |
+| PowerPoint | `slides.pptx` | 按页读取标题、正文、备注和结构 |
+| 视频 | 视频 URL / 本地视频 | 字幕、转写、关键帧和视觉信息抽取 |
+| Confluence | space/page/export | REST API、Cookie/token 鉴权、storage body 解析 |
+| Slack / Discord 导出 | export JSON | 消息、线程、代码片段、链接、附件解析 |
 
-- 公开文档网站
-- GitHub 仓库
-- 本地代码库
-- PDF
-- Word `.docx`
-- 本地 HTML
-- AsciiDoc
-- PowerPoint `.pptx`
-- 视频链接 / 本地视频
-- Confluence
-- Slack / Discord chat 导出
+## 3. 公开文档网站
 
-说明：
+典型输入：
 
-- `epub / jupyter / openapi / rss / manpage / notion` 等旧能力源码仍有部分保留，但当前不作为公开主路径
+```bash
+yonyou-doc2skill create https://nextjs.org/docs --name nextjs-reference
+```
 
-## 各来源抓取原理
+解析原理：
 
-### 1. 公开文档网站
+- 第一步会尝试发现 `llms.txt` 或 `llms-full.txt`。
+- 如果站点提供 `llms.txt`，优先使用它作为官方给 AI 使用的文档索引。
+- 如果没有 `llms.txt`，会尝试读取 `sitemap.xml`，从站点地图中发现文档页面。
+- 如果 sitemap 不完整，会退回到 HTML 页面解析和同站链接发现。
+- 对普通 HTML 页面，会提取 `title`、`h1/h2/h3`、正文段落、代码块、表格、链接、图片 alt 等内容。
+- 对前端渲染较重的网站，可通过浏览器渲染能力获取最终页面内容。
+- 支持通过 include/exclude 规则限定 URL 范围，避免抓取无关页面。
 
-核心实现：
+适合场景：
 
-- `src/yonyou_doc2skill/cli/doc_scraper.py`
-- `src/yonyou_doc2skill/cli/llms_txt_detector.py`
-- `src/yonyou_doc2skill/cli/llms_txt_downloader.py`
-- `src/yonyou_doc2skill/cli/browser_renderer.py`
+- 框架/API 官方文档蒸馏为 reference skill。
+- 产品帮助中心蒸馏为 internal-wiki skill。
+- 开发规范站点蒸馏为 builder/reference skill。
 
-抓取方式：
+限制：
 
-1. 优先检测站点是否提供 `llms.txt`
-2. 如果存在 `llms.txt`，优先按它给出的 URL 列表抓取
-3. 如果没有 `llms.txt`，就直接请求网页 HTML
-4. 用 `BeautifulSoup` 提取正文区域、标题、heading、代码块、链接
-5. 递归发现站内文档链接并继续抓取
-6. 对 JS/SPA 站点可启用浏览器渲染后再抓
+- 需要页面可访问。
+- 需要登录的网站必须提供 Cookie、token 或导出文件。
+- 如果站点反爬、页面强依赖动态接口，抓取效果取决于浏览器渲染和网络权限。
 
-对外简化说法：
+## 4. GitHub 仓库
 
-- 优先利用 `llms.txt` 等 AI 友好入口
-- 没有时自动解析网页正文并抓取站内文档结构
+典型输入：
 
-### 2. GitHub 仓库
+```bash
+yonyou-doc2skill create django/django --name django-codebase
+```
 
-核心实现：
+解析原理：
 
-- `src/yonyou_doc2skill/cli/github_scraper.py`
-- `src/yonyou_doc2skill/cli/github_fetcher.py`
-- `src/yonyou_doc2skill/cli/codebase_scraper.py`
+- 识别 `owner/repo`、Git URL 或本地 clone 目录。
+- 优先获取仓库元数据，例如 README、目录结构、语言、依赖文件、配置文件。
+- 对代码文件按语言类型解析，提取类、函数、接口、注释、导入关系、测试样例和配置。
+- 对文档文件继续走 Markdown/HTML/文本解析。
+- 输出时会把仓库结构、核心模块、使用方式、开发约定整理成 skill references。
 
-抓取方式：
+适合场景：
 
-1. 通过 GitHub API 获取仓库元数据、README、issues、releases
-2. 通过 clone 或本地仓库路径获取真实代码内容
-3. 对源码做结构分析，提取函数、类、接口、注释、测试样例、依赖关系
-4. 合并“文档视角”和“代码视角”形成技能资产
+- 把开源仓库蒸馏成代码理解 skill。
+- 把内部工程蒸馏成给 Codex/Cursor 使用的 builder skill。
+- 把 SDK 仓库蒸馏成 reference skill。
 
-对外简化说法：
+限制：
 
-- 不只是抓 README，而是同时理解仓库文档、代码结构和真实使用问题
+- 私有仓库需要本地已有权限或 token。
+- 超大仓库建议用 include/exclude 限定范围。
 
-### 3. 本地代码库
+## 5. 本地代码库
 
-核心实现：
+典型输入：
 
-- `src/yonyou_doc2skill/cli/codebase_scraper.py`
+```bash
+yonyou-doc2skill create ./my-codebase --name project-builder
+```
 
-抓取方式：
+解析原理：
 
-1. 遍历本地目录
-2. 过滤 `.git`、`node_modules`、构建产物等无关目录
-3. 根据语言后缀识别源码类型
-4. 提取 API、类、函数、注释、依赖、配置模式
+- 遍历本地目录文件。
+- 默认跳过 `.git`、`node_modules`、`dist`、`build`、缓存目录等无关内容。
+- 根据文件后缀识别语言和文档类型。
+- 抽取 README、配置、依赖、源码结构、测试、脚本、接口定义等信息。
+- 对代码侧重点是结构化理解，不是简单拼接文件内容。
 
-对外简化说法：
+适合场景：
 
-- 直接分析本地项目结构和源码语义，生成可供 AI 使用的工程知识
+- 内部项目交接。
+- 给 AI 编码助手补充项目上下文。
+- 从已有项目生成开发规范、模块说明和 onboarding skill。
 
-### 4. PDF
+限制：
 
-核心实现：
+- 如果代码量很大，需要限制目录，否则产物会膨胀。
+- 二进制文件和生成文件通常不应进入知识资产。
 
-- `src/yonyou_doc2skill/cli/pdf_scraper.py`
-- `src/yonyou_doc2skill/cli/pdf_extractor_poc.py`
+## 6. PDF
 
-抓取方式：
+典型输入：
 
-1. 逐页提取 PDF 文本、标题、代码、图片、表格
-2. 生成中间 JSON
-3. 再按章节或整本文档组织成 skill 和 references
+```bash
+yonyou-doc2skill create manual.pdf --name manual-skill
+```
 
-对外简化说法：
+解析原理：
 
-- 可把 PDF 手册、规范、方案文档转成结构化 AI 知识资产
+- 逐页读取 PDF 文本。
+- 尝试识别标题、章节、页码、段落、表格和图片占位信息。
+- 对可复制文本型 PDF 效果最好。
+- 对扫描件 PDF，需要 OCR 能力配合，否则只能拿到有限文本或图片信息。
+- 解析结果会按页和章节组织，写入 references。
 
-### 5. Word 文档
+适合场景：
 
-核心实现：
+- 产品手册。
+- 实施手册。
+- 培训材料。
+- 制度文件。
 
-- `src/yonyou_doc2skill/cli/word_scraper.py`
+限制：
 
-抓取方式：
+- 扫描件、图片型 PDF 效果依赖 OCR。
+- 排版复杂的表格可能需要人工复核。
 
-1. 用 `mammoth` 把 `.docx` 转成 HTML
-2. 用 `python-docx` 获取元数据和表格
-3. 用 `BeautifulSoup` 提取标题、段落、代码、表格
+## 7. Word `.docx`
 
-对外简化说法：
+典型输入：
 
-- 将 Word 文档转成结构化知识，不依赖人工复制整理
+```bash
+yonyou-doc2skill create manual.docx --name manual-skill
+```
 
-### 6. 本地 HTML
+解析原理：
 
-核心实现：
+- 先将 DOCX 内容转换为结构化 HTML。
+- 再解析标题、段落、列表、表格、图片引用和样式层级。
+- 同时读取文档元数据和表格内容。
+- 最终按章节生成 references。
 
-- `src/yonyou_doc2skill/cli/html_scraper.py`
+适合场景：
 
-抓取方式：
+- 内部制度文档。
+- 交付方案。
+- 项目总结。
+- 培训材料。
 
-1. 读取单个 HTML 或 HTML 目录
-2. 解析 DOM 结构
-3. 按 `h1/h2` 切分章节
-4. 提取正文、代码、表格、图片、链接
+限制：
 
-对外简化说法：
+- Word 中复杂排版、文本框、嵌入对象可能不能完整还原。
+- 图片中的文字需要 OCR 才能被理解。
 
-- 支持离线网页、导出页面和本地帮助文档直接转 skill
+## 8. 本地 HTML
 
-### 7. AsciiDoc
+典型输入：
 
-核心实现：
+```bash
+yonyou-doc2skill create page.html --name html-skill
+```
 
-- `src/yonyou_doc2skill/cli/asciidoc_scraper.py`
+解析原理：
 
-抓取方式：
+- 直接读取本地 HTML 文件。
+- 使用 DOM 解析正文、标题、列表、代码块、表格、链接、图片说明。
+- 去除脚本、样式、导航等低价值内容。
+- 将页面内容转换为 Markdown/reference 结构。
 
-1. 解析 `.adoc` 文档结构
-2. 提取标题、段落、代码块、文档层级
-3. 生成结构化参考内容
+适合场景：
 
-对外简化说法：
+- 已导出的网页。
+- 需要登录系统的页面离线保存后再蒸馏。
+- Confluence 或知识库页面 HTML 导出。
 
-- 面向技术文档源码场景，直接把 AsciiDoc 转成 AI 可用知识
+限制：
 
-### 8. PowerPoint
+- 只解析本地文件本身，不会自动拥有原网站登录态。
+- 页面依赖外部脚本动态渲染时，本地 HTML 可能不完整。
 
-核心实现：
+## 9. AsciiDoc
 
-- `src/yonyou_doc2skill/cli/pptx_scraper.py`
+典型输入：
 
-抓取方式：
+```bash
+yonyou-doc2skill create guide.adoc --name guide-skill
+```
 
-1. 解析 `.pptx` 幻灯片文本与结构
-2. 提取标题、要点、备注、页面顺序
-3. 组织成适合培训或知识导航的结构化内容
+解析原理：
 
-对外简化说法：
+- 优先按 AsciiDoc 语法识别标题、属性、include、代码块、表格、提示块。
+- 在专业解析器不可用时，退回到文本规则解析。
+- 保留章节结构和示例代码。
 
-- 可把培训课件、宣讲材料、方案汇报直接转换为学习型 skill
+适合场景：
 
-### 9. 视频链接 / 本地视频
+- 技术规范。
+- 开源项目文档。
+- 架构设计文档。
 
-核心实现：
+限制：
 
-- `src/yonyou_doc2skill/cli/video_scraper.py`
-- `src/yonyou_doc2skill/cli/video_transcript.py`
-- `src/yonyou_doc2skill/cli/video_visual.py`
+- include 文件缺失时，无法还原完整文档。
+- 自定义宏需要额外适配。
 
-抓取方式：
+## 10. PowerPoint `.pptx`
 
-1. 先提取视频元数据
-2. 优先获取现成字幕或 transcript
-3. 本地视频可寻找外挂字幕
-4. 没有字幕时，可用 Whisper 转录
-5. 如果启用视觉能力，则抽帧 OCR 提取屏幕代码、终端和幻灯片文字
-6. 对齐音频文本和视觉文本，生成结构化教程知识
+典型输入：
 
-对外简化说法：
+```bash
+yonyou-doc2skill create slides.pptx --name training-skill
+```
 
-- 不只是转字幕，还能结合视觉内容理解教程视频里的代码和操作过程
+解析原理：
 
-### 10. Confluence
+- 按 slide 逐页读取。
+- 提取标题、正文文本、项目符号、备注和基本页面顺序。
+- 将演示型内容转换为教程型或培训型 references。
 
-核心实现：
+适合场景：
 
-- `src/yonyou_doc2skill/cli/confluence_scraper.py`
+- 培训课件。
+- 方案汇报。
+- 项目复盘材料。
 
-抓取方式：
+限制：
 
-有两种模式：
+- 图形中的文字、复杂流程图需要 OCR 或视觉模型辅助。
+- PPT 的视觉布局不会完整转成结构化文本。
 
-- API 模式：调用 Confluence REST API 抓取 space、page、层级和正文
-- Export 模式：解析 Confluence 导出的 HTML/XML
+## 11. 视频
 
-认证方式支持：
+典型输入：
 
-- Cookie
-- Bearer token
-- username + token
+```bash
+yonyou-doc2skill create https://example.com/video --name video-skill
+yonyou-doc2skill create demo.mp4 --name video-skill
+```
 
-对外简化说法：
+解析原理：
 
-- 优先走 Confluence 官方 API 或导出格式，不依赖脆弱的页面暴力爬取
+- 优先获取已有字幕或 transcript。
+- 对公开视频可尝试读取平台字幕。
+- 对本地视频可结合转写能力提取语音文本。
+- 可抽取关键帧、时间轴、标题画面、屏幕文字等视觉信息。
+- 将 transcript 和视觉线索合并成章节化内容。
 
-### 11. Slack / Discord Chat
+适合场景：
 
-核心实现：
+- 培训视频转教程 skill。
+- 会议录屏转知识沉淀。
+- 产品演示视频转操作手册。
 
-- `src/yonyou_doc2skill/cli/chat_scraper.py`
+限制：
 
-抓取方式：
+- 无字幕视频依赖本地转写能力。
+- 噪声、口音、多人说话会影响转写准确率。
+- 视觉理解能力取决于是否启用对应依赖。
 
-有两种模式：
+## 12. Confluence
 
-- Export 模式：解析 Slack 导出或 DiscordChatExporter JSON
-- API 模式：调用 Slack / Discord API 抓取消息
+典型输入：
 
-提取内容包括：
+```bash
+yonyou-doc2skill confluence \
+  --base-url https://wiki.example.com \
+  --space-key TEAM \
+  --username user \
+  --token "$TOKEN" \
+  --name team-wiki
+```
 
-- 消息正文
-- 线程
-- reaction
-- 代码片段
-- 链接
-- 附件
+解析原理：
 
-再按频道、日期、topic 做分类。
+- 通过 Confluence REST API 获取 space、page、body、children、labels、ancestors 等信息。
+- 页面正文优先读取 Confluence storage 格式，再转换为 Markdown/reference。
+- 支持用户名 + token、Bearer token、Cookie 等认证方式。
+- 也可以读取已经导出的 Confluence JSON/HTML 文件。
+- 对 `viewpage.action?pageId=...` 这类页面链接，需要先有认证，否则只能抓到登录页。
 
-对外简化说法：
+适合场景：
 
-- 可把团队聊天记录中的排障经验、FAQ 和讨论沉淀成知识资产
+- 内部 Wiki 蒸馏为 internal-wiki skill。
+- 项目空间蒸馏成交付知识库。
+- 研发规范空间蒸馏成 builder/reference skill。
 
-## create 命令是怎么判断来源的
+限制：
 
-核心实现：
+- 登录态是必要条件。
+- 没有权限时工具不能绕过访问控制。
+- 大空间建议限制 page 数或指定入口页面。
 
-- `src/yonyou_doc2skill/cli/source_detector.py`
+## 13. Slack / Discord 聊天导出
 
-基本判断顺序：
+典型输入：
 
-1. 先看文件后缀
-   - `.pdf` → PDF
-   - `.docx` → Word
-   - `.html/.htm` → HTML
-   - `.adoc/.asciidoc` → AsciiDoc
-   - `.pptx` → PowerPoint
-   - 视频后缀 → 视频文件
-2. 再看是不是本地目录
-   - 是目录 → 本地代码库
-3. 再看是不是 GitHub 仓库格式
-   - `owner/repo` 或 GitHub URL
-4. 再看是不是普通 URL
-   - `http(s)` 或域名推断为文档网站
+```bash
+yonyou-doc2skill create ./slack-export --name team-chat-knowledge
+```
 
-说明：
+解析原理：
 
-- Confluence、Chat 这些不是 `create` 主入口自动识别，而是走独立子命令
+- 读取 Slack/Discord 导出的 JSON 文件。
+- 按频道、日期、线程、回复关系组织消息。
+- 抽取问题、回答、代码片段、链接、附件引用和决策记录。
+- 将零散聊天内容整理为 FAQ、决策记录、排障经验或 internal-wiki references。
 
-## 统一产出逻辑
+适合场景：
 
-无论来源是什么，整体都会尽量走同一条产出路径：
+- 从历史讨论沉淀 FAQ。
+- 从交付群沉淀排障经验。
+- 从研发群沉淀约定和决策。
 
-1. 抽取原始内容
-2. 转成结构化中间 JSON
-3. 生成 `references/`
-4. 生成主 `SKILL.md`
-5. 可再按目标平台执行 `package`
+限制：
 
-## 适合对外介绍时的统一说法
+- 导出质量决定结果质量。
+- 私聊、附件内容、外链内容不一定包含在导出包里。
+- 需要注意敏感信息脱敏。
 
-可以统一说成：
+## 14. 保留但非当前主推入口的解析器
 
-Yonyou Doc2Skill 支持对文档、代码、Wiki、交付资料、视频和聊天记录等多类企业知识源进行自动蒸馏。对于公开网站，系统优先利用 `llms.txt` 等 AI 友好入口；没有时则自动解析网页正文和站内结构。对于代码仓库和本地项目，系统不仅提取文档，还会分析源码结构、接口模式和测试样例。对于 Confluence、聊天导出和视频等非标准文档来源，系统则分别通过官方 API、导出格式解析和 transcript/OCR 对齐方式提取知识，最终统一生成可被 AI 使用的 skill、知识包或 RAG 资产。
+代码中还保留了一些解析器能力，适合后续恢复或扩展，但当前不建议作为对外主推场景：
 
-## 参赛时建议强调的点
+| 来源 | 解析思路 | 当前建议 |
+| --- | --- | --- |
+| EPUB | 解析电子书目录、章节 HTML、正文和元数据 | 可用于电子书知识包，需补交付验证 |
+| Jupyter Notebook | 读取 `.ipynb` 的 Markdown、代码、输出和执行顺序 | 可用于教程/实验文档 |
+| OpenAPI / Swagger | 解析 YAML/JSON 中的 paths、operations、schemas、examples | 可用于 API reference |
+| RSS / Atom | 读取 feed 条目、标题、摘要、链接、发布时间 | 可用于资讯型知识流 |
+| Man page | 解析命令手册章节、参数、示例 | 可用于 CLI reference |
+| Notion | 读取 Notion API/export 的页面、数据库、block | 需要认证和更完整验证 |
 
-- 不是单一网页爬虫，而是多来源知识蒸馏引擎
-- 不同来源使用不同最优抽取方式
-- 公开网站优先 `llms.txt`
-- 企业内容优先官方 API / 导出格式
-- 代码仓库不仅抓文档，还做结构分析
-- 视频不仅抓字幕，还支持视觉内容理解
+## 15. 和普通 RAG 的区别
+
+Doc2Skill 的解析阶段和 RAG 的文档接入类似，都会把原始资料变成结构化文本。但目标不同：
+
+- RAG 更关注切 chunk、建索引、召回问答。
+- Skill 更关注把知识变成 AI agent 可读的使用说明、工作流、边界条件和 references。
+- Doc2Skill 可以同时输出 skill 和 RAG 友好的结构化数据。
+- 对同一份资料，可以按 reference、builder、tutorial、troubleshooting、internal-wiki 等目标生成不同资产。
+
+

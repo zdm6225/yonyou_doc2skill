@@ -18,6 +18,22 @@ ENHANCE_ARGUMENTS: dict[str, dict[str, Any]] = {
         },
     },
     # Mode selection — used by smart dispatcher (enhance_command.py)
+    "mode": {
+        "flags": ("--mode",),
+        "kwargs": {
+            "type": str,
+            "choices": ["auto", "api", "local", "prepare"],
+            "default": "auto",
+            "help": (
+                "Enhancement execution mode. "
+                "auto: pick API or LOCAL automatically; "
+                "api: force API mode; "
+                "local: force local agent CLI mode; "
+                "prepare: only generate .enhance context bundle for the current agent to finish."
+            ),
+            "metavar": "MODE",
+        },
+    },
     "target": {
         "flags": ("--target",),
         "kwargs": {
@@ -41,6 +57,22 @@ ENHANCE_ARGUMENTS: dict[str, dict[str, Any]] = {
                 "(or set ANTHROPIC_API_KEY / GOOGLE_API_KEY / OPENAI_API_KEY / MOONSHOT_API_KEY)"
             ),
             "metavar": "KEY",
+        },
+    },
+    "intent": {
+        "flags": ("--intent",),
+        "kwargs": {
+            "type": str,
+            "help": "Optional enhancement goal, for example: 给 Codex 做编码规范 skill",
+            "metavar": "TEXT",
+        },
+    },
+    "output": {
+        "flags": ("--output",),
+        "kwargs": {
+            "type": str,
+            "help": "Output directory for prepare mode (default: <skill_dir>/.enhance)",
+            "metavar": "DIR",
         },
     },
     "dry_run": {

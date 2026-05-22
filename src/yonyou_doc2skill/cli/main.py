@@ -54,9 +54,12 @@ COMMAND_MODULES = {
     "extract-test-examples": "yonyou_doc2skill.cli.test_example_extractor",
     "resume": "yonyou_doc2skill.cli.resume_command",
     "quality": "yonyou_doc2skill.cli.quality_metrics",
+    "sanitize": "yonyou_doc2skill.cli.sanitize_command",
+    "sanitize-assets": "yonyou_doc2skill.cli.sanitize_assets_command",
     # Configuration & workflows
     "config": "yonyou_doc2skill.cli.config_command",
     "confluence": "yonyou_doc2skill.cli.confluence_scraper",
+    "ikm": "yonyou_doc2skill.cli.ikm_scraper",
     "chat": "yonyou_doc2skill.cli.chat_scraper",
     "doctor": "yonyou_doc2skill.cli.doctor",
     "workflows": "yonyou_doc2skill.cli.workflows_command",
@@ -152,6 +155,8 @@ def _reconstruct_argv(command: str, args: argparse.Namespace) -> list[str]:
             "skill_directory",
             "zip_file",
             "input_file",
+            "input_path",
+            "mode_or_input",
         ]:
             if value is not None and value != "":
                 argv.append(str(value))

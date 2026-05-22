@@ -55,6 +55,11 @@ mypy src/yonyou_doc2skill --show-error-codes --pretty
 
 ## Code Style
 
+## User Communication
+
+- When returning a filesystem location to the user, always provide the full absolute path as plain text.
+- Do not return shortened path labels, relative paths, ellipsized paths, or markdown-only path references when the user is asking for a file/package location.
+
 ### Formatting Rules (ruff — from pyproject.toml)
 - **Line length:** 100 characters
 - **Target Python:** 3.10+

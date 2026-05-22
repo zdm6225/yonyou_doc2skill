@@ -215,6 +215,21 @@ class TestPackageStructure:
         assert "--profile" in skill_md
         assert "auto-detect" in skill_md.lower()
 
+    def test_official_skill_wrapper_forces_sanitize_init_as_first_reply(self):
+        """The official wrapper should force sanitize flows to start with the init panel."""
+        root = Path(__file__).parent.parent
+        skill_md = (root / "skills" / "yonyou-doc2skill" / "SKILL.md").read_text(
+            encoding="utf-8"
+        )
+        template = (
+            root / "skills" / "yonyou-doc2skill" / "templates" / "sanitize-init-panel.md"
+        ).read_text(encoding="utf-8")
+
+        for content in (skill_md, template):
+            assert "第一条回复只能输出本初始化页" in content
+            assert "不要在初始化页之前先总结文件里有哪些敏感信息" in content
+            assert "不要在初始化页之前先报告运行时报错、候选项、替换建议或手工替代方案" in content
+
 
 class TestImportPatterns:
     """Test that various import patterns work correctly."""
@@ -427,6 +442,20 @@ class TestPackageMetadata:
         assert "rss" not in lowered
         assert "notion" not in lowered
 
+    def test_official_skill_requires_fixed_sanitize_init_panel(self):
+        """The official skill should force the fixed sanitize initialization panel."""
+        root = Path(__file__).parent.parent
+        skill_text = (root / "skills" / "yonyou-doc2skill" / "SKILL.md").read_text(encoding="utf-8")
+
+        assert "脱敏场景的第一条回复只能是初始化选择页" in skill_text
+        assert "第一条回复只能输出本初始化页" in skill_text
+        assert "推荐选择：1 + 1 + 1" in skill_text
+        assert "不要自行改写、压缩、重排这段文案" in skill_text
+        assert "不要在初始化页之前先总结文件里有哪些敏感信息" in skill_text
+        assert "不要在初始化页之前先报告运行时报错、候选项、替换建议或手工替代方案" in skill_text
+        assert "如果第一项选择 3，则只表示“脱敏清单由人工配置”" in skill_text
+        assert "第二项、第三项仍严格按本轮选择执行" in skill_text
+
     def test_public_docs_describe_official_skill_delivery_model(self):
         """Test the public docs explain the official skill plus local CLI model."""
         root = Path(__file__).parent.parent
@@ -449,12 +478,36 @@ class TestPackageMetadata:
         assert (skill_dir / "scripts" / "run.py").exists()
         assert (skill_dir / "runtime" / "yonyou_doc2skill" / "cli" / "main.py").exists()
 
+    def test_delivery_skill_embedded_runtime_files_exist(self):
+        """The delivery skill package should include embedded runtime assets."""
+        root = Path(__file__).parent.parent
+        skill_dir = root / "skills" / "yonyou-knowledge-delivery-boost"
+
+        assert (skill_dir / "package.json").exists()
+        assert (skill_dir / "requirements.txt").exists()
+        assert (skill_dir / "scripts" / "bootstrap.py").exists()
+        assert (skill_dir / "scripts" / "run.py").exists()
+        assert (skill_dir / "runtime" / "yonyou_doc2skill" / "cli" / "main.py").exists()
+
     def test_official_skill_requirements_are_version_locked(self):
         """Embedded runtime dependencies should be pinned for reproducible bootstrap."""
         root = Path(__file__).parent.parent
         requirements = (root / "skills" / "yonyou-doc2skill" / "requirements.txt").read_text(
             encoding="utf-8"
         )
+
+        for raw_line in requirements.splitlines():
+            line = raw_line.strip()
+            if not line or line.startswith("#"):
+                continue
+            assert "==" in line, f"Unpinned embedded dependency: {line}"
+
+    def test_delivery_skill_requirements_are_version_locked(self):
+        """Delivery skill embedded runtime dependencies should be pinned for reproducible bootstrap."""
+        root = Path(__file__).parent.parent
+        requirements = (
+            root / "skills" / "yonyou-knowledge-delivery-boost" / "requirements.txt"
+        ).read_text(encoding="utf-8")
 
         for raw_line in requirements.splitlines():
             line = raw_line.strip()
@@ -488,6 +541,44 @@ class TestPackageMetadata:
         finally:
             if package_path.exists():
                 package_path.unlink()
+
+    def test_embedded_skill_runtime_is_packaged_for_delivery_skill(self):
+        """Packaging the delivery skill should retain runtime and bootstrap files."""
+        from yonyou_doc2skill.cli.package_skill import package_skill
+
+        root = Path(__file__).parent.parent
+        skill_dir = root / "skills" / "yonyou-knowledge-delivery-boost"
+
+        success, package_path = package_skill(skill_dir, open_folder_after=False, skip_quality_check=True)
+
+        assert success is True
+        assert package_path is not None
+        assert package_path.exists()
+
+        try:
+            with zipfile.ZipFile(package_path, "r") as zf:
+                names = set(zf.namelist())
+
+            assert "SKILL.md" in names
+            assert "package.json" in names
+            assert "requirements.txt" in names
+            assert "scripts/bootstrap.py" in names
+            assert "scripts/run.py" in names
+            assert "runtime/yonyou_doc2skill/cli/main.py" in names
+        finally:
+            if package_path.exists():
+                package_path.unlink()
+
+    def test_delivery_skill_wrapper_mentions_rag_and_delivery_scenarios(self):
+        """The delivery wrapper skill should emphasize delivery and RAG use cases."""
+        skill_md = (
+            Path(__file__).parent.parent / "skills" / "yonyou-knowledge-delivery-boost" / "SKILL.md"
+        ).read_text(encoding="utf-8")
+
+        lowered = skill_md.lower()
+        assert "rag" in lowered
+        assert "交付" in skill_md
+        assert "internal-wiki" in lowered
 
     def test_embedded_runtime_is_not_packaged_for_regular_skills(self):
         """Generated skills stay lightweight and do not receive the embedded runtime."""

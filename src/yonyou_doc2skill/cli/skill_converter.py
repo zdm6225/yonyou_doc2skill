@@ -70,6 +70,7 @@ CONVERTER_REGISTRY: dict[str, tuple[str, str]] = {
     "asciidoc": ("yonyou_doc2skill.cli.asciidoc_scraper", "AsciiDocToSkillConverter"),
     "pptx": ("yonyou_doc2skill.cli.pptx_scraper", "PptxToSkillConverter"),
     "confluence": ("yonyou_doc2skill.cli.confluence_scraper", "ConfluenceToSkillConverter"),
+    "ikm": ("yonyou_doc2skill.cli.ikm_scraper", "IKMToSkillConverter"),
     "chat": ("yonyou_doc2skill.cli.chat_scraper", "ChatToSkillConverter"),
     # NOTE: UnifiedScraper takes (config_path: str), not (config: dict).
     # Callers must construct it directly, not via get_converter().

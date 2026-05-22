@@ -57,6 +57,7 @@ def test_embedded_runtime_includes_profile_modules(repo_skill_dir):
 
     assert (runtime_cli / "profile_detection.py").exists()
     assert (runtime_cli / "profile_templates.py").exists()
+    assert (runtime_cli / "enhance_prepare.py").exists()
 
 
 def test_embedded_runtime_create_arguments_export_profile_choices(repo_skill_dir):
@@ -70,6 +71,25 @@ def test_embedded_runtime_create_arguments_export_profile_choices(repo_skill_dir
 
     assert hasattr(create_args, "SKILL_PROFILE_CHOICES")
     assert "reference" in create_args.SKILL_PROFILE_CHOICES
+
+
+def test_embedded_runtime_main_includes_sanitize_commands(repo_skill_dir):
+    """Embedded runtime main should register sanitize and sanitize-assets commands."""
+    runtime_main = (
+        repo_skill_dir / "runtime" / "yonyou_doc2skill" / "cli" / "main.py"
+    ).read_text(encoding="utf-8")
+
+    assert '"sanitize": "yonyou_doc2skill.cli.sanitize_command"' in runtime_main
+    assert '"sanitize-assets": "yonyou_doc2skill.cli.sanitize_assets_command"' in runtime_main
+
+
+def test_embedded_runtime_main_includes_ikm_command(repo_skill_dir):
+    """Embedded runtime main should register the ikm command."""
+    runtime_main = (
+        repo_skill_dir / "runtime" / "yonyou_doc2skill" / "cli" / "main.py"
+    ).read_text(encoding="utf-8")
+
+    assert '"ikm": "yonyou_doc2skill.cli.ikm_scraper"' in runtime_main
 
 
 def test_embedded_runtime_create_command_passes_profile_to_web_config(repo_skill_dir):

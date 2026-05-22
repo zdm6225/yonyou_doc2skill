@@ -9,7 +9,8 @@
     "package.json",
     "requirements.txt",
     "scripts",
-    "runtime"
+    "runtime",
+    "templates"
   ],
   "keywords": [
     "yonyou",

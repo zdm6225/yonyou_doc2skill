@@ -12,12 +12,13 @@ Routes `yonyou-doc2skill enhance` to the correct backend:
               Supports: Claude Code, OpenAI Codex, GitHub Copilot, OpenCode, Kimi, and other agents.
 
 Decision priority:
-  1. Explicit --target flag → API mode with that platform.
-  2. Config ai_enhancement.default_agent + matching env key → API mode.
-  3. Auto-detect from env vars: ANTHROPIC_API_KEY → claude,
+  1. Explicit --mode prepare/local/api overrides automatic routing.
+  2. Explicit --target flag → API mode with that platform.
+  3. Config ai_enhancement.default_agent + matching env key → API mode.
+  4. Auto-detect from env vars: ANTHROPIC_API_KEY → claude,
      GOOGLE_API_KEY → gemini, OPENAI_API_KEY → openai.
-  4. No API keys → LOCAL mode (AI coding agent).
-  5. LOCAL mode + running as root → clear error (AI coding agent refuses root).
+  5. No API keys → LOCAL mode (AI coding agent).
+  6. LOCAL mode + running as root → clear error (AI coding agent refuses root).
 """
 
 import os
@@ -61,13 +62,24 @@ def _get_config_default_agent() -> str | None:
 
 
 def _pick_mode(args) -> tuple[str, str | None]:
-    """Decide between 'api' and 'local' mode.
+    """Decide between 'prepare', 'api', and 'local' mode.
 
     Returns:
-        (mode, target) — mode is "api" or "local";
+        (mode, target) — mode is "prepare", "api", or "local";
                          target is the platform name ("claude", "gemini", "openai")
-                         or None for local mode.
+                         or None for prepare/local mode.
     """
+    requested_mode = getattr(args, "mode", "auto")
+    if requested_mode == "prepare":
+        return "prepare", None
+
+    if requested_mode == "local":
+        return "local", None
+
+    if requested_mode == "api":
+        target = getattr(args, "target", None) or _get_config_default_agent() or "claude"
+        return "api", target
+
     api_keys = _get_api_keys()
 
     # 1. Explicit --target flag always forces API mode.
@@ -167,6 +179,22 @@ def _run_local_mode(args) -> int:
     return 0 if success else 1
 
 
+def _run_prepare_mode(args) -> int:
+    """Generate enhancement context bundle for current-agent handoff."""
+    from yonyou_doc2skill.cli.enhance_prepare import generate_enhancement_bundle
+
+    output_dir = getattr(args, "output", None)
+    bundle_dir = generate_enhancement_bundle(
+        args.skill_directory,
+        intent=getattr(args, "intent", None),
+        output_dir=output_dir,
+    )
+    print(f"🧠 Enhancement mode: PREPARE")
+    print(f"   Bundle directory : {bundle_dir}")
+    print("   Next step        : let the current agent read .enhance/* and rewrite SKILL.md")
+    return 0
+
+
 # ---------------------------------------------------------------------------
 # Main entry point
 # ---------------------------------------------------------------------------
@@ -194,6 +222,9 @@ Mode selection (automatic — no flags required):
 Examples:
   # Auto-detect (API mode if any key is set, else LOCAL)
   yonyou-doc2skill enhance output/react/
+
+  # Prepare enhancement context for the current agent
+  yonyou-doc2skill enhance output/react/ --mode prepare --intent "给 Codex 做 reference skill"
 
   # Force Gemini API
   yonyou-doc2skill enhance output/react/ --target gemini
@@ -228,7 +259,11 @@ Examples:
         print("🔍 DRY RUN MODE")
         print(f"   Skill directory : {skill_dir}")
         print(f"   Selected mode   : {mode.upper()}")
-        if mode == "api":
+        if mode == "prepare":
+            print(f"   Output bundle   : {getattr(args, 'output', None) or (skill_dir / '.enhance')}")
+            if getattr(args, "intent", None):
+                print(f"   Intent          : {args.intent}")
+        elif mode == "api":
             print(f"   Platform        : {target}")
         else:
             agent = getattr(args, "agent", None) or os.environ.get("SKILL_SEEKER_AGENT", "claude")
@@ -239,6 +274,9 @@ Examples:
             print(f"   Reference files : {len(ref_files)}")
         print("\nTo actually run: remove --dry-run")
         return 0
+
+    if mode == "prepare":
+        return _run_prepare_mode(args)
 
     if mode == "api":
         print(f"🤖 Enhancement mode: API ({target})")

@@ -38,7 +38,10 @@ except ImportError:
     )
 
 
-OFFICIAL_SKILL_NAME = "yonyou-doc2skill"
+OFFICIAL_SKILL_NAMES = {
+    "yonyou-doc2skill",
+    "yonyou-knowledge-delivery-boost",
+}
 EMBEDDED_RUNTIME_FILES = (
     Path("bootstrap_skill.sh"),
     Path("skill_header.md"),
@@ -49,13 +52,14 @@ def _repo_root() -> Path:
     return Path(__file__).resolve().parents[3]
 
 
-def _official_skill_path() -> Path:
-    return (_repo_root() / "skills" / OFFICIAL_SKILL_NAME).resolve()
+def _official_skill_paths() -> set[Path]:
+    root = _repo_root() / "skills"
+    return {(root / skill_name).resolve() for skill_name in OFFICIAL_SKILL_NAMES}
 
 
 def _should_embed_runtime(skill_path: Path) -> bool:
     try:
-        return skill_path.resolve() == _official_skill_path()
+        return skill_path.resolve() in _official_skill_paths()
     except FileNotFoundError:
         return False
 

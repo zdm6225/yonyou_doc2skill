@@ -15,8 +15,11 @@ def _make_args(**kwargs):
     """Build a fake Namespace with sensible defaults."""
     defaults = {
         "skill_directory": "output/react",
+        "mode": "auto",
         "target": None,
         "api_key": None,
+        "intent": None,
+        "output": None,
         "dry_run": False,
         "agent": None,
         "agent_cmd": None,
@@ -81,6 +84,38 @@ class TestIsRoot:
 
 
 class TestPickModeExplicitTarget:
+    def test_mode_prepare_forces_prepare(self, monkeypatch):
+        monkeypatch.delenv("ANTHROPIC_API_KEY", raising=False)
+        monkeypatch.delenv("GOOGLE_API_KEY", raising=False)
+        monkeypatch.delenv("OPENAI_API_KEY", raising=False)
+
+        from yonyou_doc2skill.cli.enhance_command import _pick_mode
+
+        args = _make_args(mode="prepare", target="gemini")
+        mode, target = _pick_mode(args)
+        assert mode == "prepare"
+        assert target is None
+
+    def test_mode_local_forces_local(self, monkeypatch):
+        monkeypatch.setenv("ANTHROPIC_API_KEY", "sk-ant-test")
+
+        from yonyou_doc2skill.cli.enhance_command import _pick_mode
+
+        args = _make_args(mode="local")
+        mode, target = _pick_mode(args)
+        assert mode == "local"
+        assert target is None
+
+    def test_mode_api_with_target_forces_api(self, monkeypatch):
+        monkeypatch.delenv("ANTHROPIC_API_KEY", raising=False)
+
+        from yonyou_doc2skill.cli.enhance_command import _pick_mode
+
+        args = _make_args(mode="api", target="gemini")
+        mode, target = _pick_mode(args)
+        assert mode == "api"
+        assert target == "gemini"
+
     def test_target_gemini_forces_api(self, monkeypatch):
         monkeypatch.delenv("ANTHROPIC_API_KEY", raising=False)
         monkeypatch.delenv("GOOGLE_API_KEY", raising=False)
@@ -251,6 +286,18 @@ class TestEnhanceArgumentParsing:
         args = self._parse(["output/react", "--target", "gemini"], tmp_path)
         assert args.target == "gemini"
 
+    def test_mode_prepare(self, tmp_path):
+        args = self._parse(["output/react", "--mode", "prepare"], tmp_path)
+        assert args.mode == "prepare"
+
+    def test_intent_and_output(self, tmp_path):
+        args = self._parse(
+            ["output/react", "--mode", "prepare", "--intent", "给 Codex 做规范 skill", "--output", ".enhance"],
+            tmp_path,
+        )
+        assert args.intent == "给 Codex 做规范 skill"
+        assert args.output == ".enhance"
+
     def test_target_openai(self, tmp_path):
         args = self._parse(["output/react", "--target", "openai"], tmp_path)
         assert args.target == "openai"
@@ -283,6 +330,28 @@ class TestEnhanceArgumentParsing:
 
 
 class TestEnhanceCommandMain:
+    def test_prepare_mode_generates_bundle(self, tmp_path):
+        skill_dir = _make_skill_dir(tmp_path)
+        references_dir = skill_dir / "references"
+        references_dir.mkdir()
+        (references_dir / "index.md").write_text("# Index\n", encoding="utf-8")
+
+        sys_argv_backup = sys.argv.copy()
+        sys.argv = ["enhance_command.py", str(skill_dir), "--mode", "prepare"]
+        try:
+            from yonyou_doc2skill.cli.enhance_command import main
+
+            rc = main()
+            assert rc == 0
+        finally:
+            sys.argv = sys_argv_backup
+
+        enhance_dir = skill_dir / ".enhance"
+        assert (enhance_dir / "manifest.json").exists()
+        assert (enhance_dir / "enhance-brief.md").exists()
+        assert (enhance_dir / "status.json").exists()
+        assert (enhance_dir / "prompt.md").exists()
+
     def test_dry_run_no_ai_call(self, tmp_path):
         skill_dir = _make_skill_dir(tmp_path)
         sys_argv_backup = sys.argv.copy()

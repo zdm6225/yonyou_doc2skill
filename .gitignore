@@ -29,12 +29,15 @@ wheels/
 venv/
 ENV/
 env/
+.venv*/
 
 # Output directory
 output/
 *.zip
 skills/yonyou-doc2skill/.runtime/
 skills/yonyou-doc2skill/output/
+skills/yonyou-knowledge-delivery-boost/.runtime/
+skills/yonyou-knowledge-delivery-boost/output/
 tmp_*.html
 
 # Yonyou Doc2Skill cache (intermediate files)
@@ -46,6 +49,8 @@ tmp_*.html
 *.swp
 *.swo
 *~
+.worktrees/
+.claude/worktrees/
 
 # OS
 .DS_Store

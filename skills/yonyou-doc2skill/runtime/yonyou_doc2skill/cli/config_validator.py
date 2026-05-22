@@ -13,6 +13,7 @@ Validates uni_skill_config format that supports multiple sources:
 - asciidoc (AsciiDoc document extraction)
 - pptx (PowerPoint presentation extraction)
 - confluence (Confluence wiki extraction)
+- ikm (iKM knowledge map extraction)
 - chat (Slack/Discord chat export extraction)
 
 Legacy config format support removed in v2.11.0.
@@ -45,6 +46,7 @@ class UniSkillConfigValidator:
         "asciidoc",
         "pptx",
         "confluence",
+        "ikm",
         "chat",
     }
 
@@ -209,6 +211,8 @@ class UniSkillConfigValidator:
             self._validate_pptx_source(source, index)
         elif source_type == "confluence":
             self._validate_confluence_source(source, index)
+        elif source_type == "ikm":
+            self._validate_ikm_source(source, index)
         elif source_type == "chat":
             self._validate_chat_source(source, index)
 
@@ -359,6 +363,29 @@ class UniSkillConfigValidator:
         if has_url and "space_key" not in source and "path" not in source:
             logger.warning(f"Source {index} (confluence): No 'space_key' specified for API mode")
 
+    def _validate_ikm_source(self, source: dict[str, Any], index: int):
+        """Validate iKM knowledge map source configuration."""
+        mode = source.get("mode", "map")
+        if mode not in {"map", "portal", "search", "asset"}:
+            raise ValueError(
+                f"Source {index} (ikm): Invalid mode '{mode}'. Must be map, portal, search, or asset"
+            )
+        if mode == "map" and "pk" not in source and "from_json" not in source:
+            raise ValueError(f"Source {index} (ikm): Missing required field 'pk'")
+        if mode == "search" and "keyword" not in source and "from_json" not in source:
+            raise ValueError(f"Source {index} (ikm): Missing required field 'keyword'")
+        if mode == "asset" and not any(k in source for k in ("pk", "url", "from_json")):
+            raise ValueError(f"Source {index} (ikm): Missing required field 'pk' or 'url'")
+        if "actionlocid" not in source and "from_json" not in source and "url" not in source:
+            raise ValueError(f"Source {index} (ikm): Missing required field 'actionlocid'")
+        if "max_assets" in source and not isinstance(source["max_assets"], int):
+            raise ValueError(f"Source {index} (ikm): 'max_assets' must be an integer")
+        if "max_attachment_chars" in source and not isinstance(
+            source["max_attachment_chars"], int
+        ):
+            raise ValueError(
+                f"Source {index} (ikm): 'max_attachment_chars' must be an integer"
+            )
 
     def _validate_chat_source(self, source: dict[str, Any], index: int):
         """Validate Slack/Discord chat source configuration."""

@@ -103,6 +103,28 @@ The delivery model is:
 3. the official skill calls local `yonyou-doc2skill create ...`
 4. if needed, the official skill follows with `yonyou-doc2skill package ...`
 
+For enhancement, there are now two recommended paths:
+
+1. **Agent-assisted prepare mode** — recommended for Codex, OpenClaw, Claude Code, and other chat-driven hosts
+   - run `yonyou-doc2skill enhance <skill_dir> --mode prepare`
+   - this only generates a `.enhance/` context bundle
+   - the current agent then reads that bundle and rewrites `SKILL.md`
+   - this is the best fit when you want the enhancement to reflect the current conversation intent
+2. **Script-closed enhancement** — use when the CLI should finish by itself
+   - `--target claude|gemini|openai` for API mode
+   - `--agent codex|claude|copilot|opencode|kimi` for LOCAL mode
+
+```bash
+# Recommended for agent-hosted use
+yonyou-doc2skill enhance output/react/ --mode prepare --intent "Create a Codex-facing reference skill"
+
+# Script-closed LOCAL mode
+yonyou-doc2skill enhance output/react/ --agent codex
+
+# Script-closed API mode
+yonyou-doc2skill enhance output/react/ --target claude --api-key "$ANTHROPIC_API_KEY"
+```
+
 ```bash
 # Use a different AI agent for enhancement (default: claude)
 yonyou-doc2skill create https://docs.django.com/ --agent kimi
@@ -1160,8 +1182,11 @@ yonyou-doc2skill scrape --config configs/godot.json
 # Check if API key is set
 echo $ANTHROPIC_API_KEY
 
-# Try LOCAL mode instead (uses Claude Code Max, no API key needed)
-yonyou-doc2skill enhance output/react/ --mode LOCAL
+# Recommended in chat-hosted environments: prepare bundle and let the current agent finish
+yonyou-doc2skill enhance output/react/ --mode prepare
+
+# Or try LOCAL mode instead (uses Claude Code / Codex / other local agent CLI)
+yonyou-doc2skill enhance output/react/ --agent codex
 
 # Monitor background enhancement status
 yonyou-doc2skill enhance-status output/react/ --watch
@@ -1175,6 +1200,20 @@ export GITHUB_TOKEN=ghp_your_token_here
 # Or configure multiple profiles
 yonyou-doc2skill config --github
 ```
+
+### Image OCR Quality For Sanitization?
+```bash
+# Recommended for Chinese screenshots and delivery materials
+# Verified on real project .docx embedded images and flowchart screenshots
+yonyou-doc2skill sanitize-assets apply ./delivery-assets \
+  --output output/sanitized \
+  --ocr-engine auto
+```
+
+- `auto` prefers `rapidocr`, then falls back to `paddleocr`, then `tesseract`
+- `rapidocr` is the current recommended OCR engine for Chinese screenshots
+- real-sample validation showed `rapidocr` is significantly better than `tesseract` on flowcharts, process screenshots, and org diagrams
+- logo masking should still rely on `logo-scan` + template matching, not OCR alone
 
 ---
 
@@ -1190,6 +1229,7 @@ yonyou-doc2skill config --github
 | Enhancement (API) | 20-40 sec | Requires API key |
 | Video (transcript) | 1-3 min | YouTube/local, transcript only |
 | Video (visual) | 5-15 min | + OCR frame extraction |
+| OCR sanitization (rapidocr) | 1-10 sec/image | Recommended for Chinese screenshots |
 | Packaging | 5-10 sec | Final .zip creation |
 
 ---

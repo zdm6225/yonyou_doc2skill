@@ -10,6 +10,7 @@ from .base import SubcommandParser
 from .create_parser import CreateParser
 from .config_parser import ConfigParser
 from .confluence_parser import ConfluenceParser
+from .ikm_parser import IKMParser
 from .chat_parser import ChatParser
 from .enhance_parser import EnhanceParser
 from .enhance_status_parser import EnhanceStatusParser
@@ -20,6 +21,8 @@ from .test_examples_parser import TestExamplesParser
 from .install_agent_parser import InstallAgentParser
 from .install_parser import InstallParser
 from .resume_parser import ResumeParser
+from .sanitize_assets_parser import SanitizeAssetsParser
+from .sanitize_parser import SanitizeParser
 from .stream_parser import StreamParser
 from .update_parser import UpdateParser
 from .multilang_parser import MultilangParser
@@ -34,6 +37,7 @@ PARSERS = [
     DoctorParser(),
     ConfigParser(),
     ConfluenceParser(),
+    IKMParser(),
     ChatParser(),
     EnhanceParser(),
     EnhanceStatusParser(),
@@ -45,6 +49,8 @@ PARSERS = [
     TestExamplesParser(),
     ResumeParser(),
     QualityParser(),
+    SanitizeParser(),
+    SanitizeAssetsParser(),
     WorkflowsParser(),
     SyncConfigParser(),
     StreamParser(),
