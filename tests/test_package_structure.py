@@ -1,7 +1,7 @@
 """Test suite for Python package structure.
 
 Tests that the package structure is correct and imports work properly.
-This ensures modern Python packaging (src/ layout, pyproject.toml) is successful.
+The official skill runtime is the canonical package source.
 """
 
 import json
@@ -120,24 +120,47 @@ class TestMcpPackage:
 
 
 class TestPackageStructure:
-    """Test overall package structure integrity (src/ layout)."""
+    """Test overall package structure integrity (skill-first layout)."""
 
     def test_cli_init_file_exists(self):
-        """Test that src/yonyou_doc2skill/cli/__init__.py exists."""
-        init_file = Path(__file__).parent.parent / "src" / "yonyou_doc2skill" / "cli" / "__init__.py"
-        assert init_file.exists(), "src/yonyou_doc2skill/cli/__init__.py not found"
+        """Test that the official skill runtime contains cli/__init__.py."""
+        init_file = (
+            Path(__file__).parent.parent
+            / "skills"
+            / "yonyou-doc2skill"
+            / "runtime"
+            / "yonyou_doc2skill"
+            / "cli"
+            / "__init__.py"
+        )
+        assert init_file.exists(), "skills/yonyou-doc2skill/runtime/yonyou_doc2skill/cli/__init__.py not found"
 
     def test_mcp_init_file_exists(self):
-        """Test that src/yonyou_doc2skill/mcp/__init__.py exists."""
-        init_file = Path(__file__).parent.parent / "src" / "yonyou_doc2skill" / "mcp" / "__init__.py"
-        assert init_file.exists(), "src/yonyou_doc2skill/mcp/__init__.py not found"
+        """Test that the official skill runtime contains mcp/__init__.py."""
+        init_file = (
+            Path(__file__).parent.parent
+            / "skills"
+            / "yonyou-doc2skill"
+            / "runtime"
+            / "yonyou_doc2skill"
+            / "mcp"
+            / "__init__.py"
+        )
+        assert init_file.exists(), "skills/yonyou-doc2skill/runtime/yonyou_doc2skill/mcp/__init__.py not found"
 
     def test_mcp_tools_init_file_exists(self):
-        """Test that src/yonyou_doc2skill/mcp/tools/__init__.py exists."""
+        """Test that the official skill runtime contains mcp/tools/__init__.py."""
         init_file = (
-            Path(__file__).parent.parent / "src" / "yonyou_doc2skill" / "mcp" / "tools" / "__init__.py"
+            Path(__file__).parent.parent
+            / "skills"
+            / "yonyou-doc2skill"
+            / "runtime"
+            / "yonyou_doc2skill"
+            / "mcp"
+            / "tools"
+            / "__init__.py"
         )
-        assert init_file.exists(), "src/yonyou_doc2skill/mcp/tools/__init__.py not found"
+        assert init_file.exists(), "skills/yonyou-doc2skill/runtime/yonyou_doc2skill/mcp/tools/__init__.py not found"
 
     def test_cli_init_has_docstring(self):
         """Test that yonyou_doc2skill.cli/__init__.py has a module docstring."""
@@ -171,8 +194,10 @@ class TestPackageStructure:
                 names = set(zf.namelist())
 
             assert "SKILL.md" in names
-            assert "scripts/bootstrap_skill.sh" in names
-            assert "scripts/skill_header.md" in names
+            assert "scripts/bootstrap.py" in names
+            assert "scripts/run.py" in names
+            assert "runtime/yonyou_doc2skill/cli/main.py" in names
+            assert all(".egg-info/" not in name for name in names)
         finally:
             if package_path.exists():
                 package_path.unlink()
@@ -200,8 +225,9 @@ class TestPackageStructure:
                 with zipfile.ZipFile(package_path, "r") as zf:
                     names = set(zf.namelist())
 
-                assert "scripts/bootstrap_skill.sh" not in names
-                assert "scripts/skill_header.md" not in names
+                assert "scripts/bootstrap.py" not in names
+                assert "scripts/run.py" not in names
+                assert "runtime/yonyou_doc2skill/cli/main.py" not in names
             finally:
                 if package_path.exists():
                     package_path.unlink()
@@ -361,6 +387,20 @@ class TestPackageMetadata:
         optional_dependencies = pyproject["project"]["optional-dependencies"]
         assert "epub" not in optional_dependencies
         assert "jupyter" not in optional_dependencies
+
+    def test_project_installs_from_official_skill_runtime(self):
+        """Test installs use the official skill runtime as the single source."""
+        root = Path(__file__).parent.parent
+        pyproject = tomllib.loads((root / "pyproject.toml").read_text(encoding="utf-8"))
+
+        runtime = "skills/yonyou-doc2skill/runtime"
+        assert pyproject["tool"]["setuptools"]["package-dir"] == {"": runtime}
+        assert pyproject["tool"]["setuptools"]["packages"]["find"]["where"] == [runtime]
+
+        import yonyou_doc2skill
+
+        package_file = Path(yonyou_doc2skill.__file__).resolve()
+        assert runtime in package_file.as_posix()
 
     def test_project_urls_do_not_reference_upstream_brand(self):
         """Test project URLs are rehomed away from the upstream brand."""
@@ -611,7 +651,7 @@ class TestPackageMetadata:
         """Test runtime/public docs surfaces no longer reference upstream branding."""
         root = Path(__file__).parent.parent
         scan_roots = [
-            root / "src",
+            root / "skills" / "yonyou-doc2skill" / "runtime",
             root / "docs",
         ]
         excluded_parts = {

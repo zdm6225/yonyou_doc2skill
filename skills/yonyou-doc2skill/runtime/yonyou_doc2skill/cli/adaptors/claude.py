@@ -14,6 +14,29 @@ from typing import Any
 from .base import SkillAdaptor, SkillMetadata
 from yonyou_doc2skill.cli.arguments.common import DEFAULT_CHUNK_TOKENS, DEFAULT_CHUNK_OVERLAP_TOKENS
 
+EXCLUDED_DIR_NAMES = {
+    "__pycache__",
+}
+EXCLUDED_SUFFIXES = {
+    ".pyc",
+    ".pyo",
+}
+EXCLUDED_NAME_SUFFIXES = {
+    ".egg-info",
+    ".dist-info",
+}
+
+
+def _should_package_file(path: Path) -> bool:
+    """Return whether a skill file should be included in a distributable package."""
+    if path.name.startswith("."):
+        return False
+    if any(part in EXCLUDED_DIR_NAMES for part in path.parts):
+        return False
+    if path.suffix in EXCLUDED_SUFFIXES:
+        return False
+    return not any(part.endswith(tuple(EXCLUDED_NAME_SUFFIXES)) for part in path.parts)
+
 
 class ClaudeAdaptor(SkillAdaptor):
     """
@@ -137,12 +160,7 @@ version: {metadata.version}
             refs_dir = skill_dir / "references"
             if refs_dir.exists():
                 for ref_file in refs_dir.rglob("*"):
-                    if (
-                        ref_file.is_file()
-                        and not ref_file.name.startswith(".")
-                        and "__pycache__" not in ref_file.parts
-                        and ref_file.suffix != ".pyc"
-                    ):
+                    if ref_file.is_file() and _should_package_file(ref_file):
                         arcname = ref_file.relative_to(skill_dir)
                         zf.write(ref_file, str(arcname))
 
@@ -150,24 +168,14 @@ version: {metadata.version}
             scripts_dir = skill_dir / "scripts"
             if scripts_dir.exists():
                 for script_file in scripts_dir.rglob("*"):
-                    if (
-                        script_file.is_file()
-                        and not script_file.name.startswith(".")
-                        and "__pycache__" not in script_file.parts
-                        and script_file.suffix != ".pyc"
-                    ):
+                    if script_file.is_file() and _should_package_file(script_file):
                         arcname = script_file.relative_to(skill_dir)
                         zf.write(script_file, str(arcname))
 
             runtime_dir = skill_dir / "runtime"
             if runtime_dir.exists():
                 for runtime_file in runtime_dir.rglob("*"):
-                    if (
-                        runtime_file.is_file()
-                        and not runtime_file.name.startswith(".")
-                        and "__pycache__" not in runtime_file.parts
-                        and runtime_file.suffix != ".pyc"
-                    ):
+                    if runtime_file.is_file() and _should_package_file(runtime_file):
                         arcname = runtime_file.relative_to(skill_dir)
                         zf.write(runtime_file, str(arcname))
 
@@ -175,12 +183,7 @@ version: {metadata.version}
             assets_dir = skill_dir / "assets"
             if assets_dir.exists():
                 for asset_file in assets_dir.rglob("*"):
-                    if (
-                        asset_file.is_file()
-                        and not asset_file.name.startswith(".")
-                        and "__pycache__" not in asset_file.parts
-                        and asset_file.suffix != ".pyc"
-                    ):
+                    if asset_file.is_file() and _should_package_file(asset_file):
                         arcname = asset_file.relative_to(skill_dir)
                         zf.write(asset_file, str(arcname))
 

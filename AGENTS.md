@@ -1,11 +1,11 @@
 # AGENTS.md - Yonyou Doc2Skill
 
-Concise reference for AI coding agents. Yonyou Doc2Skill is a Python CLI tool (v3.3.0) that converts documentation sites, GitHub repos, PDFs, videos, notebooks, wikis, and more into AI-ready skills for 16+ LLM platforms and RAG pipelines.
+Concise reference for AI coding agents. Yonyou Doc2Skill is a Python CLI tool (v3.4.0) that converts documentation sites, GitHub repos, PDFs, videos, notebooks, wikis, and more into AI-ready skills for 16+ LLM platforms and RAG pipelines.
 
 ## Setup
 
 ```bash
-# REQUIRED before running tests (src/ layout — tests hard-exit if package not installed)
+# REQUIRED before running tests (skill-runtime layout — tests hard-exit if package not installed)
 pip install -e .
 # With dev tools (pytest, ruff, mypy, coverage)
 pip install -e ".[dev]"
@@ -13,7 +13,7 @@ pip install -e ".[dev]"
 pip install -e ".[all]"
 ```
 
-Note: the current Python package import path is still `yonyou_doc2skill`. `tests/conftest.py` checks that module is importable and calls `sys.exit(1)` if not. Always install in editable mode first.
+Note: the current Python package import path is still `yonyou_doc2skill`, but the canonical source is `skills/yonyou-doc2skill/runtime/yonyou_doc2skill`. Do not edit a duplicate `src/yonyou_doc2skill` tree. `tests/conftest.py` checks that the package is importable and calls `sys.exit(1)` if not. Always install in editable mode first.
 
 ## Build / Test / Lint Commands
 
@@ -34,18 +34,18 @@ pytest tests/test_adaptors/test_claude_adaptor.py::TestClaudeAdaptor::test_packa
 pytest tests/ -v -m "not slow and not integration"
 
 # With coverage
-pytest tests/ --cov=src/yonyou_doc2skill --cov-report=term
+pytest tests/ --cov=skills/yonyou-doc2skill/runtime/yonyou_doc2skill --cov-report=term
 
 # Lint (ruff)
-ruff check src/ tests/
-ruff check src/ tests/ --fix
+ruff check skills/yonyou-doc2skill/runtime tests/
+ruff check skills/yonyou-doc2skill/runtime tests/ --fix
 
 # Format (ruff)
-ruff format --check src/ tests/
-ruff format src/ tests/
+ruff format --check skills/yonyou-doc2skill/runtime tests/
+ruff format skills/yonyou-doc2skill/runtime tests/
 
 # Type check (mypy)
-mypy src/yonyou_doc2skill --show-error-codes --pretty
+mypy skills/yonyou-doc2skill/runtime/yonyou_doc2skill --show-error-codes --pretty
 ```
 
 **Pytest config** (from pyproject.toml): `addopts = "-v --tb=short --strict-markers"`, `asyncio_mode = "auto"`, `asyncio_default_fixture_loop_scope = "function"`.
@@ -111,7 +111,11 @@ mypy src/yonyou_doc2skill --show-error-codes --pretty
 ## Project Layout
 
 ```
-src/yonyou_doc2skill/           # Main Python package (current import path)
+skills/yonyou-doc2skill/        # Official distributable skill package
+  SKILL.md                      # Agent-facing skill instructions
+  package.json                  # ynpm / skill-market metadata
+  scripts/                      # Local wrapper bootstrap and command launcher
+  runtime/yonyou_doc2skill/     # Main Python package and single source of truth
   cli/                       # CLI commands and entry points (96 files)
     adaptors/                # Platform adaptors (Strategy pattern, inherit SkillAdaptor)
     arguments/               # CLI argument definitions (one per source type)
@@ -134,6 +138,13 @@ tests/                       # 120 test files (pytest)
 configs/                     # Preset JSON scraping configs
 docs/                        # Documentation (guides, integrations, architecture)
 ```
+
+## Skill-First Maintenance Rule
+
+- Treat `skills/yonyou-doc2skill/runtime/yonyou_doc2skill` as the only executable source tree.
+- Do not recreate `src/yonyou_doc2skill` or copy changes between `src` and runtime.
+- `pyproject.toml` installs packages from `skills/yonyou-doc2skill/runtime`.
+- Before distributing the skill, remove runtime artifacts: `.runtime`, `output`, `__pycache__`, `*.pyc`, `*.egg-info`, and generated zip/tgz files.
 
 ## Key Patterns
 
@@ -158,8 +169,8 @@ docs/                        # Documentation (guides, integrations, architecture
 ## Pre-commit Checklist
 
 ```bash
-ruff check src/ tests/
-ruff format --check src/ tests/
+ruff check skills/yonyou-doc2skill/runtime tests/
+ruff format --check skills/yonyou-doc2skill/runtime tests/
 pytest tests/ -v -x   # stop on first failure
 ```
 
